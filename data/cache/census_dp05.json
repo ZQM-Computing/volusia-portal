@@ -1,0 +1,18 @@
+{
+  "source": "US Census ACS 5-Year DP05",
+  "sourceUrl": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2023.DP05",
+  "vintage": "2023",
+  "fetchedAt": "2026-09-02T23:44:56.942817",
+  "totalPopulation": 568229,
+  "medianAge": 46.6,
+  "pctUnder5": 4.5,
+  "pctUnder18": 5.0,
+  "pctOver65": 25.1,
+  "pctWhiteAlone": 68.6,
+  "pctBlackAlone": 4.2,
+  "pctAsianAlone": 7.0,
+  "pctHispanicLatino": null,
+  "pctVeteran": null,
+  "pctForeignBorn": null,
+  "pctBachelorsOrHigher": 0.2
+}

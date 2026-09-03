@@ -1,0 +1,2920 @@
+{
+  "source": "NOAA NCEI Daily Summaries",
+  "station": "USW00012838",
+  "stationName": "Daytona Beach International Airport",
+  "sourceUrl": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&dataTypes=TMAX,TMIN,PRCP,AWND,SNOW,SNWD&stations=USW00012838&startDate=2025-09-02&endDate=2026-09-02&format=json",
+  "vintage": "2025-09-02 to 2026-09-02",
+  "fetchedAt": "2026-09-02T23:44:57.516464",
+  "data": [
+    {
+      "date": "2025-09-02",
+      "tmax_f": 89.1,
+      "tmin_f": 75.9,
+      "prcp_in": 0.02,
+      "awnd_mph": 9.8,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-09-03",
+      "tmax_f": 87.1,
+      "tmin_f": 75.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 8.3,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-09-04",
+      "tmax_f": 87.1,
+      "tmin_f": 77.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 7.2,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-09-05",
+      "tmax_f": 87.1,
+      "tmin_f": 77.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 7.4,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-09-06",
+      "tmax_f": 89.1,
+      "tmin_f": 78.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 4.5,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-09-07",
+      "tmax_f": 89.1,
+      "tmin_f": 75.9,
+      "prcp_in": 0.47,
+      "awnd_mph": 5.6,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-09-08",
+      "tmax_f": 88.0,
+      "tmin_f": 75.0,
+      "prcp_in": 0.03,
+      "awnd_mph": 7.2,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-09-09",
+      "tmax_f": 87.1,
+      "tmin_f": 73.9,
+      "prcp_in": 1.3,
+      "awnd_mph": 5.1,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-09-10",
+      "tmax_f": 87.1,
+      "tmin_f": 73.9,
+      "prcp_in": 2.19,
+      "awnd_mph": 6.9,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-09-11",
+      "tmax_f": 87.1,
+      "tmin_f": 75.0,
+      "prcp_in": 0.82,
+      "awnd_mph": 10.7,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-09-12",
+      "tmax_f": 82.9,
+      "tmin_f": 73.9,
+      "prcp_in": 0.35,
+      "awnd_mph": 7.8,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-09-13",
+      "tmax_f": 87.1,
+      "tmin_f": 72.0,
+      "prcp_in": 0.03,
+      "awnd_mph": 10.1,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-09-14",
+      "tmax_f": 84.9,
+      "tmin_f": 72.0,
+      "prcp_in": 0.05,
+      "awnd_mph": 9.6,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-09-15",
+      "tmax_f": 86.0,
+      "tmin_f": 72.0,
+      "prcp_in": 0.1,
+      "awnd_mph": 7.6,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-09-16",
+      "tmax_f": 86.0,
+      "tmin_f": 73.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 8.3,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-09-17",
+      "tmax_f": 84.0,
+      "tmin_f": 72.0,
+      "prcp_in": 0.61,
+      "awnd_mph": 8.1,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-09-18",
+      "tmax_f": 84.9,
+      "tmin_f": 73.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 8.1,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-09-19",
+      "tmax_f": 87.1,
+      "tmin_f": 75.0,
+      "prcp_in": 0.02,
+      "awnd_mph": 9.8,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-09-20",
+      "tmax_f": 88.0,
+      "tmin_f": 78.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 9.8,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-09-21",
+      "tmax_f": 87.1,
+      "tmin_f": 75.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 9.4,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-09-22",
+      "tmax_f": 87.1,
+      "tmin_f": 75.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 6.7,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-09-23",
+      "tmax_f": 86.0,
+      "tmin_f": 73.9,
+      "prcp_in": 0.19,
+      "awnd_mph": 3.6,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-09-24",
+      "tmax_f": 87.1,
+      "tmin_f": 73.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 5.8,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-09-25",
+      "tmax_f": 87.1,
+      "tmin_f": 75.0,
+      "prcp_in": 0.65,
+      "awnd_mph": 3.4,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-09-26",
+      "tmax_f": 89.1,
+      "tmin_f": 73.9,
+      "prcp_in": 0.02,
+      "awnd_mph": 4.9,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-09-27",
+      "tmax_f": 91.9,
+      "tmin_f": 73.9,
+      "prcp_in": 0.06,
+      "awnd_mph": 4.7,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-09-28",
+      "tmax_f": 84.0,
+      "tmin_f": 75.9,
+      "prcp_in": 0.46,
+      "awnd_mph": 8.5,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-09-29",
+      "tmax_f": 87.1,
+      "tmin_f": 75.0,
+      "prcp_in": 0.43,
+      "awnd_mph": 11.4,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-09-30",
+      "tmax_f": 84.9,
+      "tmin_f": 75.0,
+      "prcp_in": 0.02,
+      "awnd_mph": 14.1,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-10-01",
+      "tmax_f": 86.0,
+      "tmin_f": 72.0,
+      "prcp_in": 0.02,
+      "awnd_mph": 10.7,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-10-02",
+      "tmax_f": 86.0,
+      "tmin_f": 73.9,
+      "prcp_in": 0.02,
+      "awnd_mph": 16.1,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-10-03",
+      "tmax_f": 84.9,
+      "tmin_f": 77.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 17.2,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-10-04",
+      "tmax_f": 82.9,
+      "tmin_f": 75.0,
+      "prcp_in": 1.6,
+      "awnd_mph": 15.2,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-10-05",
+      "tmax_f": 84.9,
+      "tmin_f": 77.0,
+      "prcp_in": 0.65,
+      "awnd_mph": 14.5,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-10-06",
+      "tmax_f": 82.9,
+      "tmin_f": 75.9,
+      "prcp_in": 1.87,
+      "awnd_mph": 13.2,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-10-07",
+      "tmax_f": 84.9,
+      "tmin_f": 78.1,
+      "prcp_in": 0.05,
+      "awnd_mph": 15.0,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-10-08",
+      "tmax_f": 86.0,
+      "tmin_f": 73.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 11.4,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-10-09",
+      "tmax_f": 86.0,
+      "tmin_f": 73.9,
+      "prcp_in": 0.26,
+      "awnd_mph": 11.4,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-10-10",
+      "tmax_f": 77.0,
+      "tmin_f": 72.0,
+      "prcp_in": 3.22,
+      "awnd_mph": 8.5,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-10-11",
+      "tmax_f": 81.0,
+      "tmin_f": 70.0,
+      "prcp_in": 0.02,
+      "awnd_mph": 13.0,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-10-12",
+      "tmax_f": 79.0,
+      "tmin_f": 64.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 6.7,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-10-13",
+      "tmax_f": 82.0,
+      "tmin_f": 66.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 5.8,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-10-14",
+      "tmax_f": 82.0,
+      "tmin_f": 64.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 8.1,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-10-15",
+      "tmax_f": 82.9,
+      "tmin_f": 68.0,
+      "prcp_in": 0.08,
+      "awnd_mph": 10.3,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-10-16",
+      "tmax_f": 82.9,
+      "tmin_f": 68.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 10.7,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-10-17",
+      "tmax_f": 81.0,
+      "tmin_f": 73.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 13.0,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-10-18",
+      "tmax_f": 81.0,
+      "tmin_f": 71.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 8.5,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-10-19",
+      "tmax_f": 82.9,
+      "tmin_f": 66.0,
+      "prcp_in": 0.01,
+      "awnd_mph": 7.2,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-10-20",
+      "tmax_f": 82.0,
+      "tmin_f": 70.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 7.4,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-10-21",
+      "tmax_f": 84.9,
+      "tmin_f": 68.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 4.7,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-10-22",
+      "tmax_f": 84.0,
+      "tmin_f": 72.0,
+      "prcp_in": 0.01,
+      "awnd_mph": 6.3,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-10-23",
+      "tmax_f": 82.9,
+      "tmin_f": 66.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 10.7,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-10-24",
+      "tmax_f": 82.0,
+      "tmin_f": 73.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 14.8,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-10-25",
+      "tmax_f": 82.9,
+      "tmin_f": 75.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 17.4,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-10-26",
+      "tmax_f": 82.9,
+      "tmin_f": 71.1,
+      "prcp_in": 1.32,
+      "awnd_mph": 14.5,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-10-27",
+      "tmax_f": 88.0,
+      "tmin_f": 72.0,
+      "prcp_in": 2.37,
+      "awnd_mph": 8.5,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-10-28",
+      "tmax_f": 78.1,
+      "tmin_f": 69.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 9.8,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-10-29",
+      "tmax_f": 77.0,
+      "tmin_f": 63.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 5.4,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-10-30",
+      "tmax_f": 73.0,
+      "tmin_f": 59.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 12.5,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-10-31",
+      "tmax_f": 70.0,
+      "tmin_f": 53.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 6.0,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-11-01",
+      "tmax_f": 73.9,
+      "tmin_f": 53.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 4.9,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-11-02",
+      "tmax_f": 79.0,
+      "tmin_f": 57.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 4.3,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-11-03",
+      "tmax_f": 77.0,
+      "tmin_f": 59.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 11.0,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-11-04",
+      "tmax_f": 79.0,
+      "tmin_f": 57.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 8.5,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-11-05",
+      "tmax_f": 80.1,
+      "tmin_f": 61.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 4.7,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-11-06",
+      "tmax_f": 75.9,
+      "tmin_f": 62.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 4.5,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-11-07",
+      "tmax_f": 80.1,
+      "tmin_f": 68.0,
+      "prcp_in": 0.01,
+      "awnd_mph": 4.5,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-11-08",
+      "tmax_f": 87.1,
+      "tmin_f": 68.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 5.8,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-11-09",
+      "tmax_f": 86.0,
+      "tmin_f": 69.1,
+      "prcp_in": 0.34,
+      "awnd_mph": 5.6,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-11-10",
+      "tmax_f": 72.0,
+      "tmin_f": 48.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 13.2,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-11-11",
+      "tmax_f": 57.0,
+      "tmin_f": 37.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 13.4,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-11-12",
+      "tmax_f": 69.1,
+      "tmin_f": 43.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 6.3,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-11-13",
+      "tmax_f": 73.0,
+      "tmin_f": 45.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 4.5,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-11-14",
+      "tmax_f": 77.0,
+      "tmin_f": 53.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 7.8,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-11-15",
+      "tmax_f": 77.0,
+      "tmin_f": 54.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 4.7,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-11-16",
+      "tmax_f": 79.0,
+      "tmin_f": 55.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 6.9,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-11-17",
+      "tmax_f": 78.1,
+      "tmin_f": 60.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 5.8,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-11-18",
+      "tmax_f": 80.1,
+      "tmin_f": 57.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 3.8,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-11-19",
+      "tmax_f": 80.1,
+      "tmin_f": 59.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 3.1,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-11-20",
+      "tmax_f": 81.0,
+      "tmin_f": 57.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 3.8,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-11-21",
+      "tmax_f": 80.1,
+      "tmin_f": 59.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 3.8,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-11-22",
+      "tmax_f": 82.9,
+      "tmin_f": 59.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 4.3,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-11-23",
+      "tmax_f": 82.9,
+      "tmin_f": 61.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 5.8,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-11-24",
+      "tmax_f": 81.0,
+      "tmin_f": 64.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 4.7,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-11-25",
+      "tmax_f": 80.1,
+      "tmin_f": 62.1,
+      "prcp_in": 0.01,
+      "awnd_mph": 4.7,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-11-26",
+      "tmax_f": 84.0,
+      "tmin_f": 61.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 4.7,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-11-27",
+      "tmax_f": 75.0,
+      "tmin_f": 55.9,
+      "prcp_in": 0.03,
+      "awnd_mph": 7.8,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-11-28",
+      "tmax_f": 66.0,
+      "tmin_f": 48.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 13.9,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-11-29",
+      "tmax_f": 73.0,
+      "tmin_f": 55.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 15.0,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-11-30",
+      "tmax_f": 79.0,
+      "tmin_f": 63.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 8.3,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-12-01",
+      "tmax_f": 78.1,
+      "tmin_f": 62.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 6.3,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-12-02",
+      "tmax_f": 84.0,
+      "tmin_f": 66.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 10.5,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-12-03",
+      "tmax_f": 77.0,
+      "tmin_f": 60.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 5.8,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-12-04",
+      "tmax_f": 75.9,
+      "tmin_f": 57.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 5.1,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-12-05",
+      "tmax_f": 84.0,
+      "tmin_f": 63.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 8.1,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-12-06",
+      "tmax_f": 84.0,
+      "tmin_f": 66.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 9.4,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-12-07",
+      "tmax_f": 79.0,
+      "tmin_f": 66.9,
+      "prcp_in": 1.02,
+      "awnd_mph": 9.4,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-12-08",
+      "tmax_f": 72.0,
+      "tmin_f": 64.0,
+      "prcp_in": 0.14,
+      "awnd_mph": 11.4,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-12-09",
+      "tmax_f": 72.0,
+      "tmin_f": 53.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 10.3,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-12-10",
+      "tmax_f": 77.0,
+      "tmin_f": 52.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 6.7,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-12-11",
+      "tmax_f": 71.1,
+      "tmin_f": 48.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 5.8,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-12-12",
+      "tmax_f": 70.0,
+      "tmin_f": 45.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 2.9,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-12-13",
+      "tmax_f": 75.9,
+      "tmin_f": 52.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 2.7,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-12-14",
+      "tmax_f": 81.0,
+      "tmin_f": 61.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 6.3,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-12-15",
+      "tmax_f": 66.9,
+      "tmin_f": 55.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 15.9,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-12-16",
+      "tmax_f": 72.0,
+      "tmin_f": 48.0,
+      "prcp_in": 0.04,
+      "awnd_mph": 7.6,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-12-17",
+      "tmax_f": 77.0,
+      "tmin_f": 64.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 7.8,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-12-18",
+      "tmax_f": 79.0,
+      "tmin_f": 66.0,
+      "prcp_in": 0.06,
+      "awnd_mph": 9.4,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-12-19",
+      "tmax_f": 84.0,
+      "tmin_f": 64.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 10.3,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-12-20",
+      "tmax_f": 75.9,
+      "tmin_f": 51.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 6.9,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-12-21",
+      "tmax_f": 78.1,
+      "tmin_f": 59.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 7.2,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-12-22",
+      "tmax_f": 79.0,
+      "tmin_f": 63.0,
+      "prcp_in": 0.02,
+      "awnd_mph": 12.3,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-12-23",
+      "tmax_f": 78.1,
+      "tmin_f": 61.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 8.7,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-12-24",
+      "tmax_f": 77.0,
+      "tmin_f": 55.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 3.8,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-12-25",
+      "tmax_f": 79.0,
+      "tmin_f": 57.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 5.1,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-12-26",
+      "tmax_f": 78.1,
+      "tmin_f": 55.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 4.3,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-12-27",
+      "tmax_f": 77.0,
+      "tmin_f": 55.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 4.7,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-12-28",
+      "tmax_f": 77.0,
+      "tmin_f": 57.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 3.8,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-12-29",
+      "tmax_f": 82.0,
+      "tmin_f": 55.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 8.1,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-12-30",
+      "tmax_f": 66.9,
+      "tmin_f": 42.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 10.1,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2025-12-31",
+      "tmax_f": 59.0,
+      "tmin_f": 35.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 9.2,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-01-01",
+      "tmax_f": 64.9,
+      "tmin_f": 36.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 7.4,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-01-02",
+      "tmax_f": 71.1,
+      "tmin_f": 43.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 5.8,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-01-03",
+      "tmax_f": 78.1,
+      "tmin_f": 52.0,
+      "prcp_in": 0.06,
+      "awnd_mph": 9.6,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-01-04",
+      "tmax_f": 73.0,
+      "tmin_f": 55.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 8.1,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-01-05",
+      "tmax_f": 73.0,
+      "tmin_f": 55.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 4.9,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-01-06",
+      "tmax_f": 81.0,
+      "tmin_f": 54.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 4.9,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-01-07",
+      "tmax_f": 81.0,
+      "tmin_f": 57.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 5.1,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-01-08",
+      "tmax_f": 78.1,
+      "tmin_f": 57.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 4.7,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-01-09",
+      "tmax_f": 80.1,
+      "tmin_f": 64.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 6.9,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-01-10",
+      "tmax_f": 81.0,
+      "tmin_f": 62.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 6.5,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-01-11",
+      "tmax_f": 82.9,
+      "tmin_f": 60.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 10.5,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-01-12",
+      "tmax_f": 73.9,
+      "tmin_f": 54.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 9.4,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-01-13",
+      "tmax_f": 75.9,
+      "tmin_f": 55.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 5.6,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-01-14",
+      "tmax_f": 72.0,
+      "tmin_f": 59.0,
+      "prcp_in": 0.01,
+      "awnd_mph": 7.4,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-01-15",
+      "tmax_f": 64.0,
+      "tmin_f": 39.0,
+      "prcp_in": 0.24,
+      "awnd_mph": 12.3,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-01-16",
+      "tmax_f": 60.1,
+      "tmin_f": 33.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 6.7,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-01-17",
+      "tmax_f": 73.0,
+      "tmin_f": 46.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 6.0,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-01-18",
+      "tmax_f": 81.0,
+      "tmin_f": 44.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 10.3,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-01-19",
+      "tmax_f": 57.9,
+      "tmin_f": 37.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 10.3,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-01-20",
+      "tmax_f": 66.0,
+      "tmin_f": 43.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 13.2,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-01-21",
+      "tmax_f": 73.0,
+      "tmin_f": 60.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 10.7,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-01-22",
+      "tmax_f": 75.9,
+      "tmin_f": 57.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 6.0,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-01-23",
+      "tmax_f": 79.0,
+      "tmin_f": 57.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 6.0,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-01-24",
+      "tmax_f": 77.0,
+      "tmin_f": 57.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 5.8,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-01-25",
+      "tmax_f": 86.0,
+      "tmin_f": 62.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 8.5,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-01-26",
+      "tmax_f": 79.0,
+      "tmin_f": 48.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 14.1,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-01-27",
+      "tmax_f": 54.0,
+      "tmin_f": 37.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 11.4,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-01-28",
+      "tmax_f": 62.1,
+      "tmin_f": 33.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 7.4,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-01-29",
+      "tmax_f": 64.9,
+      "tmin_f": 32.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 8.5,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-01-30",
+      "tmax_f": 73.9,
+      "tmin_f": 46.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 5.4,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-01-31",
+      "tmax_f": 59.0,
+      "tmin_f": 32.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 13.9,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-02-01",
+      "tmax_f": 46.9,
+      "tmin_f": 25.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 14.8,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-02-02",
+      "tmax_f": 55.0,
+      "tmin_f": 24.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 8.3,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-02-03",
+      "tmax_f": 63.0,
+      "tmin_f": 28.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 4.3,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-02-04",
+      "tmax_f": 73.0,
+      "tmin_f": 43.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 5.8,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-02-05",
+      "tmax_f": 59.0,
+      "tmin_f": 43.0,
+      "prcp_in": 0.3,
+      "awnd_mph": 10.5,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-02-06",
+      "tmax_f": 63.0,
+      "tmin_f": 34.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 11.4,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-02-07",
+      "tmax_f": 68.0,
+      "tmin_f": 45.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 10.1,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-02-08",
+      "tmax_f": 69.1,
+      "tmin_f": 41.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 5.6,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-02-09",
+      "tmax_f": 71.1,
+      "tmin_f": 43.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 4.9,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-02-10",
+      "tmax_f": 79.0,
+      "tmin_f": 50.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 6.0,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-02-11",
+      "tmax_f": 75.9,
+      "tmin_f": 53.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 5.8,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-02-12",
+      "tmax_f": 75.9,
+      "tmin_f": 54.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 7.6,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-02-13",
+      "tmax_f": 75.0,
+      "tmin_f": 52.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 7.2,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-02-14",
+      "tmax_f": 75.9,
+      "tmin_f": 54.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 7.4,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-02-15",
+      "tmax_f": 84.0,
+      "tmin_f": 66.9,
+      "prcp_in": 0.05,
+      "awnd_mph": 13.9,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-02-16",
+      "tmax_f": 72.0,
+      "tmin_f": 57.0,
+      "prcp_in": 0.45,
+      "awnd_mph": 11.4,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-02-17",
+      "tmax_f": 75.9,
+      "tmin_f": 55.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 9.6,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-02-18",
+      "tmax_f": 77.0,
+      "tmin_f": 59.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 8.5,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-02-19",
+      "tmax_f": 82.0,
+      "tmin_f": 60.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 7.8,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-02-20",
+      "tmax_f": 86.0,
+      "tmin_f": 63.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 8.5,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-02-21",
+      "tmax_f": 84.0,
+      "tmin_f": 64.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 7.8,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-02-22",
+      "tmax_f": 81.0,
+      "tmin_f": 53.1,
+      "prcp_in": 0.72,
+      "awnd_mph": 12.3,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-02-23",
+      "tmax_f": 57.9,
+      "tmin_f": 41.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 12.3,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-02-24",
+      "tmax_f": 57.9,
+      "tmin_f": 35.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 6.9,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-02-25",
+      "tmax_f": 75.0,
+      "tmin_f": 37.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 7.2,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-02-26",
+      "tmax_f": 78.1,
+      "tmin_f": 48.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 8.1,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-02-27",
+      "tmax_f": 82.9,
+      "tmin_f": 63.0,
+      "prcp_in": 0.24,
+      "awnd_mph": 7.6,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-02-28",
+      "tmax_f": 75.9,
+      "tmin_f": 64.0,
+      "prcp_in": 0.3,
+      "awnd_mph": 7.8,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-03-01",
+      "tmax_f": 78.1,
+      "tmin_f": 60.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 11.4,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-03-02",
+      "tmax_f": 78.1,
+      "tmin_f": 66.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 8.9,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-03-03",
+      "tmax_f": 79.0,
+      "tmin_f": 66.9,
+      "prcp_in": 0.27,
+      "awnd_mph": 9.2,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-03-04",
+      "tmax_f": 80.1,
+      "tmin_f": 68.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 9.6,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-03-05",
+      "tmax_f": 81.0,
+      "tmin_f": 71.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 12.1,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-03-06",
+      "tmax_f": 81.0,
+      "tmin_f": 72.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 10.5,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-03-07",
+      "tmax_f": 81.0,
+      "tmin_f": 72.0,
+      "prcp_in": 0.01,
+      "awnd_mph": 10.3,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-03-08",
+      "tmax_f": 82.0,
+      "tmin_f": 66.9,
+      "prcp_in": 0.04,
+      "awnd_mph": 7.6,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-03-09",
+      "tmax_f": 82.0,
+      "tmin_f": 66.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 6.5,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-03-10",
+      "tmax_f": 82.9,
+      "tmin_f": 66.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 7.6,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-03-11",
+      "tmax_f": 82.9,
+      "tmin_f": 66.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 9.6,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-03-12",
+      "tmax_f": 89.1,
+      "tmin_f": 68.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 10.7,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-03-13",
+      "tmax_f": 75.9,
+      "tmin_f": 69.1,
+      "prcp_in": 0.02,
+      "awnd_mph": 13.2,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-03-14",
+      "tmax_f": 81.0,
+      "tmin_f": 72.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 11.9,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-03-15",
+      "tmax_f": 84.0,
+      "tmin_f": 66.9,
+      "prcp_in": 0.79,
+      "awnd_mph": 9.2,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-03-16",
+      "tmax_f": 87.1,
+      "tmin_f": 64.9,
+      "prcp_in": 0.39,
+      "awnd_mph": 11.0,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-03-17",
+      "tmax_f": 64.9,
+      "tmin_f": 48.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 12.8,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-03-18",
+      "tmax_f": 68.0,
+      "tmin_f": 52.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 15.9,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-03-19",
+      "tmax_f": 68.0,
+      "tmin_f": 53.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 16.1,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-03-20",
+      "tmax_f": 75.0,
+      "tmin_f": 55.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 12.3,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-03-21",
+      "tmax_f": 77.0,
+      "tmin_f": 51.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 6.5,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-03-22",
+      "tmax_f": 78.1,
+      "tmin_f": 52.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 7.2,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-03-23",
+      "tmax_f": 84.9,
+      "tmin_f": 55.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 8.3,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-03-24",
+      "tmax_f": 78.1,
+      "tmin_f": 59.0,
+      "prcp_in": 0.15,
+      "awnd_mph": 9.4,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-03-25",
+      "tmax_f": 79.0,
+      "tmin_f": 69.1,
+      "prcp_in": 1.56,
+      "awnd_mph": 9.2,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-03-26",
+      "tmax_f": 80.1,
+      "tmin_f": 64.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 6.0,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-03-27",
+      "tmax_f": 80.1,
+      "tmin_f": 62.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 6.5,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-03-28",
+      "tmax_f": 80.1,
+      "tmin_f": 64.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 13.2,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-03-29",
+      "tmax_f": 77.0,
+      "tmin_f": 70.0,
+      "prcp_in": 0.04,
+      "awnd_mph": 19.2,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-03-30",
+      "tmax_f": 80.1,
+      "tmin_f": 70.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 14.1,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-03-31",
+      "tmax_f": 80.1,
+      "tmin_f": 71.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 11.6,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-04-01",
+      "tmax_f": 79.0,
+      "tmin_f": 70.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 10.3,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-04-02",
+      "tmax_f": 80.1,
+      "tmin_f": 72.0,
+      "prcp_in": 0.04,
+      "awnd_mph": 13.6,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-04-03",
+      "tmax_f": 82.0,
+      "tmin_f": 73.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 13.0,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-04-04",
+      "tmax_f": 81.0,
+      "tmin_f": 72.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 12.5,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-04-05",
+      "tmax_f": 82.0,
+      "tmin_f": 72.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 11.4,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-04-06",
+      "tmax_f": 82.0,
+      "tmin_f": 66.9,
+      "prcp_in": 0.31,
+      "awnd_mph": 5.8,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-04-07",
+      "tmax_f": 75.0,
+      "tmin_f": 66.9,
+      "prcp_in": 0.85,
+      "awnd_mph": 19.2,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-04-08",
+      "tmax_f": 77.0,
+      "tmin_f": 66.9,
+      "prcp_in": 1.15,
+      "awnd_mph": 23.5,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-04-09",
+      "tmax_f": 75.9,
+      "tmin_f": 66.0,
+      "prcp_in": 1.48,
+      "awnd_mph": 20.6,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-04-10",
+      "tmax_f": 78.1,
+      "tmin_f": 70.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 14.8,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-04-11",
+      "tmax_f": 79.0,
+      "tmin_f": 69.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 12.5,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-04-12",
+      "tmax_f": 78.1,
+      "tmin_f": 70.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 14.3,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-04-13",
+      "tmax_f": 79.0,
+      "tmin_f": 70.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 12.1,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-04-14",
+      "tmax_f": 80.1,
+      "tmin_f": 72.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 10.3,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-04-15",
+      "tmax_f": 78.1,
+      "tmin_f": 71.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 9.2,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-04-16",
+      "tmax_f": 80.1,
+      "tmin_f": 61.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 7.4,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-04-17",
+      "tmax_f": 82.0,
+      "tmin_f": 60.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 7.2,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-04-18",
+      "tmax_f": 84.0,
+      "tmin_f": 66.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 6.9,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-04-19",
+      "tmax_f": 82.9,
+      "tmin_f": 68.0,
+      "prcp_in": 0.03,
+      "awnd_mph": 5.1,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-04-20",
+      "tmax_f": 79.0,
+      "tmin_f": 71.1,
+      "prcp_in": 0.02,
+      "awnd_mph": 17.7,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-04-21",
+      "tmax_f": 79.0,
+      "tmin_f": 70.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 17.7,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-04-22",
+      "tmax_f": 78.1,
+      "tmin_f": 70.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 13.2,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-04-23",
+      "tmax_f": 78.1,
+      "tmin_f": 60.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 8.9,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-04-24",
+      "tmax_f": 80.1,
+      "tmin_f": 62.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 7.6,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-04-25",
+      "tmax_f": 82.9,
+      "tmin_f": 64.0,
+      "prcp_in": 0.26,
+      "awnd_mph": 7.2,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-04-26",
+      "tmax_f": 89.1,
+      "tmin_f": 68.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 8.3,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-04-27",
+      "tmax_f": 82.9,
+      "tmin_f": 68.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 13.2,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-04-28",
+      "tmax_f": 82.0,
+      "tmin_f": 64.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 9.8,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-04-29",
+      "tmax_f": 84.0,
+      "tmin_f": 66.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 6.9,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-04-30",
+      "tmax_f": 90.0,
+      "tmin_f": 68.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 8.7,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-05-01",
+      "tmax_f": 87.1,
+      "tmin_f": 70.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 9.4,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-05-02",
+      "tmax_f": 90.0,
+      "tmin_f": 68.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 10.3,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-05-03",
+      "tmax_f": 77.0,
+      "tmin_f": 66.9,
+      "prcp_in": 0.06,
+      "awnd_mph": 13.2,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-05-04",
+      "tmax_f": 80.1,
+      "tmin_f": 73.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 14.1,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-05-05",
+      "tmax_f": 82.0,
+      "tmin_f": 72.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 10.5,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-05-06",
+      "tmax_f": 86.0,
+      "tmin_f": 66.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 8.5,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-05-07",
+      "tmax_f": 93.0,
+      "tmin_f": 66.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 6.9,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-05-08",
+      "tmax_f": 87.1,
+      "tmin_f": 68.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 6.9,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-05-09",
+      "tmax_f": 97.0,
+      "tmin_f": 72.0,
+      "prcp_in": 0.13,
+      "awnd_mph": 8.7,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-05-10",
+      "tmax_f": 93.9,
+      "tmin_f": 73.0,
+      "prcp_in": 0.49,
+      "awnd_mph": 6.7,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-05-11",
+      "tmax_f": 90.0,
+      "tmin_f": 73.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 6.0,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-05-12",
+      "tmax_f": 84.9,
+      "tmin_f": 73.0,
+      "prcp_in": 0.39,
+      "awnd_mph": 6.7,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-05-13",
+      "tmax_f": 91.0,
+      "tmin_f": 75.0,
+      "prcp_in": 0.07,
+      "awnd_mph": 9.4,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-05-14",
+      "tmax_f": 86.0,
+      "tmin_f": 70.0,
+      "prcp_in": 0.02,
+      "awnd_mph": 7.6,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-05-15",
+      "tmax_f": 86.0,
+      "tmin_f": 68.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 8.7,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-05-16",
+      "tmax_f": 87.1,
+      "tmin_f": 77.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 13.6,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-05-17",
+      "tmax_f": 84.9,
+      "tmin_f": 78.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 3.8,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-05-18",
+      "tmax_f": 86.0,
+      "tmin_f": 77.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 14.5,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-05-19",
+      "tmax_f": 86.0,
+      "tmin_f": 79.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 13.2,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-05-20",
+      "tmax_f": 86.0,
+      "tmin_f": 78.1,
+      "prcp_in": 0.03,
+      "awnd_mph": 11.0,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-05-21",
+      "tmax_f": 88.0,
+      "tmin_f": 72.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 9.6,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-05-22",
+      "tmax_f": 87.1,
+      "tmin_f": 77.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 10.7,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-05-23",
+      "tmax_f": 88.0,
+      "tmin_f": 75.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 9.8,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-05-24",
+      "tmax_f": 88.0,
+      "tmin_f": 79.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 12.8,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-05-25",
+      "tmax_f": 88.0,
+      "tmin_f": 78.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 13.9,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-05-26",
+      "tmax_f": 88.0,
+      "tmin_f": 80.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 14.8,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-05-27",
+      "tmax_f": 89.1,
+      "tmin_f": 79.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 13.0,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-05-28",
+      "tmax_f": 88.0,
+      "tmin_f": 75.9,
+      "prcp_in": 0.54,
+      "awnd_mph": 6.7,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-05-29",
+      "tmax_f": 88.0,
+      "tmin_f": 73.9,
+      "prcp_in": 0.04,
+      "awnd_mph": 6.0,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-05-30",
+      "tmax_f": 90.0,
+      "tmin_f": 75.0,
+      "prcp_in": 0.08,
+      "awnd_mph": 5.1,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-05-31",
+      "tmax_f": 91.0,
+      "tmin_f": 73.9,
+      "prcp_in": 0.55,
+      "awnd_mph": 7.6,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-06-01",
+      "tmax_f": 89.1,
+      "tmin_f": 75.9,
+      "prcp_in": 0.24,
+      "awnd_mph": 8.1,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-06-02",
+      "tmax_f": 90.0,
+      "tmin_f": 75.0,
+      "prcp_in": 0.63,
+      "awnd_mph": 8.1,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-06-03",
+      "tmax_f": 80.1,
+      "tmin_f": 72.0,
+      "prcp_in": 1.36,
+      "awnd_mph": null,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-06-04",
+      "tmax_f": 82.0,
+      "tmin_f": 75.0,
+      "prcp_in": 0.0,
+      "awnd_mph": null,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-06-05",
+      "tmax_f": 84.0,
+      "tmin_f": 75.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 9.6,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-06-06",
+      "tmax_f": 84.9,
+      "tmin_f": 75.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 11.6,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-06-07",
+      "tmax_f": 84.9,
+      "tmin_f": 75.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 8.9,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-06-08",
+      "tmax_f": 84.9,
+      "tmin_f": 68.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 7.8,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-06-09",
+      "tmax_f": 84.0,
+      "tmin_f": 75.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 6.5,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-06-10",
+      "tmax_f": 84.9,
+      "tmin_f": 75.0,
+      "prcp_in": 0.3,
+      "awnd_mph": 9.2,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-06-11",
+      "tmax_f": 87.1,
+      "tmin_f": 73.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 6.7,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-06-12",
+      "tmax_f": 89.1,
+      "tmin_f": 77.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 6.7,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-06-13",
+      "tmax_f": 90.0,
+      "tmin_f": 73.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 7.2,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-06-14",
+      "tmax_f": 93.0,
+      "tmin_f": 75.0,
+      "prcp_in": 1.52,
+      "awnd_mph": 7.6,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-06-15",
+      "tmax_f": 93.0,
+      "tmin_f": 75.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 9.2,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-06-16",
+      "tmax_f": 93.0,
+      "tmin_f": 75.9,
+      "prcp_in": 0.19,
+      "awnd_mph": 7.4,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-06-17",
+      "tmax_f": 95.0,
+      "tmin_f": 75.0,
+      "prcp_in": 0.48,
+      "awnd_mph": 8.7,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-06-18",
+      "tmax_f": 91.0,
+      "tmin_f": 78.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 9.4,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-06-19",
+      "tmax_f": 95.0,
+      "tmin_f": 75.0,
+      "prcp_in": 0.58,
+      "awnd_mph": 8.5,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-06-20",
+      "tmax_f": 88.0,
+      "tmin_f": 73.0,
+      "prcp_in": 0.61,
+      "awnd_mph": 5.8,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-06-21",
+      "tmax_f": 89.1,
+      "tmin_f": 73.9,
+      "prcp_in": 0.3,
+      "awnd_mph": 6.9,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-06-22",
+      "tmax_f": 91.0,
+      "tmin_f": 72.0,
+      "prcp_in": 0.01,
+      "awnd_mph": 6.7,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-06-23",
+      "tmax_f": 93.9,
+      "tmin_f": 75.0,
+      "prcp_in": 0.59,
+      "awnd_mph": 7.2,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-06-24",
+      "tmax_f": 89.1,
+      "tmin_f": 73.9,
+      "prcp_in": 0.04,
+      "awnd_mph": 7.8,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-06-25",
+      "tmax_f": 91.0,
+      "tmin_f": 73.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 6.5,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-06-26",
+      "tmax_f": 89.1,
+      "tmin_f": 73.9,
+      "prcp_in": 0.53,
+      "awnd_mph": 6.5,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-06-27",
+      "tmax_f": 89.1,
+      "tmin_f": 75.0,
+      "prcp_in": 0.66,
+      "awnd_mph": 7.4,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-06-28",
+      "tmax_f": 90.0,
+      "tmin_f": 73.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 6.5,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-06-29",
+      "tmax_f": 91.9,
+      "tmin_f": 77.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 5.4,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-06-30",
+      "tmax_f": 91.0,
+      "tmin_f": 75.0,
+      "prcp_in": 0.4,
+      "awnd_mph": 4.7,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-07-01",
+      "tmax_f": 88.0,
+      "tmin_f": 75.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 9.6,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-07-02",
+      "tmax_f": 88.0,
+      "tmin_f": 75.0,
+      "prcp_in": 1.11,
+      "awnd_mph": 8.1,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-07-03",
+      "tmax_f": 89.1,
+      "tmin_f": 77.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 5.1,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-07-04",
+      "tmax_f": 90.0,
+      "tmin_f": 75.9,
+      "prcp_in": 0.01,
+      "awnd_mph": 6.7,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-07-05",
+      "tmax_f": 91.9,
+      "tmin_f": 75.9,
+      "prcp_in": 0.12,
+      "awnd_mph": 6.9,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-07-06",
+      "tmax_f": 91.0,
+      "tmin_f": 75.0,
+      "prcp_in": 0.02,
+      "awnd_mph": 5.6,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-07-07",
+      "tmax_f": 91.0,
+      "tmin_f": 73.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 5.8,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-07-08",
+      "tmax_f": 91.0,
+      "tmin_f": 78.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 7.4,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-07-09",
+      "tmax_f": 93.0,
+      "tmin_f": 78.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 8.3,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-07-10",
+      "tmax_f": 91.0,
+      "tmin_f": 75.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 7.6,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-07-11",
+      "tmax_f": 90.0,
+      "tmin_f": 73.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 8.3,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-07-12",
+      "tmax_f": 91.9,
+      "tmin_f": 73.0,
+      "prcp_in": 0.52,
+      "awnd_mph": 5.4,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-07-13",
+      "tmax_f": 93.0,
+      "tmin_f": 73.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 7.6,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-07-14",
+      "tmax_f": 91.9,
+      "tmin_f": 70.0,
+      "prcp_in": 0.66,
+      "awnd_mph": 7.4,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-07-15",
+      "tmax_f": 91.0,
+      "tmin_f": 72.0,
+      "prcp_in": 0.06,
+      "awnd_mph": 6.3,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-07-16",
+      "tmax_f": 93.0,
+      "tmin_f": 73.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 6.7,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-07-17",
+      "tmax_f": 91.0,
+      "tmin_f": 75.9,
+      "prcp_in": 0.24,
+      "awnd_mph": 7.4,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-07-18",
+      "tmax_f": 90.0,
+      "tmin_f": 73.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 7.2,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-07-19",
+      "tmax_f": 90.0,
+      "tmin_f": 79.0,
+      "prcp_in": 0.08,
+      "awnd_mph": 8.5,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-07-20",
+      "tmax_f": 91.9,
+      "tmin_f": 78.1,
+      "prcp_in": 0.14,
+      "awnd_mph": 10.1,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-07-21",
+      "tmax_f": 91.9,
+      "tmin_f": 78.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 11.6,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-07-22",
+      "tmax_f": 90.0,
+      "tmin_f": 78.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 10.3,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-07-23",
+      "tmax_f": 90.0,
+      "tmin_f": 77.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 7.4,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-07-24",
+      "tmax_f": 90.0,
+      "tmin_f": 78.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 7.4,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-07-25",
+      "tmax_f": 90.0,
+      "tmin_f": 77.0,
+      "prcp_in": 0.01,
+      "awnd_mph": 5.8,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-07-26",
+      "tmax_f": 93.0,
+      "tmin_f": 75.0,
+      "prcp_in": 0.02,
+      "awnd_mph": 7.4,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-07-27",
+      "tmax_f": 93.0,
+      "tmin_f": 75.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 9.4,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-07-28",
+      "tmax_f": 95.0,
+      "tmin_f": 77.0,
+      "prcp_in": 1.59,
+      "awnd_mph": 8.1,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-07-29",
+      "tmax_f": 91.0,
+      "tmin_f": 77.0,
+      "prcp_in": 0.12,
+      "awnd_mph": 12.1,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-07-30",
+      "tmax_f": 90.0,
+      "tmin_f": 73.9,
+      "prcp_in": 1.87,
+      "awnd_mph": 10.1,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-07-31",
+      "tmax_f": 93.9,
+      "tmin_f": 78.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 8.3,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-08-01",
+      "tmax_f": 93.0,
+      "tmin_f": 77.0,
+      "prcp_in": 0.15,
+      "awnd_mph": 6.3,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-08-02",
+      "tmax_f": 87.1,
+      "tmin_f": 75.0,
+      "prcp_in": 0.13,
+      "awnd_mph": 8.1,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-08-03",
+      "tmax_f": 93.0,
+      "tmin_f": 75.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 6.9,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-08-04",
+      "tmax_f": 89.1,
+      "tmin_f": 77.0,
+      "prcp_in": 0.06,
+      "awnd_mph": 5.1,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-08-05",
+      "tmax_f": 87.1,
+      "tmin_f": 75.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 4.0,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-08-06",
+      "tmax_f": 90.0,
+      "tmin_f": 73.9,
+      "prcp_in": 0.02,
+      "awnd_mph": 8.1,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-08-07",
+      "tmax_f": 87.1,
+      "tmin_f": 78.1,
+      "prcp_in": 0.07,
+      "awnd_mph": 8.1,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-08-08",
+      "tmax_f": 90.0,
+      "tmin_f": 79.0,
+      "prcp_in": 0.12,
+      "awnd_mph": 8.9,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-08-09",
+      "tmax_f": 90.0,
+      "tmin_f": 79.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 8.5,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-08-10",
+      "tmax_f": 90.0,
+      "tmin_f": 79.0,
+      "prcp_in": 0.11,
+      "awnd_mph": 7.4,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-08-11",
+      "tmax_f": 93.0,
+      "tmin_f": 78.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 6.3,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-08-12",
+      "tmax_f": 97.0,
+      "tmin_f": 79.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 6.0,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-08-13",
+      "tmax_f": 91.9,
+      "tmin_f": 77.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 5.6,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-08-14",
+      "tmax_f": 93.0,
+      "tmin_f": 78.1,
+      "prcp_in": 0.0,
+      "awnd_mph": 6.0,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-08-15",
+      "tmax_f": 91.9,
+      "tmin_f": 77.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 4.7,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-08-16",
+      "tmax_f": 93.0,
+      "tmin_f": 75.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 6.5,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-08-17",
+      "tmax_f": 97.0,
+      "tmin_f": 79.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 7.4,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-08-18",
+      "tmax_f": 97.0,
+      "tmin_f": 79.0,
+      "prcp_in": 0.05,
+      "awnd_mph": 7.6,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-08-19",
+      "tmax_f": 98.1,
+      "tmin_f": 77.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 7.2,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-08-20",
+      "tmax_f": 93.9,
+      "tmin_f": 75.9,
+      "prcp_in": 0.13,
+      "awnd_mph": 5.6,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-08-21",
+      "tmax_f": 91.9,
+      "tmin_f": 73.0,
+      "prcp_in": 0.25,
+      "awnd_mph": 5.6,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-08-22",
+      "tmax_f": 93.9,
+      "tmin_f": 75.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 6.5,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-08-23",
+      "tmax_f": 95.0,
+      "tmin_f": 75.9,
+      "prcp_in": 0.07,
+      "awnd_mph": 6.7,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-08-24",
+      "tmax_f": 90.0,
+      "tmin_f": 73.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 6.7,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-08-25",
+      "tmax_f": 95.0,
+      "tmin_f": 75.9,
+      "prcp_in": 0.0,
+      "awnd_mph": 6.7,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-08-26",
+      "tmax_f": 93.0,
+      "tmin_f": 72.0,
+      "prcp_in": 2.67,
+      "awnd_mph": 6.3,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-08-27",
+      "tmax_f": 91.9,
+      "tmin_f": 75.9,
+      "prcp_in": 0.03,
+      "awnd_mph": 5.6,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-08-28",
+      "tmax_f": 91.9,
+      "tmin_f": 75.0,
+      "prcp_in": 0.0,
+      "awnd_mph": 6.9,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-08-29",
+      "tmax_f": 90.0,
+      "tmin_f": 75.0,
+      "prcp_in": 0.06,
+      "awnd_mph": 5.4,
+      "snow_in": 0.0
+    },
+    {
+      "date": "2026-08-30",
+      "tmax_f": 89.1,
+      "tmin_f": 75.0,
+      "prcp_in": 0.24,
+      "awnd_mph": 4.7,
+      "snow_in": 0.0
+    }
+  ],
+  "summary": {
+    "recordCount": 363,
+    "avgHigh": 82.3,
+    "avgLow": 65.8,
+    "totalPrecip": 52.33999999999999
+  }
+}

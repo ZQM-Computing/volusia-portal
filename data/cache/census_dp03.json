@@ -1,0 +1,17 @@
+{
+  "source": "US Census ACS 5-Year DP03",
+  "sourceUrl": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2023.DP03",
+  "vintage": "2023",
+  "fetchedAt": "2026-09-02T23:44:56.721631",
+  "medianHouseholdIncome": 66581,
+  "medianHouseholdIncomeMoe": 1033,
+  "unemploymentRate": 4.0,
+  "povertyRate": 2.2,
+  "perCapitaIncome": null,
+  "medianGrossRent": null,
+  "medianMortgage": null,
+  "ownerOccupiedHousing": null,
+  "renterOccupiedHousing": null,
+  "commuteTimeMinutes": 27.1,
+  "healthInsuranceRate": 11.0
+}
