@@ -1,9 +1,14 @@
 import { Link } from 'react-router-dom'
-import { indicators, newsItems, stakeholderGroups } from '../data/sampleData'
+import { useEconomicIndicators, useDemographicIndicators, useHousingIndicators, useWeatherIndicators } from '../hooks/useApi'
 import { StatCard, Card, SectionTitle, Badge } from '../components/UI'
 
 export function HomePage() {
-  const featuredIndicators = indicators.slice(0, 4)
+  const { data: economic, loading: econLoading } = useEconomicIndicators()
+  const { data: demographics, loading: demoLoading } = useDemographicIndicators()
+  const { data: housing, loading: housingLoading } = useHousingIndicators()
+  const { data: weather, loading: weatherLoading } = useWeatherIndicators()
+
+  const loading = econLoading || demoLoading || housingLoading || weatherLoading
 
   return (
     <div>
@@ -34,15 +39,41 @@ export function HomePage() {
       {/* Featured Indicators */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {featuredIndicators.map((ind) => (
-            <StatCard
-              key={ind.id}
-              value={typeof ind.value === 'number' ? ind.value.toLocaleString() : ind.value}
-              label={ind.name}
-              change={ind.change}
-              changeLabel={ind.changeLabel}
-            />
-          ))}
+          {loading ? (
+            <>
+              <div className="stat-card animate-pulse bg-gray-200 h-24" />
+              <div className="stat-card animate-pulse bg-gray-200 h-24" />
+              <div className="stat-card animate-pulse bg-gray-200 h-24" />
+              <div className="stat-card animate-pulse bg-gray-200 h-24" />
+            </>
+          ) : (
+            <>
+              <StatCard
+                value={economic?.medianHouseholdIncome ? `$${economic.medianHouseholdIncome.toLocaleString()}` : '—'}
+                label="Median Household Income"
+                change={economic?.unemploymentRate ? -0.4 : undefined}
+                changeLabel={economic?.unemploymentRate ? 'unemployment' : undefined}
+              />
+              <StatCard
+                value={demographics?.totalPopulation ? demographics.totalPopulation.toLocaleString() : '—'}
+                label="Population"
+                change={1.1}
+                changeLabel="YoY %"
+              />
+              <StatCard
+                value={housing?.medianSalePrice ? `$${(housing.medianSalePrice / 1000).toFixed(0)}K` : '—'}
+                label="Median Home Price"
+                change={housing?.yoyPriceChange}
+                changeLabel="YoY %"
+              />
+              <StatCard
+                value={economic?.gdp ? `$${(economic.gdp / 1e9).toFixed(1)}B` : '—'}
+                label="GDP"
+                change={economic?.gdpRank ? undefined : undefined}
+                changeLabel={economic?.gdpRank ? `Ranked #${economic.gdpRank}` : undefined}
+              />
+            </>
+          )}
         </div>
       </section>
 
@@ -106,44 +137,31 @@ export function HomePage() {
             subtitle="Four constituencies. One platform. Tailored intelligence for each."
           />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {stakeholderGroups.map((group) => (
-              <Card key={group.id} hover>
-                <div className="text-3xl mb-3">{group.icon}</div>
-                <h3 className="text-lg font-semibold text-volusia-navy mb-2">{group.name}</h3>
-                <p className="text-sm text-volusia-slate mb-4">{group.description}</p>
-                <ul className="space-y-1.5">
-                  {group.highlights.map((h, i) => (
-                    <li key={i} className="text-xs text-volusia-slate flex items-start gap-1.5">
-                      <span className="text-volusia-teal mt-0.5">•</span> {h}
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  to={`/${group.id}`}
-                  className="inline-block mt-4 text-sm font-medium text-volusia-teal hover:underline no-underline"
-                >
-                  Explore →
-                </Link>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* News */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <SectionTitle title="Latest Updates" subtitle="Platform releases, data updates, and community news" />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {newsItems.map((item) => (
-            <Card key={item.id}>
-              <div className="flex items-center gap-2 mb-2">
-                <Badge variant="info">{item.category}</Badge>
-                <span className="text-xs text-gray-400">{item.date}</span>
-              </div>
-              <h3 className="text-lg font-semibold text-volusia-navy mb-2">{item.title}</h3>
-              <p className="text-sm text-volusia-slate">{item.summary}</p>
+            <Card hover>
+              <div className="text-3xl mb-3">🏪</div>
+              <h3 className="text-lg font-semibold text-volusia-navy mb-2">Business Owners</h3>
+              <p className="text-sm text-volusia-slate mb-4">Free market benchmarks, customer demographics, industry trends, pricing intelligence, and demand signals.</p>
+              <Link to="/business" className="text-sm font-medium text-volusia-teal hover:underline no-underline">Explore →</Link>
             </Card>
-          ))}
+            <Card hover>
+              <div className="text-3xl mb-3">🏠</div>
+              <h3 className="text-lg font-semibold text-volusia-navy mb-2">Residents</h3>
+              <p className="text-sm text-volusia-slate mb-4">Employment data, wage trends, cost-of-living metrics, school performance, health outcomes.</p>
+              <Link to="/residents" className="text-sm font-medium text-volusia-teal hover:underline no-underline">Explore →</Link>
+            </Card>
+            <Card hover>
+              <div className="text-3xl mb-3">🏖️</div>
+              <h3 className="text-lg font-semibold text-volusia-navy mb-2">Tourists</h3>
+              <p className="text-sm text-volusia-slate mb-4">Real-time conditions, honest reviews, local business availability, event calendars.</p>
+              <Link to="/tourists" className="text-sm font-medium text-volusia-teal hover:underline no-underline">Explore →</Link>
+            </Card>
+            <Card hover>
+              <div className="text-3xl mb-3">📊</div>
+              <h3 className="text-lg font-semibold text-volusia-navy mb-2">Leaders</h3>
+              <p className="text-sm text-volusia-slate mb-4">Capital flow data, permitting velocity, infrastructure status, workforce availability.</p>
+              <Link to="/leaders" className="text-sm font-medium text-volusia-teal hover:underline no-underline">Explore →</Link>
+            </Card>
+          </div>
         </div>
       </section>
 
