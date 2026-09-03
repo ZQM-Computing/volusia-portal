@@ -1,29 +1,14 @@
 """
 Project Volusia — FastAPI Backend
-Serves real economic indicators from scraped data.
+Serves real economic indicators from SQLite database.
 """
 
-import json
+import sqlite3
 from pathlib import Path
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
-from typing import Optional
-import sys
 
-# Add scripts directory to path
-sys.path.insert(0, str(Path(__file__).parent.parent / "scripts"))
-from scraper import (
-    scrape_census_dp03,
-    scrape_census_dp05,
-    scrape_noaa_daily,
-    scrape_open_meteo_forecast,
-    scrape_redfin_volusia,
-    scrape_volusia_business,
-    scrape_zillow_metro_zhvi,
-)
-
-app = FastAPI(title="Project Volusia API", version="1.0.0")
+app = FastAPI(title="Project Volusia API", version="2.0.0")
 
 app.add_middleware(
     CORSMiddleware,
@@ -33,184 +18,71 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-CACHE_DIR = Path(__file__).parent.parent / "data" / "cache"
+DB_PATH = Path(__file__).parent.parent / "data" / "volusia.db"
 
 
-def load_json(name: str) -> Optional[dict]:
-    path = CACHE_DIR / f"{name}.json"
-    if not path.exists():
-        return None
+def _db_rows(query, params=()):
+    if not DB_PATH.exists():
+        return []
+    conn = sqlite3.connect(str(DB_PATH))
+    conn.row_factory = sqlite3.Row
     try:
-        return json.loads(path.read_text())
-    except Exception:
-        return None
+        cur = conn.execute(query, params)
+        return [dict(r) for r in cur.fetchall()]
+    finally:
+        conn.close()
 
 
 @app.get("/")
 def root():
-    return {"service": "Project Volusia API", "version": "1.0.0"}
+    return {"service": "Project Volusia API", "version": "2.0.0"}
 
 
 @app.get("/health")
 def health():
-    return {"status": "healthy"}
+    db_exists = DB_PATH.exists()
+    indicator_count = 0
+    if db_exists:
+        conn = sqlite3.connect(str(DB_PATH))
+        try:
+            indicator_count = conn.execute("SELECT COUNT(*) FROM indicators").fetchone()[0]
+        finally:
+            conn.close()
+    return {
+        "status": "healthy" if db_exists and indicator_count > 0 else "degraded",
+        "db_exists": db_exists,
+        "indicator_count": indicator_count,
+    }
 
 
 @app.get("/indicators")
 def get_all_indicators():
-    """Return all available indicators from cached scraper data."""
-    indicators = {}
-
-    # Census DP03 - Economic
-    census_econ = load_json("census_dp03")
-    if census_econ:
-        indicators["census_economic"] = census_econ
-
-    # Census DP05 - Demographics
-    census_demo = load_json("census_dp05")
-    if census_demo:
-        indicators["census_demographics"] = census_demo
-
-    # NOAA Weather
-    noaa = load_json("noaa_daily_2025-09-02_2026-09-02")
-    if noaa:
-        indicators["noaa_weather"] = noaa
-
-    # Open-Meteo Forecast
-    open_meteo = load_json("open_meteo_forecast")
-    if open_meteo:
-        indicators["weather_forecast"] = open_meteo
-
-    # Redfin Housing
-    redfin = load_json("redfin_volusia")
-    if redfin:
-        indicators["housing_market"] = redfin
-
-    # Volusia Business
-    volusia_biz = load_json("volusia_business")
-    if volusia_biz:
-        indicators["economy"] = volusia_biz
-
-    # Zillow ZHVI
-    zillow = load_json("zillow_zhvi")
-    if zillow:
-        indicators["zillow_home_value"] = zillow
-
-    return indicators
+    rows = _db_rows("SELECT * FROM indicators ORDER BY category, name")
+    return {"count": len(rows), "indicators": rows}
 
 
 @app.get("/indicators/economic")
 def get_economic():
-    """Return economic indicators (income, employment, poverty)."""
-    result = {}
-
-    census = load_json("census_dp03")
-    if census:
-        result["medianHouseholdIncome"] = census.get("medianHouseholdIncome")
-        result["unemploymentRate"] = census.get("unemploymentRate")
-        result["povertyRate"] = census.get("povertyRate")
-        result["perCapitaIncome"] = census.get("perCapitaIncome")
-        result["commuteTimeMinutes"] = census.get("commuteTimeMinutes")
-        result["source"] = census.get("source")
-        result["vintage"] = census.get("vintage")
-
-    volusia_biz = load_json("volusia_business")
-    if volusia_biz:
-        result["gdp"] = volusia_biz.get("gdp")
-        result["gdpRank"] = volusia_biz.get("gdpRank")
-
-    return result
+    rows = _db_rows("SELECT * FROM indicators WHERE category = 'Economic' ORDER BY name")
+    return {"count": len(rows), "indicators": rows}
 
 
 @app.get("/indicators/demographics")
 def get_demographics():
-    """Return demographic indicators."""
-    census = load_json("census_dp05")
-    if not census:
-        raise HTTPException(status_code=404, detail="Demographic data not available")
-    return census
+    rows = _db_rows("SELECT * FROM indicators WHERE category = 'Demographics' ORDER BY name")
+    return {"count": len(rows), "indicators": rows}
 
 
-@app.get("/indicators/housing")
-def get_housing():
-    """Return housing market indicators."""
-    redfin = load_json("redfin_volusia")
-    zillow = load_json("zillow_zhvi")
-
-    result = {}
-    if redfin:
-        result["medianSalePrice"] = redfin.get("medianSalePrice")
-        result["yoyPriceChange"] = redfin.get("yoyPriceChange")
-        result["redfinSource"] = redfin.get("source")
-    if zillow:
-        result["zillowHomeValue"] = zillow.get("medianHomeValue")
-        result["zillowYoyChange"] = zillow.get("yoyChange")
-
-    if not result:
-        raise HTTPException(status_code=404, detail="Housing data not available")
-    return result
+@app.get("/indicators/climate")
+def get_climate():
+    rows = _db_rows("SELECT * FROM indicators WHERE category = 'Climate' ORDER BY name")
+    return {"count": len(rows), "indicators": rows}
 
 
-@app.get("/indicators/weather")
-def get_weather():
-    """Return current weather and forecast."""
-    open_meteo = load_json("open_meteo_forecast")
-    noaa = load_json("noaa_daily_2025-09-02_2026-09-02")
-
-    result = {}
-    if open_meteo:
-        result["current"] = open_meteo.get("current")
-        result["forecast"] = open_meteo.get("forecast")
-    if noaa:
-        result["station"] = noaa.get("station")
-        result["stationName"] = noaa.get("stationName")
-
-    if not result:
-        raise HTTPException(status_code=404, detail="Weather data not available")
-    return result
-
-
-@app.post("/refresh")
-def refresh_data():
-    """Trigger a refresh of all scraper data."""
-    results = {}
-
-    try:
-        results["census_dp03"] = scrape_census_dp03()
-    except Exception as e:
-        results["census_dp03"] = {"error": str(e)}
-
-    try:
-        results["census_dp05"] = scrape_census_dp05()
-    except Exception as e:
-        results["census_dp05"] = {"error": str(e)}
-
-    try:
-        results["noaa_daily"] = scrape_noaa_daily()
-    except Exception as e:
-        results["noaa_daily"] = {"error": str(e)}
-
-    try:
-        results["open_meteo"] = scrape_open_meteo_forecast()
-    except Exception as e:
-        results["open_meteo"] = {"error": str(e)}
-
-    try:
-        results["redfin"] = scrape_redfin_volusia()
-    except Exception as e:
-        results["redfin"] = {"error": str(e)}
-
-    try:
-        results["volusia_business"] = scrape_volusia_business()
-    except Exception as e:
-        results["volusia_business"] = {"error": str(e)}
-
-    try:
-        results["zillow_zhvi"] = scrape_zillow_metro_zhvi()
-    except Exception as e:
-        results["zillow_zhvi"] = {"error": str(e)}
-
-    return {"status": "refresh complete", "results": {k: "OK" if v and "error" not in v else "FAILED" for k, v in results.items()}}
+@app.get("/datasets")
+def get_datasets():
+    rows = _db_rows("SELECT id, name, source, source_url, access_date, vintage FROM datasets ORDER BY id DESC LIMIT 50")
+    return {"count": len(rows), "datasets": rows}
 
 
 if __name__ == "__main__":
