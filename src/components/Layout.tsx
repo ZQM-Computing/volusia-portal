@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { stakeholderGroups } from '../data/sampleData'
 
 const navLinks = [
   { to: '/', label: 'Portal Home' },
@@ -100,11 +99,11 @@ export function Footer() {
             </ul>
           </div>
           <div>
-            <h4 className="font-semibold mb-3 text-gray-200">About</h4>
+            <h4 className="font-semibold mb-3 text-gray-200">ZQM Ecosystem</h4>
             <ul className="space-y-2 text-sm text-gray-400">
-              <li>Version 1.0</li>
-              <li>Launched 2026-09-02</li>
-              <li><a href="https://github.com/zqmcomputing" className="hover:text-white no-underline text-gray-300">GitHub</a></li>
+              <li><a href="https://zqm-labs.github.io/ZQM-Labs/" className="hover:text-white no-underline text-gray-300">ZQM Labs</a></li>
+              <li><a href="https://zqm-computing.github.io/ZQM-Computing/" className="hover:text-white no-underline text-gray-300">ZQM Computing</a></li>
+              <li><a href="https://github.com/ZQM-Computing/volusia-portal" className="hover:text-white no-underline text-gray-300">GitHub Source</a></li>
               <li><Link to="/leaders" className="hover:text-white no-underline text-gray-300">Investor Data Room</Link></li>
             </ul>
           </div>

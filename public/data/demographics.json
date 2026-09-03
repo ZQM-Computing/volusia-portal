@@ -1,0 +1,38 @@
+[
+  {
+    "id": 8,
+    "name": "population_bea",
+    "category": "Demographics",
+    "value": "602772",
+    "unit": "persons",
+    "source": "BEA",
+    "source_url": "https://www.bea.gov/data/income-saving/local-area-personal-income",
+    "vintage": "2024",
+    "description": "Population BEA 2024",
+    "updated_at": "2026-09-03T06:33:53.521227"
+  },
+  {
+    "id": 1,
+    "name": "total_population_acs",
+    "category": "Demographics",
+    "value": "568229",
+    "unit": "persons",
+    "source": "US Census Bureau",
+    "source_url": "https://data.census.gov/",
+    "vintage": "2023",
+    "description": "Total population",
+    "updated_at": "2026-09-03T06:33:50.942527"
+  },
+  {
+    "id": 4,
+    "name": "total_population_pep",
+    "category": "Demographics",
+    "value": "602772",
+    "unit": "persons",
+    "source": "US Census Bureau",
+    "source_url": "https://www.census.gov/programs-surveys/popest.html",
+    "vintage": "2024",
+    "description": "Total population PEP 2024",
+    "updated_at": "2026-09-03T06:33:51.456454"
+  }
+]

@@ -1,0 +1,122 @@
+[
+  {
+    "id": 13,
+    "name": "avg_annual_pay_qcew",
+    "category": "Economic",
+    "value": "54114",
+    "unit": "USD",
+    "source": "BLS QCEW",
+    "source_url": "https://www.bls.gov/cew/",
+    "vintage": "2024",
+    "description": "Annual average pay 2024",
+    "updated_at": "2024-01-01T00:00:00"
+  },
+  {
+    "id": 12,
+    "name": "avg_weekly_wage_qcew",
+    "category": "Economic",
+    "value": "1041",
+    "unit": "USD",
+    "source": "BLS QCEW",
+    "source_url": "https://www.bls.gov/cew/",
+    "vintage": "2024 QA",
+    "description": "Annual average weekly wage 2024",
+    "updated_at": "2026-09-03T06:34:10.258383"
+  },
+  {
+    "id": 10,
+    "name": "employment_qcew",
+    "category": "Economic",
+    "value": "189265",
+    "unit": "employees",
+    "source": "BLS QCEW",
+    "source_url": "https://www.bls.gov/cew/",
+    "vintage": "2024 QA",
+    "description": "Annual average employment 2024 (all industry, all ownership)",
+    "updated_at": "2026-09-03T06:34:10.198812"
+  },
+  {
+    "id": 11,
+    "name": "establishments_qcew",
+    "category": "Economic",
+    "value": "16756",
+    "unit": "establishments",
+    "source": "BLS QCEW",
+    "source_url": "https://www.bls.gov/cew/",
+    "vintage": "2024 QA",
+    "description": "Annual average establishments 2024 (all industry, all ownership)",
+    "updated_at": "2026-09-03T06:34:10.228932"
+  },
+  {
+    "id": 3,
+    "name": "median_household_income_acs",
+    "category": "Economic",
+    "value": "66581",
+    "unit": "dollars",
+    "source": "US Census Bureau",
+    "source_url": "https://data.census.gov/",
+    "vintage": "2023",
+    "description": "Median household income",
+    "updated_at": "2026-09-03T06:33:51.012709"
+  },
+  {
+    "id": 6,
+    "name": "per_capita_income_bea",
+    "category": "Economic",
+    "value": "59259",
+    "unit": "dollars",
+    "source": "BEA",
+    "source_url": "https://www.bea.gov/data/income-saving/local-area-personal-income",
+    "vintage": "2024",
+    "description": "Per capita income 2024",
+    "updated_at": "2026-09-03T06:33:53.446180"
+  },
+  {
+    "id": 7,
+    "name": "total_personal_income_bea",
+    "category": "Economic",
+    "value": "35719516",
+    "unit": "thousands USD",
+    "source": "BEA",
+    "source_url": "https://www.bea.gov/data/income-saving/local-area-personal-income",
+    "vintage": "2024",
+    "description": "Total personal income (thousands of dollars) 2024",
+    "updated_at": "2026-09-03T06:33:53.484427"
+  },
+  {
+    "id": 14,
+    "name": "total_personal_income_bea_millions",
+    "category": "Economic",
+    "value": "35.7",
+    "unit": "millions USD",
+    "source": "BEA",
+    "source_url": "https://www.bea.gov/data/income-saving/local-area-personal-income",
+    "vintage": "2024",
+    "description": "Total personal income (millions of dollars)",
+    "updated_at": "2026-09-03 11:52:15"
+  },
+  {
+    "id": 2,
+    "name": "unemployment_rate_acs",
+    "category": "Economic",
+    "value": "4.0",
+    "unit": "percent",
+    "source": "US Census Bureau",
+    "source_url": "https://data.census.gov/",
+    "vintage": "2023",
+    "description": "Unemployment rate",
+    "updated_at": "2026-09-03T06:33:50.980590"
+  },
+  {
+    "id": 5,
+    "name": "unemployment_rate_bls",
+    "category": "Economic",
+    "value": "4.6",
+    "unit": "percent",
+    "source": "BLS",
+    "source_url": "https://www.bls.gov/lau/",
+    "vintage": "2026 July",
+    "description": "Unemployment rate",
+    "updated_at": "2026-09-03T06:33:52.317521"
+  }
+]

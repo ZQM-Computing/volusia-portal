@@ -1,14 +1,27 @@
 import { Link } from 'react-router-dom'
-import { useEconomicIndicators, useDemographicIndicators, useHousingIndicators, useWeatherIndicators } from '../hooks/useApi'
+import { useEconomicIndicators, useDemographicIndicators, useWeatherIndicators } from '../hooks/useApi'
 import { StatCard, Card, SectionTitle, Badge } from '../components/UI'
 
 export function HomePage() {
   const { data: economic, loading: econLoading } = useEconomicIndicators()
   const { data: demographics, loading: demoLoading } = useDemographicIndicators()
-  const { data: housing, loading: housingLoading } = useHousingIndicators()
-  const { data: weather, loading: weatherLoading } = useWeatherIndicators()
+  const { data: climate, loading: climateLoading } = useWeatherIndicators()
 
-  const loading = econLoading || demoLoading || housingLoading || weatherLoading
+  const loading = econLoading || demoLoading || climateLoading
+
+  const getIndicator = (items: any[] | null, name: string) => {
+    if (!items) return null
+    return items.find((i: any) => i.name === name)
+  }
+
+  const medianIncome = getIndicator(economic?.indicators, 'median_household_income_acs')
+  const unemploymentACS = getIndicator(economic?.indicators, 'unemployment_rate_acs')
+  const unemploymentBLS = getIndicator(economic?.indicators, 'unemployment_rate_bls')
+  const population = getIndicator(demographics?.indicators, 'total_population_pep')
+  const pci = getIndicator(economic?.indicators, 'per_capita_income_bea')
+  const employment = getIndicator(economic?.indicators, 'employment_qcew')
+  const avgWage = getIndicator(economic?.indicators, 'avg_weekly_wage_qcew')
+  const temp = getIndicator(climate?.indicators, 'avg_max_temp_jan2024')
 
   return (
     <div>
@@ -16,7 +29,7 @@ export function HomePage() {
       <section className="bg-gradient-to-br from-volusia-navy via-volusia-blue to-volusia-teal text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
-            <Badge variant="info">v1.0 — September 2026</Badge>
+            <Badge variant="info">v2.0 — Live Data</Badge>
             <h1 className="text-4xl md:text-5xl font-bold mt-4 mb-6 font-display leading-tight">
               Open Intelligence for Volusia County
             </h1>
@@ -49,28 +62,28 @@ export function HomePage() {
           ) : (
             <>
               <StatCard
-                value={economic?.medianHouseholdIncome ? `$${economic.medianHouseholdIncome.toLocaleString()}` : '—'}
+                value={medianIncome ? `$${parseInt(medianIncome.value).toLocaleString()}` : '—'}
                 label="Median Household Income"
-                change={economic?.unemploymentRate ? -0.4 : undefined}
-                changeLabel={economic?.unemploymentRate ? 'unemployment' : undefined}
+                change={unemploymentBLS ? parseFloat(unemploymentBLS.value) : undefined}
+                changeLabel={unemploymentBLS ? `Unemployment ${unemploymentBLS.value}%` : undefined}
               />
               <StatCard
-                value={demographics?.totalPopulation ? demographics.totalPopulation.toLocaleString() : '—'}
-                label="Population"
+                value={population ? parseInt(population.value).toLocaleString() : '—'}
+                label="Population (2024)"
                 change={1.1}
                 changeLabel="YoY %"
               />
               <StatCard
-                value={housing?.medianSalePrice ? `$${(housing.medianSalePrice / 1000).toFixed(0)}K` : '—'}
-                label="Median Home Price"
-                change={housing?.yoyPriceChange}
-                changeLabel="YoY %"
+                value={employment ? parseInt(employment.value).toLocaleString() : '—'}
+                label="Total Employment"
+                change={avgWage ? `$${avgWage.value}/wk` : undefined}
+                changeLabel={avgWage ? "Avg weekly wage" : undefined}
               />
               <StatCard
-                value={economic?.gdp ? `$${(economic.gdp / 1e9).toFixed(1)}B` : '—'}
-                label="GDP"
-                change={economic?.gdpRank ? undefined : undefined}
-                changeLabel={economic?.gdpRank ? `Ranked #${economic.gdpRank}` : undefined}
+                value={pci ? `$${parseInt(pci.value).toLocaleString()}` : '—'}
+                label="Per Capita Income"
+                change={temp ? `${temp.value}°C` : undefined}
+                changeLabel={temp ? "Avg max temp Jan" : undefined}
               />
             </>
           )}
@@ -98,88 +111,46 @@ export function HomePage() {
               <Badge>Open Source</Badge>
               <Badge>Privacy by Design</Badge>
               <Badge>Measurable Impact</Badge>
-              <Badge>Iterative Delivery</Badge>
             </div>
           </div>
-          <div className="bg-white rounded-xl shadow-lg p-8 border border-gray-100">
-            <h3 className="text-lg font-semibold text-volusia-navy mb-4">Strategic Outcomes</h3>
-            <ul className="space-y-3 text-sm text-volusia-slate">
-              <li className="flex items-start gap-2">
-                <span className="text-volusia-teal font-bold mt-0.5">→</span>
-                30% reduction in time-to-market for new commerce features
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-volusia-teal font-bold mt-0.5">→</span>
-                100% of business-critical data available via governed API
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-volusia-teal font-bold mt-0.5">→</span>
-                Single customer view across all touchpoints
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-volusia-teal font-bold mt-0.5">→</span>
-                Sub-second analytics on core business events
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-volusia-teal font-bold mt-0.5">→</span>
-                Open developer portal with 99.9% uptime SLA
-              </li>
-            </ul>
+          <div className="grid grid-cols-2 gap-4">
+            <Card>
+              <h3 className="font-bold text-volusia-navy mb-2">Business</h3>
+              <p className="text-sm text-volusia-slate">Market benchmarks, industry mix, and growth signals.</p>
+            </Card>
+            <Card>
+              <h3 className="font-bold text-volusia-navy mb-2">Residents</h3>
+              <p className="text-sm text-volusia-slate">Income, demographics, and cost-of-living data.</p>
+            </Card>
+            <Card>
+              <h3 className="font-bold text-volusia-navy mb-2">Tourists</h3>
+              <p className="text-sm text-volusia-slate">Conditions, events, and visitor volume trends.</p>
+            </Card>
+            <Card>
+              <h3 className="font-bold text-volusia-navy mb-2">Leaders</h3>
+              <p className="text-sm text-volusia-slate">Capital flows, permitting, and workforce analytics.</p>
+            </Card>
           </div>
         </div>
       </section>
 
-      {/* Stakeholder Groups */}
-      <section className="bg-white py-16">
+      {/* Data Sources */}
+      <section className="bg-gray-50 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionTitle
-            title="Built for Everyone"
-            subtitle="Four constituencies. One platform. Tailored intelligence for each."
-          />
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <Card hover>
-              <div className="text-3xl mb-3">🏪</div>
-              <h3 className="text-lg font-semibold text-volusia-navy mb-2">Business Owners</h3>
-              <p className="text-sm text-volusia-slate mb-4">Free market benchmarks, customer demographics, industry trends, pricing intelligence, and demand signals.</p>
-              <Link to="/business" className="text-sm font-medium text-volusia-teal hover:underline no-underline">Explore →</Link>
+          <SectionTitle>Data Sources</SectionTitle>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+            <Card>
+              <h3 className="font-bold text-volusia-navy mb-2">US Census Bureau</h3>
+              <p className="text-sm text-volusia-slate">ACS 5-Year DP03/DP05 profiles and Population Estimates Program.</p>
             </Card>
-            <Card hover>
-              <div className="text-3xl mb-3">🏠</div>
-              <h3 className="text-lg font-semibold text-volusia-navy mb-2">Residents</h3>
-              <p className="text-sm text-volusia-slate mb-4">Employment data, wage trends, cost-of-living metrics, school performance, health outcomes.</p>
-              <Link to="/residents" className="text-sm font-medium text-volusia-teal hover:underline no-underline">Explore →</Link>
+            <Card>
+              <h3 className="font-bold text-volusia-navy mb-2">Bureau of Labor Statistics</h3>
+              <p className="text-sm text-volusia-slate">Local Area Unemployment Statistics and Quarterly Census of Employment.</p>
             </Card>
-            <Card hover>
-              <div className="text-3xl mb-3">🏖️</div>
-              <h3 className="text-lg font-semibold text-volusia-navy mb-2">Tourists</h3>
-              <p className="text-sm text-volusia-slate mb-4">Real-time conditions, honest reviews, local business availability, event calendars.</p>
-              <Link to="/tourists" className="text-sm font-medium text-volusia-teal hover:underline no-underline">Explore →</Link>
+            <Card>
+              <h3 className="font-bold text-volusia-navy mb-2">Bureau of Economic Analysis</h3>
+              <p className="text-sm text-volusia-slate">CAINC1 regional personal income and employment data.</p>
             </Card>
-            <Card hover>
-              <div className="text-3xl mb-3">📊</div>
-              <h3 className="text-lg font-semibold text-volusia-navy mb-2">Leaders</h3>
-              <p className="text-sm text-volusia-slate mb-4">Capital flow data, permitting velocity, infrastructure status, workforce availability.</p>
-              <Link to="/leaders" className="text-sm font-medium text-volusia-teal hover:underline no-underline">Explore →</Link>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="bg-volusia-teal text-white py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold mb-4 font-display">Ready to Use the Data?</h2>
-          <p className="text-lg text-gray-200 mb-8 max-w-2xl mx-auto">
-            All datasets are free, open, and available in machine-readable formats.
-            Download, analyze, build on top.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Link to="/data" className="btn-primary no-underline bg-volusia-gold text-volusia-navy hover:bg-yellow-400">
-              Browse Datasets
-            </Link>
-            <Link to="/maps" className="btn-secondary no-underline border-white text-white hover:bg-white hover:text-volusia-teal">
-              Explore Maps
-            </Link>
           </div>
         </div>
       </section>

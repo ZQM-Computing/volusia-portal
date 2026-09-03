@@ -1,0 +1,14 @@
+[
+  {
+    "id": 9,
+    "name": "avg_max_temp_jan2024",
+    "category": "Climate",
+    "value": "21.8",
+    "unit": "deg C",
+    "source": "NOAA",
+    "source_url": "https://www.ncei.noaa.gov/",
+    "vintage": "2024-01",
+    "description": "Avg max temp Jan 2024",
+    "updated_at": "2026-09-03T06:33:54.401247"
+  }
+]

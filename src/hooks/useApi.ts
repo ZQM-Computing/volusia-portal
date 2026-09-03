@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-const API_BASE = 'http://localhost:8000'
+const API_BASE = '/data'
 
 export function useApiData<T>(endpoint: string) {
   const [data, setData] = useState<T | null>(null)
@@ -22,21 +22,21 @@ export function useApiData<T>(endpoint: string) {
 }
 
 export function useAllIndicators() {
-  return useApiData<Record<string, any>>('/indicators')
+  return useApiData<any>('indicators.json')
 }
 
 export function useEconomicIndicators() {
-  return useApiData<Record<string, any>>('/indicators/economic')
+  return useApiData<any>('economic.json')
 }
 
 export function useDemographicIndicators() {
-  return useApiData<any>('/indicators/demographics')
+  return useApiData<any>('demographics.json')
 }
 
 export function useHousingIndicators() {
-  return useApiData<Record<string, any>>('/indicators/housing')
+  return useApiData<any>('housing.json')
 }
 
 export function useWeatherIndicators() {
-  return useApiData<Record<string, any>>('/indicators/weather')
+  return useApiData<any>('climate.json')
 }
