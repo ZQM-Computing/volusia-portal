@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-const API_BASE = import.meta.env.VITE_API_URL || '/api'
+const API_BASE = 'http://localhost:8000'
 
 export function useApiData<T>(endpoint: string) {
   const [data, setData] = useState<T | null>(null)
@@ -21,7 +21,7 @@ export function useApiData<T>(endpoint: string) {
   return { data, loading, error }
 }
 
-export function useIndicators() {
+export function useAllIndicators() {
   return useApiData<Record<string, any>>('/indicators')
 }
 
@@ -33,6 +33,10 @@ export function useDemographicIndicators() {
   return useApiData<any>('/indicators/demographics')
 }
 
-export function useIncomeIndicators() {
-  return useApiData<Record<string, any>>('/indicators/income')
+export function useHousingIndicators() {
+  return useApiData<Record<string, any>>('/indicators/housing')
+}
+
+export function useWeatherIndicators() {
+  return useApiData<Record<string, any>>('/indicators/weather')
 }

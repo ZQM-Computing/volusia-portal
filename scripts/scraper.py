@@ -295,11 +295,11 @@ def scrape_open_meteo_forecast() -> Optional[dict]:
     url = (
         "https://api.open-meteo.com/v1/forecast?"
         "latitude=29.21&longitude=-81.02"
-        "&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,weathercode,windspeed_10m_max"
+        "&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,weathercode,windspeed_10m_max,uv_index_max"
         "&current_weather=true&timezone=America%2FNew_York&forecast_days=14"
     )
 
-    data = fetch_json(url)
+    data = fetch_json(url, timeout=30)
     if not data:
         return None
 

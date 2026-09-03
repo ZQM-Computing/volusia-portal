@@ -1,7 +1,0 @@
-{
-  "source": "BEA Local Area Personal Income",
-  "sourceUrl": "https://www.bea.gov/data/income-saving/local-area-personal-income",
-  "vintage": "2024",
-  "fetchedAt": "2026-09-02T22:43:57.019226",
-  "note": "BEA_API_KEY not set \u2014 returning empty result"
-}
