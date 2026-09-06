@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Card, SectionTitle, Badge } from '../components/UI'
 import { GamificationWidget } from '../components/GamificationWidget'
-import { useGamificationStats } from '../hooks/useGamification'
+import { useGamificationStats, useDiagnostics } from '../hooks/useApi'
 import { AchievementBoard } from '../components/AchievementBoard'
 import { Leaderboard } from '../components/Leaderboard'
 
@@ -20,6 +20,7 @@ const navLinks = [
 export function Header() {
   const location = useLocation()
   const { stats, totalUsers, avgXp, avgLevel } = useGamificationStats('anonymous')
+  const { diagnostics, loading: diagLoading } = useDiagnostics()
   const [mobileOpen, setMobileOpen] = useState(false)
 
   const pageTitles: Record<string, string> = {

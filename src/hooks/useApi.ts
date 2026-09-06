@@ -58,6 +58,18 @@ export function useDownloadCSV(category?: string) {
   const url = category ? `/indicators.csv?category=${category}` : '/indicators.csv'
   return () => window.open(url, '_blank')
 }
+export function useDiagnostics() {
+  const [diagnostics, setDiagnostics] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
+  useEffect(() => {
+    fetch('/api/diagnostics')
+      .then((res) => res.json())
+      .then((d) => { setDiagnostics(d); setLoading(false) })
+      .catch(() => setLoading(false))
+  }, [])
+  return { diagnostics, loading }
+}
+
 export function useIndicator(name: string) {
   const [data, setData] = useState<any>(null)
   const [loading, setLoading] = useState(true)
