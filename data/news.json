@@ -1,0 +1,30 @@
+[
+  {
+    "id": "1",
+    "title": "Project Volusia v2.0 Launched \u2014 Live Data Now Available",
+    "summary": "Real economic, demographic, and climate indicators now live from Census, BLS, BEA, and NOAA.",
+    "date": "2026-09-05",
+    "category": "Platform"
+  },
+  {
+    "id": "2",
+    "title": "Q2 2026 Economic Briefing Published",
+    "summary": "Unemployment at 4.6%, total employment at 189,265, per capita income at $59,259.",
+    "date": "2026-08-15",
+    "category": "Economic"
+  },
+  {
+    "id": "3",
+    "title": "New Climate Data Available",
+    "summary": "NOAA annual climate summary: avg max temp 27.9\u00b0C, total precipitation 1,028mm.",
+    "date": "2026-07-20",
+    "category": "Climate"
+  },
+  {
+    "id": "4",
+    "title": "Population Growth Continues \u2014 601,107 (2024)",
+    "summary": "Volusia County adds ~9,000 residents year-over-year, reaching 601,107.",
+    "date": "2026-06-30",
+    "category": "Demographic"
+  }
+]
