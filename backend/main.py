@@ -71,7 +71,7 @@ def download_csv(category: str = Query(None)):
 @app.get("/map-layers")
 def get_map_layers():
     """Return map layers from the map_layers table."""
-    rows = _db_rows("SELECT id, name, category, description, source, format, url FROM map_layers ORDER BY category, name")
+    rows = _db_rows("SELECT id, name, category, description, source, format, url, geometry FROM map_layers ORDER BY category, name")
     return {"count": len(rows), "layers": rows}
 
 @app.get("/refresh")
