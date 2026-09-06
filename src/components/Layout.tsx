@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { useGamification } from '../hooks/useGamification'
 import { Card, SectionTitle, Badge } from '../components/UI'
+import { GamificationWidget } from '../components/GamificationWidget'
 import { AchievementBoard } from '../components/AchievementBoard'
 import { Leaderboard } from '../components/Leaderboard'
 
@@ -34,6 +34,7 @@ export function Header() {
             </div>
           </Link>
 
+          <GamificationWidget userId="anonymous" />
           <nav className="hidden lg:flex items-center space-x-1">
             {navLinks.map((link) => (
               <Link
@@ -61,6 +62,9 @@ export function Header() {
           </button>
         </div>
 
+        <div className="lg:hidden pb-2">
+          <GamificationWidget userId="anonymous" />
+        </div>
         {mobileOpen && (
           <div className="lg:hidden pb-4 border-t border-gray-100">
             <div className="flex flex-col space-y-1 pt-2">
