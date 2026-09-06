@@ -71,7 +71,7 @@ def download_csv(category: str = Query(None)):
 @app.get("/map-layers")
 def get_map_layers():
     """Return map layers from the map_layers table."""
-    rows = _db_rows("SELECT id, name, category, description, source, format, url, geometry FROM map_layers ORDER BY category, name")
+    rows = _db_rows("SELECT id, name, category, description, source, format, url FROM map_layers ORDER BY category, name")
     return {"count": len(rows), "layers": rows}
 
 @app.get("/refresh")
@@ -83,6 +83,16 @@ def refresh():
 
 # Register gamification routes
 get_gamification_routes(app)
+
+# Load scoring.py routes (file-shadows-package problem — use importlib)
+import importlib.util as _iu
+import os as _os2
+_scoring_path = _os2.path.join(str(Path(__file__).parent), 'gamification', 'scoring.py')
+if _os2.path.exists(_scoring_path):
+    _spec = _iu.spec_from_file_location('scoring', _scoring_path)
+    _scoring_mod = _iu.module_from_spec(_spec)
+    _spec.loader.exec_module(_scoring_mod)
+    app.include_router(_scoring_mod.router)
 
 if __name__ == "__main__":
     import uvicorn
