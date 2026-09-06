@@ -110,6 +110,26 @@ export function MapsPage() {
                   </div>
                 ))
               )}
+              {filteredLayers.map((layer: any) => {
+                if (!layer.geometry) return null
+                try {
+                  const geojson = JSON.parse(layer.geometry)
+                  return (
+                    <GeoJSON
+                      key={layer.id}
+                      data={geojson}
+                      style={{
+                        color: '#0d7377',
+                        weight: 2,
+                        fillColor: '#0d7377',
+                        fillOpacity: 0.15,
+                      }}
+                    />
+                  )
+                } catch {
+                  return null
+                }
+              })}
             </div>
           </Card>
         </div>
