@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { MapContainer, TileLayer, GeoJSON, CircleMarker, Popup } from 'react-leaflet'
-import { mapLayers } from '../data/sampleData'
+import { useMapLayers } from '../hooks/useApi'
 import { Card, SectionTitle, Badge } from '../components/UI'
 
 // Simplified Volusia County boundary polygon (approximate)
@@ -31,12 +31,14 @@ const cityMarkers = [
 ]
 
 export function MapsPage() {
+  const { data: mapLayers, loading } = useMapLayers()
   const [activeCategory, setActiveCategory] = useState<string>('boundary')
   const [showBoundary, setShowBoundary] = useState(true)
   const [showCities, setShowCities] = useState(true)
 
   const categories = ['boundary', 'economic', 'infrastructure', 'environment', 'demographic', 'cultural']
-  const filteredLayers = mapLayers.filter((l) => l.category === activeCategory)
+  const layers = mapLayers ?? []
+  const filteredLayers = layers.filter((l: any) => l.category === activeCategory)
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -92,14 +94,22 @@ export function MapsPage() {
           </Card>
 
           <Card>
-            <h3 className="text-sm font-semibold text-volusia-navy mb-3">Layers in Category</h3>
+            <h3 className="text-sm font-semibold text-volusia-navy mb-3">
+              Layers{loading ? '…' : ` (${filteredLayers.length})`}
+            </h3>
             <div className="space-y-2">
-              {filteredLayers.map((layer) => (
-                <div key={layer.id} className="text-xs p-2 bg-gray-50 rounded">
-                  <div className="font-medium text-volusia-navy">{layer.name}</div>
-                  <div className="text-gray-500 mt-0.5">{layer.source}</div>
-                </div>
-              ))}
+              {loading ? (
+                <div className="text-xs text-volusia-slate animate-pulse">Loading layers…</div>
+              ) : filteredLayers.length === 0 ? (
+                <div className="text-xs text-volusia-slate">No layers in this category.</div>
+              ) : (
+                filteredLayers.map((layer: any) => (
+                  <div key={layer.id} className="text-xs p-2 bg-gray-50 rounded">
+                    <div className="font-medium text-volusia-navy">{layer.name}</div>
+                    <div className="text-gray-500 mt-0.5">{layer.source}</div>
+                  </div>
+                ))
+              )}
             </div>
           </Card>
         </div>
@@ -154,7 +164,7 @@ export function MapsPage() {
           </div>
           <p className="text-xs text-gray-500 mt-2">
             Map data: OpenStreetMap contributors. County boundary: US Census TIGER/Line (simplified for demo).
-            Full GeoJSON layers available via API.
+            {loading ? ' Loading map layers…' : ' Full GeoJSON layers available via API.'}
           </p>
         </div>
       </div>

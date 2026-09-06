@@ -1,12 +1,17 @@
-import { indicators } from '../data/sampleData'
-import { Card, SectionTitle, Badge, DataSource } from '../components/UI'
+import { useEconomicIndicators } from '../hooks/useApi'
+import { Card, SectionTitle, Badge, DataSource, StatCard } from '../components/UI'
 import { ResponsiveBar } from '@nivo/bar'
 import { ResponsivePie } from '@nivo/pie'
 
 export function LeadersPage() {
-  const moversIndicators = indicators.filter((i) =>
-    ['economic', 'demographic', 'transportation'].includes(i.category)
-  )
+  const { data: economic, loading } = useEconomicIndicators()
+  const getIndicator = (items: any[] | null, name: string) => {
+    if (!items) return null
+    return items.find((i: any) => i.name === name)
+  }
+  const employment = getIndicator(economic?.indicators, 'employment_qcew')
+  const avgWage = getIndicator(economic?.indicators, 'avg_weekly_wage_qcew')
+  const unemploymentBls = getIndicator(economic?.indicators, 'unemployment_rate_bls')
 
   const investmentData = [
     { year: '2022', commercial: 420, residential: 380, industrial: 85 },
@@ -31,6 +36,11 @@ export function LeadersPage() {
     { type: 'Environmental', avgDays: 62, trend: 'up' },
   ]
 
+  const moversIndicators = []
+  if (employment) moversIndicators.push(employment)
+  if (avgWage) moversIndicators.push(avgWage)
+  if (unemploymentBls) moversIndicators.push(unemploymentBls)
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <SectionTitle
@@ -40,17 +50,26 @@ export function LeadersPage() {
 
       {/* Key Metrics */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        {moversIndicators.slice(0, 4).map((ind) => (
-          <div key={ind.id} className="stat-card">
-            <div className="stat-value">{typeof ind.value === 'number' ? ind.value.toLocaleString() : ind.value}</div>
-            <div className="stat-label">{ind.name}</div>
-            {ind.change && (
-              <div className={`text-xs font-medium mt-1 ${ind.change > 0 ? 'text-green-600' : 'text-red-600'}`}>
-                {ind.change > 0 ? '↑' : '↓'} {Math.abs(ind.change)} {ind.changeLabel}
-              </div>
-            )}
-          </div>
-        ))}
+        {loading ? (
+          <>
+            <div className="stat-card animate-pulse bg-gray-200 h-24" />
+            <div className="stat-card animate-pulse bg-gray-200 h-24" />
+            <div className="stat-card animate-pulse bg-gray-200 h-24" />
+            <div className="stat-card animate-pulse bg-gray-200 h-24" />
+          </>
+        ) : (
+          moversIndicators.slice(0, 4).map((ind) => (
+            <div key={ind.id} className="stat-card">
+              <div className="stat-value">{typeof ind.value === 'number' ? ind.value.toLocaleString() : ind.value}</div>
+              <div className="stat-label">{ind.name}</div>
+              {ind.change && (
+                <div className={`text-xs font-medium mt-1 ${ind.change > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                  {ind.change > 0 ? '↑' : '↓'} {Math.abs(ind.change)} {ind.changeLabel}
+                </div>
+              )}
+            </div>
+          ))
+        )}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
@@ -67,9 +86,7 @@ export function LeadersPage() {
               colors={['#0d7377', '#c9a84c', '#3d8b7d']}
               axisBottom={{ tickRotation: 0 }}
               axisLeft={{ legend: '$M', legendOffset: -50 }}
-              legends={[
-                { dataFrom: 'keys', anchor: 'bottom-right', direction: 'column', itemWidth: 100, itemHeight: 20 },
-              ]}
+              legends={[{ dataFrom: 'keys', anchor: 'bottom-right', direction: 'column', itemWidth: 100, itemHeight: 20 }]}
             />
           </div>
           <DataSource source="Volusia County Property Appraiser" url="https://vcpa.volusia.org/" vintage="2025" />
@@ -91,9 +108,7 @@ export function LeadersPage() {
               enableArcLabels={true}
               arcLabel="value"
               arcLabelsSkipAngle={10}
-              legends={[
-                { anchor: 'right', direction: 'column', itemWidth: 100, itemHeight: 18, itemsSpacing: 5 },
-              ]}
+              legends={[{ anchor: 'right', direction: 'column', itemWidth: 100, itemHeight: 18, itemsSpacing: 5 }]}
             />
           </div>
           <DataSource source="BLS QCEW" url="https://www.bls.gov/cew/" vintage="2025" />

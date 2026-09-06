@@ -1,13 +1,20 @@
-import { Link } from 'react-router-dom'
-import { useEconomicIndicators, useDemographicIndicators, useWeatherIndicators } from '../hooks/useApi'
+import { useState } from 'react'
+import { useEconomicIndicators, useDemographicIndicators, useClimateIndicators, useDatasets, useIndicator } from '../hooks/useApi'
+import { useGamification } from '../hooks/useGamification'
 import { StatCard, Card, SectionTitle, Badge } from '../components/UI'
+import { ResponsiveLine } from '@nivo/line'
+import { ResponsiveBar } from '@nivo/bar'
 
 export function HomePage() {
   const { data: economic, loading: econLoading } = useEconomicIndicators()
   const { data: demographics, loading: demoLoading } = useDemographicIndicators()
-  const { data: climate, loading: climateLoading } = useWeatherIndicators()
+  const climate = useClimateIndicators()
+  const climateIndicators = climate.data?.indicators ?? climate.data ?? null
+  const { data: datasets } = useDatasets()
+  const { visitPage } = useGamification('anonymous')
+  const [visitedHero, setVisitedHero] = useState(false)
 
-  const loading = econLoading || demoLoading || climateLoading
+  const loading = econLoading || demoLoading || climate.loading
 
   const getIndicator = (items: any[] | null, name: string) => {
     if (!items) return null
@@ -17,11 +24,33 @@ export function HomePage() {
   const medianIncome = getIndicator(economic?.indicators, 'median_household_income_acs')
   const unemploymentACS = getIndicator(economic?.indicators, 'unemployment_rate_acs')
   const unemploymentBLS = getIndicator(economic?.indicators, 'unemployment_rate_bls')
-  const population = getIndicator(demographics?.indicators, 'total_population_pep')
+  const population = getIndicator(demographics?.indicators, 'total_population_acs')
   const pci = getIndicator(economic?.indicators, 'per_capita_income_bea')
   const employment = getIndicator(economic?.indicators, 'employment_qcew')
   const avgWage = getIndicator(economic?.indicators, 'avg_weekly_wage_qcew')
-  const temp = getIndicator(climate?.indicators, 'avg_max_temp_jan2024')
+  const temp = getIndicator(climateIndicators, 'avg_max_temp')
+
+  const fmtNum = (v: any) => {
+    if (v == null) return '—'
+    const n = Number(v)
+    return isNaN(n) ? String(v) : n.toLocaleString()
+  }
+
+  const handleVisit = (page: string) => {
+    if (!visitedHero) {
+      visitPage(page)
+      setVisitedHero(true)
+    }
+  }
+
+  // Income trend chart data from economic indicators
+  const incomeTrendData = economic?.indicators
+    ?.filter((i: any) => i.name?.includes('median_income') || i.name?.includes('per_capita_income') || i.name?.includes('personal_income'))
+    .map((i: any) => ({ x: i.year ?? '2024', y: Number(i.value) ?? 0 })) ?? []
+
+  const employmentTrendData = economic?.indicators
+    ?.filter((i: any) => i.name?.includes('employment') || i.name?.includes('unemployment'))
+    .map((i: any) => ({ x: i.year ?? '2024', y: Number(i.value) ?? 0 })) ?? []
 
   return (
     <div>
@@ -38,13 +67,14 @@ export function HomePage() {
               Real numbers. Real sources. No paywalls.
             </p>
             <div className="flex flex-wrap gap-4">
-              <Link to="/data" className="btn-primary no-underline bg-volusia-gold text-volusia-navy hover:bg-yellow-400">
+              <a href="/data" onClick={() => handleVisit('/data')} className="btn-primary no-underline bg-volusia-gold text-volusia-navy hover:bg-yellow-400">
                 Explore Data
-              </Link>
-              <Link to="/maps" className="btn-secondary no-underline border-white text-white hover:bg-white hover:text-volusia-navy">
+              </a>
+              <a href="/maps" onClick={() => handleVisit('/maps')} className="btn-secondary no-underline border-white text-white hover:bg-white hover:text-volusia-navy">
                 View Maps
-              </Link>
+              </a>
             </div>
+            {visitedHero && <Badge variant="success" className="mt-4">🎯 +3 XP earned!</Badge>}
           </div>
         </div>
       </section>
@@ -54,41 +84,74 @@ export function HomePage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {loading ? (
             <>
-              <div className="stat-card animate-pulse bg-gray-200 h-24" />
-              <div className="stat-card animate-pulse bg-gray-200 h-24" />
-              <div className="stat-card animate-pulse bg-gray-200 h-24" />
-              <div className="stat-card animate-pulse bg-gray-200 h-24" />
+              {[1,2,3,4].map(i => <div key={i} className="stat-card animate-pulse bg-gray-200 h-24" />)}
             </>
           ) : (
             <>
               <StatCard
-                value={medianIncome ? `$${parseInt(medianIncome.value).toLocaleString()}` : '—'}
+                value={medianIncome ? `$${fmtNum(medianIncome.value)}` : '—'}
                 label="Median Household Income"
                 change={unemploymentBLS ? parseFloat(unemploymentBLS.value) : undefined}
                 changeLabel={unemploymentBLS ? `Unemployment ${unemploymentBLS.value}%` : undefined}
               />
               <StatCard
-                value={population ? parseInt(population.value).toLocaleString() : '—'}
+                value={population ? fmtNum(population.value) : '—'}
                 label="Population (2024)"
-                change={1.1}
-                changeLabel="YoY %"
+                change={undefined}
+                changeLabel="Census ACS DP05"
               />
               <StatCard
-                value={employment ? parseInt(employment.value).toLocaleString() : '—'}
+                value={employment ? fmtNum(employment.value) : '—'}
                 label="Total Employment"
-                change={avgWage ? `$${avgWage.value}/wk` : undefined}
-                changeLabel={avgWage ? "Avg weekly wage" : undefined}
+                change={avgWage && !isNaN(Number(avgWage.value)) ? Number(avgWage.value) : undefined}
+                changeLabel={avgWage ? `Avg wkly $${avgWage.value}` : undefined}
               />
               <StatCard
-                value={pci ? `$${parseInt(pci.value).toLocaleString()}` : '—'}
+                value={pci ? `$${fmtNum(pci.value)}` : '—'}
                 label="Per Capita Income"
-                change={temp ? `${temp.value}°C` : undefined}
+                change={temp && !isNaN(Number(temp.value)) ? Number(temp.value) : undefined}
                 changeLabel={temp ? "Avg max temp Jan" : undefined}
               />
             </>
           )}
         </div>
       </section>
+
+      {/* Charts */}
+      {!loading && economic?.indicators && (
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <Card>
+              <h3 className="font-bold text-volusia-navy mb-4">Income Trend</h3>
+              {incomeTrendData.length > 0 ? (
+                <ResponsiveLine
+                  data={[{ id: 'Income', data: incomeTrendData }]}
+                  margin={{ top: 10, right: 30, bottom: 40, left: 60 }}
+                  xScale={{ type: 'point' }}
+                  yScale={{ type: 'linear' }}
+                  axisTop={null}
+                  axisRight={null}
+                  theme={{}}
+                  lineWidth={3}
+                />
+              ) : (
+                <div className="h-48 flex items-center justify-center text-sm text-gray-400">No trend data available</div>
+              )}
+            </Card>
+            <Card>
+              <h3 className="font-bold text-volusia-navy mb-4">Employment & Unemployment</h3>
+              {employmentTrendData.length > 0 ? (
+                <ResponsiveBar
+                  data={employmentTrendData.map((d: any) => ({ x: d.x, y: d.y }))}
+                  margin={{ top: 10, right: 30, bottom: 40, left: 60 }}
+                />
+              ) : (
+                <div className="h-48 flex items-center justify-center text-sm text-gray-400">No trend data available</div>
+              )}
+            </Card>
+          </div>
+        </section>
+      )}
 
       {/* Mission */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -137,7 +200,7 @@ export function HomePage() {
       {/* Data Sources */}
       <section className="bg-gray-50 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionTitle>Data Sources</SectionTitle>
+          <SectionTitle title="Data Sources" />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
             <Card>
               <h3 className="font-bold text-volusia-navy mb-2">US Census Bureau</h3>
@@ -151,6 +214,11 @@ export function HomePage() {
               <h3 className="font-bold text-volusia-navy mb-2">Bureau of Economic Analysis</h3>
               <p className="text-sm text-volusia-slate">CAINC1 regional personal income and employment data.</p>
             </Card>
+          </div>
+          <div className="mt-8 flex flex-wrap gap-4">
+            <Badge variant="info">📊 {datasets?.length ?? 0} Datasets Available</Badge>
+            <Badge variant="success">✅ 28+ Live Indicators</Badge>
+            <Badge variant="warning">🔄 Hourly Auto-Refresh</Badge>
           </div>
         </div>
       </section>

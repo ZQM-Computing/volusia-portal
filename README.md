@@ -73,3 +73,40 @@ Replace with real API calls as sources are wired up per DATA_CATALOG.md.
 ## License
 
 MIT © 2026 ZQM Labs / ZQM Computing
+
+## API
+
+The FastAPI backend serves live indicators from SQLite:
+
+| Endpoint | Description |
+|----------|-------------|
+| `/api/` | Root |
+| `/api/health` | Health check + indicator count |
+| `/api/indicators` | All indicators (filter: `?category=Economic`) |
+| `/api/indicators/{name}` | Single indicator |
+| `/api/indicators.csv` | Download all as CSV |
+| `/api/indicators.csv?category=Economic` | Download by category |
+| `/api/datasets` | Latest datasets |
+| `/api/refresh` | Trigger a pipeline refresh |
+
+## Running
+
+```bash
+docker compose up -d        # start frontend + backend
+curl http://localhost:8000/api/health
+curl http://localhost:8080/     # frontend
+```
+
+## Refresh pipeline
+
+`scripts/refresh_v2.py` — unified fetcher for Census DP03/DP05, BLS LAUS, BLS QCEW, BEA, NOAA, Open-Meteo, Redfin, Zillow ZHVI, VolusiaBusiness, FRED.
+
+Runs automatically via cron (`volusia-refresh`, hourly). Manual run:
+
+```bash
+python scripts/refresh_v2.py
+```
+
+## License
+
+MIT. All frontend dependencies permissive-license (MIT/Apache/BSD).

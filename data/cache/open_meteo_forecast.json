@@ -1,0 +1,112 @@
+{
+  "source": "Open-Meteo",
+  "sourceUrl": "https://open-meteo.com/",
+  "station": "Daytona Beach, FL (29.21\u00b0N, 81.02\u00b0W)",
+  "fetchedAt": "2026-09-03T14:25:22.133199",
+  "current": {
+    "temperature_f": 82.6,
+    "windspeed_mph": 14.5,
+    "weathercode": 3,
+    "is_day": 1
+  },
+  "forecast": [
+    {
+      "date": "2026-09-03",
+      "temp_max_f": 83.3,
+      "temp_min_f": 77.5,
+      "precipitation_in": 0.01968503937007874,
+      "weathercode": 51
+    },
+    {
+      "date": "2026-09-04",
+      "temp_max_f": 88.5,
+      "temp_min_f": 74.8,
+      "precipitation_in": 3.12992125984252,
+      "weathercode": 65
+    },
+    {
+      "date": "2026-09-05",
+      "temp_max_f": 95.2,
+      "temp_min_f": 75.4,
+      "precipitation_in": 0.19606299212598427,
+      "weathercode": 95
+    },
+    {
+      "date": "2026-09-06",
+      "temp_max_f": 99.7,
+      "temp_min_f": 77.4,
+      "precipitation_in": 0.17322834645669294,
+      "weathercode": 95
+    },
+    {
+      "date": "2026-09-07",
+      "temp_max_f": 85.3,
+      "temp_min_f": 76.1,
+      "precipitation_in": 0.38188976377952755,
+      "weathercode": 95
+    },
+    {
+      "date": "2026-09-08",
+      "temp_max_f": 89.6,
+      "temp_min_f": 74.7,
+      "precipitation_in": 0.023622047244094488,
+      "weathercode": 51
+    },
+    {
+      "date": "2026-09-09",
+      "temp_max_f": 89.6,
+      "temp_min_f": 78.3,
+      "precipitation_in": 0.03543307086614173,
+      "weathercode": 51
+    },
+    {
+      "date": "2026-09-10",
+      "temp_max_f": 91.0,
+      "temp_min_f": 77.9,
+      "precipitation_in": 0.0,
+      "weathercode": 3
+    },
+    {
+      "date": "2026-09-11",
+      "temp_max_f": 97.5,
+      "temp_min_f": 77.4,
+      "precipitation_in": 0.0,
+      "weathercode": 0
+    },
+    {
+      "date": "2026-09-12",
+      "temp_max_f": 99.7,
+      "temp_min_f": 78.8,
+      "precipitation_in": 0.0,
+      "weathercode": 3
+    },
+    {
+      "date": "2026-09-13",
+      "temp_max_f": 94.1,
+      "temp_min_f": 81.0,
+      "precipitation_in": 0.0,
+      "weathercode": 3
+    },
+    {
+      "date": "2026-09-14",
+      "temp_max_f": 93.0,
+      "temp_min_f": 79.2,
+      "precipitation_in": 0.0,
+      "weathercode": 3
+    },
+    {
+      "date": "2026-09-15",
+      "temp_max_f": 95.4,
+      "temp_min_f": 78.6,
+      "precipitation_in": 0.14173228346456693,
+      "weathercode": 95
+    },
+    {
+      "date": "2026-09-16",
+      "temp_max_f": 95.4,
+      "temp_min_f": 75.0,
+      "precipitation_in": 0.07086614173228346,
+      "weathercode": 51
+    }
+  ]
+}

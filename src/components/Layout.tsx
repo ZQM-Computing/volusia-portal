@@ -1,5 +1,9 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { useGamification } from '../hooks/useGamification'
+import { Card, SectionTitle, Badge } from '../components/UI'
+import { AchievementBoard } from '../components/AchievementBoard'
+import { Leaderboard } from '../components/Leaderboard'
 
 const navLinks = [
   { to: '/', label: 'Portal Home' },
@@ -9,6 +13,7 @@ const navLinks = [
   { to: '/residents', label: 'Residents' },
   { to: '/tourists', label: 'Tourists' },
   { to: '/leaders', label: 'Leaders' },
+  { to: '/gamification', label: '🏆 Gamification' },
 ]
 
 export function Header() {

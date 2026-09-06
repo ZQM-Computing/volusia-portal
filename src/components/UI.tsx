@@ -28,7 +28,7 @@ export function SectionTitle({ title, subtitle }: { title: string; subtitle?: st
   )
 }
 
-export function Badge({ children, variant = 'default' }: { children: ReactNode; variant?: 'default' | 'success' | 'warning' | 'error' | 'info' }) {
+export function Badge({ children, variant = 'default', className = '' }: { children: ReactNode; variant?: 'default' | 'success' | 'warning' | 'error' | 'info'; className?: string }) {
   const colors = {
     default: 'bg-gray-100 text-gray-700',
     success: 'bg-green-100 text-green-700',
@@ -36,7 +36,7 @@ export function Badge({ children, variant = 'default' }: { children: ReactNode; 
     error: 'bg-red-100 text-red-700',
     info: 'bg-blue-100 text-blue-700',
   }
-  return <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${colors[variant]}`}>{children}</span>
+  return <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${colors[variant]} ${className}`.trim()}>{children}</span>
 }
 
 export function DataSource({ source, url, vintage }: { source: string; url: string; vintage?: string }) {

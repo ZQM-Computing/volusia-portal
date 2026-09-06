@@ -1,12 +1,26 @@
-import { indicators } from '../data/sampleData'
-import { Card, SectionTitle, Badge, DataSource } from '../components/UI'
+import { useEconomicIndicators } from '../hooks/useApi'
+import { Card, SectionTitle, Badge, DataSource, StatCard } from '../components/UI'
 import { ResponsiveLine } from '@nivo/line'
 import { ResponsiveBar } from '@nivo/bar'
 
 export function BusinessPage() {
-  const businessIndicators = indicators.filter((i) =>
-    ['economic', 'real_estate'].includes(i.category)
-  )
+  const { data: economic, loading: econLoading } = useEconomicIndicators()
+
+  const getIndicator = (items: any[] | null, name: string) => {
+    if (!items) return null
+    return items.find((i: any) => i.name === name)
+  }
+
+  const employment = getIndicator(economic?.indicators, 'employment_qcew')
+  const avgWage = getIndicator(economic?.indicators, 'avg_weekly_wage_qcew')
+  const medianIncome = getIndicator(economic?.indicators, 'median_household_income_acs')
+  const unemployment = getIndicator(economic?.indicators, 'unemployment_rate_acs')
+  const unemploymentBls = getIndicator(economic?.indicators, 'unemployment_rate_bls')
+
+  const businessFormation = [
+    { x: '2022', y: 24800 }, { x: '2023', y: 25900 }, { x: '2024', y: 26800 },
+    { x: '2025', y: 27400 }, { x: '2026', y: 28456 },
+  ]
 
   const industryMix = [
     { industry: 'Tourism', count: 4200, pct: 14.7 },
@@ -19,6 +33,8 @@ export function BusinessPage() {
     { industry: 'Other', count: 7100, pct: 24.9 },
   ]
 
+  const loading = econLoading
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <SectionTitle
@@ -28,17 +44,41 @@ export function BusinessPage() {
 
       {/* Key Metrics */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        {businessIndicators.slice(0, 4).map((ind) => (
-          <div key={ind.id} className="stat-card">
-            <div className="stat-value">{typeof ind.value === 'number' ? ind.value.toLocaleString() : ind.value}</div>
-            <div className="stat-label">{ind.name}</div>
-            {ind.change && (
-              <div className={`text-xs font-medium mt-1 ${ind.change > 0 ? 'text-green-600' : 'text-red-600'}`}>
-                {ind.change > 0 ? '↑' : '↓'} {Math.abs(ind.change)} {ind.changeLabel}
-              </div>
-            )}
-          </div>
-        ))}
+        {loading ? (
+          <>
+            <div className="stat-card animate-pulse bg-gray-200 h-24" />
+            <div className="stat-card animate-pulse bg-gray-200 h-24" />
+            <div className="stat-card animate-pulse bg-gray-200 h-24" />
+            <div className="stat-card animate-pulse bg-gray-200 h-24" />
+          </>
+        ) : (
+          <>
+            <StatCard
+              value={employment ? employment.value.toLocaleString() : '—'}
+              label="Total Employment (QCEW)"
+              change={undefined}
+              changeLabel="BLS QCEW 2024"
+            />
+            <StatCard
+              value={avgWage ? `$${avgWage.value}/wk` : '—'}
+              label="Avg Weekly Wage"
+              change={undefined}
+              changeLabel="BLS QCEW 2024"
+            />
+            <StatCard
+              value={medianIncome ? `$${medianIncome.value}` : '—'}
+              label="Median Household Income"
+              change={undefined}
+              changeLabel="ACS DP03 2024"
+            />
+            <StatCard
+              value={unemploymentBls ? `${unemploymentBls.value}%` : '—'}
+              label="Unemployment Rate"
+              change={undefined}
+              changeLabel="BLS LAUS July 2026"
+            />
+          </>
+        )}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
@@ -47,18 +87,7 @@ export function BusinessPage() {
           <h3 className="text-lg font-semibold text-volusia-navy mb-4">Business Formation Trend</h3>
           <div className="h-64">
             <ResponsiveLine
-              data={[
-                {
-                  id: 'licenses',
-                  data: [
-                    { x: '2022', y: 24800 },
-                    { x: '2023', y: 25900 },
-                    { x: '2024', y: 26800 },
-                    { x: '2025', y: 27400 },
-                    { x: '2026', y: 28456 },
-                  ],
-                },
-              ]}
+              data={[{ id: 'licenses', data: businessFormation }]}
               margin={{ top: 20, right: 20, bottom: 50, left: 60 }}
               xScale={{ type: 'point' }}
               yScale={{ type: 'linear', min: 20000, max: 32000 }}

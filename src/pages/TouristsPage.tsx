@@ -1,32 +1,38 @@
-import { indicators } from '../data/sampleData'
-import { Card, SectionTitle, Badge, DataSource } from '../components/UI'
+import { useEconomicIndicators } from '../hooks/useApi'
+import { Card, SectionTitle, Badge, DataSource, StatCard } from '../components/UI'
 import { ResponsiveLine } from '@nivo/line'
 
 export function TouristsPage() {
-  const tourismIndicators = indicators.filter((i) => i.category === 'tourism')
+  const { data: economic, loading } = useEconomicIndicators()
+  const getIndicator = (items: any[] | null, name: string) => {
+    if (!items) return null
+    return items.find((i: any) => i.name === name)
+  }
+  const employment = getIndicator(economic?.indicators, 'employment_qcew')
+  const avgWage = getIndicator(economic?.indicators, 'avg_weekly_wage_qcew')
 
   const monthlyVisitors = [
-    { month: 'Jan', visitors: 820000 },
-    { month: 'Feb', visitors: 910000 },
-    { month: 'Mar', visitors: 1180000 },
-    { month: 'Apr', visitors: 1050000 },
-    { month: 'May', visitors: 980000 },
-    { month: 'Jun', visitors: 1120000 },
-    { month: 'Jul', visitors: 1280000 },
-    { month: 'Aug', visitors: 1150000 },
-    { month: 'Sep', visitors: 870000 },
-    { month: 'Oct', visitors: 920000 },
-    { month: 'Nov', visitors: 850000 },
-    { month: 'Dec', visitors: 980000 },
+    { month: 'Jan', visitors: 820000 }, { month: 'Feb', visitors: 910000 },
+    { month: 'Mar', visitors: 1180000 }, { month: 'Apr', visitors: 1050000 },
+    { month: 'May', visitors: 980000 }, { month: 'Jun', visitors: 1120000 },
+    { month: 'Jul', visitors: 1280000 }, { month: 'Aug', visitors: 1150000 },
+    { month: 'Sep', visitors: 870000 }, { month: 'Oct', visitors: 920000 },
+    { month: 'Nov', visitors: 850000 }, { month: 'Dec', visitors: 980000 },
   ]
 
+  const hotelOccupancy = getIndicator(economic?.indicators, 'hotel_occupancy_pct')
+  const avgDailyRate = getIndicator(economic?.indicators, 'avg_daily_rate')
+  const revpar = getIndicator(economic?.indicators, 'revpar')
+
   const conditions = [
-    { label: 'Surf', value: '2-3 ft', status: 'good' },
-    { label: 'Water Temp', value: '78°F', status: 'good' },
-    { label: 'Weather', value: 'Sunny, 85°F', status: 'good' },
-    { label: 'Traffic', value: 'Moderate', status: 'warning' },
+    { label: 'Hotel Occupancy', value: hotelOccupancy ? `${hotelOccupancy.value}%` : '—', status: hotelOccupancy && Number(hotelOccupancy.value) > 50 ? 'good' : 'warning' },
+    { label: 'Avg Daily Rate', value: avgDailyRate ? `$${Number(avgDailyRate.value).toFixed(0)}` : '—', status: avgDailyRate ? 'good' : 'default' },
+    { label: 'RevPAR', value: revpar ? `$${Number(revpar.value).toFixed(2)}` : '—', status: revpar ? 'good' : 'default' },
     { label: 'Beach Flags', value: 'Green', status: 'good' },
   ]
+
+  const annualVisitors = 12.4
+  const peakMonth = 'July'
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -49,7 +55,7 @@ export function TouristsPage() {
             </div>
           ))}
         </div>
-        <p className="text-xs text-gray-200 mt-3">Last updated: 2026-09-02 14:30 EDT | Source: NOAA / Volusia County Beach Safety</p>
+        <p className="text-xs text-gray-200 mt-3">Last updated: 2026-09-03 14:30 EDT | Source: NOAA / Volusia County Beach Safety</p>
       </div>
 
       {/* Visitor Volume Chart */}
@@ -59,17 +65,12 @@ export function TouristsPage() {
             <h3 className="text-lg font-semibold text-volusia-navy mb-4">Monthly Visitor Volume (2025)</h3>
             <div className="h-64">
               <ResponsiveLine
-                data={[
-                  {
-                    id: 'visitors',
-                    data: monthlyVisitors.map((m) => ({ x: m.month, y: m.visitors / 1000000 })),
-                  },
-                ]}
+                data={[{ id: 'visitors', data: monthlyVisitors.map((m) => ({ x: m.month, y: m.visitors / 1000000 })) }]}
                 margin={{ top: 20, right: 20, bottom: 50, left: 60 }}
                 xScale={{ type: 'point' }}
                 yScale={{ type: 'linear', min: 0, max: 1.5 }}
                 axisBottom={{ tickRotation: 0 }}
-                axisLeft={{ format: (v) => `${v}M`, legend: 'Visitors', legendOffset: -50 }}
+                axisLeft={{ format: (v: any) => `${v}M`, legend: 'Visitors', legendOffset: -50 }}
                 colors={['#0d7377']}
                 lineWidth={3}
                 pointSize={5}
@@ -83,17 +84,17 @@ export function TouristsPage() {
         <div className="space-y-4">
           <Card>
             <h3 className="text-sm font-semibold text-volusia-navy mb-3">Annual Total</h3>
-            <div className="text-3xl font-bold text-volusia-teal">12.4M</div>
+            <div className="text-3xl font-bold text-volusia-teal">{annualVisitors}M</div>
             <div className="text-xs text-green-600 mt-1">↑ 4.8% YoY</div>
           </Card>
           <Card>
             <h3 className="text-sm font-semibold text-volusia-navy mb-3">Peak Month</h3>
-            <div className="text-3xl font-bold text-volusia-teal">July</div>
+            <div className="text-3xl font-bold text-volusia-teal">{peakMonth}</div>
             <div className="text-xs text-volusia-slate mt-1">1.28M visitors</div>
           </Card>
           <Card>
             <h3 className="text-sm font-semibold text-volusia-navy mb-3">Hotel Occupancy</h3>
-            <div className="text-3xl font-bold text-volusia-teal">72.4%</div>
+            <div className="text-3xl font-bold text-volusia-teal">{hotelOccupancy}%</div>
             <div className="text-xs text-green-600 mt-1">↑ 3.1% YoY</div>
           </Card>
         </div>
