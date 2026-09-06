@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-const API_BASE = '/api'
+const API_BASE = ''
 
 export function useApiData<T>(endpoint: string) {
   const [data, setData] = useState<T | null>(null)
