@@ -1,9 +1,11 @@
+import { useGamification } from '../hooks/useGamification'
 import { useEconomicIndicators } from '../hooks/useApi'
 import { Card, SectionTitle, Badge, DataSource, StatCard } from '../components/UI'
 import { ResponsiveLine } from '@nivo/line'
 import { ResponsiveBar } from '@nivo/bar'
 
-export function BusinessPage() {
+export function BusinessPage() {  const { visitPage } = useGamification('anonymous')
+
   const { data: economic, loading: econLoading } = useEconomicIndicators()
 
   const getIndicator = (items: any[] | null, name: string) => {

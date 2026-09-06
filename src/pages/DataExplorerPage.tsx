@@ -1,10 +1,12 @@
 import { useState } from 'react'
+import { useGamification } from '../hooks/useGamification'
 import { useDatasets, useIndicator } from '../hooks/useApi'
 import { Card, SectionTitle, Badge, DataSource } from '../components/UI'
 import { ResponsiveLine } from '@nivo/line'
 import { ResponsiveBar } from '@nivo/bar'
 
-export function DataExplorerPage() {
+export function DataExplorerPage() {  const { visitPage } = useGamification('anonymous')
+
   const [searchTerm, setSearchTerm] = useState('')
   const [categoryFilter, setCategoryFilter] = useState<string>('all')
   const [statusFilter, setStatusFilter] = useState<string>('available')

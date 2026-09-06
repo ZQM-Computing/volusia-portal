@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { MapContainer, TileLayer, GeoJSON, CircleMarker, Popup } from 'react-leaflet'
+import { useGamification } from '../hooks/useGamification'
 import { useMapLayers } from '../hooks/useApi'
 import { Card, SectionTitle, Badge } from '../components/UI'
 
@@ -30,7 +31,8 @@ const cityMarkers = [
   { name: 'Deltona', coords: [28.9005, -81.2637], pop: 93000 },
 ]
 
-export function MapsPage() {
+export function MapsPage() {  const { visitPage } = useGamification('anonymous')
+
   const { data: mapLayers, loading } = useMapLayers()
   const [activeCategory, setActiveCategory] = useState<string>('boundary')
   const [showBoundary, setShowBoundary] = useState(true)

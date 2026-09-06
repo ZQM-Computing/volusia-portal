@@ -1,8 +1,10 @@
+import { useGamification } from '../hooks/useGamification'
 import { useDemographicIndicators, useEconomicIndicators } from '../hooks/useApi'
 import { Card, SectionTitle, Badge, DataSource, StatCard } from '../components/UI'
 import { ResponsiveLine } from '@nivo/line'
 
-export function ResidentsPage() {
+export function ResidentsPage() {  const { visitPage } = useGamification('anonymous')
+
   const { data: demographics, loading: demoLoading } = useDemographicIndicators()
   const { data: economic, loading: econLoading } = useEconomicIndicators()
 
