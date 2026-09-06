@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useGamification } from '../hooks/useGamification'
 import { useDatasets, useIndicator } from '../hooks/useApi'
 import { Card, SectionTitle, Badge, DataSource } from '../components/UI'

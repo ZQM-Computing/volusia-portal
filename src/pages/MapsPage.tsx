@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { MapContainer, TileLayer, GeoJSON, CircleMarker, Popup } from 'react-leaflet'
 import { useGamification } from '../hooks/useGamification'
 import { useMapLayers } from '../hooks/useApi'
