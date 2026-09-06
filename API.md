@@ -4,11 +4,11 @@
 
 ---
 
-## Portal API (port 8789)
+## Portal API (ports 8000/8080)
 
 ### Health & Status
 
-#### `GET /api/health`
+#### `GET /health`
 
 Health check endpoint.
 
@@ -23,7 +23,7 @@ Health check endpoint.
 }
 ```
 
-#### `GET /api/status`
+#### `GET /status`
 
 Detailed system status.
 

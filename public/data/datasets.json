@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "source": "Census PEP",
+    "content": "",
+    "fetched_at": "2026-09-06T05:55:21.183188"
+  },
+  {
+    "id": 2,
+    "source": "NOAA NCEI",
+    "content": "",
+    "fetched_at": "2026-09-06T05:55:21.184271"
+  },
+  {
+    "id": 3,
+    "source": "BLS LAUS",
+    "content": "",
+    "fetched_at": "2026-09-06T05:55:21.184271"
+  },
+  {
+    "id": 4,
+    "source": "BEA Regional",
+    "content": "",
+    "fetched_at": "2026-09-06T05:55:21.184271"
+  },
+  {
+    "id": 5,
+    "source": "BLS QCEW",
+    "content": "",
+    "fetched_at": "2026-09-06T05:55:21.184271"
+  },
+  {
+    "id": 6,
+    "source": "US Census ACS 5-Year DP03",
+    "content": "",
+    "fetched_at": "2026-09-06T05:55:21.184271"
+  },
+  {
+    "id": 7,
+    "source": "US Census ACS 5-Year DP05",
+    "content": "",
+    "fetched_at": "2026-09-06T05:55:21.184271"
+  },
+  {
+    "id": 8,
+    "source": "NOAA NCEI Daily Summaries",
+    "content": "",
+    "fetched_at": "2026-09-06T05:55:21.184271"
+  },
+  {
+    "id": 9,
+    "source": "Volusia County CVB",
+    "content": "",
+    "fetched_at": "2026-09-06T05:55:21.184271"
+  },
+  {
+    "id": 10,
+    "source": "C2ER (Daytona Beach, cached)",
+    "content": "",
+    "fetched_at": "2026-09-06T05:55:21.184271"
+  }
+]

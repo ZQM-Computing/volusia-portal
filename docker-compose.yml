@@ -1,6 +1,4 @@
-# Project Volusia — Docker Compose v3
-version: '3.8'
-
+# Project Volusia — Docker Compose
 services:
   frontend:
     build:
