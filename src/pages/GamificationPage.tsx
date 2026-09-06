@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom'
-import { useGamification } from '../hooks/useGamification'
+import { useGamification, useGamificationStats } from '../hooks/useGamification'
+import { useLeaderboard } from '../hooks/useApi'
 import { GamificationWidget } from '../components/GamificationWidget'
 import { AchievementBoard } from '../components/AchievementBoard'
 import { Leaderboard } from '../components/Leaderboard'
 import { Card, SectionTitle, Badge } from '../components/UI'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const pages = [
   { to: '/', label: 'Portal Home', desc: 'View featured indicators and explore the portal' },
@@ -18,13 +19,17 @@ const pages = [
 
 export function GamificationPage() {
   const { visitPage, profile, loading } = useGamification('anonymous')
-  const [visited, setVisited] = useState<string[]>([])
+  const { data: leaderboard } = useLeaderboard()
+  const { stats, totalUsers, avgXp, avgLevel } = useGamificationStats('anonymous')
+  const [visitedPages, setVisitedPages] = useState<string[]>([])
   const [xpEarned, setXpEarned] = useState(0)
+
+  useEffect(() => { if (!visitedPages.includes('gamification')) { visitPage('gamification'); setVisitedPages(prev => [...prev, 'gamification']); } }, [])
 
   const handleVisit = async (page: string) => {
     const result = await visitPage(page)
     if (result?.xp_earned) {
-      setVisited(prev => [...prev, page])
+      setVisitedPages(prev => [...prev, page])
       setXpEarned(prev => prev + result.xp_earned)
     }
   }
@@ -64,7 +69,7 @@ export function GamificationPage() {
         <p className="text-sm text-volusia-slate mb-4">Visit each page once to earn 3 XP + streak bonuses</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {pages.map((page) => {
-            const done = visited.includes(page.to)
+            const done = visitedPages.includes(page.to)
             return (
               <button
                 key={page.to}

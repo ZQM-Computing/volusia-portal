@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useGamification } from '../hooks/useGamification'
-import { useEconomicIndicators, useDemographicIndicators, useClimateIndicators } from '../hooks/useApi'
+import { useEconomicIndicators, useDemographicIndicators, useClimateIndicators, useDownloadCSV } from '../hooks/useApi'
 import { Card, SectionTitle, Badge, DataSource, StatCard } from '../components/UI'
 import { ResponsiveLine } from '@nivo/line'
 import { ResponsiveBar } from '@nivo/bar'
@@ -11,6 +11,7 @@ export function BusinessPage() {
   useEffect(() => { visitPage("business"); }, [])
 
   const { data: economic, loading: econLoading } = useEconomicIndicators()
+  const downloadCSV = useDownloadCSV()
   const { data: demographics } = useDemographicIndicators()
   const { data: climate } = useClimateIndicators()
 

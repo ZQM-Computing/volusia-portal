@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useEconomicIndicators, useDemographicIndicators, useClimateIndicators, useDatasets, useIndicator, useMapLayers } from '../hooks/useApi'
+import { useEconomicIndicators, useDemographicIndicators, useClimateIndicators, useDatasets, useMapLayers, useDownloadCSV } from '../hooks/useApi'
 import { useGamification, useGamificationStats } from '../hooks/useGamification'
 import { StatCard, Card, SectionTitle, Badge } from '../components/UI'
 import { ResponsiveLine } from '@nivo/line'
