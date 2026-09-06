@@ -289,6 +289,79 @@ export function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Human README */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="bg-white rounded-xl border border-gray-200 p-8">
+          <h2 className="text-3xl font-bold text-volusia-navy mb-4 font-display">📖 Human README</h2>
+          <p className="text-volusia-slate leading-relaxed mb-6">
+            Welcome to Project Volusia. This portal provides open, free data for everyone.
+            Browse indicators, explore maps, and discover Volusia County's economic landscape.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <div className="p-4 bg-gray-50 rounded-lg">
+              <h3 className="font-bold text-volusia-navy mb-2">Getting Started</h3>
+              <p className="text-sm text-volusia-slate">1. Browse <a href="/data" className="text-volusia-teal underline">Data Explorer</a> for indicators</p>
+              <p className="text-sm text-volusia-slate">2. Explore <a href="/maps" className="text-volusia-teal underline">Interactive Maps</a> for geography</p>
+              <p className="text-sm text-volusia-slate">3. Check <a href="/business" className="text-volusia-teal underline">Business</a> for economic data</p>
+              <p className="text-sm text-volusia-slate">4. Visit <a href="/tourists" className="text-volusia-teal underline">Tourists</a> for visitor insights</p>
+            </div>
+            <div className="p-4 bg-gray-50 rounded-lg">
+              <h3 className="font-bold text-volusia-navy mb-2">Features</h3>
+              <p className="text-sm text-volusia-slate">✅ 28+ Live Indicators</p>
+              <p className="text-sm text-volusia-slate">✅ 18 Map Layers with GeoJSON</p>
+              <p className="text-sm text-volusia-slate">✅ Hourly Auto-Refresh</p>
+              <p className="text-sm text-volusia-slate">✅ Gamification with XP Tracking</p>
+              <p className="text-sm text-volusia-slate">✅ Real CVB Hotel Data</p>
+              <p className="text-sm text-volusia-slate">✅ Open Source (MIT License)</p>
+            </div>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <Badge variant="info">MIT License</Badge>
+            <Badge variant="success">Free & Open</Badge>
+            <Badge variant="warning">No Paywall</Badge>
+            <Badge variant="default">Community Driven</Badge>
+          </div>
+        </div>
+      </section>
+
+      {/* AI Agent README */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="bg-volusia-navy text-white rounded-xl p-8">
+          <h2 className="text-3xl font-bold mb-4 font-display">🤖 AI Agent README</h2>
+          <p className="text-gray-300 leading-relaxed mb-6">
+            This portal provides structured, machine-readable data for AI agents and automated systems.
+            All endpoints return JSON. All indicators are normalized with consistent naming.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="p-4 bg-gray-800 rounded-lg">
+              <h3 className="font-bold text-volusia-gold mb-2">API Endpoints</h3>
+              <code className="text-xs text-gray-300 block mb-1">GET /api/indicators — All indicators</code>
+              <code className="text-xs text-gray-300 block mb-1">GET /api/indicators?category=Economic</code>
+              <code className="text-xs text-gray-300 block mb-1">GET /api/indicators/</code><code></code>
+              <code className="text-xs text-gray-300 block mb-1">GET /api/datasets — Dataset catalog</code>
+              <code className="text-xs text-gray-300 block mb-1">GET /api/map-layers — GeoJSON layers</code>
+              <code className="text-xs text-gray-300 block mb-1">GET /api/indicators.csv — Download CSV</code>
+            </div>
+            <div className="p-4 bg-gray-800 rounded-lg">
+              <h3 className="font-bold text-volusia-gold mb-2">Gamification API</h3>
+              <code className="text-xs text-gray-300 block mb-1">GET /api/gamification/profile/</code><code></code>
+              <code className="text-xs text-gray-300 block mb-1">POST /api/gamification/visit/</code><code></code>
+              <code className="text-xs text-gray-300 block mb-1">POST /api/gamification/xp/</code><code></code>
+              <code className="text-xs text-gray-300 block mb-1">GET /api/gamification/leaderboard</code>
+              <code className="text-xs text-gray-300 block mb-1">GET /api/gamification/stats/</code><code></code>
+              <code className="text-xs text-gray-300 block mb-1">GET /api/gamification/achievements/</code><code></code>
+            </div>
+          </div>
+          <div className="mt-6 p-4 bg-gray-800 rounded-lg">
+            <h3 className="font-bold text-volusia-gold mb-2">Data Schema</h3>
+            <code className="text-xs text-gray-300 block">indicators: [&#123;name, value, unit, category, source, source_url, vintage, description&#125;]</code>
+            <code className="text-xs text-gray-300 block">map_layers: [&#123;id, name, category, description, source, format, url, geometry&#125;]</code>
+            <code className="text-xs text-gray-300 block">datasets: [&#123;id, source, content, fetched_at&#125;]</code>
+            <code className="text-xs text-gray-300 block">gamification: [&#123;user_id, total_xp, level, streak_days, visit_count, last_visit, achievements&#125;]</code>
+          </div>
+        </div>
+      </section>
     </div>
   )
 }
