@@ -8,7 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import PlainTextResponse, JSONResponse
 from gamification import get_gamification_routes, _init_gamification_db
 
-DB_PATH = Path(__file__).parent / "data" / "volusia.db"
+DB_PATH = Path(__file__).resolve().parent.parent / "data" / "volusia.db"
 app = FastAPI(title="Project Volusia API", version="3.0.0")
 # Initialize gamification tables
 conn = sqlite3.connect(str(DB_PATH)); _init_gamification_db(conn); conn.close()
