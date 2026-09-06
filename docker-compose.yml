@@ -1,6 +1,4 @@
-# Project Volusia — Docker Compose v3
-version: '3.8'
-
+# Project Volusia — Docker Compose
 services:
   frontend:
     build:
@@ -8,6 +6,12 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:80"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
     depends_on:
       - backend
     environment:
@@ -19,6 +23,12 @@ services:
       dockerfile: Dockerfile.backend
     ports:
       - "8000:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
     volumes:
       - ./data:/app/data
     environment:

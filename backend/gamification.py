@@ -7,9 +7,9 @@ from typing import Optional
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.responses import JSONResponse
 import sqlite3, json
-from pathlib import Path as _Path
+from pathlib import Path
 
-DB_PATH = _Path(__file__).parent / "data" / "volusia.db"
+DB_PATH = Path(__file__).resolve().parent.parent / "data" / "volusia.db"
 
 # ---------------------------------------------------------------------------
 # XP multipliers — tied to data-source difficulty (mirrors refresh_v2.py)

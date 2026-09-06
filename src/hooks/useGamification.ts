@@ -54,7 +54,7 @@ export function useGamification(userId: string) {
   const [visitResult, setVisitResult] = useState<VisitResult | null>(null)
 
   const visitPage = async (page: string) => {
-    const res = await fetch(`/api/gamification/visit/${userId}`, {
+    const res = await fetch(`/gamification/visit/${userId}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ page }),
@@ -65,7 +65,7 @@ export function useGamification(userId: string) {
   }
 
   const addXP = async (action: string, source: string = '') => {
-    const res = await fetch(`/api/gamification/xp/${userId}`, {
+    const res = await fetch(`/gamification/xp/${userId}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ action, source }),

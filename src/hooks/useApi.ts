@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-const API_BASE = '/data'
+const API_BASE = ''
 
 export function useApiData<T>(endpoint: string) {
   const [data, setData] = useState<T | null>(null)
@@ -16,16 +16,69 @@ export function useApiData<T>(endpoint: string) {
   return { data, loading, error }
 }
 
-export function useAllIndicators() { return useApiData<any>('/indicators.json') }
-export function useEconomicIndicators() { return useApiData<any>('/economic.json') }
-export function useDemographicIndicators() { return useApiData<any>('/demographics.json') }
-export function useClimateIndicators() { return useApiData<any>('/climate.json') }
-export function useDatasets() { return useApiData<any>('/datasets.json') }
-export function useMapLayers() { return useApiData<any>('/map-layers.json') }
-export function useNews() { return useApiData<any>('/news.json') }
-export function useHealth() { return useApiData<any>('/health.json') }
+export function useAllIndicators() { return useApiData<any>('/indicators') }
+export function useEconomicIndicators() { return useApiData<any>('/indicators?category=Economic') }
+export function useDemographicIndicators() { return useApiData<any>('/indicators?category=Demographics') }
+export function useClimateIndicators() { return useApiData<any>('/indicators?category=Climate') }
+export function useDatasets() { return useApiData<any>('/datasets') }
+export function useMapLayers() { return useApiData<any>('/map-layers') }
+export function useGamification(userId: string) {
+  const [data, setData] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
+  const visitPage = () => {
+    fetch(`/gamification/visit/${userId}`, { method: 'POST' })
+      .then((res) => res.json())
+      .then(setData)
+      .catch(() => {})
+  }
+  return { data, loading, visitPage }
+}
+export function useGamificationStats(userId: string) {
+  const [stats, setStats] = useState<any>(null)
+  const [totalUsers, setTotalUsers] = useState(0)
+  const [avgXp, setAvgXp] = useState(0)
+  const [avgLevel, setAvgLevel] = useState(0)
+  const [loading, setLoading] = useState(true)
+  useEffect(() => {
+    fetch(`/gamification/stats/${userId}`)
+      .then((res) => res.json())
+      .then((d) => {
+        setStats(d)
+        setTotalUsers(d.total_users || 0)
+        setAvgXp(d.avg_xp || 0)
+        setAvgLevel(d.avg_level || 0)
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false))
+  }, [userId])
+  return { stats, totalUsers, avgXp, avgLevel, loading }
+}
+export function useLeaderboard() { return useApiData<any>('/gamification/leaderboard') }
 export function useDownloadCSV(category?: string) {
-  const url = category ? `/data/indicators.csv?category=${category}` : '/data/indicators.csv'
+  const url = category ? `/indicators.csv?category=${category}` : '/indicators.csv'
   return () => window.open(url, '_blank')
 }
-export function useIndicator(name: string) { return useApiData<any>(`/indicators/${encodeURIComponent(name)}`) }
+export function useDiagnostics() {
+  const [diagnostics, setDiagnostics] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
+  useEffect(() => {
+    fetch('/api/diagnostics')
+      .then((res) => res.json())
+      .then((d) => { setDiagnostics(d); setLoading(false) })
+      .catch(() => setLoading(false))
+  }, [])
+  return { diagnostics, loading }
+}
+
+export function useIndicator(name: string) {
+  const [data, setData] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
+  useEffect(() => {
+    fetch(`/indicators/${name}`)
+      .then((res) => res.json())
+      .then(setData)
+      .catch(() => {})
+      .finally(() => setLoading(false))
+  }, [name])
+  return { data, loading }
+}
