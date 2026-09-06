@@ -340,4 +340,34 @@ def get_gamification_routes(app: FastAPI):
             conn.close()
             raise
 
+    @app.get("/gamification/stats/{user_id}")
+    def stats(user_id: str):
+        conn = sqlite3.connect(str(DB_PATH))
+        conn.row_factory = sqlite3.Row
+        try:
+            cur = conn.cursor()
+            # Total users
+            cur.execute("SELECT COUNT(*) FROM gamification")
+            total_users = cur.fetchone()[0]
+            # Average stats
+            cur.execute("SELECT AVG(total_xp), AVG(level), AVG(streak_days) FROM gamification")
+            row = cur.fetchone()
+            avg_xp = round(row[0] or 0, 1)
+            avg_level = round(row[1] or 0, 1)
+            avg_streak = round(row[2] or 0, 1)
+            # Total visits = count distinct users with pages_visited
+            cur.execute("SELECT COUNT(*) FROM gamification")
+            total_visits = cur.fetchone()[0]
+            conn.close()
+            return {
+                "total_users": total_users,
+                "avg_xp": avg_xp,
+                "avg_level": avg_level,
+                "avg_streak": avg_streak,
+                "total_visits": total_visits,
+            }
+        except Exception:
+            conn.close()
+            raise
+
     return get_gamification_routes

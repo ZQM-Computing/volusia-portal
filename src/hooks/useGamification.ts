@@ -87,3 +87,23 @@ export function useGamification(userId: string) {
     loading: profileLoading,
   }
 }
+
+export function useGamificationStats(userId: string) {
+  const { data, loading, error } = useApiData<{
+    total_users: number
+    avg_xp: number
+    avg_level: number
+    avg_streak: number
+    total_visits: number
+  }>(`/gamification/stats/${userId}`)
+  return {
+    stats: data,
+    loading,
+    error,
+    totalUsers: data?.total_users ?? 0,
+    avgXp: data?.avg_xp ?? 0,
+    avgLevel: data?.avg_level ?? 0,
+    avgStreak: data?.avg_streak ?? 0,
+    totalVisits: data?.total_visits ?? 0,
+  }
+}
