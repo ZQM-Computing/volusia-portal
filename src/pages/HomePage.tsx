@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useEconomicIndicators, useDemographicIndicators, useClimateIndicators, useDatasets, useIndicator, useMapLayers } from '../hooks/useApi'
-import { useGamification } from '../hooks/useGamification'
+import { useGamification, useGamificationStats } from '../hooks/useGamification'
 import { StatCard, Card, SectionTitle, Badge } from '../components/UI'
 import { ResponsiveLine } from '@nivo/line'
 import { ResponsiveBar } from '@nivo/bar'
@@ -13,6 +13,7 @@ export function HomePage() {
   const { data: mapLayers } = useMapLayers()
   const { data: datasets } = useDatasets()
   const { visitPage } = useGamification('anonymous')
+  const { stats, totalUsers, avgXp, avgLevel } = useGamificationStats('anonymous')
   const [visitedHero, setVisitedHero] = useState(false)
 
   useEffect(() => { visitPage('home'); }, [])
@@ -151,6 +152,69 @@ export function HomePage() {
               ) : (
                 <div className="h-48 flex items-center justify-center text-sm text-gray-400">No trend data available</div>
               )}
+            </Card>
+          </div>
+        </section>
+      )}
+
+{/* Community Activity */}
+      {stats && (
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="bg-volusia-navy text-white rounded-xl p-8">
+            <h2 className="text-2xl font-bold mb-6 font-display">Community Activity</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="text-center">
+                <div className="text-3xl font-bold text-volusia-gold">{totalUsers}</div>
+                <div className="text-sm text-gray-300 mt-1">Active Users</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-volusia-gold">{Math.round(avgLevel)}</div>
+                <div className="text-sm text-gray-300 mt-1">Avg Level</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-volusia-gold">{Math.round(avgXp)}</div>
+                <div className="text-sm text-gray-300 mt-1">Avg XP</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-volusia-gold">{stats.total_visits}</div>
+                <div className="text-sm text-gray-300 mt-1">Total Visits</div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+{/* Map Preview */}
+      {mapLayers && mapLayers.length > 0 && (
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <SectionTitle title="Live Map Coverage" subtitle={`${mapLayers.length} layers across Volusia County`} />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <Card hover className="cursor-pointer">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-lg bg-volusia-teal/20 flex items-center justify-center text-volusia-teal">🗺️</div>
+                <div>
+                  <div className="font-bold text-volusia-navy">County Boundary</div>
+                  <div className="text-xs text-volusia-slate">MultiPolygon — Full coverage</div>
+                </div>
+              </div>
+            </Card>
+            <Card hover className="cursor-pointer">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-lg bg-volusia-blue/20 flex items-center justify-center text-volusia-blue">🏖️</div>
+                <div>
+                  <div className="font-bold text-volusia-navy">Beach Access Points</div>
+                  <div className="text-xs text-volusia-slate">{mapLayers.filter((l: any) => l.category === 'Beach Access Points').length} points</div>
+                </div>
+              </div>
+            </Card>
+            <Card hover className="cursor-pointer">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-lg bg-volusia-purple/20 flex items-center justify-center text-volusia-purple">🌊</div>
+                <div>
+                  <div className="font-bold text-volusia-navy">Water Bodies</div>
+                  <div className="text-xs text-volusia-slate">{mapLayers.filter((l: any) => l.category === 'Water Bodies').length} features</div>
+                </div>
+              </div>
             </Card>
           </div>
         </section>
