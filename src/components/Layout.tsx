@@ -22,74 +22,98 @@ export function Header() {
   const { stats, totalUsers, avgXp, avgLevel } = useGamificationStats('anonymous')
   const [mobileOpen, setMobileOpen] = useState(false)
 
+  const pageTitles: Record<string, string> = {
+    '/': 'Portal Home',
+    '/data': 'Data Explorer',
+    '/maps': 'Interactive Maps',
+    '/business': 'Business Tools',
+    '/residents': 'Resident Data',
+    '/tourists': 'Tourist Information',
+    '/leaders': 'Investor Data Room',
+    '/gamification': 'Gamification Hub',
+  }
+
+  const currentPageTitle = pageTitles[location.pathname] || 'Project Volusia'
+
   return (
-    <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <Link to="/" className="flex items-center space-x-3 no-underline">
-            <div className="w-10 h-10 rounded-lg bg-volusia-teal flex items-center justify-center text-volusia-gold font-bold text-xl">
-              V
-            </div>
-            <div className="flex flex-col">
-              <span className="text-volusia-navy font-bold text-lg leading-tight">Project Volusia</span>
-              <span className="text-xs text-volusia-slate">Open Intelligence Portal</span>
-            </div>
-          </Link>
+    <>
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-volusia-teal text-white px-4 py-2 rounded z-[100]">Skip to content</a>
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <Link to="/" className="flex items-center space-x-3 no-underline">
+              <div className="w-10 h-10 rounded-lg bg-volusia-teal flex items-center justify-center text-volusia-gold font-bold text-xl">
+                V
+              </div>
+              <div className="flex flex-col">
+                <span className="text-volusia-navy font-bold text-lg leading-tight">Project Volusia</span>
+                <span className="text-xs text-volusia-slate">Open Intelligence Portal</span>
+              </div>
+            </Link>
 
-          <GamificationWidget userId="anonymous" />
-          <div className="hidden lg:flex items-center space-x-4 text-xs text-volusia-slate">
-            {totalUsers > 0 && (
-              <span>Community: {totalUsers} users &middot; Avg Level {Math.round(avgLevel)} &middot; Avg XP {Math.round(avgXp)}</span>
+            {currentPageTitle && location.pathname !== '/' && (
+              <div className="hidden md:block ml-4">
+                <span className="text-sm font-medium text-volusia-slate">{currentPageTitle}</span>
+              </div>
             )}
-          </div>
-          <nav className="hidden lg:flex items-center space-x-1">
-            {navLinks.map((link) => (
-              <Link
-                key={link.to}
-                to={link.to}
-                className={`nav-link text-sm ${location.pathname === link.to ? 'nav-link-active' : ''}`}
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
 
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="lg:hidden p-2 rounded-md text-volusia-slate hover:text-volusia-teal"
-            aria-label="Toggle menu"
-          >
-            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              {mobileOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            <GamificationWidget userId="anonymous" />
+            <div className="hidden lg:flex items-center space-x-4 text-xs text-volusia-slate">
+              {totalUsers > 0 && (
+                <span>Community: {totalUsers} users · Avg Level {Math.round(avgLevel)} · Avg XP {Math.round(avgXp)}</span>
               )}
-            </svg>
-          </button>
-        </div>
-
-        <div className="lg:hidden pb-2">
-          <GamificationWidget userId="anonymous" />
-        </div>
-        {mobileOpen && (
-          <div className="lg:hidden pb-4 border-t border-gray-100">
-            <div className="flex flex-col space-y-1 pt-2">
+            </div>
+            <nav className="hidden lg:flex items-center space-x-1">
               {navLinks.map((link) => (
                 <Link
                   key={link.to}
                   to={link.to}
-                  onClick={() => setMobileOpen(false)}
                   className={`nav-link text-sm ${location.pathname === link.to ? 'nav-link-active' : ''}`}
+                  tabIndex={0}
+                  onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); window.location.href = link.to; } }}
                 >
                   {link.label}
                 </Link>
               ))}
-            </div>
+            </nav>
+
+            <button
+              onClick={() => setMobileOpen(!mobileOpen)}
+              className="lg:hidden p-2 rounded-md text-volusia-slate hover:text-volusia-teal"
+              aria-label="Toggle menu"
+            >
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                {mobileOpen ? (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                )}
+              </svg>
+            </button>
           </div>
-        )}
-      </div>
-    </header>
+
+          <div className="lg:hidden pb-2">
+            <GamificationWidget userId="anonymous" />
+          </div>
+          {mobileOpen && (
+            <div className="lg:hidden pb-4 border-t border-gray-100">
+              <div className="flex flex-col space-y-1 pt-2">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.to}
+                    to={link.to}
+                    onClick={() => setMobileOpen(false)}
+                    className={`nav-link text-sm ${location.pathname === link.to ? 'nav-link-active' : ''}`}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </header>
+    </>
   )
 }
 

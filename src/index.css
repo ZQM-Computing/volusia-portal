@@ -39,10 +39,24 @@
   .stat-label {
     @apply text-sm text-volusia-slate mt-1;
   }
+  .sr-only {
+    @apply absolute w-px h-px p-0 -m-px overflow-hidden whitespace-nowrap border-0;
+  }
+  .sr-only:focus {
+    @apply relative w-auto h-auto p-2 bg-volusia-teal text-white rounded z-[100];
+  }
   .nav-link {
     @apply text-volusia-slate hover:text-volusia-teal transition-colors duration-150 px-3 py-2 rounded;
   }
   .nav-link-active {
     @apply text-volusia-teal font-medium bg-volusia-teal/10;
   }
+  .nav-link-accent-home { border-bottom: 2px solid #0d9488; }
+  .nav-link-accent-data { border-bottom: 2px solid #3b82f6; }
+  .nav-link-accent-maps { border-bottom: 2px solid #8b5cf6; }
+  .nav-link-accent-business { border-bottom: 2px solid #f59e0b; }
+  .nav-link-accent-residents { border-bottom: 2px solid #10b981; }
+  .nav-link-accent-tourists { border-bottom: 2px solid #ec4899; }
+  .nav-link-accent-leaders { border-bottom: 2px solid #6366f1; }
+  .nav-link-accent-gamification { border-bottom: 2px solid #f43f5e; }
 }
