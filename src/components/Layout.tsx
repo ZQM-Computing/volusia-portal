@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Card, SectionTitle, Badge } from '../components/UI'
 import { GamificationWidget } from '../components/GamificationWidget'
+import { useGamificationStats } from '../hooks/useGamification'
 import { AchievementBoard } from '../components/AchievementBoard'
 import { Leaderboard } from '../components/Leaderboard'
 
@@ -18,6 +19,7 @@ const navLinks = [
 
 export function Header() {
   const location = useLocation()
+  const { stats, totalUsers, avgXp, avgLevel } = useGamificationStats('anonymous')
   const [mobileOpen, setMobileOpen] = useState(false)
 
   return (
@@ -35,6 +37,11 @@ export function Header() {
           </Link>
 
           <GamificationWidget userId="anonymous" />
+          <div className="hidden lg:flex items-center space-x-4 text-xs text-volusia-slate">
+            {totalUsers > 0 && (
+              <span>Community: {totalUsers} users &middot; Avg Level {Math.round(avgLevel)} &middot; Avg XP {Math.round(avgXp)}</span>
+            )}
+          </div>
           <nav className="hidden lg:flex items-center space-x-1">
             {navLinks.map((link) => (
               <Link

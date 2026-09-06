@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useGamification } from '../hooks/useGamification'
-import { useDemographicIndicators, useEconomicIndicators } from '../hooks/useApi'
+import { useDemographicIndicators, useEconomicIndicators, useClimateIndicators, useDownloadCSV } from '../hooks/useApi'
 import { Card, SectionTitle, Badge, DataSource, StatCard } from '../components/UI'
 import { ResponsiveLine } from '@nivo/line'
 
-export function ResidentsPage() {  const { visitPage } = useGamification('anonymous')
+export function ResidentsPage() {
+  const { visitPage } = useGamification('anonymous')
 
   useEffect(() => { visitPage("residents"); }, [])
 

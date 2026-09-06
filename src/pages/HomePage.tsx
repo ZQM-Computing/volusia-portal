@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { useEconomicIndicators, useDemographicIndicators, useClimateIndicators, useDatasets, useIndicator } from '../hooks/useApi'
+import { useState, useEffect } from 'react'
+import { useEconomicIndicators, useDemographicIndicators, useClimateIndicators, useDatasets, useIndicator, useMapLayers } from '../hooks/useApi'
 import { useGamification } from '../hooks/useGamification'
 import { StatCard, Card, SectionTitle, Badge } from '../components/UI'
 import { ResponsiveLine } from '@nivo/line'
@@ -10,9 +10,12 @@ export function HomePage() {
   const { data: demographics, loading: demoLoading } = useDemographicIndicators()
   const climate = useClimateIndicators()
   const climateIndicators = climate.data?.indicators ?? climate.data ?? null
+  const { data: mapLayers } = useMapLayers()
   const { data: datasets } = useDatasets()
   const { visitPage } = useGamification('anonymous')
   const [visitedHero, setVisitedHero] = useState(false)
+
+  useEffect(() => { visitPage('home'); }, [])
 
   const loading = econLoading || demoLoading || climate.loading
 

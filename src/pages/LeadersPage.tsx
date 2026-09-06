@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react'
 import { useGamification } from '../hooks/useGamification'
-import { useEconomicIndicators } from '../hooks/useApi'
+import { useEconomicIndicators, useDemographicIndicators, useClimateIndicators } from '../hooks/useApi'
 import { Card, SectionTitle, Badge, DataSource, StatCard } from '../components/UI'
 import { ResponsiveBar } from '@nivo/bar'
 import { ResponsivePie } from '@nivo/pie'
 
-export function LeadersPage() {  const { visitPage } = useGamification('anonymous')
+export function LeadersPage() {
+  const { visitPage } = useGamification('anonymous')
 
   useEffect(() => { visitPage("leaders"); }, [])
 

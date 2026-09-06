@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react'
 import { useGamification } from '../hooks/useGamification'
-import { useDatasets, useIndicator } from '../hooks/useApi'
+import { useDatasets, useIndicator, useMapLayers, useDownloadCSV } from '../hooks/useApi'
 import { Card, SectionTitle, Badge, DataSource } from '../components/UI'
 import { ResponsiveLine } from '@nivo/line'
 import { ResponsiveBar } from '@nivo/bar'
 
-export function DataExplorerPage() {  const { visitPage } = useGamification('anonymous')
+export function DataExplorerPage() {
+  const { visitPage } = useGamification('anonymous')
+
+  useEffect(() => { visitPage('data'); }, [])
 
   const [searchTerm, setSearchTerm] = useState('')
   const [categoryFilter, setCategoryFilter] = useState<string>('all')
@@ -14,6 +17,8 @@ export function DataExplorerPage() {  const { visitPage } = useGamification('ano
   const { data: datasets, loading: dsLoading } = useDatasets()
   const unemployment = useIndicator('unemployment_rate_acs')
   const income = useIndicator('median_household_income_acs')
+  const { data: mapLayers } = useMapLayers()
+  const downloadCSV = useDownloadCSV()
 
   const items = datasets?.datasets ?? datasets ?? []
   const categories = ['all', ...new Set(items.map((d: any) => d.category))]
