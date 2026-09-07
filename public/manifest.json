@@ -1,0 +1,22 @@
+{
+  "name": "Project Volusia",
+  "short_name": "Volusia",
+  "description": "Open Intelligence & Data-Driven Decision-Making for Volusia County, Florida",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f5f0e6",
+  "theme_color": "#0f1b2d",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "categories": [
+    "business",
+    "data"
+  ],
+  "author": "ZQM Labs",
+  "lang": "en"
+}
