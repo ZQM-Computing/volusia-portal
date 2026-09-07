@@ -213,7 +213,9 @@ def get_gamification_routes(app: FastAPI):
                 "profile": "/gamification/profile/{user_id}",
                 "missions": "/gamification/missions",
                 "contribute": "/gamification/contribute (POST)",
-                "pulse": "/gamification/pulse"
+                "pulse": "/gamification/pulse",
+                "visit": "/gamification/visit/{user_id} (POST)",
+                "stats": "/gamification/stats/{user_id}"
             }
         }
 

@@ -36,14 +36,14 @@ export function useGamification(userId: string = 'anonymous') {
   const [pulse, setPulse] = useState<any[]>([])
   
   const visitPage = () => {
-    fetch(`/gamification/visit/${userId}`, { method: 'POST' })
+    fetch(`/gamification/visit/${userId}`, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({page: window.location.pathname}) })
       .then((res) => res.json())
       .then(setData)
       .catch(() => {})
   }
   
   useEffect(() => {
-    fetch('/data/pulse.json')
+    fetch('/pulse.json')
       .then((res) => res.json())
       .then(setPulse)
       .catch(() => {})
