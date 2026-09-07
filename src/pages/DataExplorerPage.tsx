@@ -1,14 +1,11 @@
 import { useState, useEffect } from 'react'
-import { useGamification } from '../hooks/useGamification'
 import { useDatasets, useIndicator, useMapLayers, useDownloadCSV } from '../hooks/useApi'
 import { Card, SectionTitle, Badge, DataSource } from '../components/UI'
 import { ResponsiveLine } from '@nivo/line'
 import { ResponsiveBar } from '@nivo/bar'
 
 export function DataExplorerPage() {
-  const { visitPage } = useGamification('anonymous')
-
-  useEffect(() => { visitPage('data'); }, [])
+  
 
   const [searchTerm, setSearchTerm] = useState('')
   const [categoryFilter, setCategoryFilter] = useState<string>('all')

@@ -1,10 +1,7 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Card, SectionTitle, Badge } from '../components/UI'
-import { GamificationWidget } from '../components/GamificationWidget'
 import { useGamificationStats, useDiagnostics } from '../hooks/useApi'
-import { AchievementBoard } from '../components/AchievementBoard'
-import { Leaderboard } from '../components/Leaderboard'
 
 const navLinks = [
   { to: '/', label: 'Portal Home' },
@@ -58,8 +55,7 @@ export function Header() {
               </div>
             )}
 
-            <GamificationWidget userId="anonymous" />
-            <div className="hidden lg:flex items-center space-x-4 text-xs text-volusia-slate">
+                        <div className="hidden lg:flex items-center space-x-4 text-xs text-volusia-slate">
               {totalUsers > 0 && (
                 <span>Community: {totalUsers} users · Avg Level {Math.round(avgLevel)} · Avg XP {Math.round(avgXp)}</span>
               )}
@@ -94,8 +90,7 @@ export function Header() {
           </div>
 
           <div className="lg:hidden pb-2">
-            <GamificationWidget userId="anonymous" />
-          </div>
+                      </div>
           {mobileOpen && (
             <div className="lg:hidden pb-4 border-t border-gray-100">
               <div className="flex flex-col space-y-1 pt-2">

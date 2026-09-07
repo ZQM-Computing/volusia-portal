@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { useEconomicIndicators, useDemographicIndicators, useClimateIndicators, useDatasets, useMapLayers, useDownloadCSV } from '../hooks/useApi'
-import { useGamification, useGamificationStats } from '../hooks/useGamification'
 import { StatCard, Card, SectionTitle, Badge } from '../components/UI'
 import { ResponsiveLine } from '@nivo/line'
 import { ResponsiveBar } from '@nivo/bar'
@@ -12,11 +11,8 @@ export function HomePage() {
   const climateIndicators = climate.data?.indicators ?? climate.data ?? null
   const { data: mapLayers } = useMapLayers()
   const { data: datasets } = useDatasets()
-  const { visitPage } = useGamification('anonymous')
-  const { stats, totalUsers, avgXp, avgLevel } = useGamificationStats('anonymous')
   const [visitedHero, setVisitedHero] = useState(false)
 
-  useEffect(() => { visitPage('home'); }, [])
 
   const loading = econLoading || demoLoading || climate.loading
 
@@ -42,7 +38,6 @@ export function HomePage() {
 
   const handleVisit = (page: string) => {
     if (!visitedHero) {
-      visitPage(page)
       setVisitedHero(true)
     }
   }
@@ -157,32 +152,7 @@ export function HomePage() {
         </section>
       )}
 
-{/* Community Activity */}
-      {stats && (
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="bg-volusia-navy text-white rounded-xl p-8">
-            <h2 className="text-2xl font-bold mb-6 font-display">Community Activity</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-volusia-gold">{totalUsers}</div>
-                <div className="text-sm text-gray-300 mt-1">Active Users</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-volusia-gold">{Math.round(avgLevel)}</div>
-                <div className="text-sm text-gray-300 mt-1">Avg Level</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-volusia-gold">{Math.round(avgXp)}</div>
-                <div className="text-sm text-gray-300 mt-1">Avg XP</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-volusia-gold">{stats.total_visits}</div>
-                <div className="text-sm text-gray-300 mt-1">Total Visits</div>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
+
 
 {/* Map Preview */}
       {mapLayers && mapLayers.length > 0 && (
@@ -311,7 +281,6 @@ export function HomePage() {
               <p className="text-sm text-volusia-slate">✅ 28+ Live Indicators</p>
               <p className="text-sm text-volusia-slate">✅ 18 Map Layers with GeoJSON</p>
               <p className="text-sm text-volusia-slate">✅ Hourly Auto-Refresh</p>
-              <p className="text-sm text-volusia-slate">✅ Gamification with XP Tracking</p>
               <p className="text-sm text-volusia-slate">✅ Real CVB Hotel Data</p>
               <p className="text-sm text-volusia-slate">✅ Open Source (MIT License)</p>
             </div>
@@ -344,13 +313,6 @@ export function HomePage() {
               <code className="text-xs text-gray-300 block mb-1">GET /api/indicators.csv — Download CSV</code>
             </div>
             <div className="p-4 bg-gray-800 rounded-lg">
-              <h3 className="font-bold text-volusia-gold mb-2">Gamification API</h3>
-              <code className="text-xs text-gray-300 block mb-1">GET /api/gamification/profile/</code><code></code>
-              <code className="text-xs text-gray-300 block mb-1">POST /api/gamification/visit/</code><code></code>
-              <code className="text-xs text-gray-300 block mb-1">POST /api/gamification/xp/</code><code></code>
-              <code className="text-xs text-gray-300 block mb-1">GET /api/gamification/leaderboard</code>
-              <code className="text-xs text-gray-300 block mb-1">GET /api/gamification/stats/</code><code></code>
-              <code className="text-xs text-gray-300 block mb-1">GET /api/gamification/achievements/</code><code></code>
             </div>
           </div>
           <div className="mt-6 p-4 bg-gray-800 rounded-lg">
@@ -358,7 +320,6 @@ export function HomePage() {
             <code className="text-xs text-gray-300 block">indicators: [&#123;name, value, unit, category, source, source_url, vintage, description&#125;]</code>
             <code className="text-xs text-gray-300 block">map_layers: [&#123;id, name, category, description, source, format, url, geometry&#125;]</code>
             <code className="text-xs text-gray-300 block">datasets: [&#123;id, source, content, fetched_at&#125;]</code>
-            <code className="text-xs text-gray-300 block">gamification: [&#123;user_id, total_xp, level, streak_days, visit_count, last_visit, achievements&#125;]</code>
           </div>
         </div>
       </section>

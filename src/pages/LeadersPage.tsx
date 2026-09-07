@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { useGamification } from '../hooks/useGamification'
 import { useLeaderboard } from '../hooks/useApi'
 import { useEconomicIndicators, useDemographicIndicators, useClimateIndicators } from '../hooks/useApi'
 import { Card, SectionTitle, Badge, DataSource, StatCard } from '../components/UI'
@@ -7,10 +6,8 @@ import { ResponsiveBar } from '@nivo/bar'
 import { ResponsivePie } from '@nivo/pie'
 
 export function LeadersPage() {
-  const { visitPage } = useGamification('anonymous')
-  const { data: leaderboard } = useLeaderboard()
+    const { data: leaderboard } = useLeaderboard()
 
-  useEffect(() => { visitPage("leaders"); }, [])
 
   const { data: economic, loading } = useEconomicIndicators()
   const getIndicator = (items: any[] | null, name: string) => {
