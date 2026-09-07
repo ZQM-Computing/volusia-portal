@@ -20,7 +20,7 @@
     "source": "C2ER (cached)",
     "source_url": "https://www.c2er.org/",
     "vintage": "2025Q1",
-    "fetched_at": "2026-09-07T15:10:54.631600",
+    "fetched_at": "2026-09-07T17:52:02.853472",
     "description": "Cost of living index (overall)"
   },
   {
@@ -32,7 +32,7 @@
     "source": "C2ER (cached)",
     "source_url": "https://www.c2er.org/",
     "vintage": "2025Q1",
-    "fetched_at": "2026-09-07T15:10:54.635607",
+    "fetched_at": "2026-09-07T17:52:02.856390",
     "description": "Cost of living index (housing)"
   },
   {
@@ -65,10 +65,10 @@
     "value": "66581",
     "unit": "dollars",
     "category": "Economic",
-    "source": "Census ACS DP03",
+    "source": "US Census ACS 5-Year",
     "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2023.DP03",
     "vintage": "2023",
-    "fetched_at": "2026-09-07T15:10:52.428793",
+    "fetched_at": "2026-09-07T17:52:01.494357",
     "description": "Median household income"
   },
   {
@@ -82,18 +82,6 @@
     "vintage": "2024",
     "fetched_at": "2026-09-03T12:29:05.606593+00:00",
     "description": "Per capita personal income for Volusia County, 2024"
-  },
-  {
-    "id": 255,
-    "name": "per_capita_income_acs",
-    "value": "-888888888",
-    "unit": "dollars",
-    "category": "Economic",
-    "source": "Census ACS DP03",
-    "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2023.DP03",
-    "vintage": "2023",
-    "fetched_at": "2026-09-07T15:10:52.428793",
-    "description": "Per capita income"
   },
   {
     "id": 8,
@@ -125,10 +113,10 @@
     "value": "2.2",
     "unit": "percent",
     "category": "Economic",
-    "source": "Census ACS DP03",
+    "source": "US Census ACS 5-Year",
     "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2023.DP03",
     "vintage": "2023",
-    "fetched_at": "2026-09-07T15:10:52.428793",
+    "fetched_at": "2026-09-07T17:52:01.508510",
     "description": "Poverty rate"
   },
   {
@@ -137,10 +125,10 @@
     "value": "4.0",
     "unit": "percent",
     "category": "Economic",
-    "source": "Census ACS DP03",
+    "source": "US Census ACS 5-Year",
     "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2023.DP03",
     "vintage": "2023",
-    "fetched_at": "2026-09-07T15:10:52.428793",
+    "fetched_at": "2026-09-07T17:52:01.504196",
     "description": "Unemployment rate"
   },
   {

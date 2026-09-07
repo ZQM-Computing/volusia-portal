@@ -1,5 +1,5 @@
 """
-Project Volusia — Data Pipeline v5
+Project Volusia — Data Pipeline v6
 Fetches, validates, normalizes, and exports data from multiple public sources.
 """
 
@@ -25,6 +25,9 @@ COUNTY_CODE = "127"
 CENSUS_API_KEY = os.environ.get("CENSUS_API_KEY", "")
 BLS_API_KEY = os.environ.get("BLS_API_KEY", "")
 BEA_API_KEY = os.environ.get("BEA_API_KEY", "")
+
+# Known null values from Census API
+CENSUS_NULL_VALUES = {"(X)", "N/A", "**", "***", "null", "999999999", "888888888", "-888888888", "-999999999", "-666666666", "-222222222", "N", "X", "x", ".", " "}
 
 def http_get(url: str, timeout: int = 30) -> Optional[str]:
     """Fetch URL content with error handling."""
@@ -57,9 +60,28 @@ def db_exec(sql: str, params=()):
     finally:
         conn.close()
 
+def is_valid_value(val: str) -> bool:
+    """Check if a value is valid (not a Census null marker)."""
+    if val is None:
+        return False
+    val = str(val).strip()
+    if val in CENSUS_NULL_VALUES:
+        return False
+    try:
+        f = float(val)
+        if f < -999999990 or f > 999999990:
+            return False
+        return True
+    except ValueError:
+        return False
+
 def upsert_indicator(name: str, value: str, unit: str, category: str, 
                      source: str, source_url: str, vintage: str, description: str):
     """Insert or update an indicator with normalized category."""
+    if not is_valid_value(value):
+        print(f"  Skipping {name}: invalid value {value}")
+        return
+    
     # Normalize category
     category = category.strip().title()
     if category in ("Economy", "Economic"):
@@ -83,6 +105,21 @@ def upsert_indicator(name: str, value: str, unit: str, category: str,
     elif category in ("Business", "Commerce", "Industry"):
         category = "Business"
     
+    # Normalize source names
+    source = source.strip()
+    if "Census ACS" in source:
+        source = "US Census ACS 5-Year"
+    elif "Census PEP" in source:
+        source = "US Census PEP"
+    elif "BLS LAUS" in source:
+        source = "BLS LAUS"
+    elif "BLS QCEW" in source:
+        source = "BLS QCEW"
+    elif "BEA" in source:
+        source = "BEA Regional"
+    elif "NOAA" in source:
+        source = "NOAA NCEI"
+    
     db_exec("""INSERT INTO indicators (name, value, unit, category, source, source_url, vintage, fetched_at, description) 
                VALUES (?,?,?,?,?,?,?,?,?) 
                ON CONFLICT(name) DO UPDATE SET 
@@ -104,7 +141,7 @@ def fetch_census_pep():
         if row.get("STATE") == STATE_FIPS and row.get("COUNTY") == COUNTY_CODE:
             year = row.get("YEAR", "2024")
             pop = row.get("POPESTIMATE")
-            if pop:
+            if pop and is_valid_value(pop):
                 upsert_indicator(
                     f"total_population_pep_{year}",
                     pop, "persons", "Demographics",
@@ -135,7 +172,7 @@ def fetch_census_acs():
             
             for key, (name, unit, desc) in mappings.items():
                 val = r.get(key)
-                if val and val not in ("(X)", "N/A", "**", "***", "null"):
+                if val and is_valid_value(val):
                     try:
                         float(val)
                         upsert_indicator(name, val, unit, "Economic", 
@@ -159,7 +196,7 @@ def fetch_census_acs():
             
             for key, (name, unit, desc) in mappings.items():
                 val = r.get(key)
-                if val and val not in ("(X)", "N/A", "**", "***", "null"):
+                if val and is_valid_value(val):
                     try:
                         float(val)
                         upsert_indicator(name, val, unit, "Demographics",
@@ -184,7 +221,7 @@ def fetch_bls_laus():
                     rate = latest.get("value")
                     period = latest.get("periodName", "")
                     year = latest.get("year", "")
-                    if rate:
+                    if rate and is_valid_value(rate):
                         upsert_indicator(
                             "unemployment_rate_bls",
                             rate, "percent", "Economic",
@@ -211,13 +248,13 @@ def fetch_bls_qcew():
                 emp = latest.get("month3_emplvl")
                 wage = latest.get("avg_wkly_wage")
                 
-                if est:
+                if est and is_valid_value(est):
                     upsert_indicator("establishments_qcew", est, "establishments", "Economic",
                                    "BLS QCEW", url, "2024", "Quarterly establishments")
-                if emp:
+                if emp and is_valid_value(emp):
                     upsert_indicator("employment_qcew", emp, "employees", "Economic",
                                    "BLS QCEW", url, "2024", "Quarterly employment")
-                if wage:
+                if wage and is_valid_value(wage):
                     upsert_indicator("avg_weekly_wage_qcew", wage, "USD", "Economic",
                                    "BLS QCEW", url, "2024", "Average weekly wage")
     except Exception as e:
@@ -232,9 +269,30 @@ def fetch_noaa():
         data = http_get_json(url)
         if data and isinstance(data, list):
             if data:
-                tmax_values = [float(d.get("TMAX")) for d in data if d.get("TMAX")]
-                tmin_values = [float(d.get("TMIN")) for d in data if d.get("TMIN")]
-                prcp_values = [float(d.get("PRCP")) for d in data if d.get("PRCP")]
+                tmax_values = []
+                tmin_values = []
+                prcp_values = []
+                
+                for d in data:
+                    tmax = d.get("TMAX")
+                    tmin = d.get("TMIN")
+                    prcp = d.get("PRCP")
+                    
+                    if tmax and is_valid_value(tmax):
+                        try:
+                            tmax_values.append(float(tmax))
+                        except ValueError:
+                            pass
+                    if tmin and is_valid_value(tmin):
+                        try:
+                            tmin_values.append(float(tmin))
+                        except ValueError:
+                            pass
+                    if prcp and is_valid_value(prcp):
+                        try:
+                            prcp_values.append(float(prcp))
+                        except ValueError:
+                            pass
                 
                 if tmax_values:
                     avg_tmax = sum(tmax_values) / len(tmax_values)
@@ -280,6 +338,15 @@ def remove_duplicates():
     )""")
     print("  Duplicates removed")
 
+def remove_bad_values():
+    """Remove indicators with known bad values."""
+    print("Removing bad values...")
+    # Remove Census null markers
+    db_exec("DELETE FROM indicators WHERE value IN ('-888888888', '-999999999', '-666666666', '-222222222', '999999999', '888888888', 'null', '(X)', 'N/A', '**', '***')")
+    # Remove extreme values
+    db_exec("DELETE FROM indicators WHERE CAST(value AS REAL) < -1000000 OR CAST(value AS REAL) > 1000000000")
+    print("  Bad values removed")
+
 def clean_cvb_hotels():
     """Remove duplicate CVB hotel records."""
     print("Cleaning CVB hotels...")
@@ -287,6 +354,13 @@ def clean_cvb_hotels():
         SELECT MIN(id) FROM cvb_hotels GROUP BY month_year
     )""")
     print("  CVB hotels cleaned")
+
+def remove_duplicate_climate():
+    """Remove duplicate climate indicators (same data in different units)."""
+    print("Removing duplicate climate data...")
+    # Remove the _2024 variants that are in tenths (less useful)
+    db_exec("DELETE FROM indicators WHERE name LIKE '%_2024' AND unit LIKE 'tenths%'")
+    print("  Duplicate climate data removed")
 
 def export_json():
     """Export all indicators to JSON files."""
@@ -364,7 +438,7 @@ def export_json():
 def run_pipeline():
     """Run the full data pipeline."""
     print("=" * 60)
-    print("Project Volusia — Data Pipeline v5")
+    print("Project Volusia — Data Pipeline v6")
     print("=" * 60)
     print(f"Time: {datetime.now().isoformat()}")
     print()
@@ -380,7 +454,9 @@ def run_pipeline():
     # Clean up
     normalize_categories()
     remove_duplicates()
+    remove_bad_values()
     clean_cvb_hotels()
+    remove_duplicate_climate()
     
     # Export
     export_json()

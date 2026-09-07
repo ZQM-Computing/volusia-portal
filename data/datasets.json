@@ -7,13 +7,6 @@
     "vintage": "2025"
   },
   {
-    "id": 255,
-    "name": "per_capita_income_acs",
-    "source": "Census ACS DP03",
-    "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2023.DP03",
-    "vintage": "2023"
-  },
-  {
     "id": 234,
     "name": "revpar",
     "source": "Volusia County CVB",
@@ -86,35 +79,35 @@
   {
     "id": 44,
     "name": "median_age_acs",
-    "source": "Census ACS DP05",
+    "source": "US Census ACS 5-Year",
     "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2023.DP05",
     "vintage": "2023"
   },
   {
     "id": 43,
     "name": "total_population_acs",
-    "source": "Census ACS DP05",
+    "source": "US Census ACS 5-Year",
     "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2023.DP05",
     "vintage": "2023"
   },
   {
     "id": 42,
     "name": "poverty_rate_acs",
-    "source": "Census ACS DP03",
+    "source": "US Census ACS 5-Year",
     "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2023.DP03",
     "vintage": "2023"
   },
   {
     "id": 41,
     "name": "unemployment_rate_acs",
-    "source": "Census ACS DP03",
+    "source": "US Census ACS 5-Year",
     "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2023.DP03",
     "vintage": "2023"
   },
   {
     "id": 40,
     "name": "median_household_income_acs",
-    "source": "Census ACS DP03",
+    "source": "US Census ACS 5-Year",
     "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2023.DP03",
     "vintage": "2023"
   },
@@ -166,27 +159,6 @@
     "source": "BLS LAUS",
     "source_url": "https://www.bls.gov/lau/",
     "vintage": "July 2026"
-  },
-  {
-    "id": 6,
-    "name": "total_precip_2024",
-    "source": "NOAA NCEI",
-    "source_url": "https://www.ncei.noaa.gov/access/services/data/v1",
-    "vintage": "2024"
-  },
-  {
-    "id": 5,
-    "name": "avg_min_temp_2024",
-    "source": "NOAA NCEI",
-    "source_url": "https://www.ncei.noaa.gov/access/services/data/v1",
-    "vintage": "2024"
-  },
-  {
-    "id": 4,
-    "name": "avg_max_temp_2024",
-    "source": "NOAA NCEI",
-    "source_url": "https://www.ncei.noaa.gov/access/services/data/v1",
-    "vintage": "2024"
   },
   {
     "id": 3,
