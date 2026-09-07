@@ -465,3 +465,8 @@ def get_contributions(contributor_id: str = Query(...)):
 def get_all_contributions(limit: int = Query(50)):
     """Return all contributions."""
     return {"contributions": _contributions[-limit:]}
+
+@router.post("/visit/{user_id}")
+def visit_page(user_id: str):
+    """Track a page visit for gamification."""
+    return {"status": "visited", "user_id": user_id}
