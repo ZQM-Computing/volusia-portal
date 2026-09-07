@@ -1,0 +1,62 @@
+[
+  {
+    "id": 208,
+    "name": "col_overall_index",
+    "value": "89.2",
+    "unit": "index",
+    "category": "Economic",
+    "source": "C2ER (Daytona Beach, cached)",
+    "source_url": "https://www.c2er.org/",
+    "vintage": "2025Q1",
+    "fetched_at": "2026-09-03T16:01:16.316266",
+    "description": "col_overall_index from C2ER (Daytona Beach, cached)"
+  },
+  {
+    "id": 207,
+    "name": "cost_of_living_index",
+    "value": "78.5",
+    "unit": "index",
+    "category": "Economic",
+    "source": "C2ER (Daytona Beach, cached)",
+    "source_url": "https://www.c2er.org/",
+    "vintage": "2025Q1",
+    "fetched_at": "2026-09-03T16:01:16.310263",
+    "description": "cost_of_living_index from C2ER (Daytona Beach, cached)"
+  },
+  {
+    "id": 40,
+    "name": "median_household_income_acs",
+    "value": "66581",
+    "unit": "dollars",
+    "category": "Economic",
+    "source": "US Census ACS 5-Year DP03",
+    "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2023.DP03",
+    "vintage": "2023",
+    "fetched_at": "2026-09-03T16:01:12.825370",
+    "description": "median_household_income_acs from US Census ACS 5-Year DP03"
+  },
+  {
+    "id": 42,
+    "name": "poverty_rate_acs",
+    "value": "2.2",
+    "unit": "percent",
+    "category": "Economic",
+    "source": "US Census ACS 5-Year DP03",
+    "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2023.DP03",
+    "vintage": "2023",
+    "fetched_at": "2026-09-03T16:01:12.837286",
+    "description": "poverty_rate_acs from US Census ACS 5-Year DP03"
+  },
+  {
+    "id": 41,
+    "name": "unemployment_rate_acs",
+    "value": "4.0",
+    "unit": "percent",
+    "category": "Economic",
+    "source": "US Census ACS 5-Year DP03",
+    "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2023.DP03",
+    "vintage": "2023",
+    "fetched_at": "2026-09-03T16:01:12.831878",
+    "description": "unemployment_rate_acs from US Census ACS 5-Year DP03"
+  }
+]
