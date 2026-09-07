@@ -1,5 +1,19 @@
 [
   {
+    "id": 259,
+    "name": "avg_min_temp",
+    "source": "NOAA NCEI",
+    "source_url": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&dataTypes=TMAX,TMIN,PRCP&stations=USW00012838&startDate=2025-01-01&endDate=2025-12-31&format=json&units=metric",
+    "vintage": "2025"
+  },
+  {
+    "id": 255,
+    "name": "per_capita_income_acs",
+    "source": "Census ACS DP03",
+    "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2023.DP03",
+    "vintage": "2023"
+  },
+  {
     "id": 234,
     "name": "revpar",
     "source": "Volusia County CVB",
@@ -16,14 +30,14 @@
   {
     "id": 208,
     "name": "col_overall_index",
-    "source": "C2ER (Daytona Beach, cached)",
+    "source": "C2ER (cached)",
     "source_url": "https://www.c2er.org/",
     "vintage": "2025Q1"
   },
   {
     "id": 207,
     "name": "cost_of_living_index",
-    "source": "C2ER (Daytona Beach, cached)",
+    "source": "C2ER (cached)",
     "source_url": "https://www.c2er.org/",
     "vintage": "2025Q1"
   },
@@ -37,16 +51,16 @@
   {
     "id": 49,
     "name": "total_precip",
-    "source": "NOAA NCEI Daily Summaries",
-    "source_url": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&dataTypes=TMAX,TMIN,PRCP,AWND&stations=USW00012838&startDate=2025-09-03&endDate=2026-09-03&format=json",
-    "vintage": "2025-09-03 to 2026-09-03"
+    "source": "NOAA NCEI",
+    "source_url": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&dataTypes=TMAX,TMIN,PRCP&stations=USW00012838&startDate=2025-01-01&endDate=2025-12-31&format=json&units=metric",
+    "vintage": "2025"
   },
   {
     "id": 48,
     "name": "avg_max_temp",
-    "source": "NOAA NCEI Daily Summaries",
-    "source_url": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&dataTypes=TMAX,TMIN,PRCP,AWND&stations=USW00012838&startDate=2025-09-03&endDate=2026-09-03&format=json",
-    "vintage": "2025-09-03 to 2026-09-03"
+    "source": "NOAA NCEI",
+    "source_url": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&dataTypes=TMAX,TMIN,PRCP&stations=USW00012838&startDate=2025-01-01&endDate=2025-12-31&format=json&units=metric",
+    "vintage": "2025"
   },
   {
     "id": 47,
@@ -72,35 +86,35 @@
   {
     "id": 44,
     "name": "median_age_acs",
-    "source": "US Census ACS 5-Year DP05",
+    "source": "Census ACS DP05",
     "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2023.DP05",
     "vintage": "2023"
   },
   {
     "id": 43,
     "name": "total_population_acs",
-    "source": "US Census ACS 5-Year DP05",
+    "source": "Census ACS DP05",
     "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2023.DP05",
     "vintage": "2023"
   },
   {
     "id": 42,
     "name": "poverty_rate_acs",
-    "source": "US Census ACS 5-Year DP03",
+    "source": "Census ACS DP03",
     "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2023.DP03",
     "vintage": "2023"
   },
   {
     "id": 41,
     "name": "unemployment_rate_acs",
-    "source": "US Census ACS 5-Year DP03",
+    "source": "Census ACS DP03",
     "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2023.DP03",
     "vintage": "2023"
   },
   {
     "id": 40,
     "name": "median_household_income_acs",
-    "source": "US Census ACS 5-Year DP03",
+    "source": "Census ACS DP03",
     "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2023.DP03",
     "vintage": "2023"
   },

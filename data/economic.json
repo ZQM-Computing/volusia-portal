@@ -1,15 +1,27 @@
 [
   {
+    "id": 13,
+    "name": "avg_weekly_wage_qcew",
+    "value": "1041",
+    "unit": "USD",
+    "category": "Economic",
+    "source": "BLS QCEW",
+    "source_url": "https://data.bls.gov/cew/data/files/2024/csv/2024_annual_singlefile.zip",
+    "vintage": "2024",
+    "fetched_at": "2026-09-03T12:29:24.000411+00:00",
+    "description": "BLS QCEW annual avg weekly wage"
+  },
+  {
     "id": 208,
     "name": "col_overall_index",
     "value": "89.2",
     "unit": "index",
     "category": "Economic",
-    "source": "C2ER (Daytona Beach, cached)",
+    "source": "C2ER (cached)",
     "source_url": "https://www.c2er.org/",
     "vintage": "2025Q1",
-    "fetched_at": "2026-09-03T16:01:16.316266",
-    "description": "col_overall_index from C2ER (Daytona Beach, cached)"
+    "fetched_at": "2026-09-07T15:10:54.631600",
+    "description": "Cost of living index (overall)"
   },
   {
     "id": 207,
@@ -17,11 +29,35 @@
     "value": "78.5",
     "unit": "index",
     "category": "Economic",
-    "source": "C2ER (Daytona Beach, cached)",
+    "source": "C2ER (cached)",
     "source_url": "https://www.c2er.org/",
     "vintage": "2025Q1",
-    "fetched_at": "2026-09-03T16:01:16.310263",
-    "description": "cost_of_living_index from C2ER (Daytona Beach, cached)"
+    "fetched_at": "2026-09-07T15:10:54.635607",
+    "description": "Cost of living index (housing)"
+  },
+  {
+    "id": 12,
+    "name": "employment_qcew",
+    "value": "189265",
+    "unit": "employees",
+    "category": "Economic",
+    "source": "BLS QCEW",
+    "source_url": "https://data.bls.gov/cew/data/files/2024/csv/2024_annual_singlefile.zip",
+    "vintage": "2024",
+    "fetched_at": "2026-09-03T12:29:23.955411+00:00",
+    "description": "BLS QCEW annual avg employment"
+  },
+  {
+    "id": 11,
+    "name": "establishments_qcew",
+    "value": "16756",
+    "unit": "establishments",
+    "category": "Economic",
+    "source": "BLS QCEW",
+    "source_url": "https://data.bls.gov/cew/data/files/2024/csv/2024_annual_singlefile.zip",
+    "vintage": "2024",
+    "fetched_at": "2026-09-03T12:29:23.852244+00:00",
+    "description": "BLS QCEW annual avg establishments"
   },
   {
     "id": 40,
@@ -29,11 +65,59 @@
     "value": "66581",
     "unit": "dollars",
     "category": "Economic",
-    "source": "US Census ACS 5-Year DP03",
+    "source": "Census ACS DP03",
     "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2023.DP03",
     "vintage": "2023",
-    "fetched_at": "2026-09-03T16:01:12.825370",
-    "description": "median_household_income_acs from US Census ACS 5-Year DP03"
+    "fetched_at": "2026-09-07T15:10:52.428793",
+    "description": "Median household income"
+  },
+  {
+    "id": 10,
+    "name": "per_capita_income",
+    "value": "59259.0",
+    "unit": "USD",
+    "category": "Economic",
+    "source": "BEA Regional",
+    "source_url": "https://www.bea.gov/data/income-saving/local-area-personal-income",
+    "vintage": "2024",
+    "fetched_at": "2026-09-03T12:29:05.606593+00:00",
+    "description": "Per capita personal income for Volusia County, 2024"
+  },
+  {
+    "id": 255,
+    "name": "per_capita_income_acs",
+    "value": "-888888888",
+    "unit": "dollars",
+    "category": "Economic",
+    "source": "Census ACS DP03",
+    "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2023.DP03",
+    "vintage": "2023",
+    "fetched_at": "2026-09-07T15:10:52.428793",
+    "description": "Per capita income"
+  },
+  {
+    "id": 8,
+    "name": "personal_income_total",
+    "value": "35719516.0",
+    "unit": "thousands USD",
+    "category": "Economic",
+    "source": "BEA Regional",
+    "source_url": "https://www.bea.gov/data/income-saving/local-area-personal-income",
+    "vintage": "2024",
+    "fetched_at": "2026-09-03T12:29:04.714548+00:00",
+    "description": "Total personal income (thousands) for Volusia County, 2024"
+  },
+  {
+    "id": 9,
+    "name": "population_bea",
+    "value": "602772.0",
+    "unit": "persons",
+    "category": "Economic",
+    "source": "BEA Regional",
+    "source_url": "https://www.bea.gov/data/income-saving/local-area-personal-income",
+    "vintage": "2024",
+    "fetched_at": "2026-09-03T12:29:05.139076+00:00",
+    "description": "Population for Volusia County, 2024"
   },
   {
     "id": 42,
@@ -41,11 +125,11 @@
     "value": "2.2",
     "unit": "percent",
     "category": "Economic",
-    "source": "US Census ACS 5-Year DP03",
+    "source": "Census ACS DP03",
     "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2023.DP03",
     "vintage": "2023",
-    "fetched_at": "2026-09-03T16:01:12.837286",
-    "description": "poverty_rate_acs from US Census ACS 5-Year DP03"
+    "fetched_at": "2026-09-07T15:10:52.428793",
+    "description": "Poverty rate"
   },
   {
     "id": 41,
@@ -53,10 +137,22 @@
     "value": "4.0",
     "unit": "percent",
     "category": "Economic",
-    "source": "US Census ACS 5-Year DP03",
+    "source": "Census ACS DP03",
     "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2023.DP03",
     "vintage": "2023",
-    "fetched_at": "2026-09-03T16:01:12.831878",
-    "description": "unemployment_rate_acs from US Census ACS 5-Year DP03"
+    "fetched_at": "2026-09-07T15:10:52.428793",
+    "description": "Unemployment rate"
+  },
+  {
+    "id": 7,
+    "name": "unemployment_rate_bls",
+    "value": "5.3",
+    "unit": "percent",
+    "category": "Economic",
+    "source": "BLS LAUS",
+    "source_url": "https://www.bls.gov/lau/",
+    "vintage": "July 2026",
+    "fetched_at": "2026-09-03T12:29:04.173613+00:00",
+    "description": "BLS LAUS unemployment rate for Volusia County (July 2026)"
   }
 ]
