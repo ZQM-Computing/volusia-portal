@@ -1,0 +1,23 @@
+0000000000000000000000000000000000000000 84af8f932f3997eb6f98ce6715a8b73e8e841a50 ZQM Computing <zqmcomputing@gmail.com> 1788402373 -0400	commit (initial): feat: initial Project Volusia public data portal
+84af8f932f3997eb6f98ce6715a8b73e8e841a50 5247d302729d45aa22cb6328edd61c101ff98e8a ZQM Computing <zqmcomputing@gmail.com> 1788402938 -0400	commit: docs: add repo support matrix mapping all ZQM repos to Volusia mission
+5247d302729d45aa22cb6328edd61c101ff98e8a 100e1d0321069d06d9a1be8fc1e77382a0982949 ZQM Computing <zqmcomputing@gmail.com> 1788402985 -0400	commit: chore: remove private repo support matrix from public repo
+100e1d0321069d06d9a1be8fc1e77382a0982949 8556cdd7b2b25554b59eaa65bc9252006cc21276 ZQM Computing <zqmcomputing@gmail.com> 1788404195 -0400	commit: feat: add data pipeline, FastAPI backend, and API hooks
+8556cdd7b2b25554b59eaa65bc9252006cc21276 bfa3c0d49bd00f25727dcf671846e6799d41198c ZQM Computing <zqmcomputing@gmail.com> 1788404778 -0400	commit: feat: add OSINT recon report and data pipeline
+bfa3c0d49bd00f25727dcf671846e6799d41198c cb08c7e482de3f210963979881eb0c389452d527 ZQM Computing <zqmcomputing@gmail.com> 1788404796 -0400	commit: chore: add dockerignore, data cache dir, vite config
+cb08c7e482de3f210963979881eb0c389452d527 becbce140e0c552b79036ebbdf27ce4f6d608b5d ZQM Computing <zqmcomputing@gmail.com> 1788405403 -0400	commit: feat: OSINT recon v2 with 15 new data sources
+becbce140e0c552b79036ebbdf27ce4f6d608b5d 26797a36aa40a54416cdb79d1c5e61a93f8d9d0a ZQM Computing <zqmcomputing@gmail.com> 1788405822 -0400	commit: docs: web search tool resources and configuration guide
+26797a36aa40a54416cdb79d1c5e61a93f8d9d0a 51c6e4072d7d7b90b2fcd5d901769bc1f266fc4f ZQM Computing <zqmcomputing@gmail.com> 1788407215 -0400	commit: feat: unified scraper with 7 working data sources
+51c6e4072d7d7b90b2fcd5d901769bc1f266fc4f ae332641d8522a166fd70b6a6578c46459976f38 ZQM Computing <zqmcomputing@gmail.com> 1788407298 -0400	commit: feat: FastAPI backend serving real Volusia County data
+ae332641d8522a166fd70b6a6578c46459976f38 158377e14d719068efded968245e64b42b7b0014 ZQM Computing <zqmcomputing@gmail.com> 1788412167 -0400	commit: feat: scraper improvements and frontend API integration prep
+158377e14d719068efded968245e64b42b7b0014 ad3cba194a27eef1ea444c0b7efcb8124e1b5478 ZQM Computing <zqmcomputing@gmail.com> 1788412384 -0400	commit: feat: Docker Compose setup with frontend, backend, and optional SearXNG
+ad3cba194a27eef1ea444c0b7efcb8124e1b5478 1413c6a95d556a733323dfd6f9aea1aeb17470d0 ZQM Computing <zqmcomputing@gmail.com> 1788412503 -0400	commit: feat: frontend API integration, Docker Compose, and cron refresh
+1413c6a95d556a733323dfd6f9aea1aeb17470d0 a4588a66af0cd066e08508a2984e32bd3f17ac6a ZQM Computing <zqmcomputing@gmail.com> 1788415373 -0400	commit: feat: OSINT recon v3 - 40+ data sources discovered
+a4588a66af0cd066e08508a2984e32bd3f17ac6a 4a9b07f26e86562915e502a8c317d3cbd5e7455a ZQM Computing <zqmcomputing@gmail.com> 1788447119 -0400	commit: fix: replace 'movers' with 'Leaders' per user preference
+4a9b07f26e86562915e502a8c317d3cbd5e7455a f5ed81483d4e170ae1dc24443cdda9f52f502757 ZQM Computing <zqmcomputing@gmail.com> 1788684830 -0400	commit: feat: improve homepage content — Three Pillars with specifics, README for Humans Quick Start, version v2.0
+f5ed81483d4e170ae1dc24443cdda9f52f502757 f5ed81483d4e170ae1dc24443cdda9f52f502757 ZQM Computing <zqmcomputing@gmail.com> 1788685419 -0400	reset: moving to HEAD
+f5ed81483d4e170ae1dc24443cdda9f52f502757 dd45310e6c01de5366122ebf5bb754c8208159b4 ZQM Computing <zqmcomputing@gmail.com> 1788685426 -0400	pull --rebase origin master (start): checkout dd45310e6c01de5366122ebf5bb754c8208159b4
+dd45310e6c01de5366122ebf5bb754c8208159b4 f5ed81483d4e170ae1dc24443cdda9f52f502757 ZQM Computing <zqmcomputing@gmail.com> 1788685442 -0400	rebase (abort): returning to refs/heads/master
+f5ed81483d4e170ae1dc24443cdda9f52f502757 de4d4dac301f0a4eb69d979ebed34a795a65ac02 ZQM Computing <zqmcomputing@gmail.com> 1788685464 -0400	commit (merge): Merge origin/master with homepage improvements
+de4d4dac301f0a4eb69d979ebed34a795a65ac02 16ce778755126b7460808fd1c6ce281dda5ad7ad ZQM Computing <zqmcomputing@gmail.com> 1788687698 -0400	commit: fix: create indicators table, populate from cached data, fix all services
+16ce778755126b7460808fd1c6ce281dda5ad7ad b92994cce4907c228f4c749d60c519ff00f40f92 ZQM Computing <zqmcomputing@gmail.com> 1788688150 -0400	commit: fix: import scoring.py router to register all gamification endpoints
+b92994cce4907c228f4c749d60c519ff00f40f92 291e8a5a77b7d64fed2dc692174d8899f3c7d86b ZQM Computing <zqmcomputing@gmail.com> 1788688280 -0400	commit: fix: import scoring.py via importlib to register all gamification endpoints

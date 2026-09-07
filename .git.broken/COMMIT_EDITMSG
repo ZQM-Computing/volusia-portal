@@ -1,0 +1,6 @@
+fix: all gamification endpoints working via nginx on port 8002
+- Backend moved from port 8000 (conflict with Docker Desktop) to 8002
+- nginx proxy_pass updated from 8000 to 8002
+- All scoring.py gamification endpoints (contribute, quality, missions, pulse, reputation, leaderboard, profile) now accessible via nginx
+- scoring.py had 8 routes but was never loaded - fixed with importlib.util
+- Fixed stale nginx proxy_pass entries

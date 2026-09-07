@@ -9,6 +9,7 @@ import { TouristsPage } from './pages/TouristsPage'
 import { LeadersPage } from './pages/LeadersPage'
 import { GamificationPage } from './pages/GamificationPage'
 import { NewsPage } from './pages/NewsPage'
+import { NotFoundPage } from './pages/NotFoundPage'
 
 export default function App() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
           <Route path="/leaders" element={<LeadersPage />} />
           <Route path="/gamification" element={<GamificationPage />} />
           <Route path="/news" element={<NewsPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
       <Footer />
