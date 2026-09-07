@@ -7,6 +7,7 @@ import { BusinessPage } from './pages/BusinessPage'
 import { ResidentsPage } from './pages/ResidentsPage'
 import { TouristsPage } from './pages/TouristsPage'
 import { LeadersPage } from './pages/LeadersPage'
+import { GamificationPage } from './pages/GamificationPage'
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
           <Route path="/residents" element={<ResidentsPage />} />
           <Route path="/tourists" element={<TouristsPage />} />
           <Route path="/leaders" element={<LeadersPage />} />
+          <Route path="/gamification" element={<GamificationPage />} />
         </Routes>
       </main>
       <Footer />
