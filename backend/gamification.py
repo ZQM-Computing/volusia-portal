@@ -202,6 +202,22 @@ def _get_history(conn: sqlite3.Connection, user_id: str, limit: int = 30) -> lis
 def get_gamification_routes(app: FastAPI):
     """Register all gamification endpoints on the given FastAPI app."""
 
+    @app.get("/gamification")
+    def gamification_root():
+        """Return the gamification hub overview."""
+        return {
+            "service": "Project Volusia Gamification",
+            "version": "1.0.0",
+            "endpoints": {
+                "leaderboard": "/gamification/leaderboard",
+                "profile": "/gamification/profile/{user_id}",
+                "missions": "/gamification/missions",
+                "contribute": "/gamification/contribute (POST)",
+                "pulse": "/gamification/pulse"
+            }
+        }
+
+
     @app.get("/gamification/profile/{user_id}")
     def profile(user_id: str):
         conn = sqlite3.connect(str(DB_PATH))
