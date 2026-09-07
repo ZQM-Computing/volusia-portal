@@ -1,0 +1,20 @@
+{
+  "streak": 1,
+  "best_streak": 1,
+  "quality_tier": "pending",
+  "quality_score": {
+    "source_authority": 100,
+    "vintage_freshness": 50,
+    "metadata_completeness": 66,
+    "cross_reference_agreement": 50,
+    "overall": 68.2,
+    "tier": "pending"
+  },
+  "badges": [
+    "Bronze Verified"
+  ],
+  "joined_date": "2026-09-03T00:00:00Z",
+  "last_contribution_date": "2026-09-03T00:00:00Z",
+  "last_seen_values": {},
+  "review_velocity_days": 3.0
+}

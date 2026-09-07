@@ -1,0 +1,32 @@
+{
+  "streak": 1,
+  "best_streak": 1,
+  "quality_tier": "verified",
+  "quality_score": {
+    "source_authority": 100,
+    "vintage_freshness": 100,
+    "metadata_completeness": 100,
+    "cross_reference_agreement": 50,
+    "overall": 87.5,
+    "tier": "verified"
+  },
+  "badges": [
+    "Bronze Verified"
+  ],
+  "joined_date": "2026-09-03T00:00:00Z",
+  "last_contribution_date": "2026-09-06T01:23:29Z",
+  "last_seen_values": {},
+  "review_velocity_days": 3.0,
+  "total_xp": 381,
+  "level": "Explorer",
+  "mission_flags": {
+    "total_submissions": 1,
+    "pathways": [
+      "F"
+    ],
+    "earned": [
+      "first_spark",
+      "verified"
+    ]
+  }
+}

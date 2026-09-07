@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-const API_BASE = ''
+const API_BASE = '/data'
 
 export function useApiData<T>(endpoint: string) {
   const [data, setData] = useState<T | null>(null)
@@ -16,22 +16,40 @@ export function useApiData<T>(endpoint: string) {
   return { data, loading, error }
 }
 
-export function useAllIndicators() { return useApiData<any>('/indicators') }
-export function useEconomicIndicators() { return useApiData<any>('/indicators?category=Economic') }
-export function useDemographicIndicators() { return useApiData<any>('/indicators?category=Demographics') }
-export function useClimateIndicators() { return useApiData<any>('/indicators?category=Climate') }
-export function useDatasets() { return useApiData<any>('/datasets') }
-export function useMapLayers() { return useApiData<any>('/map-layers') }
-export function useGamification(userId: string) {
+export function useAllIndicators() { return useApiData<any>('/indicators.json') }
+export function useEconomicIndicators() { return useApiData<any>('/economic.json') }
+export function useDemographicIndicators() { return useApiData<any>('/demographics.json') }
+export function useClimateIndicators() { return useApiData<any>('/climate.json') }
+export function useDatasets() { return useApiData<any>('/datasets.json') }
+export function useMapLayers() { return useApiData<any>('/map-layers.json') }
+export function useNews() { return useApiData<any>('/news.json') }
+export function useHealth() { return useApiData<any>('/health.json') }
+export function useStakeholderGroups() { return useApiData<any>('/stakeholders.json') }
+export function useDownloadCSV(category?: string) {
+  const url = category ? `/data/indicators.csv?category=${category}` : '/data/indicators.csv'
+  return () => window.open(url, '_blank')
+}
+export function useIndicator(name: string) { return useApiData<any>(`/indicators/${encodeURIComponent(name)}`) }
+export function useGamification(userId: string = 'anonymous') {
   const [data, setData] = useState<any>(null)
   const [loading, setLoading] = useState(true)
+  const [pulse, setPulse] = useState<any[]>([])
+  
   const visitPage = () => {
     fetch(`/gamification/visit/${userId}`, { method: 'POST' })
       .then((res) => res.json())
       .then(setData)
       .catch(() => {})
   }
-  return { data, loading, visitPage }
+  
+  useEffect(() => {
+    fetch('/data/pulse.json')
+      .then((res) => res.json())
+      .then(setPulse)
+      .catch(() => {})
+  }, [])
+  
+  return { data, loading, visitPage, pulse }
 }
 export function useGamificationStats(userId: string) {
   const [stats, setStats] = useState<any>(null)
@@ -54,10 +72,6 @@ export function useGamificationStats(userId: string) {
   return { stats, totalUsers, avgXp, avgLevel, loading }
 }
 export function useLeaderboard() { return useApiData<any>('/gamification/leaderboard') }
-export function useDownloadCSV(category?: string) {
-  const url = category ? `/indicators.csv?category=${category}` : '/indicators.csv'
-  return () => window.open(url, '_blank')
-}
 export function useDiagnostics() {
   const [diagnostics, setDiagnostics] = useState<any>(null)
   const [loading, setLoading] = useState(true)
@@ -68,17 +82,4 @@ export function useDiagnostics() {
       .catch(() => setLoading(false))
   }, [])
   return { diagnostics, loading }
-}
-
-export function useIndicator(name: string) {
-  const [data, setData] = useState<any>(null)
-  const [loading, setLoading] = useState(true)
-  useEffect(() => {
-    fetch(`/indicators/${name}`)
-      .then((res) => res.json())
-      .then(setData)
-      .catch(() => {})
-      .finally(() => setLoading(false))
-  }, [name])
-  return { data, loading }
 }

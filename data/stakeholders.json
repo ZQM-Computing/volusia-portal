@@ -1,0 +1,50 @@
+[
+  {
+    "id": "business",
+    "name": "Business Owners",
+    "description": "Free market benchmarks, customer demographics, industry trends, pricing intelligence, and demand signals.",
+    "icon": "\ud83c\udfea",
+    "highlights": [
+      "Local market snapshot & competitor landscape",
+      "Customer demographics & spending patterns",
+      "Business formation & licensing data",
+      "Quarterly economic briefings"
+    ]
+  },
+  {
+    "id": "residents",
+    "name": "Residents",
+    "description": "Employment data, wage trends, cost-of-living metrics, school performance, health outcomes, and public spending.",
+    "icon": "\ud83c\udfe0",
+    "highlights": [
+      "Employment & wage trends by sector",
+      "Cost of living breakdown",
+      "School & health data by area",
+      "Open budget & public spending"
+    ]
+  },
+  {
+    "id": "tourists",
+    "name": "Tourists",
+    "description": "Real-time conditions, honest reviews, local business availability, event calendars, and safety information.",
+    "icon": "\ud83c\udfd6\ufe0f",
+    "highlights": [
+      "Real-time surf, weather & traffic",
+      "Verified reviews & local availability",
+      "Event calendars & booking",
+      "Parking & transit information"
+    ]
+  },
+  {
+    "id": "leaders",
+    "name": "Leaders",
+    "description": "Capital flow data, permitting velocity, infrastructure status, workforce availability, and demographic shifts.",
+    "icon": "\ud83d\udcca",
+    "highlights": [
+      "Capital flow & investment tracking",
+      "Permitting & licensing velocity",
+      "Workforce availability & wages",
+      "Infrastructure capacity data"
+    ]
+  }
+]
