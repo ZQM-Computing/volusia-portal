@@ -13,7 +13,6 @@ function copyDataPlugin() {
       if (!existsSync(distDataDir)) {
         mkdirSync(distDataDir, { recursive: true })
       }
-      // Copy all JSON files from data/ to dist/data/
       const files = ['indicators.json', 'economic.json', 'demographics.json', 'climate.json', 'datasets.json', 'map-layers.json', 'stakeholders.json', 'news.json', 'health.json']
       files.forEach(f => {
         try {
@@ -22,7 +21,6 @@ function copyDataPlugin() {
           console.warn(`Could not copy ${f}:`, e.message)
         }
       })
-      // Copy .nojekyll to dist
       try {
         copyFileSync(resolve(__dirname, '.nojekyll'), resolve(__dirname, 'dist/.nojekyll'))
       } catch (e) {
@@ -35,12 +33,18 @@ function copyDataPlugin() {
 
 export default defineConfig({
   plugins: [react(), copyDataPlugin()],
-  server: {
-    host: '0.0.0.0',
-    port: 5173,
-  },
-  preview: {
-    host: '0.0.0.0',
-    port: 4173,
+  server: { host: '0.0.0.0', port: 5173 },
+  preview: { host: '0.0.0.0', port: 4173 },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+          'vendor-nivo': ['@nivo/core', '@nivo/bar', '@nivo/line', '@nivo/pie', '@nivo/geo'],
+          'vendor-leaflet': ['leaflet', 'react-leaflet'],
+        },
+      },
+    },
+    chunkSizeWarningLimit: 500,
   },
 })
