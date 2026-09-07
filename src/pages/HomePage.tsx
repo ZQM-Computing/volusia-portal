@@ -67,7 +67,7 @@ export function HomePage() {
               Open Intelligence for Volusia County
             </h1>
             <p className="text-xl text-gray-200 mb-8 leading-relaxed">
-              Free, open-source data and analytics for business owners, residents, tourists, and industry movers.
+              Free, open-source data and analytics for business owners, residents, tourists, and Leaders.
               Real numbers. Real sources. No paywalls.
             </p>
             <div className="flex flex-wrap gap-4">
