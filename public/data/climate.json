@@ -11,26 +11,15 @@
     "description": "avg_max_temp from NOAA NCEI Daily Summaries"
   },
   {
-    "id": "avg_max_temp_2024",
-    "name": "avg_max_temp_2024",
-    "value": "280.6",
-    "unit": "tenths C",
+    "id": "avg_min_temp",
+    "name": "avg_min_temp",
+    "value": "18.7",
+    "unit": "deg C",
     "category": "Climate",
     "source": "NOAA NCEI",
-    "sourceUrl": "https://www.ncei.noaa.gov/access/services/data/v1",
-    "vintage": "2024",
-    "description": "NOAA daily avg TMAX for Daytona Beach"
-  },
-  {
-    "id": "avg_min_temp_2024",
-    "name": "avg_min_temp_2024",
-    "value": "191.3",
-    "unit": "tenths C",
-    "category": "Climate",
-    "source": "NOAA NCEI",
-    "sourceUrl": "https://www.ncei.noaa.gov/access/services/data/v1",
-    "vintage": "2024",
-    "description": "NOAA daily avg TMIN for Daytona Beach"
+    "sourceUrl": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&dataTypes=TMAX,TMIN,PRCP&stations=USW00012838&startDate=2025-01-01&endDate=2025-12-31&format=json&units=metric",
+    "vintage": "2025",
+    "description": "Average minimum temperature"
   },
   {
     "id": "total_precip",
@@ -42,16 +31,5 @@
     "sourceUrl": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&dataTypes=TMAX,TMIN,PRCP,AWND&stations=USW00012838&startDate=2025-09-07&endDate=2026-09-07&format=json",
     "vintage": "2025-09-07 to 2026-09-07",
     "description": "total_precip from NOAA NCEI Daily Summaries"
-  },
-  {
-    "id": "total_precip_2024",
-    "name": "total_precip_2024",
-    "value": "10280",
-    "unit": "tenths mm",
-    "category": "Climate",
-    "source": "NOAA NCEI",
-    "sourceUrl": "https://www.ncei.noaa.gov/access/services/data/v1",
-    "vintage": "2024",
-    "description": "NOAA total PRCP for Daytona Beach"
   }
 ]

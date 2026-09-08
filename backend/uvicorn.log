@@ -202,3 +202,302 @@ INFO:     127.0.0.1:55068 - "GET /indicators HTTP/1.1" 200 OK
 INFO:     127.0.0.1:55075 - "GET /api/v1/status HTTP/1.1" 404 Not Found
 INFO:     None:0 - "GET /gamification HTTP/1.1" 200 OK
 INFO:     127.0.0.1:55096 - "GET /diagnostics HTTP/1.1" 200 OK
+INFO:     None:0 - "GET /gamification HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55143 - "GET /diagnostics HTTP/1.1" 200 OK
+INFO:     None:0 - "GET /data/indicators.json HTTP/1.1" 200 OK
+INFO:     None:0 - "GET /gamification HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55241 - "GET /indicators HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55249 - "GET /gamification/pulse HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55250 - "GET /gamification/stats/anonymous HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55251 - "GET /gamification/leaderboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55262 - "GET /gamification/leaderboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55297 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     52.34.76.65:0 - "GET /diagnostics HTTP/1.1" 200 OK
+INFO:     52.34.76.65:0 - "GET /gamification/stats/anonymous HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55422 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     34.174.100.95:0 - "GET /data/climate.json HTTP/1.1" 200 OK
+INFO:     34.174.100.95:0 - "GET /data/demographics.json HTTP/1.1" 200 OK
+INFO:     34.174.100.95:0 - "GET /data/economic.json HTTP/1.1" 200 OK
+INFO:     34.174.100.95:0 - "GET /data/datasets.json HTTP/1.1" 200 OK
+INFO:     34.174.100.95:0 - "GET /gamification/stats/anonymous HTTP/1.1" 200 OK
+INFO:     34.174.100.95:0 - "GET /data/map-layers.json HTTP/1.1" 200 OK
+INFO:     34.174.100.95:0 - "GET /diagnostics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63348 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:63441 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:63578 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:63688 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:51170 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:51231 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:51331 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:51444 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:54625 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:63479 - "GET /indicators HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63488 - "GET /data/indicators.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63491 - "GET /data/economic.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63523 - "GET /data/economic.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63529 - "GET /data/indicators.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63546 - "GET /data/demographics.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63547 - "GET /data/climate.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63563 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:63576 - "GET /indicators HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63577 - "GET /indicators HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63598 - "GET /indicators?limit=3 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63599 - "GET /map-layers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63600 - "GET /data/indicators.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63601 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63602 - "GET /data/demographics.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63670 - "GET /data/cache/demographics.json HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:63671 - "GET /data/cache/business.json HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:63672 - "GET /indicators HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63696 - "GET /data/indicators.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63697 - "GET /diagnostics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63729 - "GET /indicators HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63732 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:63737 - "GET /indicators HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63844 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:63978 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59518 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59618 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59635 - "GET /categories HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59636 - "GET /business HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59637 - "GET /gamification/missions/test_user HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59638 - "GET /gamification/badges/test_user HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59687 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59742 - "GET /categories HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59778 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59937 - "GET /categories HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56752 - "GET /indicators?limit=1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64323 - "GET /categories HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64332 - "GET /categories HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64333 - "GET /business HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64334 - "GET /residents HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64335 - "GET /tourists HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64337 - "GET /leaders HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64338 - "GET /analytics/summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64339 - "GET /analytics/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64340 - "GET /analytics/comparison/income HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64341 - "GET /gamification/missions/test_user HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64343 - "GET /gamification/badges/test_user HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:64349 - "GET /analytics/summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64350 - "GET /analytics/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64351 - "GET /business HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64416 - "GET /categories HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64417 - "GET /business HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64418 - "GET /residents HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64419 - "GET /tourists HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64420 - "GET /leaders HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64421 - "GET /analytics/summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64422 - "GET /analytics/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64423 - "GET /gamification/badges/test_user HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:64488 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64546 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49860 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49893 - "GET /gamification/badges/test_user HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:49902 - "GET /gamification/badges/test_user HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:49931 - "GET /gamification/badges/test_user HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:49957 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49958 - "GET /gamification/badges/test_user HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:59956 - "GET /gamification/badges/test_user HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:59995 - "GET /gamification/badges/test_user HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:60001 - "GET /gamification/missions HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:60002 - "GET /gamification/quality?contributor_id=test HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60021 - "POST /gamification/contribute HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:60022 - "POST /gamification/contribute HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:60032 - "POST /gamification/contribute HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:60033 - "POST /gamification/contribute HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:60084 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60145 - "GET /data/indicators.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60150 - "GET /data/map-layers.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60151 - "GET /data/datasets.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60156 - "GET /indicators?limit=1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60161 - "GET /data/economic.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60162 - "GET /data/indicators.csv HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60163 - "GET /diagnostics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60164 - "GET /news.json HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60165 - "GET /data/indicators.csv?category=Economic HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60173 - "GET /gamification/leaderboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60174 - "GET /pulse.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60191 - "GET /diagnostics?secret=volusia-refresh-secret-change-me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60192 - "GET /refresh?secret=volusia-refresh-secret-change-me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60193 - "GET /refresh HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60194 - "GET /data/datasets.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60196 - "GET /data/climate.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60197 - "GET /data/indicators.csv HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60209 - "GET /indicators HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60211 - "GET /data/economic.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60212 - "GET /data/indicators.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60215 - "GET /data/indicators.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60223 - "GET /indicators?limit=1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60224 - "GET /map-layers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60226 - "GET /data/indicators.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60227 - "GET /indicators?category=Tourism HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60228 - "HEAD / HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:60234 - "GET /categories HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60237 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60238 - "GET /gamification/missions/test HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60239 - "GET /gamification/pulse HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60243 - "GET /diagnostics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60245 - "GET /data/indicators.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60248 - "GET /data/indicators.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60256 - "GET /data/economic.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60265 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60266 - "GET /indicators HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60267 - "GET /datasets HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60268 - "GET /map-layers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60269 - "GET /data/indicators.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60270 - "GET /pulse.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60272 - "GET /business HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60273 - "GET /residents HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60274 - "GET /tourists HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60275 - "GET /leaders HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60276 - "GET /analytics/summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60278 - "GET /categories HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60279 - "GET /indicators/category/Economic HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60280 - "GET /indicators/category/Demographics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60281 - "GET /indicators/category/Tourism HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60282 - "GET /indicators/category/Climate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60283 - "GET /gamification/missions/test HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60285 - "GET /gamification/leaderboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60286 - "GET /gamification/pulse HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60298 - "GET /analytics/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60299 - "GET /pulse.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60300 - "GET /data/economic.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60301 - "GET /data/climate.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60303 - "GET /diagnostics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60311 - "GET /data/demographics.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60365 - "GET /indicators.csv HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60366 - "GET /data/indicators.csv HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60367 - "GET /refresh HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60383 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     34.16.218.150:0 - "GET /gamification/stats/anonymous HTTP/1.1" 200 OK
+INFO:     34.16.218.150:0 - "GET /data/economic.json HTTP/1.1" 200 OK
+INFO:     34.16.218.150:0 - "GET /data/map-layers.json HTTP/1.1" 200 OK
+INFO:     34.16.218.150:0 - "GET /data/climate.json HTTP/1.1" 200 OK
+INFO:     34.16.218.150:0 - "GET /diagnostics HTTP/1.1" 200 OK
+INFO:     34.16.218.150:0 - "GET /data/datasets.json HTTP/1.1" 200 OK
+INFO:     34.16.218.150:0 - "GET /data/demographics.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60748 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:50013 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:50190 - "GET /data/economic.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50191 - "GET /data/demographics.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50539 - "GET /diagnostics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50556 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:50566 - "GET /indicators?limit=5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50568 - "GET /indicators?category=Economic HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50579 - "GET /indicators HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50580 - "GET /data/economic.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50581 - "GET /data/demographics.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50605 - "POST /refresh HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:50606 - "POST /refresh HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:50607 - "POST /refresh HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:50609 - "GET /datasets HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50628 - "GET /data/economic.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50629 - "GET /data/demographics.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50805 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:51189 - "POST /refresh HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:51190 - "POST /refresh HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:51264 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:61876 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:61967 - "GET /news.json HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:61968 - "GET /data/news.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61969 - "GET /indicators.csv HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61970 - "GET /categories HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62190 - "GET /news.json HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:62191 - "GET /data/news.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62222 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:62233 - "GET /gamification/missions HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:62234 - "GET /gamification/contribute HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:62235 - "GET /gamification/pulse HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62236 - "GET /gamification/leaderboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62237 - "GET /gamification/quality HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:62247 - "GET /news.json HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:62248 - "GET /data/news.json HTTP/1.1" 200 OK
+INFO:     None:0 - "GET /data/business.json HTTP/1.1" 200 OK
+INFO:     None:0 - "GET /data/education.json HTTP/1.1" 200 OK
+INFO:     None:0 - "GET /data/safety.json HTTP/1.1" 200 OK
+INFO:     None:0 - "GET /data/government.json HTTP/1.1" 200 OK
+INFO:     None:0 - "GET /data/housing.json HTTP/1.1" 200 OK
+INFO:     None:0 - "GET /data/transportation.json HTTP/1.1" 200 OK
+INFO:     None:0 - "GET /data/environment.json HTTP/1.1" 200 OK
+INFO:     None:0 - "GET /indicators.csv HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62297 - "GET /news.json HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:62298 - "GET /data/news.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62368 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:62402 - "GET /news.json HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:62404 - "GET /data/news.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62405 - "GET /news.json HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:62450 - "GET /diagnostics?secret=volusia-refresh-secret-change-me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62451 - "POST /refresh HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:62484 - "GET /news.json HTTP/1.1" 404 Not Found
+INFO:     None:0 - "GET /data/indicators.json HTTP/1.1" 200 OK
+INFO:     None:0 - "GET /data/demographics.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62510 - "GET /news.json HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:62511 - "GET /data/news.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62512 - "GET /news HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:62522 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:62881 - "GET /news.json HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:62882 - "GET /news.json/ HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:63276 - "GET /news.json HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:63281 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57166 - "GET /refresh HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57167 - "GET /diagnostics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57223 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57388 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57555 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57592 - "GET /gamification/state/visitor HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57594 - "GET /refresh HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57595 - "POST /refresh HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:57596 - "GET /diagnostics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57604 - "GET /api/gamification/state/visitor HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57605 - "POST /refresh HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:57606 - "GET /data/demographics.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57615 - "GET /api/gamification/missions/visitor HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56669 - "POST /refresh HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:56670 - "GET /refresh HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56705 - "GET /refresh?secret=test HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56706 - "GET /diagnostics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56709 - "POST /refresh HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:56710 - "GET /refresh HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56711 - "GET /diagnostics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56720 - "GET /api/gamification/state/visitor HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56721 - "GET /api/gamification/missions/visitor HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56745 - "GET /api/gamification/state HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56746 - "GET /api/gamification/missions/testuser HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56758 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56761 - "GET /gamification/missions/testuser HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56771 - "GET /gamification/missions/zqmco HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56772 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56773 - "GET /refresh HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56774 - "POST /refresh HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:55901 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:55932 - "GET /refresh HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55933 - "POST /refresh HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:55939 - "POST /refresh HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:55940 - "GET /refresh HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55950 - "POST /refresh HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:55951 - "GET /refresh HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55958 - "GET /api/gamification/state/zqmco HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:55960 - "POST /refresh HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:55961 - "GET /refresh HTTP/1.1" 200 OK
+INFO:     None:0 - "GET /data/economic.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55974 - "POST /refresh HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:55975 - "GET /refresh HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55980 - "GET /api/gamification/state HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:55981 - "GET /api/gamification/missions HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:55982 - "GET /api/gamification/state/zqmco HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:55983 - "GET /api/gamification/missions/zqmco HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:55987 - "GET /api/gamification/state HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:55988 - "GET /api/gamification/state/zqmco HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:55989 - "GET /api/gamification/state/anonymous HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:55990 - "GET /api/gamification/quiz HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:55997 - "POST /refresh HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:55998 - "GET /refresh HTTP/1.1" 200 OK
+INFO:     None:0 - "GET /data/economic.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56004 - "GET /api/gamification/quiz HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56016 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56018 - "POST /refresh HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:56019 - "GET /refresh HTTP/1.1" 200 OK
+INFO:     None:0 - "GET /data/economic.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56032 - "POST /refresh HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:56033 - "GET /refresh HTTP/1.1" 200 OK
+INFO:     None:0 - "GET /data/economic.json HTTP/1.1" 200 OK
