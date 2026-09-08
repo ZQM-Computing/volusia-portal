@@ -5,32 +5,38 @@ import { ResponsiveLine } from '@nivo/line'
 
 export function TouristsPage() {
   const { data: economic, loading } = useEconomicIndicators()
+  const { data: demographics } = useDemographicIndicators()
+  const climate = useClimateIndicators()
+  const climateIndicators = climate.data?.indicators ?? climate.data ?? null
+
   const getIndicator = (items: any[] | null, name: string) => {
     if (!items) return null
     return items.find((i: any) => i.name === name)
   }
+
   const employment = getIndicator(economic?.indicators, 'employment_qcew')
   const avgWage = getIndicator(economic?.indicators, 'avg_weekly_wage_qcew')
-
   const hotelOccupancy = getIndicator(economic?.indicators, 'hotel_occupancy_pct')
   const avgDailyRate = getIndicator(economic?.indicators, 'avg_daily_rate')
   const revpar = getIndicator(economic?.indicators, 'revpar')
+  const popDensity = getIndicator(demographics?.indicators, 'total_population_acs')
+
+  const annualVisitors = 12.4
+  const peakMonth = 'July'
 
   const conditions = [
     { label: 'Hotel Occupancy', value: hotelOccupancy ? `${hotelOccupancy.value}%` : '—', status: hotelOccupancy && Number(hotelOccupancy.value) > 50 ? 'good' : 'warning' },
     { label: 'Avg Daily Rate', value: avgDailyRate ? `$${Number(avgDailyRate.value).toFixed(0)}` : '—', status: avgDailyRate ? 'good' : 'default' },
     { label: 'RevPAR', value: revpar ? `$${Number(revpar.value).toFixed(2)}` : '—', status: revpar ? 'good' : 'default' },
-    { label: 'Beach Flags', value: 'Green', status: 'good' },
+    { label: 'Population', value: popDensity ? `${Number(popDensity.value).toLocaleString()}` : '—', status: 'good' },
   ]
 
-  const annualVisitors = 12.4
-  const peakMonth = 'July'
-
-  // Build chart from live climate data if available
-  const climateData = useClimateIndicators().data?.indicators ?? []
-  const monthlyVisitors = climateData.length > 0
-    ? [{ month: 'Jan', visitors: 820 }, { month: 'Feb', visitors: 910 }, { month: 'Mar', visitors: 1180 }, { month: 'Apr', visitors: 1050 }, { month: 'May', visitors: 980 }, { month: 'Jun', visitors: 1120 }, { month: 'Jul', visitors: 1280 }, { month: 'Aug', visitors: 1150 }, { month: 'Sep', visitors: 870 }, { month: 'Oct', visitors: 920 }, { month: 'Nov', visitors: 850 }, { month: 'Dec', visitors: 980 }]
-    : []
+  const monthlyVisitors = [
+    { month: 'Jan', visitors: 820 }, { month: 'Feb', visitors: 910 }, { month: 'Mar', visitors: 1180 },
+    { month: 'Apr', visitors: 1050 }, { month: 'May', visitors: 980 }, { month: 'Jun', visitors: 1120 },
+    { month: 'Jul', visitors: 1280 }, { month: 'Aug', visitors: 1150 }, { month: 'Sep', visitors: 870 },
+    { month: 'Oct', visitors: 920 }, { month: 'Nov', visitors: 850 }, { month: 'Dec', visitors: 980 },
+  ]
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -63,7 +69,7 @@ export function TouristsPage() {
             <h3 className="text-lg font-semibold text-volusia-navy mb-4">Monthly Visitor Volume (2025)</h3>
             <div className="h-64">
               <ResponsiveLine
-                data={[{ id: 'visitors', data: monthlyVisitors.length > 0 ? monthlyVisitors.map((m) => ({ x: m.month, y: m.visitors / 1000000 })) : [{ x: 'Jan', y: 0 }] }]}
+                data={[{ id: 'visitors', data: monthlyVisitors.map((m) => ({ x: m.month, y: m.visitors / 1000000 })) }]}
                 margin={{ top: 20, right: 20, bottom: 50, left: 60 }}
                 xScale={{ type: 'point' }}
                 yScale={{ type: 'linear', min: 0, max: 1.5 }}
@@ -94,6 +100,11 @@ export function TouristsPage() {
             <h3 className="text-sm font-semibold text-volusia-navy mb-3">Hotel Occupancy</h3>
             <div className="text-3xl font-bold text-volusia-teal">{hotelOccupancy ? `${hotelOccupancy.value}%` : '—'}</div>
             <div className="text-xs text-green-600 mt-1">↑ 3.1% YoY</div>
+          </Card>
+          <Card>
+            <h3 className="text-sm font-semibold text-volusia-navy mb-3">RevPAR</h3>
+            <div className="text-3xl font-bold text-volusia-teal">{revpar ? `$${Number(revpar.value).toFixed(2)}` : '—'}</div>
+            <div className="text-xs text-volusia-slate mt-1">Revenue per available room</div>
           </Card>
         </div>
       </div>

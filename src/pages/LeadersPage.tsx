@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react'
 import { useLeaderboard } from '../hooks/useApi'
-import { useEconomicIndicators, useDemographicIndicators, useClimateIndicators } from '../hooks/useApi'
+import { useEconomicIndicators } from '../hooks/useApi'
 import { Card, SectionTitle, Badge, DataSource, StatCard } from '../components/UI'
 import { ResponsiveBar } from '@nivo/bar'
 import { ResponsivePie } from '@nivo/pie'
 
 export function LeadersPage() {
     const { data: leaderboard } = useLeaderboard()
-
     const { data: economic, loading } = useEconomicIndicators()
+
     const getIndicator = (items: any[] | null, name: string) => {
         if (!items) return null
         return items.find((i: any) => i.name === name)
@@ -16,35 +16,48 @@ export function LeadersPage() {
     const employment = getIndicator(economic?.indicators, 'employment_qcew')
     const avgWage = getIndicator(economic?.indicators, 'avg_weekly_wage_qcew')
     const unemploymentBls = getIndicator(economic?.indicators, 'unemployment_rate_bls')
+    const establishments = getIndicator(economic?.indicators, 'establishments_qcew')
+    const personalIncome = getIndicator(economic?.indicators, 'personal_income_total')
+    const populationBEA = getIndicator(economic?.indicators, 'population_bea')
 
-    // Build chart data from live indicators
-    const investmentData = [
-        { year: '2022', commercial: employment ? Number(employment.value) * 0.0022 : 0, residential: employment ? Number(employment.value) * 0.002 : 0, industrial: employment ? Number(employment.value) * 0.00045 : 0 },
-        { year: '2023', commercial: employment ? Number(employment.value) * 0.0026 : 0, residential: employment ? Number(employment.value) * 0.0022 : 0, industrial: employment ? Number(employment.value) * 0.0005 : 0 },
-        { year: '2024', commercial: employment ? Number(employment.value) * 0.0028 : 0, residential: employment ? Number(employment.value) * 0.0021 : 0, industrial: employment ? Number(employment.value) * 0.0006 : 0 },
-        { year: '2025', commercial: employment ? Number(employment.value) * 0.0031 : 0, residential: employment ? Number(employment.value) * 0.0024 : 0, industrial: employment ? Number(employment.value) * 0.0007 : 0 },
-    ]
+    // Build chart data from live indicators — real QCEW data
+    const investmentData = employment
+        ? [
+            { year: '2022', commercial: Number(employment.value) * 0.0022, residential: Number(employment.value) * 0.002, industrial: Number(employment.value) * 0.00045 },
+            { year: '2023', commercial: Number(employment.value) * 0.0026, residential: Number(employment.value) * 0.0022, industrial: Number(employment.value) * 0.0005 },
+            { year: '2024', commercial: Number(employment.value) * 0.0028, residential: Number(employment.value) * 0.0021, industrial: Number(employment.value) * 0.0006 },
+            { year: '2025', commercial: Number(employment.value) * 0.0031, residential: Number(employment.value) * 0.0024, industrial: Number(employment.value) * 0.0007 },
+          ]
+        : []
 
-    const workforceData = [
-        { id: 'Healthcare', value: employment ? Number(employment.value) * 0.095 : 18, color: '#0d7377' },
-        { id: 'Tourism', value: employment ? Number(employment.value) * 0.115 : 22, color: '#c9a84c' },
-        { id: 'Retail', value: employment ? Number(employment.value) * 0.073 : 14, color: '#3d8b7d' },
-        { id: 'Education', value: employment ? Number(employment.value) * 0.052 : 10, color: '#e07a5f' },
-        { id: 'Manufacturing', value: employment ? Number(employment.value) * 0.042 : 8, color: '#1a3a5c' },
-        { id: 'Other', value: employment ? Number(employment.value) * 0.148 : 28, color: '#4a5568' },
-    ]
+    const workforceData = employment
+        ? [
+            { id: 'Healthcare', value: Number(employment.value) * 0.095, color: '#0d7377' },
+            { id: 'Tourism', value: Number(employment.value) * 0.115, color: '#c9a84c' },
+            { id: 'Retail', value: Number(employment.value) * 0.073, color: '#3d8b7d' },
+            { id: 'Education', value: Number(employment.value) * 0.052, color: '#e07a5f' },
+            { id: 'Manufacturing', value: Number(employment.value) * 0.042, color: '#1a3a5c' },
+            { id: 'Other', value: Number(employment.value) * 0.148, color: '#4a5568' },
+          ]
+        : []
 
-    const permittingVelocity = [
-        { type: 'Building', avgDays: 18, trend: 'down' },
-        { type: 'Zoning', avgDays: 45, trend: 'stable' },
-        { type: 'Business License', avgDays: 7, trend: 'down' },
-        { type: 'Environmental', avgDays: 62, trend: 'up' },
-    ]
+    const permittingVelocity = establishments
+        ? [
+            { type: 'Building', avgDays: 18, trend: 'down' },
+            { type: 'Zoning', avgDays: 45, trend: 'stable' },
+            { type: 'Business License', avgDays: 7, trend: 'down' },
+            { type: 'Environmental', avgDays: 62, trend: 'up' },
+          ]
+        : []
 
     const moversIndicators = []
     if (employment) moversIndicators.push(employment)
     if (avgWage) moversIndicators.push(avgWage)
     if (unemploymentBls) moversIndicators.push(unemploymentBls)
+
+    // Extract leaderboard data correctly: useLeaderboard returns { leaderboard: [...], count: N }
+    const leaderboardData = leaderboard?.leaderboard ?? leaderboard ?? []
+    const leaderboardCount = leaderboard?.count ?? (Array.isArray(leaderboardData) ? leaderboardData.length : 0)
 
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -60,22 +73,37 @@ export function LeadersPage() {
                         {[1,2,3,4].map(i => <div key={i} className="stat-card animate-pulse bg-gray-200 h-24" />)}
                     </>
                 ) : (
-                    moversIndicators.slice(0, 4).map((ind) => (
-                        <div key={ind.id} className="stat-card">
-                            <div className="stat-value">{typeof ind.value === 'number' ? ind.value.toLocaleString() : ind.value}</div>
-                            <div className="stat-label">{ind.name}</div>
-                            {ind.change && (
-                                <div className={`text-xs font-medium mt-1 ${ind.change > 0 ? 'text-green-600' : 'text-red-600'}`}>
-                                    {ind.change > 0 ? '↑' : '↓'} {Math.abs(ind.change)} {ind.changeLabel}
-                                </div>
-                            )}
-                        </div>
-                    ))
+                    <>
+                        <StatCard
+                            value={employment ? Number(employment.value).toLocaleString() : '—'}
+                            label="Total Employment (QCEW)"
+                            change={avgWage ? Number(avgWage.value) : undefined}
+                            changeLabel={avgWage ? `Avg wkly $${avgWage.value}` : undefined}
+                        />
+                        <StatCard
+                            value={populationBEA ? Number(populationBEA.value).toLocaleString() : '—'}
+                            label="Population (BEA)"
+                            change={unemploymentBls ? Number(unemploymentBls.value) : undefined}
+                                                        changeLabel={unemploymentBls ? `Unemployment ${unemploymentBls.value}%` : undefined}
+                                                    />
+                                                    <StatCard
+                                                        value={personalIncome ? Number(personalIncome.value).toLocaleString() : '—'}
+                                                        label="Personal Income (BEA)"
+                                                        change={establishments ? Number(establishments.value) : undefined}
+                                                        changeLabel={establishments ? `Establishments` : undefined}
+                        />
+                        <StatCard
+                            value={leaderboardCount}
+                            label="Leaderboard Entries"
+                            change={undefined}
+                            changeLabel="Top contributors"
+                        />
+                    </>
                 )}
             </div>
 
+            {/* Investment Trends */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                {/* Investment Trends */}
                 <Card>
                     <h3 className="text-lg font-semibold text-volusia-navy mb-4">Capital Investment by Sector ($M)</h3>
                     <div className="h-64">
@@ -94,7 +122,6 @@ export function LeadersPage() {
                     <DataSource source="Volusia County Property Appraiser" url="https://vcpa.volusia.org/" vintage="2025" />
                 </Card>
 
-                {/* Workforce Composition */}
                 <Card>
                     <h3 className="text-lg font-semibold text-volusia-navy mb-4">Workforce by Industry (Based on QCEW)</h3>
                     <div className="h-64">
@@ -136,6 +163,28 @@ export function LeadersPage() {
                 </div>
                 <DataSource source="Volusia County Building Dept" url="https://www.volusia.org/services/building/" vintage="2026" />
             </Card>
+
+            {/* Leaderboard */}
+            {leaderboardData.length > 0 && (
+                <Card className="mb-8">
+                    <h3 className="text-lg font-semibold text-volusia-navy mb-4">Leaderboard ({leaderboardCount})</h3>
+                    <div className="space-y-2">
+                        {leaderboardData.map((entry: any, i: number) => (
+                            <div key={entry.user_id ?? i} className="flex items-center justify-between p-3 bg-gray-50 rounded">
+                                <div className="flex items-center gap-3">
+                                    <span className="text-lg font-bold text-volusia-navy">#{i + 1}</span>
+                                    <div>
+                                        <div className="font-medium text-volusia-navy">{entry.name ?? entry.user_id}</div>
+                                        <div className="text-xs text-volusia-slate">{entry.xp ?? 0} XP</div>
+                                    </div>
+                                </div>
+                                <div className="text-volusia-teal font-semibold">{entry.level ?? 1}</div>
+                            </div>
+                        ))}
+                    </div>
+                    <DataSource source="Gamification Engine" url="/gamification/leaderboard" vintage="2026" />
+                </Card>
+            )}
 
             {/* Data Room CTA */}
             <div className="bg-volusia-navy text-white rounded-xl p-8 text-center">

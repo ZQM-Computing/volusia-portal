@@ -25,10 +25,11 @@ export function HomePage() {
   const unemploymentACS = getIndicator(economic?.indicators, 'unemployment_rate_acs')
   const unemploymentBls = getIndicator(economic?.indicators, 'unemployment_rate_bls')
   const population = getIndicator(demographics?.indicators, 'total_population_acs')
-  const pci = getIndicator(economic?.indicators, 'per_capita_income')
+  const personalIncome = getIndicator(economic?.indicators, 'personal_income_total')
   const employment = getIndicator(economic?.indicators, 'employment_qcew')
   const avgWage = getIndicator(economic?.indicators, 'avg_weekly_wage_qcew')
   const temp = getIndicator(climateIndicators, 'avg_max_temp')
+  const totalPrecip = getIndicator(climateIndicators, 'total_precip')
 
   const fmtNum = (v: any) => {
     if (v == null) return '—'
@@ -44,7 +45,7 @@ export function HomePage() {
 
   // Income trend chart data from live economic indicators
   const incomeTrendData = economic?.indicators
-    ?.filter((i: any) => i.name?.includes('median_household_income') || i.name?.includes('per_capita_income') || i.name?.includes('personal_income'))
+    ?.filter((i: any) => i.name?.includes('median_household_income') || i.name?.includes('personal_income_total'))
     .map((i: any) => ({ x: '2024', y: Number(i.value) ?? 0 })) ?? []
 
   const employmentTrendData = economic?.indicators
@@ -106,10 +107,10 @@ export function HomePage() {
                 changeLabel={avgWage ? `Avg wkly $${avgWage.value}` : undefined}
               />
               <StatCard
-                value={pci ? `$${fmtNum(pci.value)}` : '—'}
-                label="Per Capita Income"
+                value={personalIncome ? `$${fmtNum(personalIncome.value)}` : '—'}
+                label="Personal Income"
                 change={temp && !isNaN(Number(temp.value)) ? Number(temp.value) : undefined}
-                changeLabel={temp ? "Avg max temp Jan" : undefined}
+                changeLabel={temp ? `Avg max temp ${temp.value}°C` : undefined}
               />
             </>
           )}
@@ -147,6 +148,31 @@ export function HomePage() {
               ) : (
                 <div className="h-48 flex items-center justify-center text-sm text-gray-400">No trend data available</div>
               )}
+            </Card>
+          </div>
+        </section>
+      )}
+
+      {/* Climate Summary */}
+      {climateIndicators && (
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+            <Card>
+              <h3 className="text-sm font-semibold text-volusia-navy mb-2">Avg Max Temp</h3>
+              <div className="text-2xl font-bold text-volusia-teal">{temp ? `${temp.value}°C` : '—'}</div>
+              <DataSource source="NOAA NCEI" url="https://www.ncei.noaa.gov/" vintage="2025" />
+            </Card>
+            <Card>
+              <h3 className="text-sm font-semibold text-volusia-navy mb-2">Total Precipitation</h3>
+              <div className="text-2xl font-bold text-volusia-teal">{totalPrecip ? `${totalPrecip.value} mm` : '—'}</div>
+              <DataSource source="NOAA NCEI" url="https://www.ncei.noaa.gov/" vintage="2025" />
+            </Card>
+            <Card>
+              <h3 className="text-sm font-semibold text-volusia-navy mb-2">Avg Min Temp</h3>
+              <div className="text-2xl font-bold text-volusia-teal">
+                {getIndicator(climateIndicators, 'avg_min_temp') ? `${getIndicator(climateIndicators, 'avg_min_temp')?.value}°C` : '—'}
+              </div>
+              <DataSource source="NOAA NCEI" url="https://www.ncei.noaa.gov/" vintage="2025" />
             </Card>
           </div>
         </section>
@@ -252,7 +278,7 @@ export function HomePage() {
           </div>
           <div className="mt-8 flex flex-wrap gap-4">
             <Badge variant="info">📊 {datasets?.length ?? 0} Datasets Available</Badge>
-            <Badge variant="success">✅ 28+ Live Indicators</Badge>
+            <Badge variant="success">✅ 26+ Live Indicators</Badge>
             <Badge variant="warning">🔄 Hourly Auto-Refresh</Badge>
           </div>
         </div>
@@ -276,7 +302,7 @@ export function HomePage() {
             </div>
             <div className="p-4 bg-gray-50 rounded-lg">
               <h3 className="font-bold text-volusia-navy mb-2">Features</h3>
-              <p className="text-sm text-volusia-slate">✅ 28+ Live Indicators</p>
+              <p className="text-sm text-volusia-slate">✅ 26+ Live Indicators</p>
               <p className="text-sm text-volusia-slate">✅ 18 Map Layers with GeoJSON</p>
               <p className="text-sm text-volusia-slate">✅ Hourly Auto-Refresh</p>
               <p className="text-sm text-volusia-slate">✅ Real CVB Hotel Data</p>

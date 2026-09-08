@@ -8,6 +8,8 @@ export function ResidentsPage() {
 
   const { data: demographics, loading: demoLoading } = useDemographicIndicators()
   const { data: economic, loading: econLoading } = useEconomicIndicators()
+  const climate = useClimateIndicators()
+  const climateIndicators = climate.data?.indicators ?? climate.data ?? null
 
   const getIndicator = (items: any[] | null, name: string) => {
     if (!items) return null
@@ -19,20 +21,18 @@ export function ResidentsPage() {
   const medianAge = getIndicator(demographics?.indicators, 'median_age_acs')
   const pctOver65 = getIndicator(demographics?.indicators, 'pct_over_65_acs')
   const pctBachelor = getIndicator(demographics?.indicators, 'pct_bachelors_or_higher_acs')
+  const costOfLivingIdx = getIndicator(economic?.indicators, 'cost_of_living_index')
+  const colOverall = getIndicator(economic?.indicators, 'col_overall_index')
 
   const loading = demoLoading || econLoading
 
-  const costOfLiving = [
-    { category: 'Housing', index: 78.5, nationalAvg: 100 },
-    { category: 'Food', index: 102, nationalAvg: 100 },
-    { category: 'Healthcare', index: 108, nationalAvg: 100 },
-    { category: 'Transportation', index: 98, nationalAvg: 100 },
-    { category: 'Utilities', index: 92, nationalAvg: 100 },
-  ]
+  const costOfLiving = costOfLivingIdx
+    ? [{ category: 'Cost of Living', index: Number(costOfLivingIdx.value), nationalAvg: 100 }]
+    : [{ category: 'Cost of Living', index: 0, nationalAvg: 100 }]
 
   const incomeTrend = medianIncome
     ? [{ x: '2020', y: 48500 }, { x: '2021', y: 50100 }, { x: '2022', y: 51800 }, { x: '2023', y: 53400 }, { x: '2024', y: Number(medianIncome.value) }]
-    : [{ x: '2020', y: 0 }, { x: '2021', y: 0 }, { x: '2022', y: 0 }, { x: '2023', y: 0 }, { x: '2024', y: 0 }]
+    : []
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

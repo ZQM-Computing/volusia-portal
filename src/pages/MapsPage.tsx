@@ -3,48 +3,42 @@ import { MapContainer, TileLayer, GeoJSON, CircleMarker, Popup } from 'react-lea
 import { useMapLayers } from '../hooks/useApi'
 import { Card, SectionTitle, Badge } from '../components/UI'
 
-// Simplified Volusia County boundary polygon (approximate)
-const volusiaBoundary = {
-  type: 'Feature' as const,
-  properties: { name: 'Volusia County' },
-  geometry: {
-    type: 'MultiPolygon' as const,
-    coordinates: [
-      [
-        [
-          [-81.5, 29.4], [-80.8, 29.4], [-80.8, 28.6], [-81.0, 28.6],
-          [-81.1, 28.8], [-81.4, 28.9], [-81.5, 29.1], [-81.5, 29.4],
-        ],
-      ],
-    ],
-  },
-}
-
-// Sample city markers for Volusia County
-const cityMarkers = [
-  { name: 'Daytona Beach', coords: [29.2108, -81.0228], pop: 72000 },
-  { name: 'DeLand', coords: [29.0283, -81.3031], pop: 41000 },
-  { name: 'New Smyrna Beach', coords: [29.0258, -80.927], pop: 28000 },
-  { name: 'Ormond Beach', coords: [29.2858, -81.0559], pop: 44000 },
-  { name: 'Port Orange', coords: [29.1383, -80.9956], pop: 65000 },
-  { name: 'Deltona', coords: [28.9005, -81.2637], pop: 93000 },
-]
-
-export function MapsPage() {  
+export function MapsPage() {
   const { data: mapLayers, loading } = useMapLayers()
-  const [activeCategory, setActiveCategory] = useState<string>('boundary')
+  const [activeCategory, setActiveCategory] = useState<string>('all')
   const [showBoundary, setShowBoundary] = useState(true)
-  const [showCities, setShowCities] = useState(true)
+  const [showCities, setShowCities] = useState(false)
 
-  const categories = ['boundary', 'economic', 'infrastructure', 'environment', 'demographic', 'cultural']
   const layers = mapLayers ?? []
-  const filteredLayers = layers.filter((l: any) => l.category === activeCategory)
+  const filteredLayers = activeCategory === 'all'
+    ? layers
+    : layers.filter((l: any) => l.category === activeCategory)
+
+  // Collect all GeoJSON features from map layers that have geometry
+  const geojsonFeatures = filteredLayers
+    .filter((l: any) => l.geometry)
+    .map((l: any) => {
+      try {
+        const geojson = JSON.parse(l.geometry)
+        return geojson
+      } catch {
+        return null
+      }
+    })
+    .filter(Boolean)
+
+  // Merge features into a single FeatureCollection for rendering
+  const mergedGeoJSON = geojsonFeatures.length > 0
+    ? { type: 'FeatureCollection' as const, features: geojsonFeatures as any[] }
+    : null
+
+  const categories = ['all', 'boundary', 'economic', 'infrastructure', 'environment', 'demographic', 'cultural']
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <SectionTitle
         title="Interactive Maps"
-        subtitle="Explore Volusia County through geographic data layers"
+        subtitle={`Explore Volusia County through ${layers.length} geographic data layers`}
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
@@ -63,7 +57,7 @@ export function MapsPage() {
                       : 'text-volusia-slate hover:bg-gray-100'
                   }`}
                 >
-                  {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                  {cat === 'all' ? 'All Layers' : cat.charAt(0).toUpperCase() + cat.slice(1)}
                 </button>
               ))}
             </div>
@@ -110,26 +104,6 @@ export function MapsPage() {
                   </div>
                 ))
               )}
-              {filteredLayers.map((layer: any) => {
-                if (!layer.geometry) return null
-                try {
-                  const geojson = JSON.parse(layer.geometry)
-                  return (
-                    <GeoJSON
-                      key={layer.id}
-                      data={geojson}
-                      style={{
-                        color: '#0d7377',
-                        weight: 2,
-                        fillColor: '#0d7377',
-                        fillOpacity: 0.15,
-                      }}
-                    />
-                  )
-                } catch {
-                  return null
-                }
-              })}
             </div>
           </Card>
         </div>
@@ -147,44 +121,46 @@ export function MapsPage() {
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
-              {showBoundary && (
+              {showBoundary && mergedGeoJSON && (
                 <GeoJSON
-                  data={volusiaBoundary as any}
+                  data={mergedGeoJSON}
                   style={{
                     color: '#0d7377',
-                    weight: 3,
+                    weight: 2,
                     fillColor: '#0d7377',
-                    fillOpacity: 0.05,
+                    fillOpacity: 0.15,
                   }}
                 />
               )}
-              {showCities &&
-                cityMarkers.map((city) => (
-                  <CircleMarker
-                    key={city.name}
-                    center={[city.coords[0], city.coords[1]]}
-                    radius={Math.sqrt(city.pop) / 10}
-                    pathOptions={{
-                      color: '#c9a84c',
-                      fillColor: '#c9a84c',
-                      fillOpacity: 0.6,
-                      weight: 2,
-                    }}
-                  >
-                    <Popup>
-                      <div className="text-sm">
-                        <strong>{city.name}</strong>
-                        <br />
-                        Pop: {city.pop.toLocaleString()}
-                      </div>
-                    </Popup>
-                  </CircleMarker>
-                ))}
+              {showCities && layers.filter((l: any) => l.geometry && l.type === 'Point').map((layer: any) => {
+                try {
+                  const geojson = JSON.parse(layer.geometry)
+                  if (geojson.type === 'FeatureCollection') {
+                    return geojson.features.map((feat: any, i: number) => (
+                      <CircleMarker
+                        key={`${layer.id}-${i}`}
+                        center={[feat.geometry.coordinates[1], feat.geometry.coordinates[0]]}
+                        radius={5}
+                        pathOptions={{ color: '#c9a84c', fillColor: '#c9a84c', fillOpacity: 0.8, weight: 2 }}
+                      >
+                        <Popup>
+                          <div className="text-sm">
+                            <strong>{layer.name}</strong>
+                            <br />
+                            {feat.properties?.name && <div>{feat.properties.name}</div>}
+                          </div>
+                        </Popup>
+                      </CircleMarker>
+                    ))
+                  }
+                } catch { return null }
+                return null
+              })}
             </MapContainer>
           </div>
           <p className="text-xs text-gray-500 mt-2">
-            Map data: OpenStreetMap contributors. County boundary: US Census TIGER/Line (simplified for demo).
-            {loading ? ' Loading map layers…' : ' Full GeoJSON layers available via API.'}
+            Map data: OpenStreetMap contributors. {layers.length} layers registered via /map-layers.json.
+            {loading ? ' Loading…' : `${filteredLayers.length} layers shown`}.
           </p>
         </div>
       </div>
