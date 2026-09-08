@@ -98,6 +98,21 @@ def get_indicators_json():
     rows = _db_rows("SELECT * FROM indicators ORDER BY category, name LIMIT 500")
     return {"count": len(rows), "indicators": rows}
 
+@app.get("/news.json")
+def get_news():
+    """Return news articles from cache or default."""
+    cache_path = Path(__file__).resolve().parent.parent / "data" / "cache" / "news.json"
+    if cache_path.exists():
+        try:
+            content = json.loads(cache_path.read_text())
+            return content
+        except Exception:
+            pass
+    return {"count": 0, "news": []}
+@app.get("/data/news.json")
+def get_news_data():
+    """Alias for /news.json — serves from /data prefix."""
+    return get_news()
 @app.get("/data/{name}.json")
 def get_data_file(name: str):
     """Serve cached data JSON files for frontend hooks."""
@@ -238,22 +253,7 @@ def diagnostics():
 
 
 # ==================== NEWS ENDPOINT ====================
-@app.get("/news.json")
-def get_news():
-    """Return news articles from cache or default."""
-    cache_path = Path(__file__).resolve().parent.parent / "data" / "cache" / "news.json"
-    if cache_path.exists():
-        try:
-            content = json.loads(cache_path.read_text())
-            return content
-        except Exception:
-            pass
-    return {"count": 0, "news": []}
 
-@app.get("/data/news.json")
-def get_news_data():
-    """Alias for /news.json — serves from /data prefix."""
-    return get_news()
 
 @app.post("/refresh")
 @_require_refresh_auth()
