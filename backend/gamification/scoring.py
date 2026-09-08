@@ -12,15 +12,30 @@ GAMIFICATION_DIR = PROJECT_ROOT / "data" / "gamification"
 GAMIFICATION_DIR.mkdir(parents=True, exist_ok=True)
 XP_LEVELS = [(0,"Newcomer"),(100,"Explorer"),(500,"Analyst"),(1500,"Steward"),(5000,"Architect")]
 MISSION_CATALOG = [
+    # Tier 1 — Entry (0–50 XP)
     {"id":"first_spark","name":"First Spark","desc":"Submit your first contribution","xp":50},
+    {"id":"explorer_visit","name":"Explorer Visit","desc":"Visit all 7 portal pages","xp":30},
+    # Tier 2 — Consistency (100–250 XP)
     {"id":"streak_7","name":"Streak 7","desc":"7-day contribution streak","xp":100},
     {"id":"streak_30","name":"Streak 30","desc":"30-day contribution streak","xp":250},
+    {"id":"community_voice","name":"Community Voice","desc":"10+ total contributions","xp":150},
+    # Tier 3 — Quality (200–500 XP)
     {"id":"verified","name":"Verified Contributor","desc":"Reach Verified quality tier","xp":200},
     {"id":"data_steward","name":"Data Steward","desc":"5+ accepted submissions","xp":300},
+    {"id":"data_architect","name":"Data Architect","desc":"Add a new data source to the pipeline","xp":400},
     {"id":"sector_pioneer","name":"Sector Pioneer","desc":"Submit in all 4 constituencies","xp":400},
-    {"id":"community_voice","name":"Community Voice","desc":"10+ total contributions","xp":150},
+    # Tier 4 — Impact (500–2000 XP)
     {"id":"analyst","name":"Analyst","desc":"Reach Analyst level (500 XP)","xp":0},
+    {"id":"researcher","name":"Researcher","desc":"Submit 3+ stakeholder interviews","xp":500},
+    {"id":"governor","name":"Governor","desc":"Contribute to governance docs","xp":350},
+    {"id":"community_builder","name":"Community Builder","desc":"20+ total contributions","xp":600},
+    {"id":"source_master","name":"Source Master","desc":"Contribute to 5+ data sources","xp":450},
+    {"id":"quality_guardian","name":"Quality Guardian","desc":"Verify 10+ submissions","xp":300},
+    {"id":"mentor","name":"Mentor","desc":"Help a new contributor submit","xp":250},
+    # Tier 5 — Legacy (5000+ XP)
     {"id":"architect","name":"Architect","desc":"Reach Architect level (5000 XP)","xp":0},
+    {"id":"visionary","name":"Visionary","desc":"Reach 10,000 total XP","xp":0},
+    {"id":"legacy_builder","name":"Legacy Builder","desc":"Contribute to all 11 data categories","xp":1000},
 ]
 class QualityTier(str, Enum):
     VERIFIED="verified"; REVIEWED="reviewed"; PENDING="pending"; FLAGGED="flagged"
@@ -90,7 +105,7 @@ def _load_state(cid):
         if fpath.exists():
             try: _gam_state[cid]=json.loads(fpath.read_text())
             except Exception: pass
-    return _gam_state.setdefault(cid,{"total_xp":0,"level":"Newcomer","streak":0,"best_streak":0,"quality_tier":QualityTier.PENDING.value,"quality_score":{},"badges":[],"joined_date":_now_iso(),"last_contribution_date":_now_iso(),"last_seen_values":{},"review_velocity_days":3.0,"mission_flags":{}})
+    return _gam_state.setdefault(cid,{"total_xp":0,"level":"Newcomer","streak":0,"best_streak":0,"quality_tier":QualityTier.PENDING.value,"quality_score":{},"badges":[],"joined_date":_now_iso(),"last_contribution_date":_now_iso(),"last_seen_values":{},"review_velocity_days":3.0,"mission_flags":{},"new_sources_added":0,"interviews_completed":0,"gov_contributions":0,"verifications":0,"mentees_helped":0,"pages_visited":[],"sources_contributed":[],"categories_contributed":[]})
 def _save_state(cid): (GAMIFICATION_DIR/f"{cid}.json").write_text(json.dumps(_gam_state[cid],indent=2,default=str))
 def _save_leaderboard_snapshot(entries):
     week=datetime.utcnow().strftime("%Y-W%U"); (GAMIFICATION_DIR/f"leaderboard-{week}.json").write_text(json.dumps(entries,indent=2,default=str))
@@ -123,8 +138,18 @@ def contribute(req: ContributeRequest):
         elif mid=="data_steward" and total_subs>=5: award=True
         elif mid=="sector_pioneer" and len(pathways)>=4: award=True
         elif mid=="community_voice" and total_subs>=10: award=True
+        elif mid=="data_architect" and len(new_sources_added)>=1: award=True
+        elif mid=="researcher" and state.get("interviews_completed",0)>=3: award=True
+        elif mid=="governor" and state.get("gov_contributions",0)>=1: award=True
+        elif mid=="community_builder" and total_subs>=20: award=True
+        elif mid=="source_master" and len(state.get("sources_contributed",[]))>=5: award=True
+        elif mid=="quality_guardian" and state.get("verifications",0)>=10: award=True
+        elif mid=="mentor" and state.get("mentees_helped",0)>=1: award=True
+        elif mid=="explorer_visit" and len(state.get("pages_visited",[]))>=7: award=True
+        elif mid=="legacy_builder" and len(state.get("categories_contributed",[]))>=11: award=True
         elif mid=="analyst" and state["total_xp"]>=500: award=True
         elif mid=="architect" and state["total_xp"]>=5000: award=True
+        elif mid=="visionary" and state["total_xp"]>=10000: award=True
         if award:
             flags.setdefault("earned",[]).append(mid); missions_awarded.append({"mission_id":mid,"name":m["name"],"xp_awarded":m["xp"],"new_total_xp":state["total_xp"],"new_level":state["level"]}); state["total_xp"]+=m["xp"]; state["level"]=_level_for_xp(state["total_xp"])
     entry={"date":_now_iso(),"contributor":cid,"type":req.pathway,"quality_score":qs["overall"],"quality_tier":qs["tier"],"status":"accepted","reviewed_by":"automated","xp_earned":xp_earned,"missions":[m["mission_id"] for m in missions_awarded]}
