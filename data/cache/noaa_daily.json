@@ -2,34 +2,10 @@
   "source": "NOAA NCEI Daily Summaries",
   "station": "USW00012838",
   "stationName": "Daytona Beach Intl",
-  "sourceUrl": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&dataTypes=TMAX,TMIN,PRCP,AWND&stations=USW00012838&startDate=2025-09-03&endDate=2026-09-03&format=json",
-  "vintage": "2025-09-03 to 2026-09-03",
-  "fetchedAt": "2026-09-03T14:36:29.432281",
+  "sourceUrl": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&dataTypes=TMAX,TMIN,PRCP,AWND&stations=USW00012838&startDate=2025-09-07&endDate=2026-09-07&format=json",
+  "vintage": "2025-09-07 to 2026-09-07",
+  "fetchedAt": "2026-09-07T21:12:47.150415",
   "data": [
-    {
-      "date": "2025-09-03",
-      "tmax_c": 30.6,
-      "tmin_c": 23.9,
-      "prcp_mm": 0
-    },
-    {
-      "date": "2025-09-04",
-      "tmax_c": 30.6,
-      "tmin_c": 25.0,
-      "prcp_mm": 0
-    },
-    {
-      "date": "2025-09-05",
-      "tmax_c": 30.6,
-      "tmin_c": 25.0,
-      "prcp_mm": 0
-    },
-    {
-      "date": "2025-09-06",
-      "tmax_c": 31.7,
-      "tmin_c": 25.6,
-      "prcp_mm": 0
-    },
     {
       "date": "2025-09-07",
       "tmax_c": 31.7,
@@ -2183,11 +2159,29 @@
       "tmax_c": 31.7,
       "tmin_c": 24.4,
       "prcp_mm": 3
+    },
+    {
+      "date": "2026-09-01",
+      "tmax_c": 31.1,
+      "tmin_c": 24.4,
+      "prcp_mm": 155
+    },
+    {
+      "date": "2026-09-02",
+      "tmax_c": 30.6,
+      "tmin_c": 25.0,
+      "prcp_mm": 0
+    },
+    {
+      "date": "2026-09-03",
+      "tmax_c": 29.4,
+      "tmin_c": 26.1,
+      "prcp_mm": 0
     }
   ],
   "summary": {
-    "recordCount": 363,
+    "recordCount": 362,
     "avgHigh": 27.9,
-    "totalPrecip": 13293
+    "totalPrecip": 13448
   }
 }

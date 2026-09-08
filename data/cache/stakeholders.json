@@ -1,0 +1,46 @@
+[
+  {
+    "id": "business",
+    "name": "Business Owners",
+    "description": "Free market benchmarks, customer demographics, industry trends, pricing intelligence, and demand signals.",
+    "icon": "\ud83c\udfe2",
+    "highlights": [
+      "Local market snapshot & competitor landscape",
+      "Customer demographics & spending patterns",
+      "Business formation & licensing data"
+    ]
+  },
+  {
+    "id": "residents",
+    "name": "Residents",
+    "description": "Employment data, wage trends, cost-of-living metrics, school performance, health outcomes, and public spending.",
+    "icon": "\ud83c\udfe0",
+    "highlights": [
+      "Employment & wage trends by sector",
+      "Cost of living breakdown",
+      "School & health data by area"
+    ]
+  },
+  {
+    "id": "tourists",
+    "name": "Tourists",
+    "description": "Conditions, events, and visitor volume trends for Volusia County.",
+    "icon": "\ud83c\udfd6\ufe0f",
+    "highlights": [
+      "Beach conditions & visitor volume",
+      "Events calendar",
+      "Local attractions"
+    ]
+  },
+  {
+    "id": "leaders",
+    "name": "Leaders",
+    "description": "Capital flows, permitting velocity, and workforce analytics.",
+    "icon": "\ud83d\udcca",
+    "highlights": [
+      "Capital investment tracking",
+      "Permitting data",
+      "Workforce analytics"
+    ]
+  }
+]

@@ -1,0 +1,167 @@
+{
+  "count": 18,
+  "layers": [
+    {
+      "id": 1,
+      "name": "County Boundary",
+      "category": "boundary",
+      "description": "Volusia County outline",
+      "source": "US Census TIGER/Line",
+      "format": "geojson",
+      "geometry": "{\"type\":\"MultiPolygon\",\"coordinates\":[[[[-81.5,29.4],[-80.8,29.4],[-80.8,28.6],[-81.0,28.6],[-81.1,28.8],[-81.4,28.9],[-81.5,29.1],[-81.5,29.4]]]]}"
+    },
+    {
+      "id": 17,
+      "name": "Beach Access Points",
+      "category": "cultural",
+      "description": "Public beach access locations",
+      "source": "County GIS",
+      "format": "geojson",
+      "geometry": "{\"type\":\"MultiPoint\",\"coordinates\":[[-81.0,29.2]]}"
+    },
+    {
+      "id": 6,
+      "name": "Cultural",
+      "category": "cultural",
+      "description": "Cultural and recreational sites",
+      "source": "County GIS",
+      "format": "geojson",
+      "geometry": "{\"type\":\"MultiPoint\",\"coordinates\":[[-81.1,29.0],[-81.2,29.1]]}"
+    },
+    {
+      "id": 18,
+      "name": "Cultural Sites",
+      "category": "cultural",
+      "description": "Museums, theaters, and historical landmarks",
+      "source": "County GIS",
+      "format": "geojson",
+      "geometry": "{\"type\":\"MultiPoint\",\"coordinates\":[[-81.1,29.0]]}"
+    },
+    {
+      "id": 8,
+      "name": "Age Distribution",
+      "category": "demographic",
+      "description": "Median age by census tract",
+      "source": "Census ACS DP05",
+      "format": "geojson",
+      "geometry": "{\"type\":\"MultiPolygon\",\"coordinates\":[[[[-81.1,29.0],[-81.0,29.0],[-81.0,28.8],[-81.1,28.8],[-81.1,29.0]]]]}"
+    },
+    {
+      "id": 5,
+      "name": "Demographic",
+      "category": "demographic",
+      "description": "Population density and demographic clusters",
+      "source": "Census ACS",
+      "format": "geojson",
+      "geometry": "{\"type\":\"MultiPolygon\",\"coordinates\":[[[[-81.2,29.0],[-81.0,29.0],[-81.0,28.8],[-81.2,28.8],[-81.2,29.0]]]]}"
+    },
+    {
+      "id": 7,
+      "name": "Population Density",
+      "category": "demographic",
+      "description": "Population per square mile by tract",
+      "source": "Census ACS DP05",
+      "format": "geojson",
+      "geometry": "{\"type\":\"MultiPolygon\",\"coordinates\":[[[[-81.2,29.1],[-81.0,29.1],[-81.0,28.9],[-81.2,28.9],[-81.2,29.1]]]]}"
+    },
+    {
+      "id": 14,
+      "name": "School Districts",
+      "category": "demographic",
+      "description": "Public school district boundaries",
+      "source": "FL DOE",
+      "format": "geojson",
+      "geometry": "{\"type\":\"MultiPolygon\",\"coordinates\":[[[[-81.2,29.1],[-81.0,29.1],[-81.0,28.9],[-81.2,28.9],[-81.2,29.1]]]]}"
+    },
+    {
+      "id": 2,
+      "name": "Economic Zones",
+      "category": "economic",
+      "description": "Economic development zones",
+      "source": "County GIS",
+      "format": "geojson",
+      "geometry": "{\"type\":\"MultiPolygon\",\"coordinates\":[[[[-81.5,29.4],[-80.8,29.4],[-80.8,28.6],[-81.0,28.6],[-81.1,28.8],[-81.4,28.9],[-81.5,29.1],[-81.5,29.4]]]]}"
+    },
+    {
+      "id": 10,
+      "name": "Employment Density",
+      "category": "economic",
+      "description": "Jobs per square mile by zone",
+      "source": "BLS QCEW",
+      "format": "geojson",
+      "geometry": "{\"type\":\"MultiPoint\",\"coordinates\":[[-81.1,29.0],[-81.2,29.1],[-81.0,29.0]]}"
+    },
+    {
+      "id": 16,
+      "name": "Hospitality Zones",
+      "category": "economic",
+      "description": "Hotel and resort concentrations",
+      "source": "CVB",
+      "format": "geojson",
+      "geometry": "{\"type\":\"MultiPoint\",\"coordinates\":[[-81.0,29.1],[-81.1,29.0]]}"
+    },
+    {
+      "id": 9,
+      "name": "Income by Tract",
+      "category": "economic",
+      "description": "Median household income by census tract",
+      "source": "Census ACS DP03",
+      "format": "geojson",
+      "geometry": "{\"type\":\"MultiPolygon\",\"coordinates\":[[[[-81.2,29.0],[-81.0,29.0],[-81.0,28.8],[-81.2,28.8],[-81.2,29.0]]]]}"
+    },
+    {
+      "id": 13,
+      "name": "Conservation Areas",
+      "category": "environment",
+      "description": "Protected lands and conservation zones",
+      "source": "County GIS",
+      "format": "geojson",
+      "geometry": "{\"type\":\"MultiPolygon\",\"coordinates\":[[[[-81.3,28.9],[-81.1,28.9],[-81.1,28.7],[-81.3,28.7],[-81.3,28.9]]]]}"
+    },
+    {
+      "id": 4,
+      "name": "Environmental",
+      "category": "environment",
+      "description": "Wetlands, water bodies, and conservation areas",
+      "source": "County GIS",
+      "format": "geojson",
+      "geometry": "{\"type\":\"MultiPolygon\",\"coordinates\":[[[[-81.3,28.9],[-81.1,28.9],[-81.1,28.7],[-81.3,28.7],[-81.3,28.9]]]]}"
+    },
+    {
+      "id": 12,
+      "name": "Water Bodies",
+      "category": "environment",
+      "description": "Rivers, lakes, and coastal waterways",
+      "source": "USGS",
+      "format": "geojson",
+      "geometry": "{\"type\":\"MultiLineString\",\"coordinates\":[[[-81.2,28.9],[-81.0,28.8]]]}"
+    },
+    {
+      "id": 15,
+      "name": "Healthcare Access",
+      "category": "infrastructure",
+      "description": "Hospitals and clinics by zone",
+      "source": "FL AHCA",
+      "format": "geojson",
+      "geometry": "{\"type\":\"MultiPoint\",\"coordinates\":[[-81.1,29.0]]}"
+    },
+    {
+      "id": 3,
+      "name": "Infrastructure",
+      "category": "infrastructure",
+      "description": "Roads, utilities, and public facilities",
+      "source": "County GIS",
+      "format": "geojson",
+      "geometry": "{\"type\":\"MultiLineString\",\"coordinates\":[[[-81.2,29.1],[-81.0,29.0],[-81.0,28.8]]]}"
+    },
+    {
+      "id": 11,
+      "name": "Road Network",
+      "category": "infrastructure",
+      "description": "Major roads and highways",
+      "source": "County GIS",
+      "format": "geojson",
+      "geometry": "{\"type\":\"MultiLineString\",\"coordinates\":[[[-81.2,29.1],[-81.0,29.0],[-81.0,28.8]]]}"
+    }
+  ]
+}

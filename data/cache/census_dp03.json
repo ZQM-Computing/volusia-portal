@@ -1,17 +1,16 @@
 {
   "source": "US Census ACS 5-Year DP03",
-  "sourceUrl": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2023.DP03",
-  "vintage": "2023",
-  "fetchedAt": "2026-09-02T23:44:56.721631",
-  "medianHouseholdIncome": 66581,
-  "medianHouseholdIncomeMoe": 1033,
-  "unemploymentRate": 4.0,
-  "povertyRate": 2.2,
-  "perCapitaIncome": null,
+  "sourceUrl": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2024.DP03",
+  "vintage": "2024",
+  "fetchedAt": "2026-09-07T21:12:42.913778",
+  "medianHouseholdIncome": 70044,
+  "unemploymentRate": 4.1,
+  "povertyRate": 2.3,
+  "perCapitaIncome": -888888888,
   "medianGrossRent": null,
   "medianMortgage": null,
   "ownerOccupiedHousing": null,
   "renterOccupiedHousing": null,
-  "commuteTimeMinutes": 27.1,
-  "healthInsuranceRate": 11.0
+  "commuteTimeMinutes": 27.5,
+  "healthInsuranceRate": 10.2
 }

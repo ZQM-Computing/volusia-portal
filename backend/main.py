@@ -2,6 +2,7 @@
 Serves real economic indicators from SQLite database + CSV downloads.
 """
 import csv, io, json, os, sqlite3, subprocess, requests
+import hmac, hashlib
 from pathlib import Path
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
@@ -12,6 +13,15 @@ DB_PATH = Path(__file__).resolve().parent.parent / "data" / "volusia.db"
 app = FastAPI(title="Project Volusia API", version="3.0.0")
 # Initialize gamification tables
 conn = sqlite3.connect(str(DB_PATH)); _init_gamification_db(conn); conn.close()
+
+REFRESH_TOKEN = os.environ.get("VOLUSIA_REFRESH_TOKEN", "volusia-refresh-secret-change-me")
+
+def _require_refresh_auth(secret: str = Query(...)):
+    """HMAC-validated secret check. Raises 401 if invalid."""
+    if not secret or not hmac.compare_digest(str(secret), REFRESH_TOKEN):
+        raise HTTPException(status_code=401, detail="Authentication required")
+    return True
+
 app.add_middleware(
     CORSMiddleware, allow_origins=["*"], allow_credentials=True,
     allow_methods=["*"], allow_headers=["*"])
@@ -19,6 +29,9 @@ app.add_middleware(
 def _db_rows(query: str, params=()):
     if not DB_PATH.exists(): return []
     conn = sqlite3.connect(str(DB_PATH)); conn.row_factory = sqlite3.Row
+    conn.execute("PRAGMA journal_mode=WAL")
+    conn.execute("PRAGMA busy_timeout=5000")
+    conn.execute("PRAGMA foreign_keys=ON")
     try: cur = conn.execute(query, params); return [dict(r) for r in cur.fetchall()]
     finally: conn.close()
 
@@ -76,10 +89,55 @@ def get_map_layers():
     rows = _db_rows("SELECT id, name, category, description, source, format, url, geometry FROM map_layers ORDER BY category, name")
     return {"count": len(rows), "layers": rows}
 
+
+@app.get("/data/indicators.json")
+def get_indicators_json():
+    """Serve indicators as JSON for frontend hooks."""
+    rows = _db_rows("SELECT * FROM indicators ORDER BY category, name LIMIT 500")
+    return {"count": len(rows), "indicators": rows}
+
+@app.get("/data/{name}.json")
+def get_data_file(name: str):
+    """Serve cached data JSON files for frontend hooks."""
+    cache_path = Path(__file__).resolve().parent.parent / "data" / "cache" / f"{name}.json"
+    if not cache_path.exists():
+        raise HTTPException(status_code=404, detail=f"Data file '{name}' not found")
+    try:
+        content = json.loads(cache_path.read_text())
+        return content
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/pulse.json")
+def pulse_json():
+    """Alias for gamification pulse — frontend uses /pulse.json."""
+    return _get_pulse_data()
+
+def _get_pulse_data():
+    """Get pulse data from gamification module."""
+    import json as _json
+    from pathlib import Path as _Path
+    gam_dir = _Path(__file__).resolve().parent.parent / "data" / "gamification"
+    items = []
+    now_str = __import__('datetime').datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+    if gam_dir.exists():
+        for f in gam_dir.glob("*.json"):
+            try:
+                data = _json.loads(f.read_text())
+                if isinstance(data, dict):
+                    for k, v in data.items():
+                        if isinstance(v, (int, float)) and k not in ("source", "sourceUrl", "vintage"):
+                            items.append({"indicator_id": f"{f.stem}.{k}", "name": k, "value": v, "source": f.stem, "direction": "stable"})
+            except Exception:
+                pass
+    return {"items": items[:50], "generated_at": now_str}
+
+
 @app.get("/refresh")
 @app.get("/diagnostics")
-def diagnostics():
-    """Full system diagnostics: DB integrity, API connectivity, gamification, map layers."""
+def diagnostics(secret: str = Query(...)):
+    """Full system diagnostics: DB integrity, API connectivity, gamification, map layers. Requires auth."""
+    _require_refresh_auth(secret)
     results = {}
     db_path = DB_PATH
     results["database"] = {"exists": db_path.exists(), "path": str(db_path)}
@@ -178,8 +236,9 @@ def diagnostics():
     return results
 
 @app.post("/refresh")
-def trigger_refresh():
-    """Trigger a refresh pipeline run."""
+def trigger_refresh(secret: str = Query(...)):
+    """Trigger a refresh pipeline run. Requires HMAC-validated secret."""
+    _require_refresh_auth(secret)
     try:
         proc = subprocess.run(["python", str(Path(__file__).parent.parent / "scripts" / "refresh_v2.py")], capture_output=True, text=True, timeout=300)
         return {"status": "triggered", "returncode": proc.returncode}
