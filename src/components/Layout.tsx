@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Card, SectionTitle, Badge } from '../components/UI'
-import { useGamificationStats, useDiagnostics } from '../hooks/useApi'
+import { useGamificationStats, useDiagnostics, useGamification } from '../hooks/useApi'
 
 const navLinks = [
   { to: '/', label: 'Portal Home' },
@@ -18,7 +18,13 @@ export function Header() {
   const location = useLocation()
   const { stats, totalUsers, avgXp, avgLevel } = useGamificationStats('anonymous')
   const { diagnostics, loading: diagLoading } = useDiagnostics()
+  const { visitPage } = useGamification('anonymous')
   const [mobileOpen, setMobileOpen] = useState(false)
+
+  // Track page visits for gamification
+  useEffect(() => {
+    visitPage()
+  }, [location.pathname])
   const [isDark, setIsDark] = useState(() => {
     if (typeof window !== 'undefined') {
       const stored = localStorage.getItem('volusia-theme')
