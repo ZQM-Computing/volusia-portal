@@ -13,3 +13,4 @@
 2026/09/07 13:19:58 [emerg] 7028#70424: CreateFile() "C:/c/Users/zqmco/scoop/persist/nginx/conf/nginx.conf" failed (3: The system cannot find the path specified)
 2026/09/07 13:20:10 [emerg] 69956#53204: CreateFile() "C:/c/Users/zqmco/scoop/persist/nginx/conf/nginx.conf" failed (3: The system cannot find the path specified)
 2026/09/07 13:20:26 [emerg] 66776#71100: CreateFile() "C:/c/Users/zqmco/scoop/persist/nginx/conf/nginx.conf" failed (3: The system cannot find the path specified)
+2026/09/07 23:26:24 [emerg] 34724#32376: CreateFile() "C:\Users\zqmco\Docker\volusia-portal/conf/nginx.conf" failed (3: The system cannot find the path specified)
