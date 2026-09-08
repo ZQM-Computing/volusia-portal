@@ -48,7 +48,40 @@ MISSION_CATALOG = [
     {"id":"architect","name":"Architect","desc":"Reach Architect level (5000 XP)","xp":0},
     {"id":"visionary","name":"Visionary","desc":"Reach 10,000 total XP","xp":0},
     {"id":"legacy_builder","name":"Legacy Builder","desc":"Contribute to all 11 data categories","xp":1000},
-]
+        # Tier 6 — Civic & Community Engagement
+        {"id":"civic_participant","name":"Civic Participant","desc":"Attend 1+ public meeting or hearing","xp":100},
+        {"id":"data_citizen","name":"Data Citizen","desc":"Verify 5+ data points against primary sources","xp":150},
+        {"id":"open_intelligence_advocate","name":"Open Intelligence Advocate","desc":"Share Project Volusia with 10+ people","xp":200},
+        {"id":"transparency_champion","name":"Transparency Champion","desc":"Request FOIA or public records 3+ times","xp":300},
+        {"id":"policy_contributor","name":"Policy Contributor","desc":"Submit data-backed policy recommendations","xp":400},
+        {"id":"budget_analyst","name":"Budget Analyst","desc":"Analyze 3+ budget documents and share findings","xp":350},
+        {"id":"census_participant","name":"Census Participant","desc":"Complete 2030 Census or ACS survey","xp":150},
+        {"id":"community_organizer","name":"Community Organizer","desc":"Coordinate 3+ community data drives","xp":450},
+        {"id":"youth_mentor","name":"Youth Mentor","desc":"Mentor a student on a school project (Pathway G)","xp":250},
+        {"id":"senior_advisor","name":"Senior Advisor","desc":"Submit observations as a Pathway K contributor","xp":200},
+        # Tier 7 — Environmental & Public Health Stewardship
+        {"id":"environmental_steward","name":"Environmental Steward","desc":"Report 5+ environmental observations (Pathway Q)","xp":300},
+        {"id":"climate_analyst","name":"Climate Analyst","desc":"Submit 3+ climate/weather observations","xp":250},
+        {"id":"public_health_advocate","name":"Public Health Advocate","desc":"Contribute health access data (Pathway M)","xp":350},
+        {"id":"safety_reporter","name":"Safety Reporter","desc":"Report 5+ safety/hazard observations (Pathway P)","xp":300},
+        {"id":"agriculture_steward","name":"Agriculture Steward","desc":"Contribute farming/maritime data (Pathway N)","xp":300},
+        {"id":"water_quality_monitor","name":"Water Quality Monitor","desc":"Submit 3+ water quality observations","xp":250},
+        # Tier 8 — Research & Data Science
+        {"id":"data_scientist","name":"Data Scientist","desc":"Build a visualization or analysis tool","xp":450},
+        {"id":"statistical_modeler","name":"Statistical Modeler","desc":"Create predictive model for Volusia data","xp":500},
+        {"id":"geospatial_analyst","name":"Geospatial Analyst","desc":"Add GeoJSON map layer with analysis","xp":400},
+        {"id":"corpus_builder","name":"Corpus Builder","desc":"Compile 100+ structured data points","xp":350},
+        {"id":"open_data_curator","name":"Open Data Curator","desc":"Curate and publish a public dataset","xp":450},
+        {"id":"api_developer","name":"API Developer","desc":"Build a public API integration for Volusia data","xp":400},
+        # Tier 9 — Governance & Institutional Impact
+        {"id":"board_advisor","name":"Board Advisor","desc":"Present findings to county board or commission","xp":500},
+        {"id":"grant_writer","name":"Grant Writer","desc":"Use Volusia data to secure 1+ grant","xp":450},
+        {"id":"institutional_partner","name":"Institutional Partner","desc":"Partner with a government/NGO institution","xp":400},
+        {"id":"policy_influencer","name":"Policy Influencer","desc":"Data cited in 1+ official policy document","xp":500},
+        # Tier 10 — Legend
+        {"id":"legend","name":"Legend","desc":"Reach 50,000 total XP","xp":0},
+        {"id":"founder","name":"Founder","desc":"Founding contributor since launch","xp":0},
+    ]
 class QualityTier(str, Enum):
     VERIFIED="verified"; REVIEWED="reviewed"; PENDING="pending"; FLAGGED="flagged"
 class ContributeRequest(BaseModel):
@@ -188,6 +221,8 @@ def contribute(req: ContributeRequest):
         elif mid=="analyst" and state["total_xp"]>=500: award=True
         elif mid=="architect" and state["total_xp"]>=5000: award=True
         elif mid=="visionary" and state["total_xp"]>=10000: award=True
+        # Civic & Community Engagement missions
+        elif mid=="civic_participant" and state.get("civic_events_attended",0)>=1: award=True
         if award:
             flags.setdefault("earned",[]).append(mid); missions_awarded.append({"mission_id":mid,"name":m["name"],"xp_awarded":m["xp"],"new_total_xp":state["total_xp"],"new_level":state["level"]}); state["total_xp"]+=m["xp"]; state["level"]=_level_for_xp(state["total_xp"])
     entry={"date":_now_iso(),"contributor":cid,"type":req.pathway,"quality_score":qs["overall"],"quality_tier":qs["tier"],"status":"accepted","reviewed_by":"automated","xp_earned":xp_earned,"missions":[m["mission_id"] for m in missions_awarded]}
