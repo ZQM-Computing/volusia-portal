@@ -369,11 +369,16 @@ def get_missions_data(contributor_id: str):
 @app.get("/gamification/badges/{contributor_id}")
 def get_badges_data(contributor_id: str):
     """Get all badges and reputation for a contributor."""
-    from gamification.scoring import _load_state, _badge_for_state
-    state = _load_state(contributor_id)
+    import importlib.util as _iu
+    import os as _os2
+    _scoring_path = _os2.path.join(str(Path(__file__).parent), 'gamification', 'scoring.py')
+    _spec = _iu.spec_from_file_location('scoring', _scoring_path)
+    _scoring_mod = _iu.module_from_spec(_spec)
+    _spec.loader.exec_module(_scoring_mod)
+    state = _scoring_mod._load_state(contributor_id)
     badges = state.get("badges", [])
     if not badges:
-        b = _badge_for_state(state)
+        b = _scoring_mod._badge_for_state(state)
         if b: badges.append(b)
     return {"contributor_id": contributor_id, "badges": badges, "total_xp": state.get("total_xp", 0), "level": state.get("level", "Newcomer"), "quality_tier": state.get("quality_tier", "pending"), "current_streak": state.get("streak", 0), "best_streak": state.get("best_streak", 0)}
 

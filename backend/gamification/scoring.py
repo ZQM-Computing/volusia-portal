@@ -221,8 +221,39 @@ def contribute(req: ContributeRequest):
         elif mid=="analyst" and state["total_xp"]>=500: award=True
         elif mid=="architect" and state["total_xp"]>=5000: award=True
         elif mid=="visionary" and state["total_xp"]>=10000: award=True
-        # Civic & Community Engagement missions
+        # Civic & Community Engagement missions (Tier 6)
         elif mid=="civic_participant" and state.get("civic_events_attended",0)>=1: award=True
+        elif mid=="data_citizen" and state.get("data_points_verified",0)>=5: award=True
+        elif mid=="open_intelligence_advocate" and state.get("shares_count",0)>=10: award=True
+        elif mid=="transparency_champion" and state.get("foia_requests",0)>=3: award=True
+        elif mid=="policy_contributor" and state.get("policy_recommendations",0)>=1: award=True
+        elif mid=="budget_analyst" and state.get("budget_docs_analyzed",0)>=3: award=True
+        elif mid=="census_participant" and state.get("census_completed",False): award=True
+        elif mid=="community_organizer" and state.get("data_drives_coordinated",0)>=3: award=True
+        elif mid=="youth_mentor" and state.get("students_mentored",0)>=1: award=True
+        elif mid=="senior_advisor" and state.get("pathway_counts",{}).get("K",0)>=1: award=True
+        # Environmental & Public Health Stewardship (Tier 7)
+        elif mid=="environmental_steward" and state.get("pathway_counts",{}).get("Q",0)>=5: award=True
+        elif mid=="climate_analyst" and state.get("climate_observations",0)>=3: award=True
+        elif mid=="public_health_advocate" and state.get("pathway_counts",{}).get("M",0)>=3: award=True
+        elif mid=="safety_reporter" and state.get("pathway_counts",{}).get("P",0)>=5: award=True
+        elif mid=="agriculture_steward" and state.get("pathway_counts",{}).get("N",0)>=3: award=True
+        elif mid=="water_quality_monitor" and state.get("water_quality_observations",0)>=3: award=True
+        # Research & Data Science (Tier 8)
+        elif mid=="data_scientist" and state.get("visualizations_built",0)>=1: award=True
+        elif mid=="statistical_modeler" and state.get("predictive_models",0)>=1: award=True
+        elif mid=="geospatial_analyst" and state.get("geo_layers_added",0)>=1: award=True
+        elif mid=="corpus_builder" and state.get("structured_data_points",0)>=100: award=True
+        elif mid=="open_data_curator" and state.get("datasets_published",0)>=1: award=True
+        elif mid=="api_developer" and state.get("api_integrations_built",0)>=1: award=True
+        # Governance & Institutional Impact (Tier 9)
+        elif mid=="board_advisor" and state.get("presentations_to_board",0)>=1: award=True
+        elif mid=="grant_writer" and state.get("grants_secured",0)>=1: award=True
+        elif mid=="institutional_partner" and state.get("institutional_partnerships",0)>=1: award=True
+        elif mid=="policy_influencer" and state.get("policy_citations",0)>=1: award=True
+        # Tier 10 — Legend
+        elif mid=="legend" and state["total_xp"]>=50000: award=True
+        elif mid=="founder" and state.get("joined_date","") < "2026-09-01": award=True
         if award:
             flags.setdefault("earned",[]).append(mid); missions_awarded.append({"mission_id":mid,"name":m["name"],"xp_awarded":m["xp"],"new_total_xp":state["total_xp"],"new_level":state["level"]}); state["total_xp"]+=m["xp"]; state["level"]=_level_for_xp(state["total_xp"])
     entry={"date":_now_iso(),"contributor":cid,"type":req.pathway,"quality_score":qs["overall"],"quality_tier":qs["tier"],"status":"accepted","reviewed_by":"automated","xp_earned":xp_earned,"missions":[m["mission_id"] for m in missions_awarded]}
