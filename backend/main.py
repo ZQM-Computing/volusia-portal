@@ -338,6 +338,42 @@ def get_dashboard_data():
         dashboard[cat["category"]] = cat_rows
     return {"dashboard": dashboard, "categories": len(categories)}
 
+# ==================== GAMIFICATION STATE ENDPOINT ====================
+@app.get("/api/gamification/state/{contributor_id}")
+def get_gamification_state(contributor_id: str):
+    """Get full gamification state for a contributor."""
+    import json as _json
+    from pathlib import Path as _Path
+    gam_dir = _Path(__file__).resolve().parent.parent / "data" / "gamification"
+    fpath = gam_dir / f"{contributor_id}.json"
+    if not fpath.exists():
+        return {"contributor_id": contributor_id, "level": "Newcomer", "total_xp": 0, "streak": 0, "missions_earned": 0}
+    try:
+        state = _json.loads(fpath.read_text())
+        return {
+            "contributor_id": contributor_id,
+            "level": state.get("level", "Newcomer"),
+            "total_xp": state.get("total_xp", 0),
+            "streak": state.get("streak", 0),
+            "best_streak": state.get("best_streak", 0),
+            "quality_tier": state.get("quality_tier", "pending"),
+            "quality_score": state.get("quality_score", 0),
+            "reputation": state.get("reputation", 0),
+            "badges": state.get("badges", []),
+            "missions_earned": len(state.get("mission_flags", {}).get("earned", [])),
+            "total_missions": 30,
+            "pages_visited": state.get("pages_visited", []),
+            "sources_contributed": state.get("sources_contributed", []),
+            "categories_contributed": state.get("categories_contributed", []),
+            "new_sources_added": state.get("new_sources_added", 0),
+            "interviews_completed": state.get("interviews_completed", 0),
+            "gov_contributions": state.get("gov_contributions", 0),
+            "verifications": state.get("verifications", 0),
+            "mentees_helped": state.get("mentees_helped", 0),
+        }
+    except Exception as e:
+        return {"contributor_id": contributor_id, "error": str(e)}
+
 # ==================== GAMIFICATION DATA ENDPOINTS ====================
 @app.get("/gamification/missions/{contributor_id}")
 def get_missions_data(contributor_id: str):
