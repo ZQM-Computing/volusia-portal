@@ -47,7 +47,16 @@ def _db_exec(sql: str, params=()):
     conn = sqlite3.connect(str(DB_PATH)); conn.row_factory = sqlite3.Row
     try: cur = conn.execute(sql, params); conn.commit(); return cur
     finally: conn.close()
+SENTINEL_VALUES = {-888888888, -999999, 999999, 'N/A', 'NULL', '**', '***', '(X)'}
+
+def _is_sentinel(value):
+    if isinstance(value, (int, float)):
+        return value in SENTINEL_VALUES
+    return str(value) in SENTINEL_VALUES
+
 def upsert_indicator(name: str, value: str, unit: str, category: str, source: str, source_url: str, vintage: str, description: str):
+    if _is_sentinel(value):
+        return
     _db_exec('INSERT INTO indicators (name, value, unit, category, source, source_url, vintage, fetched_at, description) VALUES (?,?,?,?,?,?,?,?,?) ON CONFLICT(name) DO UPDATE SET value=excluded.value, unit=excluded.unit, category=excluded.category, source=excluded.source, source_url=excluded.source_url, vintage=excluded.vintage, fetched_at=excluded.fetched_at, description=excluded.description', (name, str(value), unit, category, source, source_url, vintage, datetime.now().isoformat(), description))
 
 # --- Census ACS via data.census.gov (no key needed) ---
