@@ -1,17 +1,33 @@
+# Database files (large binary)
+*.db
+*.sqlite
+*.sqlite3
+
+# Test/temp files
+/test_import.db
+/test_*.db
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Node
 node_modules/
 dist/
-.env
-.env.*
-*.log
-.DS_Store
+build/
+
+# IDE
 .vscode/
 .idea/
-*.tsbuildinfo
-scripts/_operational/
-backend/__pycache__/
-data/volusia.db
-data/backups/
-backend/__pycache__/
-scripts/__pycache__/
-data/backups/
-.git.broken/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temp
+*.tmp
+*.bak
+cache/
