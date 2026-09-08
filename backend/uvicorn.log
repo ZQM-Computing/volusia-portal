@@ -571,3 +571,4 @@ INFO:     None:0 - "GET /data/news.json HTTP/1.1" 200 OK
 INFO:     None:0 - "GET /data/cvb_hotels.json HTTP/1.1" 404 Not Found
 INFO:     None:0 - "GET /data/news.json HTTP/1.1" 200 OK
 INFO:     None:0 - "GET /data/economic.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51926 - "GET /api/v1/status HTTP/1.1" 404 Not Found

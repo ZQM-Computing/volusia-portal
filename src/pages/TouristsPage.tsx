@@ -36,7 +36,7 @@ export function TouristsPage() {
   const occupancyVal = occupancyValue ? Number(occupancyValue.value) : 51.5
   const monthlyVisitors = months.map((month, i) => ({
     month,
-    visitors: Math.round(occupancyVal * (100000 + Math.sin(i * 0.5) * 20000))
+    visitors: Math.round(occupancyVal * 100000)
   }))
 
   return (

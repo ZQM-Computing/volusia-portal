@@ -27,9 +27,10 @@ export function ResidentsPage() {
   const loading = demoLoading || econLoading
 
   const costOfLivingValue = costOfLivingIdx ? Number(costOfLivingIdx.value) : 78.5
-  const costOfLiving = costOfLivingIdx
-    ? [{ category: 'Cost of Living', index: Number(costOfLivingIdx.value), nationalAvg: costOfLivingValue }]
-    : [{ category: 'Cost of Living', index: 0, nationalAvg: 100 }]
+    const nationalAvg = 100
+    const costOfLiving = costOfLivingIdx
+      ? [{ category: 'Cost of Living', index: Number(costOfLivingIdx.value), nationalAvg }]
+      : [{ category: 'Cost of Living', index: 0, nationalAvg }]
 
   const incomeTrend = medianIncome
     ? [{ x: '2020', y: 48500 }, { x: '2021', y: 50100 }, { x: '2022', y: 51800 }, { x: '2023', y: 53400 }, { x: '2024', y: Number(medianIncome.value) }]

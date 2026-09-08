@@ -29,14 +29,14 @@ export function BusinessPage() {
 
   const employmentValue = getIndicator(economic?.indicators, 'employment_qcew')
   const industryMix = [
-      { industry: 'Tourism', count: Math.round(employmentValue * 0.022), pct: 14.7 },
-      { industry: 'Retail', count: Math.round(employmentValue * 0.020), pct: 13.3 },
-      { industry: 'Healthcare', count: Math.round(employmentValue * 0.017), pct: 11.2 },
-      { industry: 'Construction', count: Math.round(employmentValue * 0.015), pct: 10.2 },
-      { industry: 'Education', count: Math.round(employmentValue * 0.011), pct: 7.4 },
-      { industry: 'Manufacturing', count: Math.round(employmentValue * 0.010), pct: 6.3 },
-      { industry: 'Professional', count: Math.round(employmentValue * 0.018), pct: 11.9 },
-      { industry: 'Other', count: Math.round(employmentValue * 0.037), pct: 24.9 },
+      { industry: 'Tourism', count: 0, pct: 14.7 },
+      { industry: 'Retail', count: 0, pct: 13.3 },
+      { industry: 'Healthcare', count: 0, pct: 11.2 },
+      { industry: 'Construction', count: 0, pct: 10.2 },
+      { industry: 'Education', count: 0, pct: 7.4 },
+      { industry: 'Manufacturing', count: 0, pct: 6.3 },
+      { industry: 'Professional', count: 0, pct: 11.9 },
+      { industry: 'Other', count: 0, pct: 24.9 },
     ]
 
   const loading = econLoading
@@ -132,7 +132,7 @@ export function BusinessPage() {
           <p className="text-sm text-volusia-slate mb-3">
             Compare your business performance against local industry averages. Revenue, margins, and growth rates by sector.
           </p>
-          <button className="btn-primary text-sm py-1.5 px-4">Coming Soon</button>
+          <span className="text-sm text-volusia-slate italic">COMING SOON</span>
         </Card>
         <Card hover>
           <div className="text-2xl mb-2">🗺️</div>
@@ -140,7 +140,7 @@ export function BusinessPage() {
           <p className="text-sm text-volusia-slate mb-3">
             Analyze foot traffic, demographics, and competitor density for any location in Volusia County.
           </p>
-          <button className="btn-primary text-sm py-1.5 px-4">Coming Soon</button>
+          <span className="text-sm text-volusia-slate italic">COMING SOON</span>
         </Card>
         <Card hover>
           <div className="text-2xl mb-2">📊</div>

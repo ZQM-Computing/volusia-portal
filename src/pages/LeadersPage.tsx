@@ -32,23 +32,11 @@ export function LeadersPage() {
         : []
 
     const workforceData = employment
-        ? [
-            { id: 'Healthcare', value: Number(employment.value) * 0.095, color: '#0d7377' },
-            { id: 'Tourism', value: Number(employment.value) * 0.115, color: '#c9a84c' },
-            { id: 'Retail', value: Number(employment.value) * 0.073, color: '#3d8b7d' },
-            { id: 'Education', value: Number(employment.value) * 0.052, color: '#e07a5f' },
-            { id: 'Manufacturing', value: Number(employment.value) * 0.042, color: '#1a3a5c' },
-            { id: 'Other', value: Number(employment.value) * 0.148, color: '#4a5568' },
-          ]
+        ? []
         : []
 
     const permittingVelocity = establishments
-        ? [
-            { type: 'Building', avgDays: 18, trend: 'down' },
-            { type: 'Zoning', avgDays: 45, trend: 'stable' },
-            { type: 'Business License', avgDays: 7, trend: 'down' },
-            { type: 'Environmental', avgDays: 62, trend: 'up' },
-          ]
+        ? []
         : []
 
     const moversIndicators = []
@@ -149,18 +137,12 @@ export function LeadersPage() {
             <Card className="mb-8">
                 <h3 className="text-lg font-semibold text-volusia-navy mb-4">Permitting Velocity</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                    {permittingVelocity.map((item) => (
-                        <div key={item.type} className="bg-gray-50 rounded-lg p-4 text-center">
-                            <div className="text-sm text-volusia-slate">{item.type}</div>
-                            <div className="text-2xl font-bold text-volusia-navy mt-1">{item.avgDays}</div>
-                            <div className="text-xs text-gray-500">avg days</div>
-                            <div className={`text-xs mt-1 ${
-                                item.trend === 'down' ? 'text-green-600' : item.trend === 'up' ? 'text-red-600' : 'text-gray-500'
-                            }`}>
-                                {item.trend === 'down' ? '↓ Improving' : item.trend === 'up' ? '↑ Slowing' : '→ Stable'}
-                            </div>
-                        </div>
-                    ))}
+                    <div className="bg-gray-50 rounded-lg p-4 text-center">
+                        <div className="text-sm text-volusia-slate">No Data</div>
+                        <div className="text-2xl font-bold text-volusia-navy mt-1">—</div>
+                        <div className="text-xs text-gray-500">avg days</div>
+                        <div className="text-xs mt-1 text-gray-500">→ Stable</div>
+                    </div>
                 </div>
                 <DataSource source="Volusia County Building Dept" url="https://www.volusia.org/services/building/" vintage="2026" />
             </Card>
