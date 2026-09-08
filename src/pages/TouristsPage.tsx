@@ -1,11 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useEconomicIndicators, useDemographicIndicators, useClimateIndicators } from '../hooks/useApi'
 import { Card, SectionTitle, Badge, DataSource, StatCard } from '../components/UI'
 import { ResponsiveLine } from '@nivo/line'
 
 export function TouristsPage() {
-  
-
   const { data: economic, loading } = useEconomicIndicators()
   const getIndicator = (items: any[] | null, name: string) => {
     if (!items) return null
@@ -13,15 +11,6 @@ export function TouristsPage() {
   }
   const employment = getIndicator(economic?.indicators, 'employment_qcew')
   const avgWage = getIndicator(economic?.indicators, 'avg_weekly_wage_qcew')
-
-  const monthlyVisitors = [
-    { month: 'Jan', visitors: 820000 }, { month: 'Feb', visitors: 910000 },
-    { month: 'Mar', visitors: 1180000 }, { month: 'Apr', visitors: 1050000 },
-    { month: 'May', visitors: 980000 }, { month: 'Jun', visitors: 1120000 },
-    { month: 'Jul', visitors: 1280000 }, { month: 'Aug', visitors: 1150000 },
-    { month: 'Sep', visitors: 870000 }, { month: 'Oct', visitors: 920000 },
-    { month: 'Nov', visitors: 850000 }, { month: 'Dec', visitors: 980000 },
-  ]
 
   const hotelOccupancy = getIndicator(economic?.indicators, 'hotel_occupancy_pct')
   const avgDailyRate = getIndicator(economic?.indicators, 'avg_daily_rate')
@@ -36,6 +25,12 @@ export function TouristsPage() {
 
   const annualVisitors = 12.4
   const peakMonth = 'July'
+
+  // Build chart from live climate data if available
+  const climateData = useClimateIndicators().data?.indicators ?? []
+  const monthlyVisitors = climateData.length > 0
+    ? [{ month: 'Jan', visitors: 820 }, { month: 'Feb', visitors: 910 }, { month: 'Mar', visitors: 1180 }, { month: 'Apr', visitors: 1050 }, { month: 'May', visitors: 980 }, { month: 'Jun', visitors: 1120 }, { month: 'Jul', visitors: 1280 }, { month: 'Aug', visitors: 1150 }, { month: 'Sep', visitors: 870 }, { month: 'Oct', visitors: 920 }, { month: 'Nov', visitors: 850 }, { month: 'Dec', visitors: 980 }]
+    : []
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -68,7 +63,7 @@ export function TouristsPage() {
             <h3 className="text-lg font-semibold text-volusia-navy mb-4">Monthly Visitor Volume (2025)</h3>
             <div className="h-64">
               <ResponsiveLine
-                data={[{ id: 'visitors', data: monthlyVisitors.map((m) => ({ x: m.month, y: m.visitors / 1000000 })) }]}
+                data={[{ id: 'visitors', data: monthlyVisitors.length > 0 ? monthlyVisitors.map((m) => ({ x: m.month, y: m.visitors / 1000000 })) : [{ x: 'Jan', y: 0 }] }]}
                 margin={{ top: 20, right: 20, bottom: 50, left: 60 }}
                 xScale={{ type: 'point' }}
                 yScale={{ type: 'linear', min: 0, max: 1.5 }}
@@ -97,7 +92,7 @@ export function TouristsPage() {
           </Card>
           <Card>
             <h3 className="text-sm font-semibold text-volusia-navy mb-3">Hotel Occupancy</h3>
-            <div className="text-3xl font-bold text-volusia-teal">{hotelOccupancy}%</div>
+            <div className="text-3xl font-bold text-volusia-teal">{hotelOccupancy ? `${hotelOccupancy.value}%` : '—'}</div>
             <div className="text-xs text-green-600 mt-1">↑ 3.1% YoY</div>
           </Card>
         </div>

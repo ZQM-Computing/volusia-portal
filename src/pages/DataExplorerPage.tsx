@@ -1,52 +1,49 @@
 import { useState, useEffect } from 'react'
 import { ErrorBoundary } from '../utils'
 import { useDebounce } from '../utils/useDebounce'
-import { useDatasets, useIndicator, useMapLayers, useDownloadCSV } from '../hooks/useApi'
+import { useDatasets, useIndicator, useMapLayers, useDownloadCSV, useIndicatorList } from '../hooks/useApi'
 import { Card, SectionTitle, Badge, DataSource } from '../components/UI'
 import { ResponsiveLine } from '@nivo/line'
 import { ResponsiveBar } from '@nivo/bar'
 
 export function DataExplorerPage() {
-  
 
   const [searchTerm, setSearchTerm] = useState('')
   const debouncedSearch = useDebounce(searchTerm, 300)
   const [categoryFilter, setCategoryFilter] = useState<string>('all')
-  const [statusFilter, setStatusFilter] = useState<string>('available')
 
   const { data: datasets, loading: dsLoading } = useDatasets()
-  const unemployment = useIndicator('unemployment_rate_acs')
-  const income = useIndicator('median_household_income_acs')
+  const indicators = useIndicatorList()
   const { data: mapLayers } = useMapLayers()
   const downloadCSV = useDownloadCSV()
 
   const items = datasets?.datasets ?? datasets ?? []
-  const categories = ['all', ...new Set(items.map((d: any) => d.category))]
+  const allCategories = ['all', ...new Set(items.map((d: any) => d.source || '').filter(Boolean))]
 
   const filtered = items.filter((d: any) => {
     const matchesSearch =
-      (d.name ?? '').toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (d.description ?? '').toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesCategory = categoryFilter === 'all' || d.category === categoryFilter
-    const matchesStatus = statusFilter === 'all' || d.status === statusFilter
-    return matchesSearch && matchesCategory && matchesStatus
+      (d.source ?? '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (d.vintage ?? '').toLowerCase().includes(searchTerm.toLowerCase())
+    const matchesCategory = categoryFilter === 'all' || (d.source ?? '').toLowerCase().includes(categoryFilter.toLowerCase())
+    return matchesSearch && matchesCategory
   })
 
   // Build chart data from live indicators
-  const barData = (() => {
-    const rows = []
-    const year = new Date().getFullYear()
-    for (let i = 5; i >= 0; i--) {
-      const q = ((i % 4) + 1)
-      const yr = year - Math.floor((5 - i) / 4)
-      rows.push({
-        quarter: `Q${q} ${String(yr).slice(2)}`,
-        unemployment: 3.0 + Math.random() * 1.5,
-        poverty: 12.0 + Math.random() * 2.5,
-      })
-    }
-    return rows
-  })()
+  const unemploymentData = indicators?.data?.indicators
+    ?.filter((i: any) => i.name?.includes('unemployment_rate'))
+    .map((i: any) => ({ name: i.name, value: Number(i.value) })) ?? []
+
+  const incomeData = indicators?.data?.indicators
+    ?.filter((i: any) => i.name?.includes('median_household_income') || i.name?.includes('per_capita_income') || i.name?.includes('personal_income'))
+    .map((i: any) => ({ name: i.name, value: Number(i.value) })) ?? []
+
+  const barData = unemploymentData.length > 0
+    ? [{ id: 'unemployment', data: unemploymentData.map((d: any) => ({ x: d.name, y: d.value })) }]
+    : [{ id: 'unemployment', data: [{ x: 'N/A', y: 0 }] }]
+
+  const barData2 = incomeData.length > 0
+    ? [{ id: 'income', data: incomeData.map((d: any) => ({ x: d.name, y: d.value })) }]
+    : [{ id: 'income', data: [{ x: 'N/A', y: 0 }] }]
 
   if (dsLoading) {
     return (
@@ -69,13 +66,13 @@ export function DataExplorerPage() {
       {/* Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <Card>
-          <h3 className="text-lg font-semibold text-volusia-navy mb-4">Unemployment Trend (ACS DP03)</h3>
+          <h3 className="text-lg font-semibold text-volusia-navy mb-4">Unemployment Rate</h3>
           <div className="h-64">
             <ResponsiveLine
-              data={[{ id: 'unemployment_rate_acs', data: barData.map((d) => ({ x: d.quarter, y: d.unemployment })) }]}
+              data={barData}
               margin={{ top: 20, right: 20, bottom: 50, left: 50 }}
               xScale={{ type: 'point' }}
-              yScale={{ type: 'linear', min: 0, max: 6 }}
+              yScale={{ type: 'linear', min: 0 }}
               axisBottom={{ tickRotation: -30 }}
               axisLeft={{ legend: '%', legendOffset: -40 }}
               colors={['#0d7377']}
@@ -84,33 +81,30 @@ export function DataExplorerPage() {
               useMesh={true}
             />
           </div>
-          <DataSource source="US Census ACS DP03" url="https://data.census.gov/" vintage="2024 5-Year" />
+          <DataSource source="BLS LAUS / Census ACS" url="https://www.bls.gov/lau/" vintage="2026" />
         </Card>
 
         <Card>
-          <h3 className="text-lg font-semibold text-volusia-navy mb-4">Quarterly Comparison</h3>
+          <h3 className="text-lg font-semibold text-volusia-navy mb-4">Income Indicators</h3>
           <div className="h-64">
             <ResponsiveBar
-              data={barData}
-              keys={['unemployment', 'poverty']}
-              indexBy="quarter"
+              data={barData2}
+              keys={['value']}
+              indexBy="name"
               margin={{ top: 20, right: 20, bottom: 50, left: 50 }}
               padding={0.3}
               colors={['#0d7377', '#c9a84c']}
               axisBottom={{ tickRotation: -30 }}
-              axisLeft={{ legend: '%', legendOffset: -40 }}
-              labelSkipWidth={12}
-              labelSkipHeight={12}
-              legends={[{ dataFrom: 'keys', anchor: 'bottom-right', direction: 'column', itemWidth: 100, itemHeight: 20 }]}
+              axisLeft={{ legend: '$', legendOffset: -40 }}
             />
           </div>
-          <DataSource source="BLS LAUS / Census ACS" url="https://www.bls.gov/lau/" vintage="2026-Q2" />
+          <DataSource source="US Census ACS / BEA" url="https://data.census.gov/" vintage="2024" />
         </Card>
       </div>
 
       {/* Filters */}
       <div className="bg-white rounded-lg shadow-md p-6 mb-6 border border-gray-100">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-volusia-slate mb-1">Search</label>
             <input
@@ -122,26 +116,14 @@ export function DataExplorerPage() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-volusia-slate mb-1">Category</label>
+            <label className="block text-sm font-medium text-volusia-slate mb-1">Source</label>
             <select
               value={categoryFilter}
               onChange={(e) => setCategoryFilter(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-volusia-teal focus:border-transparent"
             >
-              {(categories as string[]).map((c) => (
-                <option key={c} value={c}>{c === 'all' ? 'All Categories' : c.charAt(0).toUpperCase() + c.slice(1)}</option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-volusia-slate mb-1">Status</label>
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-volusia-teal focus:border-transparent"
-            >
-              {['all', 'available', 'in-development', 'gated', 'missing'].map((s) => (
-                <option key={s} value={s}>{s === 'all' ? 'All Statuses' : s.charAt(0).toUpperCase() + s.slice(1)}</option>
+              {(allCategories as string[]).map((c) => (
+                <option key={c} value={c}>{c === 'all' ? 'All Sources' : c}</option>
               ))}
             </select>
           </div>
@@ -158,38 +140,23 @@ export function DataExplorerPage() {
               <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
-                    <h3 className="text-lg font-semibold text-volusia-navy">{dataset.name}</h3>
-                    <Badge
-                      variant={
-                        dataset.status === 'available' ? 'success' :
-                        dataset.status === 'in-development' ? 'warning' :
-                        dataset.status === 'gated' ? 'error' : 'default'
-                      }
-                    >
-                      {dataset.status}
-                    </Badge>
+                    <h3 className="text-lg font-semibold text-volusia-navy">{dataset.source || `Dataset #${dataset.id}`}</h3>
+                    <Badge variant="success">Available</Badge>
                   </div>
-                  <p className="text-sm text-volusia-slate mb-2">{dataset.description}</p>
+                  <p className="text-sm text-volusia-slate mb-2">
+                    {dataset.source} — Vintage: {dataset.vintage ? String(dataset.vintage).slice(0, 10) : 'N/A'}
+                  </p>
                   <div className="flex flex-wrap gap-3 text-xs text-gray-500">
-                    <span>Source: {dataset.source}</span>
-                    <span>Vintage: {dataset.vintage}</span>
-                    <span>License: {dataset.license}</span>
-                    {dataset.downloads && <span>Downloads: {dataset.downloads}</span>}
+                    <span>ID: {dataset.id}</span>
                   </div>
                 </div>
                 <div className="flex gap-2">
-                  {dataset.status === 'available' && (
-                    <>
-                      <button className="btn-primary text-sm py-1.5 px-3">Download CSV</button>
-                      <button className="btn-secondary text-sm py-1.5 px-3">API</button>
-                    </>
-                  )}
-                  {dataset.status === 'in-development' && (
-                    <button className="btn-secondary text-sm py-1.5 px-3">Notify Me</button>
-                  )}
-                  {dataset.status === 'gated' && (
-                    <button className="btn-secondary text-sm py-1.5 px-3">Request Access</button>
-                  )}
+                  <button className="btn-primary text-sm py-1.5 px-3" onClick={() => downloadCSV()}>
+                    Download CSV
+                  </button>
+                  <button className="btn-secondary text-sm py-1.5 px-3" onClick={() => window.open(`/data/indicators.csv`, '_blank')}>
+                    API
+                  </button>
                 </div>
               </div>
             </Card>

@@ -32,6 +32,7 @@ export function useDownloadCSV(category?: string) {
   return () => window.open(url, '_blank')
 }
 export function useIndicator(name: string) { return useApiData<any>(`/indicators/${encodeURIComponent(name)}`) }
+export function useIndicatorList() { return useApiData<any>('/indicators.json') }
 
 // Gamification hooks — consolidated
 interface GamificationState {

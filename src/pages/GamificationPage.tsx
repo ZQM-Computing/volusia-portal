@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useGamification, useLeaderboard } from '../hooks/useApi'
+import { useLeaderboard, useGamification } from '../hooks/useApi'
 import { Card, SectionTitle, Badge } from '../components/UI'
 
 export function GamificationPage() {
@@ -34,6 +34,9 @@ export function GamificationPage() {
   const xpInLevel = (profile?.total_xp || 0) - currentThreshold
   const xpToNext = nextThreshold - currentThreshold
   const progressPercent = nextThreshold > currentThreshold ? Math.round((xpInLevel / xpToNext) * 100) : 100
+
+  // Display pulse data if available
+  const pulseItems = profile?.pulse ?? []
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
@@ -80,6 +83,26 @@ export function GamificationPage() {
           <div className="stat-label">Leaderboard Entries</div>
         </div>
       </div>
+
+      {/* Pulse Section */}
+      {pulseItems.length > 0 && (
+        <Card className="mb-8">
+          <h3 className="text-lg font-semibold text-volusia-navy mb-4">📡 This Week's Pulse</h3>
+          <div className="space-y-3">
+            {pulseItems.slice(0, 5).map((item: any, i: number) => (
+              <div key={i} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div>
+                  <span className="text-sm font-medium text-volusia-navy">{item.name || item.indicator_id}</span>
+                  <span className="text-xs text-volusia-slate ml-2">{item.direction === 'up' ? '↑' : item.direction === 'down' ? '↓' : '→'} {item.delta_pct ?? 0}%</span>
+                </div>
+                <Badge variant={item.direction === 'up' ? 'success' : item.direction === 'down' ? 'error' : 'default'}>
+                  {item.direction || 'stable'}
+                </Badge>
+              </div>
+            ))}
+          </div>
+        </Card>
+      )}
 
       <SectionTitle title="Leaderboard" subtitle="Top explorers by XP" />
       <Card>

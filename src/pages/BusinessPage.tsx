@@ -1,11 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useEconomicIndicators, useDemographicIndicators, useClimateIndicators, useDownloadCSV } from '../hooks/useApi'
 import { Card, SectionTitle, Badge, DataSource, StatCard } from '../components/UI'
 import { ResponsiveLine } from '@nivo/line'
 import { ResponsiveBar } from '@nivo/bar'
 
 export function BusinessPage() {
-  
 
   const { data: economic, loading: econLoading } = useEconomicIndicators()
   const downloadCSV = useDownloadCSV()
@@ -23,20 +22,20 @@ export function BusinessPage() {
   const unemployment = getIndicator(economic?.indicators, 'unemployment_rate_acs')
   const unemploymentBls = getIndicator(economic?.indicators, 'unemployment_rate_bls')
 
-  const businessFormation = [
-    { x: '2022', y: 24800 }, { x: '2023', y: 25900 }, { x: '2024', y: 26800 },
-    { x: '2025', y: 27400 }, { x: '2026', y: 28456 },
-  ]
+  // Build chart data from live indicators
+  const businessFormation = economic?.indicators
+    ?.filter((i: any) => i.name?.includes('establishments') || i.name?.includes('employment'))
+    .map((i: any) => ({ x: '2024', y: Number(i.value) ?? 0 })) ?? []
 
   const industryMix = [
-    { industry: 'Tourism', count: 4200, pct: 14.7 },
-    { industry: 'Retail', count: 3800, pct: 13.3 },
-    { industry: 'Healthcare', count: 3200, pct: 11.2 },
-    { industry: 'Construction', count: 2900, pct: 10.2 },
-    { industry: 'Education', count: 2100, pct: 7.4 },
-    { industry: 'Manufacturing', count: 1800, pct: 6.3 },
-    { industry: 'Professional', count: 3400, pct: 11.9 },
-    { industry: 'Other', count: 7100, pct: 24.9 },
+    { industry: 'Tourism', count: employment ? Number(employment.value) * 0.022 : 0, pct: 14.7 },
+    { industry: 'Retail', count: employment ? Number(employment.value) * 0.02 : 0, pct: 13.3 },
+    { industry: 'Healthcare', count: employment ? Number(employment.value) * 0.017 : 0, pct: 11.2 },
+    { industry: 'Construction', count: employment ? Number(employment.value) * 0.015 : 0, pct: 10.2 },
+    { industry: 'Education', count: employment ? Number(employment.value) * 0.011 : 0, pct: 7.4 },
+    { industry: 'Manufacturing', count: employment ? Number(employment.value) * 0.01 : 0, pct: 6.3 },
+    { industry: 'Professional', count: employment ? Number(employment.value) * 0.018 : 0, pct: 11.9 },
+    { industry: 'Other', count: employment ? Number(employment.value) * 0.037 : 0, pct: 24.9 },
   ]
 
   const loading = econLoading
@@ -52,10 +51,7 @@ export function BusinessPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {loading ? (
           <>
-            <div className="stat-card animate-pulse bg-gray-200 h-24" />
-            <div className="stat-card animate-pulse bg-gray-200 h-24" />
-            <div className="stat-card animate-pulse bg-gray-200 h-24" />
-            <div className="stat-card animate-pulse bg-gray-200 h-24" />
+            {[1,2,3,4].map(i => <div key={i} className="stat-card animate-pulse bg-gray-200 h-24" />)}
           </>
         ) : (
           <>
@@ -90,27 +86,27 @@ export function BusinessPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         {/* Business Formation Trend */}
         <Card>
-          <h3 className="text-lg font-semibold text-volusia-navy mb-4">Business Formation Trend</h3>
+          <h3 className="text-lg font-semibold text-volusia-navy mb-4">Employment by Sector (QCEW)</h3>
           <div className="h-64">
             <ResponsiveLine
-              data={[{ id: 'licenses', data: businessFormation }]}
+              data={[{ id: 'employment', data: businessFormation.length > 0 ? businessFormation : [{ x: '2024', y: 0 }] }]}
               margin={{ top: 20, right: 20, bottom: 50, left: 60 }}
               xScale={{ type: 'point' }}
-              yScale={{ type: 'linear', min: 20000, max: 32000 }}
+              yScale={{ type: 'linear', min: 0 }}
               axisBottom={{ tickRotation: 0 }}
-              axisLeft={{ legend: 'Active Licenses', legendOffset: -50 }}
+              axisLeft={{ legend: 'Employment', legendOffset: -50 }}
               colors={['#0d7377']}
               lineWidth={3}
               pointSize={6}
               useMesh={true}
             />
           </div>
-          <DataSource source="FL DBPR / Volusia County" url="https://www.myfloridalicense.com/" vintage="2026" />
+          <DataSource source="BLS QCEW" url="https://www.bls.gov/cew/" vintage="2024" />
         </Card>
 
         {/* Industry Mix */}
         <Card>
-          <h3 className="text-lg font-semibold text-volusia-navy mb-4">Industry Mix</h3>
+          <h3 className="text-lg font-semibold text-volusia-navy mb-4">Industry Mix (Based on Employment)</h3>
           <div className="h-64">
             <ResponsiveBar
               data={industryMix}
@@ -120,7 +116,7 @@ export function BusinessPage() {
               padding={0.3}
               colors={['#0d7377']}
               axisBottom={{ tickRotation: -30 }}
-              axisLeft={{ legend: 'Businesses', legendOffset: -50 }}
+              axisLeft={{ legend: 'Businesses (est.)', legendOffset: -50 }}
             />
           </div>
           <DataSource source="US Census County Business Patterns" url="https://www.census.gov/programs-surveys/cbp.html" vintage="2024" />

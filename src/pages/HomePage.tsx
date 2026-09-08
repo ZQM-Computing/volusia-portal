@@ -1,18 +1,18 @@
-import { useState, useEffect } from 'react'
-import { useEconomicIndicators, useDemographicIndicators, useClimateIndicators, useDatasets, useMapLayers, useDownloadCSV } from '../hooks/useApi'
-import { StatCard, Card, SectionTitle, Badge } from '../components/UI'
+import { useState } from 'react'
+import { useEconomicIndicators, useDemographicIndicators, useClimateIndicators, useMapLayers, useDatasets } from '../hooks/useApi'
+import { Card, SectionTitle, Badge, DataSource, StatCard } from '../components/UI'
 import { ResponsiveLine } from '@nivo/line'
 import { ResponsiveBar } from '@nivo/bar'
 
 export function HomePage() {
+  const [visitedHero, setVisitedHero] = useState(false)
+
   const { data: economic, loading: econLoading } = useEconomicIndicators()
   const { data: demographics, loading: demoLoading } = useDemographicIndicators()
   const climate = useClimateIndicators()
   const climateIndicators = climate.data?.indicators ?? climate.data ?? null
   const { data: mapLayers } = useMapLayers()
   const { data: datasets } = useDatasets()
-  const [visitedHero, setVisitedHero] = useState(false)
-
 
   const loading = econLoading || demoLoading || climate.loading
 
@@ -23,9 +23,9 @@ export function HomePage() {
 
   const medianIncome = getIndicator(economic?.indicators, 'median_household_income_acs')
   const unemploymentACS = getIndicator(economic?.indicators, 'unemployment_rate_acs')
-  const unemploymentBLS = getIndicator(economic?.indicators, 'unemployment_rate_bls')
+  const unemploymentBls = getIndicator(economic?.indicators, 'unemployment_rate_bls')
   const population = getIndicator(demographics?.indicators, 'total_population_acs')
-  const pci = getIndicator(economic?.indicators, 'per_capita_income_bea')
+  const pci = getIndicator(economic?.indicators, 'per_capita_income')
   const employment = getIndicator(economic?.indicators, 'employment_qcew')
   const avgWage = getIndicator(economic?.indicators, 'avg_weekly_wage_qcew')
   const temp = getIndicator(climateIndicators, 'avg_max_temp')
@@ -42,14 +42,14 @@ export function HomePage() {
     }
   }
 
-  // Income trend chart data from economic indicators
+  // Income trend chart data from live economic indicators
   const incomeTrendData = economic?.indicators
-    ?.filter((i: any) => i.name?.includes('median_income') || i.name?.includes('per_capita_income') || i.name?.includes('personal_income'))
-    .map((i: any) => ({ x: i.year ?? '2024', y: Number(i.value) ?? 0 })) ?? []
+    ?.filter((i: any) => i.name?.includes('median_household_income') || i.name?.includes('per_capita_income') || i.name?.includes('personal_income'))
+    .map((i: any) => ({ x: '2024', y: Number(i.value) ?? 0 })) ?? []
 
   const employmentTrendData = economic?.indicators
     ?.filter((i: any) => i.name?.includes('employment') || i.name?.includes('unemployment'))
-    .map((i: any) => ({ x: i.year ?? '2024', y: Number(i.value) ?? 0 })) ?? []
+    .map((i: any) => ({ x: '2024', y: Number(i.value) ?? 0 })) ?? []
 
   return (
     <div>
@@ -90,8 +90,8 @@ export function HomePage() {
               <StatCard
                 value={medianIncome ? `$${fmtNum(medianIncome.value)}` : '—'}
                 label="Median Household Income"
-                change={unemploymentBLS ? parseFloat(unemploymentBLS.value) : undefined}
-                changeLabel={unemploymentBLS ? `Unemployment ${unemploymentBLS.value}%` : undefined}
+                change={unemploymentBls ? parseFloat(unemploymentBls.value) : undefined}
+                changeLabel={unemploymentBls ? `Unemployment ${unemploymentBls.value}%` : undefined}
               />
               <StatCard
                 value={population ? fmtNum(population.value) : '—'}
@@ -152,9 +152,7 @@ export function HomePage() {
         </section>
       )}
 
-
-
-{/* Map Preview */}
+      {/* Map Preview */}
       {mapLayers && mapLayers.length > 0 && (
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <SectionTitle title="Live Map Coverage" subtitle={`${mapLayers.length} layers across Volusia County`} />
@@ -173,7 +171,7 @@ export function HomePage() {
                 <div className="w-10 h-10 rounded-lg bg-volusia-blue/20 flex items-center justify-center text-volusia-blue">🏖️</div>
                 <div>
                   <div className="font-bold text-volusia-navy">Beach Access Points</div>
-                  <div className="text-xs text-volusia-slate">{mapLayers.filter((l: any) => l.category === 'Beach Access Points').length} points</div>
+                  <div className="text-xs text-volusia-slate">{mapLayers.filter((l: any) => l.category === 'cultural').length} features</div>
                 </div>
               </div>
             </Card>
@@ -182,7 +180,7 @@ export function HomePage() {
                 <div className="w-10 h-10 rounded-lg bg-volusia-purple/20 flex items-center justify-center text-volusia-purple">🌊</div>
                 <div>
                   <div className="font-bold text-volusia-navy">Water Bodies</div>
-                  <div className="text-xs text-volusia-slate">{mapLayers.filter((l: any) => l.category === 'Water Bodies').length} features</div>
+                  <div className="text-xs text-volusia-slate">{mapLayers.filter((l: any) => l.category === 'environment').length} features</div>
                 </div>
               </div>
             </Card>
@@ -307,7 +305,7 @@ export function HomePage() {
               <h3 className="font-bold text-volusia-gold mb-2">API Endpoints</h3>
               <code className="text-xs text-gray-300 block mb-1">GET /api/indicators — All indicators</code>
               <code className="text-xs text-gray-300 block mb-1">GET /api/indicators?category=Economic</code>
-              <code className="text-xs text-gray-300 block mb-1">GET /api/indicators/</code><code></code>
+              <code className="text-xs text-gray-300 block mb-1">GET /api/indicators/</code>
               <code className="text-xs text-gray-300 block mb-1">GET /api/datasets — Dataset catalog</code>
               <code className="text-xs text-gray-300 block mb-1">GET /api/map-layers — GeoJSON layers</code>
               <code className="text-xs text-gray-300 block mb-1">GET /api/indicators.csv — Download CSV</code>
