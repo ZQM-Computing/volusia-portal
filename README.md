@@ -1,28 +1,56 @@
 # Project Volusia — Public Data Portal
 
-Open-source intelligence and data-driven decision-making platform for Volusia County, Florida.
+> Open-source intelligence and data-driven decision-making for Volusia County, Florida.
 
-## Stack
+---
 
-| Layer       | Tech                        | License     |
-|-------------|-----------------------------|-------------|
-| Framework   | React 18 + Vite + TypeScript| MIT         |
-| Charts      | Nivo (D3-based)             | MIT         |
-| Maps        | Leaflet + react-leaflet     | BSD-2       |
-| Styling     | Tailwind CSS                | MIT         |
-| Server      | nginx (Docker)              | BSD-2       |
+## Quick Links
 
-All dependencies are free, permissive-license (MIT/Apache/BSD), zero cost.
+| Resource | URL |
+|----------|-----|
+| **Live Portal** | https://volusia.zqmlabs.com |
+| **Backend Repo** | https://github.com/ZQM-Labs/project-volusia |
+| **API Endpoint** | https://volusia.zqmlabs.com/api |
+| **Connection Guide** | [CONNECTION.md](CONNECTION.md) |
+
+---
+
+## Overview
+
+Project Volusia is a comprehensive open data portal for Volusia County, Florida. It aggregates 26+ indicators across 4 categories from authoritative sources including US Census Bureau, BLS, BEA, and NOAA.
+
+### Key Features
+
+- **26+ Indicators** — Demographics, economy, climate, tourism
+- **18 Map Layers** — Interactive geographic data
+- **Real-Time Data** — Direct from government APIs
+- **Open Source** — MIT License, community contributions welcome
+
+---
 
 ## Pages
 
-- **Portal Home** (`/`) — Mission, featured indicators, stakeholder cards, updates
+- **Portal Home** (`/`) — Mission, featured indicators, stakeholder cards
 - **Data Explorer** (`/data`) — Searchable dataset catalog with Nivo charts
 - **Maps** (`/maps`) — Interactive Leaflet map with toggleable layers
 - **Business** (`/business`) — Market benchmarks, industry mix, tool access
 - **Residents** (`/residents`) — Income, demographics, cost-of-living
 - **Tourists** (`/tourists`) — Conditions, events, visitor volume
 - **Leaders** (`/leaders`) — Capital flows, permitting, workforce
+
+---
+
+## Stack
+
+| Layer | Tech | License |
+|-------|------|---------|
+| Framework | React 18 + Vite + TypeScript | MIT |
+| Charts | Nivo (D3-based) | MIT |
+| Maps | Leaflet + react-leaflet | BSD-2 |
+| Styling | Tailwind CSS | MIT |
+| Server | nginx (Docker) | BSD-2 |
+
+---
 
 ## Run locally
 
@@ -39,40 +67,24 @@ npm run build        # outputs to dist/
 npm run preview      # http://localhost:4173
 ```
 
-## Docker
+---
 
-```bash
-# Build image
-docker build -t zqmcomputing/volusia-portal .
+## Data Sources
 
-# Run on any port
-docker run -d -p 8080:80 --name volusia zqmcomputing/volusia-portal
+This frontend uses static JSON files exported from the backend.
 
-# Stop
-docker stop volusia && docker rm volusia
-```
+**Backend Repository**: https://github.com/ZQM-Labs/project-vlusia
 
-Then open http://localhost:8080
+### Data Categories
 
-## Deploy on ZQM-MESH
+| Category | Count | Examples |
+|----------|-------|----------|
+| Economic | 13 | unemployment_rate_bls, median_household_income_acs, employment_qcew |
+| Demographics | 8 | total_population_pep_2024, median_age_acs, pct_over_65_acs |
+| Climate | 6 | avg_max_temp, avg_min_temp, total_precip |
+| Tourism | 3 | hotel_occupancy_pct, avg_daily_rate, revpar |
 
-```bash
-# Build and tag
-docker build -t zqmcomputing/volusia-portal:1.0 .
-docker save zqmcomputing/volusia-portal:1.0 | ssh root@<node> docker load
-
-# Run on mesh node (e.g., port 8080)
-ssh root@<node> "docker run -d -p 8080:80 --name volusia --restart unless-stopped zqmcomputing/volusia-portal:1.0"
-```
-
-## Data
-
-`src/data/sampleData.ts` holds the demo datasets and indicators.
-Replace with real API calls as sources are wired up per DATA_CATALOG.md.
-
-## License
-
-MIT © 2026 ZQM Labs / ZQM Computing
+---
 
 ## API
 
@@ -85,28 +97,37 @@ The FastAPI backend serves live indicators from SQLite:
 | `/api/indicators` | All indicators (filter: `?category=Economic`) |
 | `/api/indicators/{name}` | Single indicator |
 | `/api/indicators.csv` | Download all as CSV |
-| `/api/indicators.csv?category=Economic` | Download by category |
 | `/api/datasets` | Latest datasets |
 | `/api/refresh` | Trigger a pipeline refresh |
 
-## Running
+---
 
+## Deployment
+
+### Frontend (GitHub Pages)
 ```bash
-docker compose up -d        # start frontend + backend
-curl http://localhost:8000/api/health
-curl http://localhost:8080/     # frontend
+# Automatic via GitHub Actions on push to master
+# Or manual:
+npm run build
+# Deploy dist/ to gh-pages branch
 ```
 
-## Refresh pipeline
-
-`scripts/refresh_v2.py` — unified fetcher for Census DP03/DP05, BLS LAUS, BLS QCEW, BEA, NOAA, Open-Meteo, Redfin, Zillow ZHVI, VolusiaBusiness, FRED.
-
-Runs automatically via cron (`volusia-refresh`, hourly). Manual run:
-
+### Backend (ZQM-Node-4)
 ```bash
-python scripts/refresh_v2.py
+cd Tools/volusia_data
+python portal_app.py
+# Portal: http://localhost:8789
+# API: http://localhost:8790
 ```
+
+---
+
+## Connection to Backend
+
+See [CONNECTION.md](CONNECTION.md) for detailed documentation on how this frontend connects to the ZQM-Labs backend.
+
+---
 
 ## License
 
-MIT. All frontend dependencies permissive-license (MIT/Apache/BSD).
+MIT © 2026 ZQM Labs / ZQM Computing
