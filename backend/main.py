@@ -436,8 +436,11 @@ def get_badges_data(contributor_id: str):
     state = _scoring_mod._load_state(contributor_id)
     badges = state.get("badges", [])
     if not badges:
-        b = _scoring_mod._badge_for_state(state)
-        if b: badges.append(b)
+        try:
+            b = _scoring_mod._badge_for_state(state)
+            if b: badges.append(b)
+        except Exception:
+            pass
     return {"contributor_id": contributor_id, "badges": badges, "total_xp": state.get("total_xp", 0), "level": state.get("level", "Newcomer"), "quality_tier": state.get("quality_tier", "pending"), "current_streak": state.get("streak", 0), "best_streak": state.get("best_streak", 0)}
 
 # Load scoring.py routes (file-shadows-package problem — use importlib)
