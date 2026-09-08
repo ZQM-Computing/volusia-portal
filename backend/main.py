@@ -344,7 +344,7 @@ def get_missions_data(contributor_id: str):
     """Get mission status and earned badges for a contributor."""
     import json as _json
     from pathlib import Path as _Path
-    gam_dir = _Path(__file__).resolve().parent / "data" / "gamification"
+    gam_dir = _Path(__file__).resolve().parent.parent / "data" / "gamification"
     fpath = gam_dir / f"{contributor_id}.json"
     if not fpath.exists():
         return {"contributor_id": contributor_id, "missions": [], "status": "new"}

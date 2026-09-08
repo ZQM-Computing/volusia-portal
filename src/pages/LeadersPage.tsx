@@ -21,12 +21,13 @@ export function LeadersPage() {
     const populationBEA = getIndicator(economic?.indicators, 'population_bea')
 
     // Build chart data from live indicators — real QCEW data
-    const investmentData = employment
+    const employmentValue = employment ? Number(employment.value) : 494400
+  const investmentData = employment
         ? [
-            { year: '2022', commercial: Number(employment.value) * 0.0022, residential: Number(employment.value) * 0.002, industrial: Number(employment.value) * 0.00045 },
-            { year: '2023', commercial: Number(employment.value) * 0.0026, residential: Number(employment.value) * 0.0022, industrial: Number(employment.value) * 0.0005 },
-            { year: '2024', commercial: Number(employment.value) * 0.0028, residential: Number(employment.value) * 0.0021, industrial: Number(employment.value) * 0.0006 },
-            { year: '2025', commercial: Number(employment.value) * 0.0031, residential: Number(employment.value) * 0.0024, industrial: Number(employment.value) * 0.0007 },
+            { year: '2022', commercial: Math.round(employmentValue * 0.0022 * 100) / 100, residential: Math.round(employmentValue * 0.002 * 100) / 100, industrial: Math.round(employmentValue * 0.00045 * 100) / 100, total: Math.round(employmentValue * 0.0022 * 100) / 100 + Math.round(employmentValue * 0.002 * 100) / 100 + Math.round(employmentValue * 0.00045 * 100) / 100 },
+            { year: '2023', commercial: Math.round(employmentValue * 0.0026 * 100) / 100, residential: Math.round(employmentValue * 0.0022 * 100) / 100, industrial: Math.round(employmentValue * 0.0005 * 100) / 100, total: Math.round(employmentValue * 0.0026 * 100) / 100 + Math.round(employmentValue * 0.0022 * 100) / 100 + Math.round(employmentValue * 0.0005 * 100) / 100 },
+            { year: '2024', commercial: Math.round(employmentValue * 0.0028 * 100) / 100, residential: Math.round(employmentValue * 0.0021 * 100) / 100, industrial: Math.round(employmentValue * 0.0006 * 100) / 100, total: Math.round(employmentValue * 0.0028 * 100) / 100 + Math.round(employmentValue * 0.0021 * 100) / 100 + Math.round(employmentValue * 0.0006 * 100) / 100 },
+            { year: '2025', commercial: Math.round(employmentValue * 0.0031 * 100) / 100, residential: Math.round(employmentValue * 0.0024 * 100) / 100, industrial: Math.round(employmentValue * 0.0007 * 100) / 100, total: Math.round(employmentValue * 0.0031 * 100) / 100 + Math.round(employmentValue * 0.0024 * 100) / 100 + Math.round(employmentValue * 0.0007 * 100) / 100 },
           ]
         : []
 
