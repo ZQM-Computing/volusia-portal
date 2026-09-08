@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 
 const API_BASE = '/data'
 
+// Generic hook for any API endpoint
 export function useApiData<T>(endpoint: string) {
   const [data, setData] = useState<T | null>(null)
   const [loading, setLoading] = useState(true)
@@ -16,6 +17,7 @@ export function useApiData<T>(endpoint: string) {
   return { data, loading, error }
 }
 
+// Category-specific hooks
 export function useAllIndicators() { return useApiData<any>('/indicators.json') }
 export function useEconomicIndicators() { return useApiData<any>('/economic.json') }
 export function useDemographicIndicators() { return useApiData<any>('/demographics.json') }
@@ -30,28 +32,47 @@ export function useDownloadCSV(category?: string) {
   return () => window.open(url, '_blank')
 }
 export function useIndicator(name: string) { return useApiData<any>(`/indicators/${encodeURIComponent(name)}`) }
-export function useGamification(userId: string = 'anonymous') {
+
+// Gamification hooks — consolidated
+interface GamificationState {
+  data: any
+  loading: boolean
+  visitPage: () => void
+  pulse: any[]
+}
+
+export function useGamification(userId: string = 'anonymous'): GamificationState {
   const [data, setData] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [pulse, setPulse] = useState<any[]>([])
-  
+
   const visitPage = () => {
     fetch(`/gamification/visit/${userId}`, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({page: window.location.pathname}) })
       .then((res) => res.json())
       .then(setData)
       .catch(() => {})
   }
-  
+
   useEffect(() => {
     fetch('/pulse.json')
       .then((res) => res.json())
       .then(setPulse)
       .catch(() => {})
+      .finally(() => setLoading(false))
   }, [])
-  
+
   return { data, loading, visitPage, pulse }
 }
-export function useGamificationStats(userId: string) {
+
+interface GamificationStatsState {
+  stats: any
+  totalUsers: number
+  avgXp: number
+  avgLevel: number
+  loading: boolean
+}
+
+export function useGamificationStats(userId: string): GamificationStatsState {
   const [stats, setStats] = useState<any>(null)
   const [totalUsers, setTotalUsers] = useState(0)
   const [avgXp, setAvgXp] = useState(0)
@@ -71,7 +92,9 @@ export function useGamificationStats(userId: string) {
   }, [userId])
   return { stats, totalUsers, avgXp, avgLevel, loading }
 }
+
 export function useLeaderboard() { return useApiData<any>('/gamification/leaderboard') }
+
 export function useDiagnostics() {
   const [diagnostics, setDiagnostics] = useState<any>(null)
   const [loading, setLoading] = useState(true)

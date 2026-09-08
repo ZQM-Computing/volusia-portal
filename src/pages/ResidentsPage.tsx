@@ -45,10 +45,9 @@ export function ResidentsPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {loading ? (
           <>
-            <div className="stat-card animate-pulse bg-gray-200 h-24" />
-            <div className="stat-card animate-pulse bg-gray-200 h-24" />
-            <div className="stat-card animate-pulse bg-gray-200 h-24" />
-            <div className="stat-card animate-pulse bg-gray-200 h-24" />
+            {[1,2,3,4,5,6].map(i => (
+              <div key={i} className="stat-card animate-pulse bg-gray-200 h-24" />
+            ))}
           </>
         ) : (
           <>

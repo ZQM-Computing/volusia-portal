@@ -27,7 +27,13 @@ export function GamificationPage() {
     )
   }
 
-  const xpToNext = 100 - (profile?.total_xp || 0) % 100
+  const levelThresholds = [0, 100, 500, 1500, 5000]
+  const currentLevelIndex = levelThresholds.findIndex((t, i) => i > 0 && (profile?.total_xp || 0) < t) - 1
+  const currentThreshold = levelThresholds[Math.max(0, currentLevelIndex >= 0 ? currentLevelIndex : 0)]
+  const nextThreshold = levelThresholds[Math.min(currentLevelIndex + 1, levelThresholds.length - 1)]
+  const xpInLevel = (profile?.total_xp || 0) - currentThreshold
+  const xpToNext = nextThreshold - currentThreshold
+  const progressPercent = nextThreshold > currentThreshold ? Math.round((xpInLevel / xpToNext) * 100) : 100
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
@@ -39,6 +45,7 @@ export function GamificationPage() {
             <h3 className="text-2xl font-bold text-volusia-navy">
               Welcome, {profile?.user_id === 'anonymous' ? 'Explorer' : profile?.user_id}
             </h3>
+            {profile?.total_xp === undefined && <p className="text-volusia-slate text-sm mt-1">Connect your profile to track progress</p>}
             <p className="text-volusia-slate mt-1">Level {profile?.level} · {profile?.total_xp || 0} XP</p>
           </div>
           <button onClick={handleVisit} className="btn-primary">
@@ -46,13 +53,13 @@ export function GamificationPage() {
           </button>
         </div>
 
-        <div className="mt-4 w-full bg-gray-200 rounded-full h-4">
+        <div className="mt-4 w-full bg-gray-200 rounded-full h-4 overflow-hidden">
           <div
-            className="bg-volusia-teal h-4 rounded-full transition-all duration-500"
-            style={{ width: `${((profile?.total_xp || 0) % 100)}%` }}
+            className="bg-gradient-to-r from-volusia-teal to-volusia-blue h-4 rounded-full transition-all duration-700 ease-out"
+            style={{ width: `${progressPercent}%` }}
           />
         </div>
-        <p className="text-xs text-volusia-slate mt-1">{xpToNext} XP to Level {profile?.level + 1}</p>
+        <p className="text-xs text-volusia-slate mt-1">{xpInLevel} / {xpToNext} XP to Level {nextThreshold > 0 ? Math.min(currentLevelIndex + 2, 5) : 1}</p>
       </Card>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">

@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react'
+import { ErrorBoundary } from '../utils'
+import { useDebounce } from '../utils/useDebounce'
 import { useDatasets, useIndicator, useMapLayers, useDownloadCSV } from '../hooks/useApi'
 import { Card, SectionTitle, Badge, DataSource } from '../components/UI'
 import { ResponsiveLine } from '@nivo/line'
@@ -8,6 +10,7 @@ export function DataExplorerPage() {
   
 
   const [searchTerm, setSearchTerm] = useState('')
+  const debouncedSearch = useDebounce(searchTerm, 300)
   const [categoryFilter, setCategoryFilter] = useState<string>('all')
   const [statusFilter, setStatusFilter] = useState<string>('available')
 

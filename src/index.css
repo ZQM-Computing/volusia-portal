@@ -6,7 +6,15 @@
   html {
     scroll-behavior: smooth;
   }
-  body {
+  @keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+body {
     @apply bg-volusia-sand text-volusia-navy font-sans antialiased;
   }
 }
@@ -59,4 +67,98 @@
   .nav-link-accent-tourists { border-bottom: 2px solid #ec4899; }
   .nav-link-accent-leaders { border-bottom: 2px solid #6366f1; }
   .nav-link-accent-gamification { border-bottom: 2px solid #f43f5e; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Dark mode styles */
+body {
+  @apply bg-dark-900 text-dark-100;
+}
+
+.dark .card {
+  @apply bg-dark-800 border-dark-700 text-dark-100;
+}
+
+.dark .stat-card {
+  @apply bg-dark-800 border-dark-700;
+}
+
+.dark .stat-value {
+  @apply text-volusia-teal;
+}
+
+.dark .section-title {
+  @apply text-dark-100;
+}
+
+.dark .section-subtitle {
+  @apply text-dark-400;
+}
+
+.dark .btn-primary {
+  @apply bg-volusia-teal hover:bg-volusia-blue text-white;
+}
+
+.dark .btn-secondary {
+  @apply bg-dark-700 text-dark-300 border-dark-600 hover:bg-dark-600;
+}
+
+.dark .nav-link {
+  @apply text-dark-400 hover:text-volusia-teal;
+}
+
+.dark .nav-link-active {
+  @apply text-volusia-teal bg-volusia-teal/10;
+}
+
+.dark .bg-volusia-navy {
+  @apply bg-dark-900;
+}
+
+.dark .bg-white {
+  @apply bg-dark-800;
+}
+
+.dark .bg-gray-50 {
+  @apply bg-dark-800;
+}
+
+.dark .text-gray-500 {
+  @apply text-dark-400;
+}
+
+.dark .text-volusia-slate {
+  @apply text-dark-400;
+}
+
+.dark .border-gray-100 {
+  @apply border-dark-700;
+}
+
+.dark .bg-gray-200 {
+  @apply bg-dark-700;
+}
+
+/* Smooth theme transition */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+body {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.card, .stat-card, .btn-primary, .btn-secondary, .nav-link {
+  transition: all 0.2s ease;
 }

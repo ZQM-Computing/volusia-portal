@@ -19,6 +19,14 @@ export function Header() {
   const { stats, totalUsers, avgXp, avgLevel } = useGamificationStats('anonymous')
   const { diagnostics, loading: diagLoading } = useDiagnostics()
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [isDark, setIsDark] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem('volusia-theme')
+      if (stored) return stored === 'dark'
+      return window.matchMedia('(prefers-color-scheme: dark)').matches
+    }
+    return false
+  })
 
   const pageTitles: Record<string, string> = {
     '/': 'Portal Home',
@@ -75,6 +83,27 @@ export function Header() {
             </nav>
 
             <button
+              onClick={() => {
+                const next = !isDark
+                setIsDark(next)
+                localStorage.setItem('volusia-theme', next ? 'dark' : 'light')
+                document.documentElement.classList.toggle('dark', next)
+              }}
+              className="p-2 rounded-md text-volusia-slate hover:text-volusia-teal transition-colors"
+              aria-label="Toggle dark mode"
+              title="Toggle dark mode"
+            >
+              {isDark ? (
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+              ) : (
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+              )}
+            </button>
+            <button
               onClick={() => setMobileOpen(!mobileOpen)}
               className="lg:hidden p-2 rounded-md text-volusia-slate hover:text-volusia-teal"
               aria-label="Toggle menu"
@@ -89,17 +118,16 @@ export function Header() {
             </button>
           </div>
 
-          <div className="lg:hidden pb-2">
-                      </div>
+          <div className="lg:hidden pb-2"></div>
           {mobileOpen && (
-            <div className="lg:hidden pb-4 border-t border-gray-100">
+            <div className="lg:hidden pb-4 border-t border-gray-100 animate-fadeIn">
               <div className="flex flex-col space-y-1 pt-2">
                 {navLinks.map((link) => (
                   <Link
                     key={link.to}
                     to={link.to}
                     onClick={() => setMobileOpen(false)}
-                    className={`nav-link text-sm ${location.pathname === link.to ? 'nav-link-active' : ''}`}
+                    className={`nav-link text-sm block py-2 px-3 rounded ${location.pathname === link.to ? 'nav-link-active' : ''}`}
                   >
                     {link.label}
                   </Link>
