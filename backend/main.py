@@ -245,6 +245,138 @@ def trigger_refresh(secret: str = Query(...)):
 
 # Register gamification routes
 get_gamification_routes(app)
+
+# ==================== MISSING CATEGORY ENDPOINTS ====================
+@app.get("/indicators/category/{category}")
+def get_indicators_by_category(category: str):
+    """Return indicators filtered by category. Supports all categories."""
+    rows = _db_rows("SELECT * FROM indicators WHERE category = ? ORDER BY category, name LIMIT 200", (category,))
+    return {"category": category, "count": len(rows), "indicators": rows}
+
+@app.get("/categories")
+def get_categories():
+    """Return all indicator categories with counts."""
+    rows = _db_rows("SELECT category, COUNT(*) as count FROM indicators GROUP BY category ORDER BY count DESC")
+    return {"categories": rows}
+
+# ==================== CONSTITUENCY-SPECIFIC ENDPOINTS ====================
+@app.get("/business")
+def get_business_data():
+    """Business-focused data: economic indicators, tourism, CVB hotels."""
+    rows = _db_rows("SELECT * FROM indicators WHERE category IN ('Economic', 'Tourism') ORDER BY category, name LIMIT 200")
+    hotels = _db_rows("SELECT * FROM cvb_hotels ORDER BY year DESC LIMIT 12")
+    return {"count": len(rows), "indicators": rows, "cvb_hotels": hotels, "categories_covered": ["Economic", "Tourism"]}
+
+@app.get("/residents")
+def get_resident_data():
+    """Resident-focused data: demographics, climate, housing, health."""
+    rows = _db_rows("SELECT * FROM indicators WHERE category IN ('Demographics', 'Climate') ORDER BY category, name LIMIT 200")
+    return {"count": len(rows), "indicators": rows, "categories_covered": ["Demographics", "Climate"]}
+
+@app.get("/tourists")
+def get_tourist_data():
+    """Tourist-focused data: tourism, climate, CVB hotels."""
+    rows = _db_rows("SELECT * FROM indicators WHERE category IN ('Tourism', 'Climate') ORDER BY category, name LIMIT 200")
+    hotels = _db_rows("SELECT * FROM cvb_hotels ORDER BY year DESC LIMIT 12")
+    return {"count": len(rows), "indicators": rows, "cvb_hotels": hotels, "categories_covered": ["Tourism", "Climate"]}
+
+@app.get("/leaders")
+def get_leader_data():
+    """Leadership/government-focused data: all indicators for policy decisions."""
+    rows = _db_rows("SELECT * FROM indicators ORDER BY category, name LIMIT 300")
+    return {"count": len(rows), "indicators": rows, "categories_covered": ["All"]}
+
+# ==================== ANALYTICS ENDPOINTS ====================
+@app.get("/analytics/summary")
+def get_analytics_summary():
+    """Summary statistics across all indicators."""
+    rows = _db_rows("SELECT category, COUNT(*) as indicator_count, MIN(CAST(value AS REAL)) as min_value, MAX(CAST(value AS REAL)) as max_value, AVG(CAST(value AS REAL)) as avg_value FROM indicators WHERE CAST(value AS REAL) IS NOT NULL GROUP BY category ORDER BY category")
+    total = _db_rows("SELECT COUNT(*) as total FROM indicators")[0]
+    return {"total_indicators": total["total"], "category_stats": rows}
+
+@app.get("/analytics/trends/{indicator_name}")
+def get_indicator_trends(indicator_name: str):
+    """Get historical trend data for a specific indicator."""
+    rows = _db_rows("SELECT vintage, value, fetched_at FROM indicators WHERE name = ? ORDER BY fetched_at DESC LIMIT 12", (indicator_name,))
+    return {"indicator": indicator_name, "data_points": len(rows), "history": rows}
+
+@app.get("/analytics/comparison/{indicator_name}")
+def compare_indicator(indicator_name: str):
+    """Compare an indicator across categories or sources."""
+    rows = _db_rows("SELECT category, name, value, unit, source, vintage FROM indicators WHERE name LIKE ? ORDER BY category", (f"%{indicator_name}%",))
+    return {"query": indicator_name, "matches": rows}
+
+@app.get("/analytics/dashboard")
+def get_dashboard_data():
+    """Comprehensive dashboard data combining all categories."""
+    categories = _db_rows("SELECT DISTINCT category FROM indicators ORDER BY category")
+    dashboard = {}
+    for cat in categories:
+        cat_rows = _db_rows("SELECT name, value, unit, source, vintage FROM indicators WHERE category = ? ORDER BY name LIMIT 5", (cat["category"],))
+        dashboard[cat["category"]] = cat_rows
+    return {"dashboard": dashboard, "categories": len(categories)}
+
+# ==================== GAMIFICATION DATA ENDPOINTS ====================
+@app.get("/gamification/missions/{contributor_id}")
+def get_missions_data(contributor_id: str):
+    """Get mission status and earned badges for a contributor."""
+    import json as _json
+    from pathlib import Path as _Path
+    gam_dir = _Path(__file__).resolve().parent / "data" / "gamification"
+    fpath = gam_dir / f"{contributor_id}.json"
+    if not fpath.exists():
+        return {"contributor_id": contributor_id, "missions": [], "status": "new"}
+    try:
+        state = _json.loads(fpath.read_text())
+        flags = state.get("mission_flags", {})
+        earned = flags.get("earned", [])
+        all_missions = [
+            {"id":"first_spark","name":"First Spark","status":"earned" if "first_spark" in earned else "available","xp":50},
+            {"id":"streak_7","name":"Streak 7","status":"earned" if "streak_7" in earned else "available","xp":100},
+            {"id":"streak_30","name":"Streak 30","status":"earned" if "streak_30" in earned else "available","xp":250},
+            {"id":"verified","name":"Verified Contributor","status":"earned" if "verified" in earned else "available","xp":200},
+            {"id":"data_steward","name":"Data Steward","status":"earned" if "data_steward" in earned else "available","xp":300},
+            {"id":"sector_pioneer","name":"Sector Pioneer","status":"earned" if "sector_pioneer" in earned else "available","xp":400},
+            {"id":"community_voice","name":"Community Voice","status":"earned" if "community_voice" in earned else "available","xp":150},
+            {"id":"analyst","name":"Analyst","status":"earned" if "analyst" in earned else "available","xp":0},
+            {"id":"architect","name":"Architect","status":"earned" if "architect" in earned else "available","xp":0},
+            {"id":"data_architect","name":"Data Architect","status":"earned" if "data_architect" in earned else "available","xp":400},
+            {"id":"researcher","name":"Researcher","status":"earned" if "researcher" in earned else "available","xp":500},
+            {"id":"governor","name":"Governor","status":"earned" if "governor" in earned else "available","xp":350},
+            {"id":"community_builder","name":"Community Builder","status":"earned" if "community_builder" in earned else "available","xp":600},
+            {"id":"source_master","name":"Source Master","status":"earned" if "source_master" in earned else "available","xp":450},
+            {"id":"quality_guardian","name":"Quality Guardian","status":"earned" if "quality_guardian" in earned else "available","xp":300},
+            {"id":"mentor","name":"Mentor","status":"earned" if "mentor" in earned else "available","xp":250},
+            {"id":"explorer_visit","name":"Explorer Visit","status":"earned" if "explorer_visit" in earned else "available","xp":30},
+            {"id":"legacy_builder","name":"Legacy Builder","status":"earned" if "legacy_builder" in earned else "available","xp":1000},
+            {"id":"business_expert","name":"Business Expert","status":"earned" if "business_expert" in earned else "available","xp":350},
+            {"id":"community_champion","name":"Community Champion","status":"earned" if "community_champion" in earned else "available","xp":350},
+            {"id":"visitor_insights","name":"Visitor Insights","status":"earned" if "visitor_insights" in earned else "available","xp":350},
+            {"id":"industry_leader","name":"Industry Leader","status":"earned" if "industry_leader" in earned else "available","xp":400},
+            {"id":"multi_constituency","name":"Multi-Constituency","status":"earned" if "multi_constituency" in earned else "available","xp":500},
+            {"id":"code_committer","name":"Code Commiter","status":"earned" if "code_committer" in earned else "available","xp":300},
+            {"id":"infrastructure_builder","name":"Infrastructure Builder","status":"earned" if "infrastructure_builder" in earned else "available","xp":400},
+            {"id":"ci_cd_contributor","name":"CI/CD Contributor","status":"earned" if "ci_cd_contributor" in earned else "available","xp":450},
+            {"id":"test_contributor","name":"Test Contributor","status":"earned" if "test_contributor" in earned else "available","xp":350},
+            {"id":"doc_contributor","name":"Documentation Contributor","status":"earned" if "doc_contributor" in earned else "available","xp":250},
+            {"id":"review_contributor","name":"Review Contributor","status":"earned" if "review_contributor" in earned else "available","xp":300},
+            {"id":"visionary","name":"Visionary","status":"earned" if "visionary" in earned else "available","xp":0},
+        ]
+        return {"contributor_id": contributor_id, "total_xp": state.get("total_xp", 0), "level": state.get("level", "Newcomer"), "streak": state.get("streak", 0), "badges": state.get("badges", []), "missions": all_missions, "missions_earned": len(earned), "total_missions": len(all_missions)}
+    except Exception as e:
+        return {"contributor_id": contributor_id, "error": str(e)}
+
+@app.get("/gamification/badges/{contributor_id}")
+def get_badges_data(contributor_id: str):
+    """Get all badges and reputation for a contributor."""
+    from gamification.scoring import _load_state, _badge_for_state
+    state = _load_state(contributor_id)
+    badges = state.get("badges", [])
+    if not badges:
+        b = _badge_for_state(state)
+        if b: badges.append(b)
+    return {"contributor_id": contributor_id, "badges": badges, "total_xp": state.get("total_xp", 0), "level": state.get("level", "Newcomer"), "quality_tier": state.get("quality_tier", "pending"), "current_streak": state.get("streak", 0), "best_streak": state.get("best_streak", 0)}
+
 # Load scoring.py routes (file-shadows-package problem — use importlib)
 import importlib.util as _iu
 import os as _os2
