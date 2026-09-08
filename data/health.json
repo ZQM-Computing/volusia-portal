@@ -1,13 +1,12 @@
 {
   "status": "healthy",
   "db_exists": true,
-  "indicator_count": 28,
+  "indicator_count": 26,
   "categories": [
-    "Climate",
     "Economic",
     "Demographics",
-    "Economy",
+    "Climate",
     "Tourism"
   ],
-  "timestamp": "2026-09-06T19:35:35.633816Z"
+  "timestamp": "2026-09-07T22:52:02.870197Z"
 }

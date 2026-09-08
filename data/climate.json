@@ -5,58 +5,34 @@
     "value": "27.9",
     "unit": "deg C",
     "category": "Climate",
-    "source": "NOAA NCEI Daily Summaries",
-    "source_url": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&dataTypes=TMAX,TMIN,PRCP,AWND&stations=USW00012838&startDate=2025-09-03&endDate=2026-09-03&format=json",
-    "vintage": "2025-09-03 to 2026-09-03",
-    "fetched_at": "2026-09-03T16:01:13.477328",
-    "description": "avg_max_temp from NOAA NCEI Daily Summaries"
+    "source": "NOAA NCEI",
+    "source_url": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&dataTypes=TMAX,TMIN,PRCP&stations=USW00012838&startDate=2025-01-01&endDate=2025-12-31&format=json&units=metric",
+    "vintage": "2025",
+    "fetched_at": "2026-09-07T17:52:02.839192",
+    "description": "Average maximum temperature"
   },
   {
-    "id": 4,
-    "name": "avg_max_temp_2024",
-    "value": "280.6",
-    "unit": "tenths C",
+    "id": 259,
+    "name": "avg_min_temp",
+    "value": "18.7",
+    "unit": "deg C",
     "category": "Climate",
     "source": "NOAA NCEI",
-    "source_url": "https://www.ncei.noaa.gov/access/services/data/v1",
-    "vintage": "2024",
-    "fetched_at": "2026-09-03T12:29:03.624400+00:00",
-    "description": "NOAA daily avg TMAX for Daytona Beach"
-  },
-  {
-    "id": 5,
-    "name": "avg_min_temp_2024",
-    "value": "191.3",
-    "unit": "tenths C",
-    "category": "Climate",
-    "source": "NOAA NCEI",
-    "source_url": "https://www.ncei.noaa.gov/access/services/data/v1",
-    "vintage": "2024",
-    "fetched_at": "2026-09-03T12:29:03.664594+00:00",
-    "description": "NOAA daily avg TMIN for Daytona Beach"
+    "source_url": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&dataTypes=TMAX,TMIN,PRCP&stations=USW00012838&startDate=2025-01-01&endDate=2025-12-31&format=json&units=metric",
+    "vintage": "2025",
+    "fetched_at": "2026-09-07T17:52:02.839192",
+    "description": "Average minimum temperature"
   },
   {
     "id": 49,
     "name": "total_precip",
-    "value": "13293",
+    "value": "1355.6",
     "unit": "mm",
     "category": "Climate",
-    "source": "NOAA NCEI Daily Summaries",
-    "source_url": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&dataTypes=TMAX,TMIN,PRCP,AWND&stations=USW00012838&startDate=2025-09-03&endDate=2026-09-03&format=json",
-    "vintage": "2025-09-03 to 2026-09-03",
-    "fetched_at": "2026-09-03T16:01:13.482327",
-    "description": "total_precip from NOAA NCEI Daily Summaries"
-  },
-  {
-    "id": 6,
-    "name": "total_precip_2024",
-    "value": "10280",
-    "unit": "tenths mm",
-    "category": "Climate",
     "source": "NOAA NCEI",
-    "source_url": "https://www.ncei.noaa.gov/access/services/data/v1",
-    "vintage": "2024",
-    "fetched_at": "2026-09-03T12:29:03.706400+00:00",
-    "description": "NOAA total PRCP for Daytona Beach"
+    "source_url": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&dataTypes=TMAX,TMIN,PRCP&stations=USW00012838&startDate=2025-01-01&endDate=2025-12-31&format=json&units=metric",
+    "vintage": "2025",
+    "fetched_at": "2026-09-07T17:52:02.839192",
+    "description": "Total precipitation"
   }
 ]

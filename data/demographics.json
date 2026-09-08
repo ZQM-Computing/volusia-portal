@@ -5,11 +5,11 @@
     "value": "46.6",
     "unit": "years",
     "category": "Demographics",
-    "source": "US Census ACS 5-Year DP05",
+    "source": "US Census ACS 5-Year",
     "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2023.DP05",
     "vintage": "2023",
-    "fetched_at": "2026-09-03T16:01:12.847472",
-    "description": "median_age_acs from US Census ACS 5-Year DP05"
+    "fetched_at": "2026-09-07T17:52:01.730375",
+    "description": "Median age"
   },
   {
     "id": 47,
@@ -53,11 +53,11 @@
     "value": "568229",
     "unit": "persons",
     "category": "Demographics",
-    "source": "US Census ACS 5-Year DP05",
+    "source": "US Census ACS 5-Year",
     "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2023.DP05",
     "vintage": "2023",
-    "fetched_at": "2026-09-03T16:01:12.842846",
-    "description": "total_population_acs from US Census ACS 5-Year DP05"
+    "fetched_at": "2026-09-07T17:52:01.737334",
+    "description": "Total population"
   },
   {
     "id": 3,
