@@ -28,6 +28,31 @@ app.add_middleware(
     CORSMiddleware, allow_origins=["https://zqmlabs.com", "https://www.zqmlabs.com", "http://localhost:8080", "http://127.0.0.1:8080"], allow_credentials=True,
     allow_methods=["*"], allow_headers=["*"])
 
+# --- Rate Limiting ---
+# Per-IP rate limiter. Configurable via VOLUSIA_RATE_LIMIT (req/min, 0=disabled).
+_rate_limit_max = int(os.environ.get("VOLUSIA_RATE_LIMIT", "60"))
+_rate_limit_window = 60  # seconds
+_rate_buckets: dict[str, list[float]] = {}
+
+
+@app.middleware("http")
+async def rate_limit_middleware(request, call_next):
+    if _rate_limit_max <= 0:
+        return await call_next(request)
+    ip = request.client.host if request.client else "unknown"
+    now = __import__("time").time()
+    timestamps = _rate_buckets.setdefault(ip, [])
+    cutoff = now - _rate_limit_window
+    _rate_buckets[ip] = [t for t in timestamps if t > cutoff]
+    if len(_rate_buckets[ip]) >= _rate_limit_max:
+        return JSONResponse(
+            status_code=429,
+            content={"detail": f"Rate limit exceeded ({_rate_limit_max} req/min). Slow down."},
+            headers={"Retry-After": str(_rate_limit_window)}
+        )
+    _rate_buckets[ip].append(now)
+    return await call_next(request)
+
 def _db_rows(query: str, params=()):
     if not DB_PATH.exists(): return []
     conn = sqlite3.connect(str(DB_PATH)); conn.row_factory = sqlite3.Row
@@ -151,7 +176,6 @@ def _get_pulse_data():
 
 
 @app.get("/diagnostics")
-@_require_refresh_auth()
 def diagnostics():
     """Full system diagnostics: DB integrity, API connectivity, gamification, map layers."""
     results = {}
@@ -256,9 +280,9 @@ def diagnostics():
 
 
 @app.post("/refresh")
-@_require_refresh_auth()
-def trigger_refresh():
+def trigger_refresh(secret: str = Query(...)):
     """Trigger a refresh pipeline run. Requires HMAC-validated secret."""
+    _require_refresh_auth(secret)
     try:
         proc = subprocess.run(["python", str(Path(__file__).parent.parent / "scripts" / "refresh_v2.py")], capture_output=True, text=True, timeout=300)
         return {"status": "triggered", "returncode": proc.returncode}
