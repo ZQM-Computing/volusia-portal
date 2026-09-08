@@ -3,63 +3,63 @@
   "datasets": [
     {
       "id": 10,
-      "name": "C2ER (Daytona Beach, cached)",
+      "source": "C2ER (Daytona Beach, cached)",
       "vintage": "2026-09-06T05:55:21.184271",
-      "description": ""
+      "content": ""
     },
     {
       "id": 9,
-      "name": "Volusia County CVB",
+      "source": "Volusia County CVB",
       "vintage": "2026-09-06T05:55:21.184271",
-      "description": ""
+      "content": ""
     },
     {
       "id": 8,
-      "name": "NOAA NCEI Daily Summaries",
+      "source": "NOAA NCEI Daily Summaries",
       "vintage": "2026-09-06T05:55:21.184271",
-      "description": ""
+      "content": ""
     },
     {
       "id": 7,
-      "name": "US Census ACS 5-Year DP05",
+      "source": "US Census ACS 5-Year DP05",
       "vintage": "2026-09-06T05:55:21.184271",
-      "description": ""
+      "content": ""
     },
     {
       "id": 6,
-      "name": "US Census ACS 5-Year DP03",
+      "source": "US Census ACS 5-Year DP03",
       "vintage": "2026-09-06T05:55:21.184271",
-      "description": ""
+      "content": ""
     },
     {
       "id": 5,
-      "name": "BLS QCEW",
+      "source": "BLS QCEW",
       "vintage": "2026-09-06T05:55:21.184271",
-      "description": ""
+      "content": ""
     },
     {
       "id": 4,
-      "name": "BEA Regional",
+      "source": "BEA Regional",
       "vintage": "2026-09-06T05:55:21.184271",
-      "description": ""
+      "content": ""
     },
     {
       "id": 3,
-      "name": "BLS LAUS",
+      "source": "BLS LAUS",
       "vintage": "2026-09-06T05:55:21.184271",
-      "description": ""
+      "content": ""
     },
     {
       "id": 2,
-      "name": "NOAA NCEI",
+      "source": "NOAA NCEI",
       "vintage": "2026-09-06T05:55:21.184271",
-      "description": ""
+      "content": ""
     },
     {
       "id": 1,
-      "name": "Census PEP",
+      "source": "Census PEP",
       "vintage": "2026-09-06T05:55:21.183188",
-      "description": ""
+      "content": ""
     }
   ]
 }
