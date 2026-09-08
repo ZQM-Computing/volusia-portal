@@ -18,6 +18,7 @@ Per the jarvis-mesh-coordinator skill:
 - Execute per node, isolate failures
 """
 
+import argparse
 import json
 import os
 import sys

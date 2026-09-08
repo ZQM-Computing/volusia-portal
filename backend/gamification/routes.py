@@ -59,7 +59,7 @@ class MissionResult(BaseModel):
 
 class ContributeRequest(BaseModel):
     contributor_id: str
-    pathway: str = Field(..., pattern=r"^[A-Ia-i]$|^agent-item$")
+    pathway: str = Field(..., pattern=r"^[A-Na-n]$|^agent-item$")
     submission: dict = Field(default_factory=dict)
     quality_score: Optional[dict] = None
 

@@ -32,6 +32,18 @@ MISSION_CATALOG = [
     {"id":"source_master","name":"Source Master","desc":"Contribute to 5+ data sources","xp":450},
     {"id":"quality_guardian","name":"Quality Guardian","desc":"Verify 10+ submissions","xp":300},
     {"id":"mentor","name":"Mentor","desc":"Help a new contributor submit","xp":250},
+    {"id":"business_expert","name":"Business Expert","desc":"3+ business pathway contributions","xp":350},
+    {"id":"community_champion","name":"Community Champion","desc":"5+ resident pathway contributions","xp":350},
+    {"id":"visitor_insights","name":"Visitor Insights","desc":"3+ tourist pathway contributions","xp":350},
+    {"id":"industry_leader","name":"Industry Leader","desc":"2+ industry mover pathway contributions","xp":400},
+    {"id":"multi_constituency","name":"Multi-Constituency","desc":"10+ contributions across all pathways","xp":500},
+    # Tier 4.5 — Infrastructure & Code Contributors
+    {"id":"code_committer","name":"Code Commiter","desc":"Submit a PR that passes CI","xp":300},
+    {"id":"infrastructure_builder","name":"Infrastructure Builder","desc":"Fix or improve deployment/infra","xp":400},
+    {"id":"ci_cd_contributor","name":"CI/CD Contributor","desc":"Improve or add CI/CD pipeline","xp":450},
+    {"id":"test_contributor","name":"Test Contributor","desc":"Add tests covering new code","xp":350},
+    {"id":"doc_contributor","name":"Documentation Contributor","desc":"Improve docs, guides, or examples","xp":250},
+    {"id":"review_contributor","name":"Review Contributor","desc":"Review 5+ PRs from others","xp":300},
     # Tier 5 — Legacy (5000+ XP)
     {"id":"architect","name":"Architect","desc":"Reach Architect level (5000 XP)","xp":0},
     {"id":"visionary","name":"Visionary","desc":"Reach 10,000 total XP","xp":0},
@@ -41,7 +53,7 @@ class QualityTier(str, Enum):
     VERIFIED="verified"; REVIEWED="reviewed"; PENDING="pending"; FLAGGED="flagged"
 class ContributeRequest(BaseModel):
     contributor_id: str
-    pathway: str = Field(..., pattern=r"^[A-Ia-i]$|^agent-item$")
+    pathway: str = Field(..., pattern=r"^[A-Na-n]$|^agent-item$")
     submission: dict = Field(default_factory=dict)
 _gam_state: dict = {}
 _contributions: list = []
@@ -105,7 +117,7 @@ def _load_state(cid):
         if fpath.exists():
             try: _gam_state[cid]=json.loads(fpath.read_text())
             except Exception: pass
-    return _gam_state.setdefault(cid,{"total_xp":0,"level":"Newcomer","streak":0,"best_streak":0,"quality_tier":QualityTier.PENDING.value,"quality_score":{},"badges":[],"joined_date":_now_iso(),"last_contribution_date":_now_iso(),"last_seen_values":{},"review_velocity_days":3.0,"mission_flags":{},"new_sources_added":0,"interviews_completed":0,"gov_contributions":0,"verifications":0,"mentees_helped":0,"pages_visited":[],"sources_contributed":[],"categories_contributed":[]})
+    return _gam_state.setdefault(cid,{"total_xp":0,"level":"Newcomer","streak":0,"best_streak":0,"quality_tier":QualityTier.PENDING.value,"quality_score":{},"badges":[],"joined_date":_now_iso(),"last_contribution_date":_now_iso(),"last_seen_values":{},"review_velocity_days":3.0,"mission_flags":{},"new_sources_added":0,"interviews_completed":0,"gov_contributions":0,"verifications":0,"mentees_helped":0,"pages_visited":[],"sources_contributed":[],"categories_contributed":[],"pathway_counts":{},"prs_merged":0,"infra_fixes":0,"ci_improvements":0,"tests_added":0,"docs_improved":0,"prs_reviewed":0})
 def _save_state(cid): (GAMIFICATION_DIR/f"{cid}.json").write_text(json.dumps(_gam_state[cid],indent=2,default=str))
 def _save_leaderboard_snapshot(entries):
     week=datetime.utcnow().strftime("%Y-W%U"); (GAMIFICATION_DIR/f"leaderboard-{week}.json").write_text(json.dumps(entries,indent=2,default=str))
@@ -127,6 +139,7 @@ def contribute(req: ContributeRequest):
     if badge and badge not in state["badges"]: state["badges"].append(badge)
     missions_awarded=[]; flags=state.setdefault("mission_flags",{}); total_subs=flags.get("total_submissions",0)+1; flags["total_submissions"]=total_subs
     pathways=set(flags.get("pathways",[])); pathways.add(req.pathway); flags["pathways"]=list(pathways)
+    pc=flags.setdefault("pathway_counts",{}); pc[req.pathway]=pc.get(req.pathway,0)+1; flags["pathway_counts"]=pc
     for m in MISSION_CATALOG:
         mid=m["id"]
         if mid in flags.get("earned",[]): continue
@@ -138,6 +151,31 @@ def contribute(req: ContributeRequest):
         elif mid=="data_steward" and total_subs>=5: award=True
         elif mid=="sector_pioneer" and len(pathways)>=4: award=True
         elif mid=="community_voice" and total_subs>=10: award=True
+        elif mid=="data_architect" and len(new_sources_added)>=1: award=True
+        elif mid=="researcher" and state.get("interviews_completed",0)>=3: award=True
+        elif mid=="governor" and state.get("gov_contributions",0)>=1: award=True
+        elif mid=="community_builder" and total_subs>=20: award=True
+        elif mid=="source_master" and len(state.get("sources_contributed",[]))>=5: award=True
+        elif mid=="quality_guardian" and state.get("verifications",0)>=10: award=True
+        elif mid=="mentor" and state.get("mentees_helped",0)>=1: award=True
+        elif mid=="explorer_visit" and len(state.get("pages_visited",[]))>=7: award=True
+        elif mid=="legacy_builder" and len(state.get("categories_contributed",[]))>=11: award=True
+        # Constituency-specific missions
+        elif mid=="business_expert" and state.get("pathway_counts",{}).get("B",0)>=3: award=True
+        elif mid=="community_champion" and state.get("pathway_counts",{}).get("C",0)>=5: award=True
+        elif mid=="visitor_insights" and state.get("pathway_counts",{}).get("D",0)>=3: award=True
+        elif mid=="industry_leader" and state.get("pathway_counts",{}).get("E",0)>=2: award=True
+        elif mid=="multi_constituency" and sum(state.get("pathway_counts",{}).values())>=10: award=True
+        # Infrastructure & Code missions
+        elif mid=="code_committer" and state.get("prs_merged",0)>=1: award=True
+        elif mid=="infrastructure_builder" and state.get("infra_fixes",0)>=1: award=True
+        elif mid=="ci_cd_contributor" and state.get("ci_improvements",0)>=1: award=True
+        elif mid=="test_contributor" and state.get("tests_added",0)>=1: award=True
+        elif mid=="doc_contributor" and state.get("docs_improved",0)>=1: award=True
+        elif mid=="review_contributor" and state.get("prs_reviewed",0)>=5: award=True
+        elif mid=="analyst" and state["total_xp"]>=500: award=True
+        elif mid=="architect" and state["total_xp"]>=5000: award=True
+        elif mid=="visionary" and state["total_xp"]>=10000: award=True
         elif mid=="data_architect" and len(new_sources_added)>=1: award=True
         elif mid=="researcher" and state.get("interviews_completed",0)>=3: award=True
         elif mid=="governor" and state.get("gov_contributions",0)>=1: award=True
