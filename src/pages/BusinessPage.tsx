@@ -27,16 +27,17 @@ export function BusinessPage() {
     ?.filter((i: any) => i.name?.includes('establishments') || i.name?.includes('employment'))
     .map((i: any) => ({ x: '2024', y: Number(i.value) ?? 0 })) ?? []
 
+  const employmentValue = getIndicator(economic?.indicators, 'employment_qcew')
   const industryMix = [
-    { industry: 'Tourism', count: employment ? Number(employment.value) * 0.022 : 0, pct: 14.7 },
-    { industry: 'Retail', count: employment ? Number(employment.value) * 0.02 : 0, pct: 13.3 },
-    { industry: 'Healthcare', count: employment ? Number(employment.value) * 0.017 : 0, pct: 11.2 },
-    { industry: 'Construction', count: employment ? Number(employment.value) * 0.015 : 0, pct: 10.2 },
-    { industry: 'Education', count: employment ? Number(employment.value) * 0.011 : 0, pct: 7.4 },
-    { industry: 'Manufacturing', count: employment ? Number(employment.value) * 0.01 : 0, pct: 6.3 },
-    { industry: 'Professional', count: employment ? Number(employment.value) * 0.018 : 0, pct: 11.9 },
-    { industry: 'Other', count: employment ? Number(employment.value) * 0.037 : 0, pct: 24.9 },
-  ]
+      { industry: 'Tourism', count: Math.round(employmentValue * 0.022), pct: 14.7 },
+      { industry: 'Retail', count: Math.round(employmentValue * 0.020), pct: 13.3 },
+      { industry: 'Healthcare', count: Math.round(employmentValue * 0.017), pct: 11.2 },
+      { industry: 'Construction', count: Math.round(employmentValue * 0.015), pct: 10.2 },
+      { industry: 'Education', count: Math.round(employmentValue * 0.011), pct: 7.4 },
+      { industry: 'Manufacturing', count: Math.round(employmentValue * 0.010), pct: 6.3 },
+      { industry: 'Professional', count: Math.round(employmentValue * 0.018), pct: 11.9 },
+      { industry: 'Other', count: Math.round(employmentValue * 0.037), pct: 24.9 },
+    ]
 
   const loading = econLoading
 

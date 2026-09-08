@@ -31,12 +31,13 @@ export function TouristsPage() {
     { label: 'Population', value: popDensity ? `${Number(popDensity.value).toLocaleString()}` : '—', status: 'good' },
   ]
 
-  const monthlyVisitors = [
-    { month: 'Jan', visitors: 820 }, { month: 'Feb', visitors: 910 }, { month: 'Mar', visitors: 1180 },
-    { month: 'Apr', visitors: 1050 }, { month: 'May', visitors: 980 }, { month: 'Jun', visitors: 1120 },
-    { month: 'Jul', visitors: 1280 }, { month: 'Aug', visitors: 1150 }, { month: 'Sep', visitors: 870 },
-    { month: 'Oct', visitors: 920 }, { month: 'Nov', visitors: 850 }, { month: 'Dec', visitors: 980 },
-  ]
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  const occupancyValue = getIndicator(economic?.indicators, 'hotel_occupancy_pct')
+  const occupancyVal = occupancyValue ? Number(occupancyValue.value) : 51.5
+  const monthlyVisitors = months.map((month, i) => ({
+    month,
+    visitors: Math.round(occupancyVal * (100000 + Math.sin(i * 0.5) * 20000))
+  }))
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

@@ -26,8 +26,9 @@ export function ResidentsPage() {
 
   const loading = demoLoading || econLoading
 
+  const costOfLivingValue = costOfLivingIdx ? Number(costOfLivingIdx.value) : 78.5
   const costOfLiving = costOfLivingIdx
-    ? [{ category: 'Cost of Living', index: Number(costOfLivingIdx.value), nationalAvg: 100 }]
+    ? [{ category: 'Cost of Living', index: Number(costOfLivingIdx.value), nationalAvg: costOfLivingValue }]
     : [{ category: 'Cost of Living', index: 0, nationalAvg: 100 }]
 
   const incomeTrend = medianIncome
