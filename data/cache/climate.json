@@ -2,40 +2,28 @@
   "count": 3,
   "indicators": [
     {
-      "id": 48,
       "name": "avg_max_temp",
       "value": "27.9",
       "unit": "deg C",
       "category": "Climate",
       "source": "NOAA NCEI Daily Summaries",
-      "source_url": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&dataTypes=TMAX,TMIN,PRCP,AWND&stations=USW00012838&startDate=2025-09-07&endDate=2026-09-07&format=json",
-      "vintage": "2025-09-07 to 2026-09-07",
-      "fetched_at": "2026-09-07T23:00:54.995670",
-      "description": "avg_max_temp from NOAA NCEI Daily Summaries"
+      "vintage": "2025-09-07 to 2026-09-07"
     },
     {
-      "id": 259,
       "name": "avg_min_temp",
       "value": "18.7",
       "unit": "deg C",
       "category": "Climate",
       "source": "NOAA NCEI",
-      "source_url": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&dataTypes=TMAX,TMIN,PRCP&stations=USW00012838&startDate=2025-01-01&endDate=2025-12-31&format=json&units=metric",
-      "vintage": "2025",
-      "fetched_at": "2026-09-07T17:52:02.839192",
-      "description": "Average minimum temperature"
+      "vintage": "2025"
     },
     {
-      "id": 49,
       "name": "total_precip",
       "value": "13448",
       "unit": "mm",
       "category": "Climate",
       "source": "NOAA NCEI Daily Summaries",
-      "source_url": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&dataTypes=TMAX,TMIN,PRCP,AWND&stations=USW00012838&startDate=2025-09-07&endDate=2026-09-07&format=json",
-      "vintage": "2025-09-07 to 2026-09-07",
-      "fetched_at": "2026-09-07T23:00:55.063676",
-      "description": "total_precip from NOAA NCEI Daily Summaries"
+      "vintage": "2025-09-07 to 2026-09-07"
     }
   ]
 }

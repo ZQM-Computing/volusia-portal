@@ -572,3 +572,61 @@ INFO:     None:0 - "GET /data/cvb_hotels.json HTTP/1.1" 404 Not Found
 INFO:     None:0 - "GET /data/news.json HTTP/1.1" 200 OK
 INFO:     None:0 - "GET /data/economic.json HTTP/1.1" 200 OK
 INFO:     127.0.0.1:51926 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56176 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56315 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     34.123.170.104:0 - "GET /data/climate.json HTTP/1.1" 200 OK
+INFO:     34.123.170.104:0 - "GET /data/demographics.json HTTP/1.1" 200 OK
+INFO:     34.123.170.104:0 - "GET /data/map-layers.json HTTP/1.1" 200 OK
+INFO:     34.123.170.104:0 - "GET /data/datasets.json HTTP/1.1" 200 OK
+INFO:     34.123.170.104:0 - "GET /data/economic.json HTTP/1.1" 200 OK
+INFO:     34.123.170.104:0 - "GET /gamification/stats/anonymous HTTP/1.1" 200 OK
+INFO:     34.123.170.104:0 - "GET /diagnostics HTTP/1.1" 200 OK
+INFO:     34.72.176.129:0 - "GET /data/datasets.json HTTP/1.1" 200 OK
+INFO:     34.72.176.129:0 - "GET /data/demographics.json HTTP/1.1" 200 OK
+INFO:     34.72.176.129:0 - "GET /diagnostics HTTP/1.1" 200 OK
+INFO:     34.72.176.129:0 - "GET /data/climate.json HTTP/1.1" 200 OK
+INFO:     34.72.176.129:0 - "GET /data/economic.json HTTP/1.1" 200 OK
+INFO:     34.72.176.129:0 - "GET /data/map-layers.json HTTP/1.1" 200 OK
+INFO:     34.72.176.129:0 - "GET /gamification/stats/anonymous HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63715 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:63853 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56958 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56987 - "GET /diagnostics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57003 - "GET /business HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57096 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     None:0 - "GET /data/economic.json HTTP/1.1" 200 OK
+INFO:     None:0 - "GET /data/economic.json HTTP/1.1" 200 OK
+INFO:     None:0 - "GET /data/indicators.json HTTP/1.1" 200 OK
+INFO:     None:0 - "GET /data/economic.json HTTP/1.1" 200 OK
+INFO:     None:0 - "GET /data/indicators.json HTTP/1.1" 200 OK
+INFO:     None:0 - "GET /data/economic.json HTTP/1.1" 200 OK
+INFO:     None:0 - "GET /data/indicators.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57186 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     None:0 - "GET /data/news.json HTTP/1.1" 200 OK
+INFO:     None:0 - "GET /data/cvb_hotels.json HTTP/1.1" 404 Not Found
+INFO:     None:0 - "GET /data/economic.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60919 - "GET /diagnostics HTTP/1.1" 200 OK
+INFO:     None:0 - "GET /data/economic.json HTTP/1.1" 200 OK
+INFO:     None:0 - "GET /data/indicators.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60935 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60943 - "GET /categories HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60944 - "GET /data/economic.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60945 - "GET /data/demographics.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60951 - "GET /indicators?limit=5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60952 - "GET /data/demographics.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61005 - "GET /indicators?limit=100 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61006 - "GET /categories HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61007 - "GET /indicators?limit=1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61008 - "GET /data/economic.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61009 - "GET /data/demographics.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61010 - "GET /indicators.csv HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61011 - "GET /news.json HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:61012 - "GET /analytics/summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61023 - "GET /api/v1/status HTTP/1.1" 404 Not Found
+INFO:     2603:900b:2d40:1d2:c16b:8053:a7ef:9e93:0 - "GET /data/map-layers.json HTTP/1.1" 200 OK
+INFO:     2603:900b:2d40:1d2:c16b:8053:a7ef:9e93:0 - "GET /data/economic.json HTTP/1.1" 200 OK
+INFO:     2603:900b:2d40:1d2:c16b:8053:a7ef:9e93:0 - "GET /data/demographics.json HTTP/1.1" 200 OK
+INFO:     2603:900b:2d40:1d2:c16b:8053:a7ef:9e93:0 - "GET /data/datasets.json HTTP/1.1" 200 OK
+INFO:     2603:900b:2d40:1d2:c16b:8053:a7ef:9e93:0 - "GET /data/climate.json HTTP/1.1" 200 OK
+INFO:     2603:900b:2d40:1d2:c16b:8053:a7ef:9e93:0 - "GET /gamification/stats/anonymous HTTP/1.1" 200 OK
+INFO:     2603:900b:2d40:1d2:c16b:8053:a7ef:9e93:0 - "GET /diagnostics HTTP/1.1" 200 OK
