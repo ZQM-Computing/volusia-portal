@@ -136,22 +136,26 @@ export function ResidentsPage() {
         <Card hover>
           <div className="text-2xl mb-2">🏫</div>
           <h3 className="text-sm font-semibold text-volusia-navy mb-1">School Data</h3>
-          <p className="text-xs text-volusia-slate">Performance, enrollment, and demographics by school</p>
+          <p className="text-xs text-volusia-slate">Coming soon — enrollment and performance data will be available soon</p>
+          <span className="badge badge-amber">COMING SOON</span>
         </Card>
         <Card hover>
           <div className="text-2xl mb-2">🏥</div>
           <h3 className="text-sm font-semibold text-volusia-navy mb-1">Health Data</h3>
-          <p className="text-xs text-volusia-slate">Health outcomes by census tract and county</p>
+          <p className="text-xs text-volusia-slate">Health outcomes data will be integrated from CDC PLACES when available</p>
+          <span className="badge badge-amber">COMING SOON</span>
         </Card>
         <Card hover>
           <div className="text-2xl mb-2">🚌</div>
           <h3 className="text-sm font-semibold text-volusia-navy mb-1">Transit Access</h3>
-          <p className="text-xs text-volusia-slate">VOTRAN routes, stops, and ridership data</p>
+          <p className="text-xs text-volusia-slate">VOTRAN transit data will be added from GTFS feeds</p>
+          <span className="badge badge-amber">COMING SOON</span>
         </Card>
         <Card hover>
           <div className="text-2xl mb-2">💰</div>
           <h3 className="text-sm font-semibold text-volusia-navy mb-1">Open Budget</h3>
-          <p className="text-xs text-volusia-slate">County budget, spending, and financial reports</p>
+          <p className="text-xs text-volusia-slate">County budget data from OpenGov portal will be integrated</p>
+          <span className="badge badge-amber">COMING SOON</span>
         </Card>
       </div>
     </div>
