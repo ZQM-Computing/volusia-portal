@@ -2,18 +2,6 @@
   "count": 3,
   "indicators": [
     {
-      "id": 233,
-      "name": "avg_daily_rate",
-      "value": "92.51",
-      "unit": "USD",
-      "category": "Tourism",
-      "source": "Volusia County CVB",
-      "source_url": "https://www.daytonabeach.com/about/market-research/past-reports/",
-      "vintage": "December 2021",
-      "fetched_at": "2026-09-03T16:01:15.008275",
-      "description": "Average daily rate from CVB bed-tax reports"
-    },
-    {
       "id": 140,
       "name": "hotel_occupancy_pct",
       "value": "51.5",
@@ -24,6 +12,18 @@
       "vintage": "December 2021",
       "fetched_at": "2026-09-03T16:01:15.003276",
       "description": "Hotel occupancy rate from CVB bed-tax reports"
+    },
+    {
+      "id": 233,
+      "name": "avg_daily_rate",
+      "value": "92.51",
+      "unit": "USD",
+      "category": "Tourism",
+      "source": "Volusia County CVB",
+      "source_url": "https://www.daytonabeach.com/about/market-research/past-reports/",
+      "vintage": "December 2021",
+      "fetched_at": "2026-09-03T16:01:15.008275",
+      "description": "Average daily rate from CVB bed-tax reports"
     },
     {
       "id": 234,

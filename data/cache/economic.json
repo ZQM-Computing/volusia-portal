@@ -2,30 +2,6 @@
   "count": 6,
   "indicators": [
     {
-      "id": 208,
-      "name": "col_overall_index",
-      "value": "89.2",
-      "unit": "index",
-      "category": "Economic",
-      "source": "C2ER (Daytona Beach, cached)",
-      "source_url": "https://www.c2er.org/",
-      "vintage": "2025Q1",
-      "fetched_at": "2026-09-07T21:18:53.793015",
-      "description": "col_overall_index from C2ER (Daytona Beach, cached)"
-    },
-    {
-      "id": 207,
-      "name": "cost_of_living_index",
-      "value": "78.5",
-      "unit": "index",
-      "category": "Economic",
-      "source": "C2ER (Daytona Beach, cached)",
-      "source_url": "https://www.c2er.org/",
-      "vintage": "2025Q1",
-      "fetched_at": "2026-09-07T21:18:49.554759",
-      "description": "cost_of_living_index from C2ER (Daytona Beach, cached)"
-    },
-    {
       "id": 40,
       "name": "median_household_income_acs",
       "value": "70044",
@@ -34,32 +10,8 @@
       "source": "US Census ACS 5-Year DP03",
       "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2024.DP03",
       "vintage": "2024",
-      "fetched_at": "2026-09-07T21:18:43.694400",
+      "fetched_at": "2026-09-07T21:19:58.443091",
       "description": "median_household_income_acs from US Census ACS 5-Year DP03"
-    },
-    {
-      "id": 255,
-      "name": "per_capita_income_acs",
-      "value": "-888888888",
-      "unit": "dollars",
-      "category": "Economic",
-      "source": "US Census ACS 5-Year DP03",
-      "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2024.DP03",
-      "vintage": "2024",
-      "fetched_at": "2026-09-07T21:18:43.770212",
-      "description": "per_capita_income_acs from US Census ACS 5-Year DP03"
-    },
-    {
-      "id": 42,
-      "name": "poverty_rate_acs",
-      "value": "2.3",
-      "unit": "percent",
-      "category": "Economic",
-      "source": "US Census ACS 5-Year DP03",
-      "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2024.DP03",
-      "vintage": "2024",
-      "fetched_at": "2026-09-07T21:18:43.748852",
-      "description": "poverty_rate_acs from US Census ACS 5-Year DP03"
     },
     {
       "id": 41,
@@ -70,8 +22,56 @@
       "source": "US Census ACS 5-Year DP03",
       "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2024.DP03",
       "vintage": "2024",
-      "fetched_at": "2026-09-07T21:18:43.732816",
+      "fetched_at": "2026-09-07T21:19:58.478471",
       "description": "unemployment_rate_acs from US Census ACS 5-Year DP03"
+    },
+    {
+      "id": 42,
+      "name": "poverty_rate_acs",
+      "value": "2.3",
+      "unit": "percent",
+      "category": "Economic",
+      "source": "US Census ACS 5-Year DP03",
+      "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2024.DP03",
+      "vintage": "2024",
+      "fetched_at": "2026-09-07T21:19:58.507736",
+      "description": "poverty_rate_acs from US Census ACS 5-Year DP03"
+    },
+    {
+      "id": 207,
+      "name": "cost_of_living_index",
+      "value": "78.5",
+      "unit": "index",
+      "category": "Economic",
+      "source": "C2ER (Daytona Beach, cached)",
+      "source_url": "https://www.c2er.org/",
+      "vintage": "2025Q1",
+      "fetched_at": "2026-09-07T21:20:01.897239",
+      "description": "cost_of_living_index from C2ER (Daytona Beach, cached)"
+    },
+    {
+      "id": 208,
+      "name": "col_overall_index",
+      "value": "89.2",
+      "unit": "index",
+      "category": "Economic",
+      "source": "C2ER (Daytona Beach, cached)",
+      "source_url": "https://www.c2er.org/",
+      "vintage": "2025Q1",
+      "fetched_at": "2026-09-07T21:20:01.924689",
+      "description": "col_overall_index from C2ER (Daytona Beach, cached)"
+    },
+    {
+      "id": 255,
+      "name": "per_capita_income_acs",
+      "value": "-888888888",
+      "unit": "dollars",
+      "category": "Economic",
+      "source": "US Census ACS 5-Year DP03",
+      "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2024.DP03",
+      "vintage": "2024",
+      "fetched_at": "2026-09-07T21:19:58.552032",
+      "description": "per_capita_income_acs from US Census ACS 5-Year DP03"
     }
   ]
 }

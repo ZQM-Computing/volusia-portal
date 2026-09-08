@@ -76,17 +76,11 @@ export function ResidentsPage() {
               changeLabel="Census ACS DP05"
             />
             <StatCard
-              value={pctBachelor ? `${pctBachelor.value}%` : '—'}
-              label="Bachelor's+"
-              change={undefined}
-              changeLabel="Census ACS DP03"
-            />
-            <StatCard
-              value={pctBachelor ? `${pctBachelor.value}%` : '—'}
-              label="Bachelor's+"
-              change={undefined}
-              changeLabel="Census ACS DP03"
-            />
+                          value={pctBachelor ? `${pctBachelor.value}%` : '—'}
+                          label="Bachelor's+"
+                          change={undefined}
+                          changeLabel="Census ACS DP03"
+                        />
           </>
         )}
       </div>

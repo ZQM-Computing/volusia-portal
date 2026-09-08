@@ -136,7 +136,7 @@ def _get_pulse_data():
 @app.get("/refresh")
 @app.get("/diagnostics")
 def diagnostics():
-    """Full system diagnostics: DB integrity, API connectivity, gamification, map layers. Requires auth."""
+    """Full system diagnostics: DB integrity, API connectivity, gamification, map layers."""
     results = {}
     db_path = DB_PATH
     results["database"] = {"exists": db_path.exists(), "path": str(db_path)}
