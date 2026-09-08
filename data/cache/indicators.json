@@ -35,7 +35,7 @@
     },
     {
       "name": "pct_bachelors_or_higher_acs",
-      "value": "40.0",
+      "value": 40.0,
       "unit": "percent",
       "category": "Demographics",
       "source": "US Census ACS 5-Year DP05",
@@ -51,7 +51,7 @@
     },
     {
       "name": "pct_white_alone_acs",
-      "value": "0.579",
+      "value": 68.6,
       "unit": "percent",
       "category": "Demographics",
       "source": "US Census ACS 5-Year DP05",
@@ -147,7 +147,7 @@
     },
     {
       "name": "per_capita_income_acs",
-      "value": "59259",
+      "value": 59259,
       "unit": "dollars",
       "category": "Economic",
       "source": "US Census ACS 5-Year DP03",
@@ -171,7 +171,7 @@
     },
     {
       "name": "poverty_rate_acs",
-      "value": "12.0",
+      "value": 12.0,
       "unit": "percent",
       "category": "Economic",
       "source": "US Census ACS 5-Year DP03",
