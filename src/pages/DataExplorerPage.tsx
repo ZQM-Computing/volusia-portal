@@ -18,13 +18,14 @@ export function DataExplorerPage() {
   const downloadCSV = useDownloadCSV()
 
   const items = datasets?.datasets ?? datasets ?? []
-  const allCategories = ['all', ...new Set(items.map((d: any) => d.source || '').filter(Boolean))]
+  const allCategories = ['all', ...new Set(items.map((d: any) => d.category || d.source || '').filter(Boolean))]
 
   const filtered = items.filter((d: any) => {
     const matchesSearch =
+      (d.name ?? '').toLowerCase().includes(searchTerm.toLowerCase()) ||
       (d.source ?? '').toLowerCase().includes(searchTerm.toLowerCase()) ||
       (d.vintage ?? '').toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesCategory = categoryFilter === 'all' || (d.source ?? '').toLowerCase().includes(categoryFilter.toLowerCase())
+    const matchesCategory = categoryFilter === 'all' || (d.category ?? '').toLowerCase().includes(categoryFilter.toLowerCase())
     return matchesSearch && matchesCategory
   })
 
@@ -154,7 +155,7 @@ export function DataExplorerPage() {
                   <button className="btn-primary text-sm py-1.5 px-3" onClick={() => downloadCSV()}>
                     Download CSV
                   </button>
-                  <button className="btn-secondary text-sm py-1.5 px-3" onClick={() => window.open(`/data/indicators.csv`, '_blank')}>
+                  <button className="btn-secondary text-sm py-1.5 px-3" onClick={() => window.open(`/indicators.csv`, '_blank')}>
                     API
                   </button>
                 </div>

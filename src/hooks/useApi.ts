@@ -28,7 +28,7 @@ export function useNews() { return useApiData<any>('/news.json') }
 export function useHealth() { return useApiData<any>('/health.json') }
 export function useStakeholderGroups() { return useApiData<any>('/stakeholders.json') }
 export function useDownloadCSV(category?: string) {
-  const url = category ? `/data/indicators.csv?category=${category}` : '/data/indicators.csv'
+  const url = category ? `/indicators.csv?category=${category}` : '/indicators.csv'
   return () => window.open(url, '_blank')
 }
 export function useIndicator(name: string) { return useApiData<any>(`/indicators/${encodeURIComponent(name)}`) }
