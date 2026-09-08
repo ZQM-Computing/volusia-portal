@@ -99,7 +99,7 @@ export function useDiagnostics() {
   const [diagnostics, setDiagnostics] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   useEffect(() => {
-    fetch('/api/diagnostics')
+    fetch('/diagnostics')
       .then((res) => res.json())
       .then((d) => { setDiagnostics(d); setLoading(false) })
       .catch(() => setLoading(false))

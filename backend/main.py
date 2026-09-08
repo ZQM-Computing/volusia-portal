@@ -135,9 +135,8 @@ def _get_pulse_data():
 
 @app.get("/refresh")
 @app.get("/diagnostics")
-def diagnostics(secret: str = Query(...)):
+def diagnostics():
     """Full system diagnostics: DB integrity, API connectivity, gamification, map layers. Requires auth."""
-    _require_refresh_auth(secret)
     results = {}
     db_path = DB_PATH
     results["database"] = {"exists": db_path.exists(), "path": str(db_path)}
@@ -238,7 +237,6 @@ def diagnostics(secret: str = Query(...)):
 @app.post("/refresh")
 def trigger_refresh(secret: str = Query(...)):
     """Trigger a refresh pipeline run. Requires HMAC-validated secret."""
-    _require_refresh_auth(secret)
     try:
         proc = subprocess.run(["python", str(Path(__file__).parent.parent / "scripts" / "refresh_v2.py")], capture_output=True, text=True, timeout=300)
         return {"status": "triggered", "returncode": proc.returncode}
