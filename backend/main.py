@@ -14,7 +14,9 @@ app = FastAPI(title="Project Volusia API", version="3.0.0")
 # Initialize gamification tables
 conn = sqlite3.connect(str(DB_PATH)); _init_gamification_db(conn); conn.close()
 
-REFRESH_TOKEN = os.environ.get("VOLUSIA_REFRESH_TOKEN", "volusia-refresh-secret-change-me")
+REFRESH_TOKEN = os.environ.get("VOLUSIA_REFRESH_TOKEN")
+if not REFRESH_TOKEN:
+    raise RuntimeError("VOLUSIA_REFRESH_TOKEN environment variable is required")
 
 def _require_refresh_auth(secret: str = Query(...)):
     """HMAC-validated secret check. Raises 401 if invalid."""
@@ -23,7 +25,7 @@ def _require_refresh_auth(secret: str = Query(...)):
     return True
 
 app.add_middleware(
-    CORSMiddleware, allow_origins=["*"], allow_credentials=True,
+    CORSMiddleware, allow_origins=["https://zqmlabs.com", "https://volusia.zqmlabs.com", "http://localhost:8080"], allow_credentials=True,
     allow_methods=["*"], allow_headers=["*"])
 
 def _db_rows(query: str, params=()):
@@ -233,6 +235,25 @@ def diagnostics():
     results["overall"] = "healthy" if (db_ok and api_ok and gam_ok and map_ok) else "degraded"
     results["checks"] = {"database": db_ok, "api_endpoints": api_ok, "gamification": gam_ok, "map_layers": map_ok}
     return results
+
+
+# ==================== NEWS ENDPOINT ====================
+@app.get("/news.json")
+def get_news():
+    """Return news articles from cache or default."""
+    cache_path = Path(__file__).resolve().parent.parent / "data" / "cache" / "news.json"
+    if cache_path.exists():
+        try:
+            content = json.loads(cache_path.read_text())
+            return content
+        except Exception:
+            pass
+    return {"count": 0, "news": []}
+
+@app.get("/data/news.json")
+def get_news_data():
+    """Alias for /news.json — serves from /data prefix."""
+    return get_news()
 
 @app.post("/refresh")
 def trigger_refresh(secret: str = Query(...)):
