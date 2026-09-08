@@ -25,7 +25,7 @@ def _require_refresh_auth(secret: str = Query(...)):
     return True
 
 app.add_middleware(
-    CORSMiddleware, allow_origins=["https://zqmlabs.com", "https://volusia.zqmlabs.com", "http://localhost:8080"], allow_credentials=True,
+    CORSMiddleware, allow_origins=["https://zqmlabs.com", "https://www.zqmlabs.com", "http://localhost:8080", "http://127.0.0.1:8080"], allow_credentials=True,
     allow_methods=["*"], allow_headers=["*"])
 
 def _db_rows(query: str, params=()):
@@ -135,8 +135,8 @@ def _get_pulse_data():
     return {"items": items[:50], "generated_at": now_str}
 
 
-@app.get("/refresh")
 @app.get("/diagnostics")
+@_require_refresh_auth()
 def diagnostics():
     """Full system diagnostics: DB integrity, API connectivity, gamification, map layers."""
     results = {}
@@ -256,7 +256,8 @@ def get_news_data():
     return get_news()
 
 @app.post("/refresh")
-def trigger_refresh(secret: str = Query(...)):
+@_require_refresh_auth()
+def trigger_refresh():
     """Trigger a refresh pipeline run. Requires HMAC-validated secret."""
     try:
         proc = subprocess.run(["python", str(Path(__file__).parent.parent / "scripts" / "refresh_v2.py")], capture_output=True, text=True, timeout=300)
