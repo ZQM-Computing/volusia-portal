@@ -1,0 +1,50 @@
+2026-09-08T01:24:03Z INF Starting tunnel tunnelID=53ad4e13-3368-488e-a04c-e54d808169a8
+2026-09-08T01:24:03Z INF Version 2026.7.2 (Checksum cdb5d4432f6ae1595654a692a51308b69d2bf7af961f5578d9391837cf072df9)
+2026-09-08T01:24:03Z INF GOOS: windows, GOVersion: go1.26.4, GoArch: amd64
+2026-09-08T01:24:03Z INF Settings: map[cred-file:C:\Users\zqmco\.cloudflared\53ad4e13-3368-488e-a04c-e54d808169a8.json credentials-file:C:\Users\zqmco\.cloudflared\53ad4e13-3368-488e-a04c-e54d808169a8.json logfile:C:\Users\zqmco\.cloudflared\cloudflared.log loglevel:info]
+2026-09-08T01:24:03Z INF cloudflared will not automatically update on Windows systems.
+2026-09-08T01:24:03Z INF Generated Connector ID: cf3b458c-3c3e-47bc-b435-fc963343fecd
+2026-09-08T01:24:03Z INF Initial protocol quic
+2026-09-08T01:24:03Z INF ICMP proxy will use 192.168.1.226 as source for IPv4
+2026-09-08T01:24:03Z INF ICMP proxy will use 2603:900b:2d40:1d2::19bd in zone Ethernet as source for IPv6
+2026-09-08T01:24:03Z INF cloudflared does not support loading the system root certificate pool on Windows. Please use --origin-ca-pool <PATH> to specify the path to the certificate pool
+2026-09-08T01:24:03Z INF cloudflared does not support loading the system root certificate pool on Windows. Please use --origin-ca-pool <PATH> to specify the path to the certificate pool
+2026-09-08T01:24:03Z INF cloudflared does not support loading the system root certificate pool on Windows. Please use --origin-ca-pool <PATH> to specify the path to the certificate pool
+2026-09-08T01:24:03Z INF cloudflared does not support loading the system root certificate pool on Windows. Please use --origin-ca-pool <PATH> to specify the path to the certificate pool
+2026-09-08T01:24:03Z INF cloudflared does not support loading the system root certificate pool on Windows. Please use --origin-ca-pool <PATH> to specify the path to the certificate pool
+2026-09-08T01:24:03Z INF cloudflared does not support loading the system root certificate pool on Windows. Please use --origin-ca-pool <PATH> to specify the path to the certificate pool
+2026-09-08T01:24:03Z INF cloudflared does not support loading the system root certificate pool on Windows. Please use --origin-ca-pool <PATH> to specify the path to the certificate pool
+2026-09-08T01:24:03Z INF cloudflared does not support loading the system root certificate pool on Windows. Please use --origin-ca-pool <PATH> to specify the path to the certificate pool
+2026-09-08T01:24:03Z INF ICMP proxy will use 192.168.1.226 as source for IPv4
+2026-09-08T01:24:03Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveID(65074) CurveP256] connIndex=0 event=0 ip=2606:4700:a8::7
+2026-09-08T01:24:03Z INF ICMP proxy will use 2603:900b:2d40:1d2::19bd in zone Ethernet as source for IPv6
+2026-09-08T01:24:03Z INF Starting metrics server on 127.0.0.1:20241/metrics
+2026-09-08T01:24:03Z INF +-------------------------------------------------------------------------------------+
+2026-09-08T01:24:03Z INF |                               CONNECTIVITY PRE-CHECKS                               |
+2026-09-08T01:24:03Z INF +-------------------------------------------------------------------------------------+
+2026-09-08T01:24:03Z INF |  COMPONENT         TARGET                     STATUS  DETAILS                       |
+2026-09-08T01:24:03Z INF |  DNS Resolution    region1.v2.argotunnel.com  PASS    DNS Resolved successfully     |
+2026-09-08T01:24:03Z INF |  DNS Resolution    region2.v2.argotunnel.com  PASS    DNS Resolved successfully     |
+2026-09-08T01:24:03Z INF |  UDP Connectivity  region1.v2.argotunnel.com  PASS    QUIC connection successful    |
+2026-09-08T01:24:03Z INF |  UDP Connectivity  region2.v2.argotunnel.com  PASS    QUIC connection successful    |
+2026-09-08T01:24:03Z INF |  TCP Connectivity  region1.v2.argotunnel.com  PASS    HTTP/2 connection successful  |
+2026-09-08T01:24:03Z INF |  TCP Connectivity  region2.v2.argotunnel.com  PASS    HTTP/2 connection successful  |
+2026-09-08T01:24:03Z INF |  Cloudflare API    api.cloudflare.com:443     PASS    API is reachable              |
+2026-09-08T01:24:03Z INF |                                                                                     |
+2026-09-08T01:24:03Z INF |  SUMMARY: Environment is healthy. cloudflared will use 'quic' as primary protocol.  |
+2026-09-08T01:24:03Z INF +-------------------------------------------------------------------------------------+
+2026-09-08T01:24:03Z INF precheck component="DNS Resolution" details="DNS Resolved successfully" run_id=6a246a2e-1936-4a8c-8bf6-75c9ccef364c status=pass target=region1.v2.argotunnel.com
+2026-09-08T01:24:03Z INF precheck component="DNS Resolution" details="DNS Resolved successfully" run_id=6a246a2e-1936-4a8c-8bf6-75c9ccef364c status=pass target=region2.v2.argotunnel.com
+2026-09-08T01:24:03Z INF precheck component="UDP Connectivity" details="QUIC connection successful" run_id=6a246a2e-1936-4a8c-8bf6-75c9ccef364c status=pass target=region1.v2.argotunnel.com
+2026-09-08T01:24:03Z INF precheck component="UDP Connectivity" details="QUIC connection successful" run_id=6a246a2e-1936-4a8c-8bf6-75c9ccef364c status=pass target=region2.v2.argotunnel.com
+2026-09-08T01:24:03Z INF precheck component="TCP Connectivity" details="HTTP/2 connection successful" run_id=6a246a2e-1936-4a8c-8bf6-75c9ccef364c status=pass target=region1.v2.argotunnel.com
+2026-09-08T01:24:03Z INF precheck component="TCP Connectivity" details="HTTP/2 connection successful" run_id=6a246a2e-1936-4a8c-8bf6-75c9ccef364c status=pass target=region2.v2.argotunnel.com
+2026-09-08T01:24:03Z INF precheck component="Cloudflare API" details="API is reachable" run_id=6a246a2e-1936-4a8c-8bf6-75c9ccef364c status=pass target=api.cloudflare.com:443
+2026-09-08T01:24:03Z INF precheck complete hard_fail=false run_id=6a246a2e-1936-4a8c-8bf6-75c9ccef364c suggested_protocol=quic
+2026-09-08T01:24:03Z INF Registered tunnel connection connIndex=0 connection=36af7e36-f6e8-4e88-b480-f0fbf73bde7f event=0 ip=2606:4700:a8::7 location=mia05 protocol=quic
+2026-09-08T01:24:03Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveID(65074) CurveP256] connIndex=1 event=0 ip=2606:4700:a0::8
+2026-09-08T01:24:04Z INF Registered tunnel connection connIndex=1 connection=65e3ae41-2f77-4e89-aea4-3b8aba53237b event=0 ip=2606:4700:a0::8 location=mia01 protocol=quic
+2026-09-08T01:24:04Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveID(65074) CurveP256] connIndex=2 event=0 ip=2606:4700:a8::6
+2026-09-08T01:24:05Z INF Registered tunnel connection connIndex=2 connection=af1891a8-f925-4e0b-82e3-69d2bf9e2c29 event=0 ip=2606:4700:a8::6 location=mia04 protocol=quic
+2026-09-08T01:24:05Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveID(65074) CurveP256] connIndex=3 event=0 ip=2606:4700:a0::5
+2026-09-08T01:24:06Z INF Registered tunnel connection connIndex=3 connection=1a800957-827f-4a1f-acfd-b01925957d63 event=0 ip=2606:4700:a0::5 location=mia10 protocol=quic

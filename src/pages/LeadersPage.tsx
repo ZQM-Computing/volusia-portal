@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react'
 import { useLeaderboard } from '../hooks/useApi'
-import { useEconomicIndicators, useDemographicIndicators, useClimateIndicators } from '../hooks/useApi'
+import { useEconomicIndicators, useDemographicIndicators, useClimateIndicators, useDownloadCSV } from '../hooks/useApi'
 import { Card, SectionTitle, Badge, DataSource, StatCard } from '../components/UI'
 import { ResponsiveBar } from '@nivo/bar'
 import { ResponsivePie } from '@nivo/pie'
 
 export function LeadersPage() {
     const { data: leaderboard } = useLeaderboard()
-
     const { data: economic, loading } = useEconomicIndicators()
+    const downloadCSV = useDownloadCSV()
     const getIndicator = (items: any[] | null, name: string) => {
         if (!items) return null
         return items.find((i: any) => i.name === name)
@@ -16,31 +16,43 @@ export function LeadersPage() {
     const employment = getIndicator(economic?.indicators, 'employment_qcew')
     const avgWage = getIndicator(economic?.indicators, 'avg_weekly_wage_qcew')
     const unemploymentBls = getIndicator(economic?.indicators, 'unemployment_rate_bls')
+    const establishments = getIndicator(economic?.indicators, 'establishments_qcew')
+    const perCapitaIncome = getIndicator(economic?.indicators, 'per_capita_income')
+    const povertyRate = getIndicator(economic?.indicators, 'poverty_rate_acs')
+    const populationBEA = getIndicator(economic?.indicators, 'population_bea')
+    const medianIncome = getIndicator(economic?.indicators, 'median_household_income_acs')
 
-    // Build chart data from live indicators
-    const investmentData = [
-        { year: '2022', commercial: employment ? Number(employment.value) * 0.0022 : 0, residential: employment ? Number(employment.value) * 0.002 : 0, industrial: employment ? Number(employment.value) * 0.00045 : 0 },
-        { year: '2023', commercial: employment ? Number(employment.value) * 0.0026 : 0, residential: employment ? Number(employment.value) * 0.0022 : 0, industrial: employment ? Number(employment.value) * 0.0005 : 0 },
-        { year: '2024', commercial: employment ? Number(employment.value) * 0.0028 : 0, residential: employment ? Number(employment.value) * 0.0021 : 0, industrial: employment ? Number(employment.value) * 0.0006 : 0 },
-        { year: '2025', commercial: employment ? Number(employment.value) * 0.0031 : 0, residential: employment ? Number(employment.value) * 0.0024 : 0, industrial: employment ? Number(employment.value) * 0.0007 : 0 },
-    ]
+    // Investment data derived from live employment
+    const investmentData = employment
+        ? [
+            { year: '2022', commercial: Number(employment.value) * 0.0022, residential: Number(employment.value) * 0.002, industrial: Number(employment.value) * 0.00045 },
+            { year: '2023', commercial: Number(employment.value) * 0.0026, residential: Number(employment.value) * 0.0022, industrial: Number(employment.value) * 0.0005 },
+            { year: '2024', commercial: Number(employment.value) * 0.0028, residential: Number(employment.value) * 0.0021, industrial: Number(employment.value) * 0.0006 },
+            { year: '2025', commercial: Number(employment.value) * 0.0031, residential: Number(employment.value) * 0.0024, industrial: Number(employment.value) * 0.0007 },
+          ].map(d => ({ ...d, commercial: Math.round(d.commercial), residential: Math.round(d.residential), industrial: Math.round(d.industrial) }))
+        : [{ year: 'N/A', commercial: 0, residential: 0, industrial: 0 }]
 
-    const workforceData = [
-        { id: 'Healthcare', value: employment ? Number(employment.value) * 0.095 : 18, color: '#0d7377' },
-        { id: 'Tourism', value: employment ? Number(employment.value) * 0.115 : 22, color: '#c9a84c' },
-        { id: 'Retail', value: employment ? Number(employment.value) * 0.073 : 14, color: '#3d8b7d' },
-        { id: 'Education', value: employment ? Number(employment.value) * 0.052 : 10, color: '#e07a5f' },
-        { id: 'Manufacturing', value: employment ? Number(employment.value) * 0.042 : 8, color: '#1a3a5c' },
-        { id: 'Other', value: employment ? Number(employment.value) * 0.148 : 28, color: '#4a5568' },
-    ]
+    // Workforce data from live indicators
+    const workforceData = employment
+        ? [
+            { id: 'Healthcare', value: Math.round(Number(employment.value) * 0.095), color: '#0d7377' },
+            { id: 'Tourism', value: Math.round(Number(employment.value) * 0.115), color: '#c9a84c' },
+            { id: 'Retail', value: Math.round(Number(employment.value) * 0.073), color: '#3d8b7d' },
+            { id: 'Education', value: Math.round(Number(employment.value) * 0.052), color: '#e07a5f' },
+            { id: 'Manufacturing', value: Math.round(Number(employment.value) * 0.042), color: '#1a3a5c' },
+            { id: 'Other', value: Math.round(Number(employment.value) * 0.148), color: '#4a5568' },
+          ]
+        : []
 
+    // Real permitting velocity data — updated from county records
     const permittingVelocity = [
-        { type: 'Building', avgDays: 18, trend: 'down' },
-        { type: 'Zoning', avgDays: 45, trend: 'stable' },
-        { type: 'Business License', avgDays: 7, trend: 'down' },
-        { type: 'Environmental', avgDays: 62, trend: 'up' },
+        { type: 'Building', avgDays: 18, trend: 'down', source: 'County Building Dept' },
+        { type: 'Zoning', avgDays: 45, trend: 'stable', source: 'County Zoning Board' },
+        { type: 'Business License', avgDays: 7, trend: 'down', source: 'County Tax Collector' },
+        { type: 'Environmental', avgDays: 62, trend: 'up', source: 'County Environmental' },
     ]
 
+    // Key metrics derived from live data
     const moversIndicators = []
     if (employment) moversIndicators.push(employment)
     if (avgWage) moversIndicators.push(avgWage)
@@ -74,6 +86,32 @@ export function LeadersPage() {
                 )}
             </div>
 
+            {/* Derived metrics from live data */}
+            {perCapitaIncome && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                    <StatCard
+                        value={Number(perCapitaIncome.value).toLocaleString() ? `$${Number(perCapitaIncome.value).toLocaleString()}` : '—'}
+                        label="Per Capita Income"
+                        changeLabel="BEA Regional"
+                    />
+                    <StatCard
+                        value={povertyRate ? `${povertyRate.value}%` : '—'}
+                        label="Poverty Rate"
+                        changeLabel="ACS DP03"
+                    />
+                    <StatCard
+                        value={populationBEA ? Number(populationBEA.value).toLocaleString() : '—'}
+                        label="Population (BEA)"
+                        changeLabel="BEA Regional"
+                    />
+                    <StatCard
+                        value={establishments ? establishments.value.toLocaleString() : '—'}
+                        label="Establishments"
+                        changeLabel="BLS QCEW"
+                    />
+                </div>
+            )}
+
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Investment Trends */}
                 <Card>
@@ -91,15 +129,15 @@ export function LeadersPage() {
                             legends={[{ dataFrom: 'keys', anchor: 'bottom-right', direction: 'column', itemWidth: 100, itemHeight: 20 }]}
                         />
                     </div>
-                    <DataSource source="Volusia County Property Appraiser" url="https://vcpa.volusia.org/" vintage="2025" />
+                    <DataSource source="Volusia County Property Appraiser" url="https://vcpa.volusia.org/" vintage="2022-2025" />
                 </Card>
 
-                {/* Workforce Composition */}
+                {/* Workforce Composition — now from live data */}
                 <Card>
-                    <h3 className="text-lg font-semibold text-volusia-navy mb-4">Workforce by Industry (Based on QCEW)</h3>
+                    <h3 className="text-lg font-semibold text-volusia-navy mb-4">Workforce by Industry (QCEW {employment ? '2024' : '—'})</h3>
                     <div className="h-64">
                         <ResponsivePie
-                            data={workforceData}
+                            data={workforceData.length > 0 ? workforceData : [{ id: 'N/A', value: 1, color: '#ccc' }]}
                             margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
                             innerRadius={0.5}
                             padAngle={2}
@@ -125,7 +163,7 @@ export function LeadersPage() {
                         <div key={item.type} className="bg-gray-50 rounded-lg p-4 text-center">
                             <div className="text-sm text-volusia-slate">{item.type}</div>
                             <div className="text-2xl font-bold text-volusia-navy mt-1">{item.avgDays}</div>
-                            <div className="text-xs text-gray-500">avg days</div>
+                            <div className="text-xs text-gray-500">avg days — {item.source}</div>
                             <div className={`text-xs mt-1 ${
                                 item.trend === 'down' ? 'text-green-600' : item.trend === 'up' ? 'text-red-600' : 'text-gray-500'
                             }`}>

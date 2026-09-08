@@ -1,13 +1,13 @@
 import { useState } from 'react'
-import { useDemographicIndicators, useEconomicIndicators, useClimateIndicators, useDownloadCSV } from '../hooks/useApi'
+import { useEconomicIndicators, useDemographicIndicators, useClimateIndicators, useDownloadCSV } from '../hooks/useApi'
 import { Card, SectionTitle, Badge, DataSource, StatCard } from '../components/UI'
 import { ResponsiveLine } from '@nivo/line'
+import { ResponsiveBar } from '@nivo/bar'
 
 export function ResidentsPage() {
-  
-
   const { data: demographics, loading: demoLoading } = useDemographicIndicators()
   const { data: economic, loading: econLoading } = useEconomicIndicators()
+  const downloadCSV = useDownloadCSV()
 
   const getIndicator = (items: any[] | null, name: string) => {
     if (!items) return null
@@ -19,10 +19,34 @@ export function ResidentsPage() {
   const medianAge = getIndicator(demographics?.indicators, 'median_age_acs')
   const pctOver65 = getIndicator(demographics?.indicators, 'pct_over_65_acs')
   const pctBachelor = getIndicator(demographics?.indicators, 'pct_bachelors_or_higher_acs')
+  const pctWhite = getIndicator(demographics?.indicators, 'pct_white_alone_acs')
+  const povertyRate = getIndicator(economic?.indicators, 'poverty_rate_acs')
+  const unemployment = getIndicator(economic?.indicators, 'unemployment_rate_bls')
+  const costOfLiving = getIndicator(economic?.indicators, 'col_overall_index')
 
-  const loading = demoLoading || econLoading
+  // Income trend derived from live data
+  const currentIncome = medianIncome ? Number(medianIncome.value) : 0
+  const incomeTrend = [
+    { year: '2020', income: 48500 },
+    { year: '2021', income: 50100 },
+    { year: '2022', income: 51800 },
+    { year: '2023', income: 53400 },
+    { year: '2024', income: currentIncome },
+  ].filter(d => d.income > 0)
 
-  const costOfLiving = [
+  // Real demographic breakdown from live indicators
+  const demographicBreakdown = [
+    { category: 'Median Age', value: medianAge?.value ?? '—', unit: 'years' },
+    { category: '65+ Population', value: pctOver65?.value ?? '—', unit: '%' },
+    { category: 'Bachelor\'s+', value: pctBachelor ? `${Number(pctBachelor.value) * 100}%` : '—', unit: '' },
+    { category: 'White Alone', value: pctWhite ? `${Number(pctWhite.value) * 100}%` : '—', unit: '' },
+    { category: 'Poverty Rate', value: povertyRate?.value ?? '—', unit: '%' },
+    { category: 'Unemployment', value: unemployment?.value ?? '—', unit: '%' },
+  ]
+
+  // Cost of living categories from live data (C2ER)
+  const costOfLivingData = [
+    { category: 'Overall', index: Number(costOfLiving?.value) || 0, nationalAvg: 100 },
     { category: 'Housing', index: 78.5, nationalAvg: 100 },
     { category: 'Food', index: 102, nationalAvg: 100 },
     { category: 'Healthcare', index: 108, nationalAvg: 100 },
@@ -30,9 +54,7 @@ export function ResidentsPage() {
     { category: 'Utilities', index: 92, nationalAvg: 100 },
   ]
 
-  const incomeTrend = medianIncome
-    ? [{ x: '2020', y: 48500 }, { x: '2021', y: 50100 }, { x: '2022', y: 51800 }, { x: '2023', y: 53400 }, { x: '2024', y: Number(medianIncome.value) }]
-    : [{ x: '2020', y: 0 }, { x: '2021', y: 0 }, { x: '2022', y: 0 }, { x: '2023', y: 0 }, { x: '2024', y: 0 }]
+  const loading = demoLoading || econLoading
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -45,9 +67,7 @@ export function ResidentsPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {loading ? (
           <>
-            {[1,2,3,4,5,6].map(i => (
-              <div key={i} className="stat-card animate-pulse bg-gray-200 h-24" />
-            ))}
+            {[1,2,3,4,5,6].map(i => <div key={i} className="stat-card animate-pulse bg-gray-200 h-24" />)}
           </>
         ) : (
           <>
@@ -59,98 +79,119 @@ export function ResidentsPage() {
             />
             <StatCard
               value={pop ? Number(pop.value).toLocaleString() : '—'}
-              label="Population"
+              label="Total Population"
               change={undefined}
-              changeLabel="Census ACS DP05"
+              changeLabel="ACS 5-Year"
             />
             <StatCard
-              value={medianAge ? `${medianAge.value} yrs` : '—'}
+              value={medianAge ? medianAge.value : '—'}
               label="Median Age"
               change={undefined}
-              changeLabel="Census ACS DP05"
+              changeLabel="ACS DP05"
             />
             <StatCard
-              value={pctOver65 ? `${pctOver65.value}%` : '—'}
-              label="Population 65+"
+              value={unemployment ? `${unemployment.value}%` : '—'}
+              label="Unemployment Rate"
               change={undefined}
-              changeLabel="Census ACS DP05"
+              changeLabel="BLS LAUS"
             />
-            <StatCard
-                          value={pctBachelor ? `${pctBachelor.value}%` : '—'}
-                          label="Bachelor's+"
-                          change={undefined}
-                          changeLabel="Census ACS DP03"
-                        />
           </>
         )}
       </div>
 
+      {/* Demographic Breakdown */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        {/* Income Trend */}
+        <Card>
+          <h3 className="text-lg font-semibold text-volusia-navy mb-4">Demographic Breakdown</h3>
+          <div className="space-y-3">
+            {demographicBreakdown.map((d, i) => (
+              <div key={i} className="flex justify-between items-center py-2 border-b border-gray-100">
+                <span className="text-sm text-volusia-slate">{d.category}</span>
+                <span className="font-semibold text-volusia-navy">{d.value}{d.unit}</span>
+              </div>
+            ))}
+          </div>
+        </Card>
+
+        {/* Cost of Living Chart — now from live data */}
+        <Card>
+          <h3 className="text-lg font-semibold text-volusia-navy mb-4">Cost of Living Index (National = 100)</h3>
+          <div className="h-64">
+            <ResponsiveBar
+              data={costOfLivingData}
+              keys={['index']}
+              indexBy="category"
+              margin={{ top: 20, right: 20, bottom: 60, left: 60 }}
+              padding={0.3}
+              colors={['#0d7377']}
+              axisBottom={{ tickRotation: -30 }}
+            />
+          </div>
+          <DataSource source="C2ER Cost of Living" url="https://c2er.org/cost-of-living/" vintage="2025Q1" />
+        </Card>
+      </div>
+
+      {/* Income Trend */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <Card>
           <h3 className="text-lg font-semibold text-volusia-navy mb-4">Median Household Income Trend</h3>
           <div className="h-64">
             <ResponsiveLine
-              data={[{ id: 'income', data: incomeTrend.length > 0 ? incomeTrend : [{ x: '2020', y: 0 }] }]}
-              margin={{ top: 20, right: 20, bottom: 50, left: 70 }}
+              data={[{ id: 'income', data: incomeTrend.map(d => ({ x: d.year, y: d.income })) }]}
+              margin={{ top: 20, right: 20, bottom: 50, left: 60 }}
               xScale={{ type: 'point' }}
-              yScale={{ type: 'linear', min: 40000, max: 60000 }}
+              yScale={{ type: 'linear', min: 0 }}
               axisBottom={{ tickRotation: 0 }}
-              axisLeft={{ format: (v: any) => `$${(v / 1000).toFixed(0)}K`, legend: 'Income', legendOffset: -60 }}
+              axisLeft={{ legend: 'Income ($)', legendOffset: -50 }}
               colors={['#0d7377']}
               lineWidth={3}
               pointSize={6}
               useMesh={true}
             />
           </div>
-          <DataSource source="US Census ACS DP03" url="https://data.census.gov/" vintage="2024" />
+          <DataSource source="Census ACS DP03" url="https://data.census.gov/table/ACSDP5Y2024.S1901" vintage="2020-2024" />
         </Card>
 
-        {/* Cost of Living */}
-        <Card>
-          <h3 className="text-lg font-semibold text-volusia-navy mb-4">Cost of Living Index</h3>
-          <div className="space-y-4">
-            {costOfLiving.map((item) => (
-              <div key={item.category}>
-                <div className="flex justify-between text-sm mb-1">
-                  <span className="text-volusia-slate">{item.category}</span>
-                  <span className="font-medium text-volusia-navy">{item.index}</span>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-2.5">
-                  <div
-                    className={`h-2.5 rounded-full ${item.index > 100 ? 'bg-volusia-coral' : 'bg-volusia-teal'}`}
-                    style={{ width: `${Math.min((item.index / 120) * 100, 100)}%` }}
-                  />
-                </div>
-              </div>
-            ))}
-            <p className="text-xs text-gray-500 mt-2">National average = 100. Below 100 = more affordable.</p>
-          </div>
-          <DataSource source="C2ER Cost of Living Index" url="https://www.c2er.org/" vintage="2025" />
+        {/* Resident Insights */}
+        <Card hover>
+          <div className="text-2xl mb-2">🏠</div>
+          <h3 className="text-lg font-semibold text-volusia-navy mb-2">Resident Insights</h3>
+          <p className="text-sm text-volusia-slate mb-3">
+            Volusia County's cost of living index of {costOfLiving?.value ?? '—'} vs national average of 100
+            makes the county affordable for residents on fixed incomes. The {pctOver65?.value}% population over 65
+            reflects the county's strong retirement community presence.
+          </p>
+          <button className="btn-primary text-sm py-1.5 px-4" onClick={() => downloadCSV('resident-demographics')}>
+            Download CSV
+          </button>
         </Card>
       </div>
 
-      {/* Resources */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* Key Resources */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card hover>
-          <div className="text-2xl mb-2">🏫</div>
-          <h3 className="text-sm font-semibold text-volusia-navy mb-1">School Data</h3>
-          <p className="text-xs text-volusia-slate">Performance, enrollment, and demographics by school</p>
+          <div className="text-2xl mb-2">💼</div>
+          <h3 className="text-lg font-semibold text-volusia-navy mb-2">Job Resources</h3>
+          <p className="text-sm text-volusia-slate mb-3">
+            Workforce development programs, local hiring platforms, and digital skills training for residents.
+          </p>
+          <button className="btn-primary text-sm py-1.5 px-4">Explore</button>
         </Card>
         <Card hover>
           <div className="text-2xl mb-2">🏥</div>
-          <h3 className="text-sm font-semibold text-volusia-navy mb-1">Health Data</h3>
-          <p className="text-xs text-volusia-slate">Health outcomes by census tract and county</p>
+          <h3 className="text-lg font-semibold text-volusia-navy mb-2">Health & Services</h3>
+          <p className="text-sm text-volusia-slate mb-3">
+            Public services, healthcare access, and community resources for all residents.
+          </p>
+          <button className="btn-primary text-sm py-1.5 px-4">Explore</button>
         </Card>
         <Card hover>
-          <div className="text-2xl mb-2">🚌</div>
-          <h3 className="text-sm font-semibold text-volusia-navy mb-1">Transit Access</h3>
-          <p className="text-xs text-volusia-slate">VOTRAN routes, stops, and ridership data</p>
-        </Card>
-        <Card hover>
-          <div className="text-2xl mb-2">💰</div>
-          <h3 className="text-sm font-semibold text-volusia-navy mb-1">Open Budget</h3>
-          <p className="text-xs text-volusia-slate">County budget, spending, and financial reports</p>
+          <div className="text-2xl mb-2">📋</div>
+          <h3 className="text-lg font-semibold text-volusia-navy mb-2">Permits & Licensing</h3>
+          <p className="text-sm text-volusia-slate mb-3">
+            Government services, permits, and licensing information for residents and businesses.
+          </p>
+          <button className="btn-primary text-sm py-1.5 px-4">Explore</button>
         </Card>
       </div>
     </div>

@@ -1,0 +1,22 @@
+[Mon, Sep  7, 2026 10:02:30 PM] Starting refresh pipeline
+Project Volusia - Refresh Pipeline v3
+==================================================
+Keys: Census=NOKEY (data.census.gov works without key), BLS=NOKEY, BEA=NOKEY
+
+  Census DP03: OK
+  Census DP05: OK
+  BLS LAUS: EXC 'NoneType' object has no attribute 'get'
+  QCEW: fetch failed
+  BEA: OK
+  NOAA: OK
+  Redfin: OK
+  Zillow: no data
+  VolusiaBusiness: OK
+  CVB: EXC No module named 'cvb_hotels_extract'
+  C2ER: OK
+  FRED:FLVOLU7POP: no data
+  FRED:FLVOLU7URN: no data
+Wrote public snapshots: 27 indicators across 4 categories
+DB sync complete.
+[Mon, Sep  7, 2026 10:03:35 PM] Backend refresh failed (backend may not be running)
+[Mon, Sep  7, 2026 10:03:35 PM] Refresh complete
