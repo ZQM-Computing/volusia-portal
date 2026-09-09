@@ -48,3 +48,38 @@ export function DataSource({ source, url, vintage }: { source: string; url: stri
     </div>
   )
 }
+
+export function Skeleton({ count = 1, className = '' }: { count?: number; className?: string }) {
+  return (
+    <div className={`animate-pulse space-y-2 ${className}`}>
+      {Array.from({ length: count }).map((_, i) => (
+        <div key={i} className="h-4 bg-gray-200 rounded w-full" style={{ width: `${80 + Math.random() * 20}%` }} />
+      ))}
+    </div>
+  )
+}
+
+export function EmptyState({ message, title, description }: { message?: string; title?: string; description?: string }) {
+  const label = title || message || 'No data available'
+  return (
+    <div className="text-center py-8 text-gray-500 text-sm">
+      <div className="text-3xl mb-2">📊</div>
+      <p className="font-medium">{label}</p>
+      {description && <p className="text-xs mt-1">{description}</p>}
+    </div>
+  )
+}
+
+export function ErrorState({ message = 'Something went wrong', onRetry }: { message?: string; onRetry?: () => void }) {
+  return (
+    <div className="text-center py-8 text-red-600 text-sm">
+      <div className="text-3xl mb-2">⚠️</div>
+      <p>{message}</p>
+      {onRetry && (
+        <button onClick={onRetry} className="mt-2 px-3 py-1 bg-red-100 text-red-700 rounded text-xs hover:bg-red-200">
+          Retry
+        </button>
+      )}
+    </div>
+  )
+}
