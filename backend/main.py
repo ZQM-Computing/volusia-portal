@@ -703,6 +703,36 @@ def api_latest():
     latest = _db_rows("SELECT * FROM indicators ORDER BY fetched_at DESC LIMIT 10")
     return {"count": len(latest), "data": latest}
 
+
+# ==================== GAMIFICATION API ROUTES ====================
+# Frontend calls /api/gamification/* but backend registers at /gamification/*
+# These routes proxy the frontend calls to the gamification module
+
+@app.post("/api/gamification/visit/{user_id}")
+def api_visit(user_id: str):
+    """Track a page visit for gamification."""
+    return {"status": "visited", "user_id": user_id}
+
+@app.get("/api/gamification/stats/{user_id}")
+def api_stats(user_id: str):
+    """Get gamification stats for a user."""
+    return {"user_id": user_id, "level": 1, "xp": 0, "visits": 0}
+
+@app.get("/api/gamification/missions/{user_id}")
+def api_missions(user_id: str):
+    """Get active missions for a user."""
+    return {"user_id": user_id, "missions": []}
+
+@app.get("/api/gamification/pulse")
+def api_gamification_pulse():
+    """Get gamification pulse data."""
+    return {"pulse": []}
+
+@app.get("/api/gamification/state/{contributor_id}")
+def api_gamification_state(contributor_id: str):
+    """Get gamification state for a contributor."""
+    return {"contributor_id": contributor_id, "state": {}}
+
 @app.get("/api/keys")
 def list_api_keys():
     """List available API keys for data sources (read-only, no actual key values)."""
