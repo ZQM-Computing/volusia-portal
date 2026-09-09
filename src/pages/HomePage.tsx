@@ -286,7 +286,7 @@ export function HomePage() {
 
       {/* Human README */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="bg-white rounded-xl border border-gray-300 p-8">
+        <div className="bg-white rounded-xl border border-gray-200 p-8">
           <h2 className="text-3xl font-bold text-volusia-navy mb-4 font-display">📖 Human README</h2>
           <p className="text-volusia-slate leading-relaxed mb-6">
             Welcome to Project Volusia. This portal provides open, free data for everyone.
@@ -322,28 +322,28 @@ export function HomePage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="bg-volusia-navy text-white rounded-xl p-8">
           <h2 className="text-3xl font-bold mb-4 font-display">🤖 AI Agent README</h2>
-          <p className="text-gray-300 leading-relaxed mb-6">
+          <p className="text-gray-400 leading-relaxed mb-6">
             This portal provides structured, machine-readable data for AI agents and automated systems.
             All endpoints return JSON. All indicators are normalized with consistent naming.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="p-4 bg-volusia-navy rounded-lg">
               <h3 className="font-bold text-volusia-gold mb-2">API Endpoints</h3>
-              <code className="text-xs text-gray-300 block mb-1">GET /api/indicators — All indicators</code>
-              <code className="text-xs text-gray-300 block mb-1">GET /api/indicators?category=Economic</code>
-              <code className="text-xs text-gray-300 block mb-1">GET /api/indicators/</code>
-              <code className="text-xs text-gray-300 block mb-1">GET /api/datasets — Dataset catalog</code>
-              <code className="text-xs text-gray-300 block mb-1">GET /api/map-layers — GeoJSON layers</code>
-              <code className="text-xs text-gray-300 block mb-1">GET /api/indicators.csv — Download CSV</code>
+              <code className="text-xs text-gray-400 block mb-1">GET /api/indicators — All indicators</code>
+              <code className="text-xs text-gray-400 block mb-1">GET /api/indicators?category=Economic</code>
+              <code className="text-xs text-gray-400 block mb-1">GET /api/indicators/</code>
+              <code className="text-xs text-gray-400 block mb-1">GET /api/datasets — Dataset catalog</code>
+              <code className="text-xs text-gray-400 block mb-1">GET /api/map-layers — GeoJSON layers</code>
+              <code className="text-xs text-gray-400 block mb-1">GET /api/indicators.csv — Download CSV</code>
             </div>
             <div className="p-4 bg-volusia-navy rounded-lg">
             </div>
           </div>
           <div className="mt-6 p-4 bg-volusia-navy rounded-lg">
             <h3 className="font-bold text-volusia-gold mb-2">Data Schema</h3>
-            <code className="text-xs text-gray-300 block">indicators: [&#123;name, value, unit, category, source, source_url, vintage, description&#125;]</code>
-            <code className="text-xs text-gray-300 block">map_layers: [&#123;id, name, category, description, source, format, url, geometry&#125;]</code>
-            <code className="text-xs text-gray-300 block">datasets: [&#123;id, source, content, fetched_at&#125;]</code>
+            <code className="text-xs text-gray-400 block">indicators: [&#123;name, value, unit, category, source, source_url, vintage, description&#125;]</code>
+            <code className="text-xs text-gray-400 block">map_layers: [&#123;id, name, category, description, source, format, url, geometry&#125;]</code>
+            <code className="text-xs text-gray-400 block">datasets: [&#123;id, source, content, fetched_at&#125;]</code>
           </div>
         </div>
       </section>

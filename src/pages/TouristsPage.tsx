@@ -52,7 +52,7 @@ export function TouristsPage() {
         <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
           {conditions.map((c) => (
             <div key={c.label} className="bg-white/10 rounded-lg p-3 text-center">
-              <div className="text-xs text-gray-200">{c.label}</div>
+              <div className="text-xs text-gray-300">{c.label}</div>
               <div className="text-lg font-bold mt-1">{c.value}</div>
               <div className={`text-xs mt-1 ${c.status === 'good' ? 'text-green-300' : 'text-yellow-300'}`}>
                 {c.status === 'good' ? '● Good' : '● Caution'}
@@ -60,7 +60,7 @@ export function TouristsPage() {
             </div>
           ))}
         </div>
-        <p className="text-xs text-gray-200 mt-3">Last updated: 2026-09-03 14:30 EDT | Source: NOAA / Volusia County Beach Safety</p>
+        <p className="text-xs text-gray-300 mt-3">Last updated: 2026-09-03 14:30 EDT | Source: NOAA / Volusia County Beach Safety</p>
       </div>
 
       {/* Visitor Volume Chart */}
