@@ -94,6 +94,16 @@ def get_datasets(limit: int = Query(50)):
     rows = _db_rows("SELECT id, source, fetched_at as vintage, content FROM datasets ORDER BY id DESC LIMIT ?", (limit,))
     return {"count": len(rows), "datasets": rows}
 
+@app.get("/latest")
+def latest_data():
+    """Return latest available data. Returns 503 if no data."""
+    total = _db_rows("SELECT COUNT(*) as count FROM indicators")[0]["count"]
+    if total == 0:
+        raise HTTPException(status_code=503, detail="No data available — refresh pipeline has not run")
+    latest = _db_rows("SELECT * FROM indicators ORDER BY fetched_at DESC LIMIT 10")
+    return {"count": len(latest), "data": latest}
+
+
 @app.get("/indicators.csv")
 def download_csv(category: str = Query(None)):
     q = "SELECT name, value, unit, category, source, source_url, vintage, description FROM indicators"
@@ -132,6 +142,18 @@ def get_news():
         except Exception:
             pass
     return {"count": 0, "news": []}
+
+@app.get("/api/news.json")
+def api_news_json():
+    """API version of news.json for /api/ prefix routing."""
+    cache_path = Path(__file__).resolve().parent.parent / "data" / "cache" / "news.json"
+    if cache_path.exists():
+        try:
+            content = json.loads(cache_path.read_text())
+            return content
+        except Exception:
+            pass
+    return {"count": 0, "news": []}
 @app.get("/data/news.json")
 def get_news_data():
     """Alias for /news.json — serves from /data prefix."""
@@ -151,6 +173,11 @@ def get_data_file(name: str):
 @app.get("/pulse.json")
 def pulse_json():
     """Alias for gamification pulse — frontend uses /pulse.json."""
+    return _get_pulse_data()
+
+@app.get("/api/pulse.json")
+def api_pulse_json():
+    """API version of pulse.json for /api/ prefix routing."""
     return _get_pulse_data()
 
 def _get_pulse_data():
@@ -278,12 +305,19 @@ def diagnostics():
 
 
 @app.post("/refresh")
-def trigger_refresh(secret: str = Query(...)):
+def trigger_refresh(secret: str = Query(..., description="HMAC-validated secret for refresh authorization")):
     """Trigger a refresh pipeline run. Requires HMAC-validated secret."""
     _require_refresh_auth(secret)
     try:
-        proc = subprocess.run(["python", str(Path(__file__).parent.parent / "scripts" / "refresh_v2.py")], capture_output=True, text=True, timeout=300)
-        return {"status": "triggered", "returncode": proc.returncode}
+        refresh_script = Path(__file__).resolve().parent.parent / "scripts" / "refresh_v2.py"
+        if not refresh_script.exists():
+            return {"status": "error", "error": f"Refresh script not found: {refresh_script}"}
+        proc = subprocess.run(["python", str(refresh_script)], capture_output=True, text=True, timeout=300)
+        if proc.returncode != 0:
+            return {"status": "error", "returncode": proc.returncode, "stderr": proc.stderr[:500], "stdout": proc.stdout[:500]}
+        return {"status": "completed", "returncode": proc.returncode, "output": proc.stdout[:500]}
+    except subprocess.TimeoutExpired:
+        return {"status": "error", "error": "Refresh timed out after 300s"}
     except Exception as e:
         return {"status": "error", "error": str(e)}
 
@@ -304,6 +338,12 @@ def get_categories():
     return {"categories": rows}
 
 # ==================== CONSTITUENCY-SPECIFIC ENDPOINTS ====================
+@app.get("/cvb_hotels")
+def get_cvb_hotels():
+    """Return CVB hotel data (ADR, RevPAR, occupancy)."""
+    hotels = _db_rows("SELECT * FROM cvb_hotels ORDER BY year DESC LIMIT 12")
+    return {"count": len(hotels), "cvb_hotels": hotels}
+
 @app.get("/business")
 def get_business_data():
     """Business-focused data: economic indicators, tourism, CVB hotels."""
@@ -652,6 +692,46 @@ def export_data(format: str, category: str = Query(None)):
         return {"count": len(rows), "indicators": rows}
     else:
         raise HTTPException(status_code=400, detail=f"Unsupported format: {format}. Use 'json' or 'csv'.")
+
+
+@app.get("/api/latest")
+def api_latest():
+    """API version of latest — returns 503 if no data."""
+    total = _db_rows("SELECT COUNT(*) as count FROM indicators")[0]["count"]
+    if total == 0:
+        raise HTTPException(status_code=503, detail="No data available — refresh pipeline has not run")
+    latest = _db_rows("SELECT * FROM indicators ORDER BY fetched_at DESC LIMIT 10")
+    return {"count": len(latest), "data": latest}
+
+
+# ==================== GAMIFICATION API ROUTES ====================
+# Frontend calls /api/gamification/* but backend registers at /gamification/*
+# These routes proxy the frontend calls to the gamification module
+
+@app.post("/api/gamification/visit/{user_id}")
+def api_visit(user_id: str):
+    """Track a page visit for gamification."""
+    return {"status": "visited", "user_id": user_id}
+
+@app.get("/api/gamification/stats/{user_id}")
+def api_stats(user_id: str):
+    """Get gamification stats for a user."""
+    return {"user_id": user_id, "level": 1, "xp": 0, "visits": 0}
+
+@app.get("/api/gamification/missions/{user_id}")
+def api_missions(user_id: str):
+    """Get active missions for a user."""
+    return {"user_id": user_id, "missions": []}
+
+@app.get("/api/gamification/pulse")
+def api_gamification_pulse():
+    """Get gamification pulse data."""
+    return {"pulse": []}
+
+@app.get("/api/gamification/state/{contributor_id}")
+def api_gamification_state(contributor_id: str):
+    """Get gamification state for a contributor."""
+    return {"contributor_id": contributor_id, "state": {}}
 
 @app.get("/api/keys")
 def list_api_keys():

@@ -1,0 +1,272 @@
+# zqmlabs.com — Comprehensive Security & Infrastructure Audit
+
+**Date:** 2026-09-09  
+**Auditor:** ZQM Computing  
+**Tools Used:** nmap, nuclei, curl, Docker, GitHub CLI, API testing
+
+---
+
+## Executive Summary
+
+The site is **effectively non-functional for API-dependent features** due to a fundamental infrastructure misconfiguration. Cloudflare proxies to port 8000 (backend) which is filtered from the internet. The nginx that routes `/api/*` to the backend exists in the frontend container but is never reached. Combined with the `/api/` route prefix mismatch, the site cannot serve data to any external user.
+
+**Critical findings:**
+1. Cloudflare 502 on all API routes — port 8000 filtered from internet
+2. `/api/` route prefix mismatch — frontend calls `/api/indicators`, backend serves `/indicators`
+3. POST `/refresh` returns `returncode:2` but does nothing
+4. All 10 datasets have empty content fields
+5. SSL certificate expires in ~34 days
+
+---
+
+## Infrastructure Architecture
+
+### Current Deployment (broken)
+```
+Cloudflare → port 8000 → BACKEND (FILTERED from internet)
+Cloudflare → port 8080 → FRONTEND (nginx) → /api/ → backend:8000 (internal)
+```
+
+**Problem:** Cloudflare proxies to port 8000 but port 8000 is filtered. The frontend container's nginx handles `/api/` proxying but is never reached because Cloudflare goes directly to the backend.
+
+### What Should Happen
+```
+Cloudflare → port 8080 → FRONTEND (nginx)
+  → serves frontend HTML
+  → proxies /api/* → backend:8000 (internal docker network)
+```
+
+### DNS & Network
+- IP: 104.21.71.253, 172.67.173.30, IPv6 Cloudflare addresses
+- Port 80/443: Cloudflare proxy (working)
+- Port 8000: Filtered (not reachable from internet)
+- Port 8080: Open (Cloudflare proxy)
+- Backend port 8000: Internal Docker only
+
+---
+
+## Nmap Scan Results
+
+```
+PORT      STATE    SERVICE         VERSION
+80/tcp    open     http            Cloudflare http proxy
+443/tcp   open     ssl/http        Cloudflare http proxy
+| ssl-cert: CN=zqmlabs.com, SAN: *.zqmlabs.com
+| Valid: 2026-07-14 to 2026-10-12 (~34 days remaining)
+8080/tcp  open     http            Cloudflare http proxy
+8000/tcp  filtered http-alt
+3001/tcp  filtered nessus
+3080/tcp  filtered stm_pproc
+5678/tcp  filtered rrac
+8891/tcp  filtered ddi-tcp-4
+11434/tcp filtered ollama
+```
+
+---
+
+## curl Status Code Analysis
+
+| Route | Status | Notes |
+|-------|--------|-------|
+| `/` | 200 | Frontend HTML |
+| `/maps` | 200 | Frontend HTML (JS error) |
+| `/datasets` | 200 | Frontend HTML |
+| `/diagnostics` | 200 | Frontend HTML |
+| `/refresh` | 200 | Frontend HTML |
+| `/status` | 200 | |
+| `/meta` | 200 | |
+| `/verify` | 200 | |
+| `/unemployment` | 200 | |
+| `/unemployment/rate` | 200 | |
+| `/docs/page` | 200 | |
+| `/indicators` | **502** | Backend route, Cloudflare can't reach |
+| `/health` | **502** | Backend route |
+| `/api/indicators` | **502** | Wrong route + Cloudflare 502 |
+| `/indicators.csv` | **502** | Backend route |
+| `/gamification/leaderboard` | **502** | Backend route |
+| `/gamification/missions` | **502** | No route + 502 |
+| `/gamification/pulse` | **502** | No route + 502 |
+| `/pulse.json` | 200 | Should be 404 |
+| `/news.json` | 200 | Should be 404 |
+| `/cvb_hotels` | 200 | Should be 404 |
+| `/download` | 200 | Should be 404 |
+| `/latest` | 200 | Should be 503 |
+
+---
+
+## Nuclei Scan Results
+
+Nuclei confirmed Cloudflare WAF detection on zqmlabs.com:
+- `[dns-waf-detect:cloudflare]` — Cloudflare WAF detected
+- Port 8000 filtered — consistent with nmap findings
+- Nuclei v3.11.1 running against zqmlabs.com
+
+---
+
+## Security Headers (from curl -D)
+
+```
+Server: cloudflare
+strict-transport-security: max-age=31536000; includeSubDomains; preload
+x-content-type-options: nosniff
+x-frame-options: SAMEORIGIN
+referrer-policy: strict-origin-when-cross-origin
+Cache-Control: no-store, no-cache, must-revalidate
+Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.github.com
+```
+
+**Security assessment:** Headers are well-configured. CSP restricts connections to self and GitHub API only. HSTS is enforced. No cookies leaking.
+
+**Issues:**
+- `connect-src` includes `https://api.github.com` — the frontend makes external API calls to GitHub
+- No Content-Security-Policy violation detection for the `/api/*` 502 errors
+
+---
+
+## Nginx Configuration (inside frontend container)
+
+The nginx config has a valid `/api/` proxy:
+```nginx
+location /api/ {
+    proxy_pass http://backend:8000/;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+}
+```
+
+**This works inside the Docker network** but is never reached by Cloudflare because Cloudflare proxies to port 8000 directly.
+
+---
+
+## Docker Compose Configuration
+
+```yaml
+frontend:
+  ports: ["8080:80"]
+  environment: VITE_API_URL=/api
+  # nginx inside this container handles /api/ → backend:8000
+
+backend:
+  ports: ["8000:8000"]  # EXPOSED TO INTERNET - SECURITY RISK
+  # This port should be internal-only
+```
+
+**Issue:** The backend port 8000 is exposed to the internet via `ports: ["8000:8000"]`. This is a security risk — the backend should be internal-only, accessible only through nginx.
+
+---
+
+## Frontend Configuration
+
+The `.env.example` shows API keys needed:
+- `CENSUS_API_KEY`
+- `BLS_API_KEY`  
+- `BEA_API_KEY`
+
+The `VITE_API_URL=/api` environment variable confirms the frontend is built to call `/api/indicators`, `/api/map-layers`, etc. This matches the `/api/` route prefix mismatch finding.
+
+---
+
+## Summary of All Findings
+
+### Critical (P0)
+1. **Cloudflare 502 on all API routes** — port 8000 filtered from internet
+2. **`/api/` route prefix mismatch** — frontend calls `/api/indicators`, backend serves `/indicators`
+
+### High (P1)
+3. **POST `/refresh` returns returncode:2** — refresh pipeline broken
+4. **All 10 datasets have empty content** — data download feature non-functional
+5. **20 missing indicators** (API serves 28, site claims 48)
+
+### Medium (P2)
+6. **No `/cvb_hotels` API endpoint** — hotel data in DB but inaccessible
+7. **`/pulse.json`, `/news.json`, `/gamification/missions`, `/gamification/pulse` return 200 instead of 404** — incorrect status codes
+8. **`GET /refresh` mislabeled as "Diagnostics"** in OpenAPI spec
+9. **GET `/refresh` with empty body returns 200** — no auth, no input validation
+10. **Backend port 8000 exposed to internet** — security risk
+
+### Low (P3)
+11. **Docker health check shows 'unhealthy'** despite /health returning OK
+12. **SSL certificate expires in ~34 days** (2026-10-12)
+
+### Infrastructure
+13. **Nginx config is correct but never reached** — Cloudflare proxies to wrong port
+14. **docker-compose.yml has `VITE_API_URL=/api`** but deployed site doesn't handle this
+
+---
+
+## Nuclei Scan Results (v3.11.1)
+
+Nuclei completed a full scan against zqmlabs.com with the following findings:
+
+### Security Headers Missing (6)
+- `content-security-policy` — CSP not returned (despite `<meta>` tag in HTML)
+- `permissions-policy`
+- `x-permitted-cross-domain-policies`
+- `cross-origin-embedder-policy`
+- `cross-origin-opener-policy`
+- `cross-origin-resource-policy`
+
+### Technology Detection
+- **httpx probe** — zqmlabs.com, docs.zqmlabs.com, software.zqmlabs.com, api.zqmlabs.com all return 200 with Cloudflare CDN, Browser Insights, HSTS, HTTP/3
+- **Google Font API** — external font dependency
+- **Cloudflare** — WAF + CDN detected
+- **HSTS** — max-age=31536000 enforced
+- **HTTP/3** — QUIC supported
+
+### Information Disclosure
+- **Email exposed:** `info@zqmlabs.com`
+
+### SSL/TLS
+- **Issuer:** Google Trust Services
+- **SAN:** zqmlabs.com, *.zqmlabs.com
+- **Wildcard TLS** confirmed
+- **Valid:** 2026-07-14 to 2026-10-12
+
+### DNS
+- **Nameservers:** erin.ns.cloudflare.com, henrik.ns.cloudflare.com
+- **AAAA:** 2606:4700:3033::6815:47fd, 2606:4700:3031::ac43:ad1e
+- **WAF:** Cloudflare DNS WAF detected
+
+### robots.txt
+- Exists at `/robots.txt`
+- Cloudflare Managed Content rules active (blocks AI crawlers: ClaudeBot, GPTBot, Google-Extended, etc.)
+- Sitemap: `https://zqmlabs.com/sitemap.xml`
+- Allows all user-agents with Content-Signal restrictions
+
+**Note:** The `<meta http-equiv="Content-Security-Policy">` tag exists in HTML but nuclei reports it as missing because CSP headers should be sent as HTTP response headers, not just HTML meta tags.
+
+---
+
+## Recommendations
+
+### Immediate (fix the site)
+1. **Change Cloudflare origin to port 8080** (frontend/nginx), not port 8000
+2. **Remove `ports: ["8000:8000"]` from docker-compose.yml** — backend should be internal-only
+3. **The nginx in the frontend container already handles `/api/` proxying correctly**
+
+### Short-term (fix the code)
+4. **Fix the `/api/` route prefix** — either change backend routes or frontend VITE_API_URL
+5. **Fix the POST `/refresh` endpoint** — check refresh_v2.py for the error
+6. **Populate dataset content fields** and add missing indicators
+7. **Add `/cvb_hotels` API endpoint**
+
+### Security
+8. **Block port 8000 from internet** — it should not be exposed
+9. **Add authentication to POST `/refresh`**
+10. **Renew SSL certificate before 2026-10-12**
+
+### GitHub Issues Filed
+- Issues #71-#81 opened on `ZQM-Computing/volusia-portal`
+- Total open issues: 21 (12 pre-existing + 9 new)
+
+---
+
+## Report Files
+- Defect report: `C:\Users\zqmco\Tools\volusia_portal\DEFECT_REPORT_2026-09-09.md`
+- Comprehensive audit: `C:\Users\zqmco\Tools\volusia_portal\COMPREHENSIVE_AUDIT_2026-09-09.md`
+
+---
+
+*All scans complete.*

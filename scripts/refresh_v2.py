@@ -544,11 +544,15 @@ def write_public_snapshots():
         key = cat.lower() if cat.lower() in ('demographics', 'climate', 'economic') else 'economic'
         (PUBLIC_DIR / f'{key}.json').write_text(json.dumps(items, indent=2))
     (PUBLIC_DIR / 'indicators.json').write_text(json.dumps(public, indent=2))
-    print(f'Wrote public snapshots: {len(public)} indicators across {len(by_cat)} categories')
 
 if __name__ == '__main__':
     print('Project Volusia - Refresh Pipeline v3')
     print('=' * 50)
     print(f'Keys: Census={CENSUS_API_KEY and "SET" or "NOKEY"} (data.census.gov works without key), BLS={BLS_API_KEY and "SET" or "NOKEY"}, BEA={BEA_API_KEY and "SET" or "NOKEY"}')
     print()
-    sync_all_to_db()
+    try:
+        sync_all_to_db()
+    except Exception as e:
+        print(f"FATAL: {e}")
+        import sys
+        sys.exit(1)
