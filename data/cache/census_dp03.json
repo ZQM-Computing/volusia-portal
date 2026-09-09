@@ -2,7 +2,7 @@
   "source": "US Census ACS 5-Year DP03",
   "sourceUrl": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2024.DP03",
   "vintage": "2024",
-  "fetchedAt": "2026-09-07T21:12:42.913778",
+  "fetchedAt": "2026-09-09T08:20:11.174699",
   "medianHouseholdIncome": 70044,
   "unemploymentRate": 4.1,
   "povertyRate": 2.3,

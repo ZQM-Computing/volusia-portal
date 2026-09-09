@@ -1,38 +1,35 @@
 [
   {
-    "id": 48,
+    "id": "avg_max_temp",
     "name": "avg_max_temp",
-    "value": "27.9",
+    "value": "28.0",
     "unit": "deg C",
     "category": "Climate",
-    "source": "NOAA NCEI",
-    "source_url": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&dataTypes=TMAX,TMIN,PRCP&stations=USW00012838&startDate=2025-01-01&endDate=2025-12-31&format=json&units=metric",
-    "vintage": "2025",
-    "fetched_at": "2026-09-07T17:52:02.839192",
-    "description": "Average maximum temperature"
+    "source": "NOAA NCEI Daily Summaries",
+    "sourceUrl": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&dataTypes=TMAX,TMIN,PRCP,AWND&stations=USW00012838&startDate=2025-09-09&endDate=2026-09-09&format=json",
+    "vintage": "2025-09-09 to 2026-09-09",
+    "description": "avg_max_temp from NOAA NCEI Daily Summaries"
   },
   {
-    "id": 259,
+    "id": "avg_min_temp",
     "name": "avg_min_temp",
     "value": "18.7",
     "unit": "deg C",
     "category": "Climate",
     "source": "NOAA NCEI",
-    "source_url": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&dataTypes=TMAX,TMIN,PRCP&stations=USW00012838&startDate=2025-01-01&endDate=2025-12-31&format=json&units=metric",
+    "sourceUrl": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&dataTypes=TMAX,TMIN,PRCP&stations=USW00012838&startDate=2025-01-01&endDate=2025-12-31&format=json&units=metric",
     "vintage": "2025",
-    "fetched_at": "2026-09-07T17:52:02.839192",
     "description": "Average minimum temperature"
   },
   {
-    "id": 49,
+    "id": "total_precip",
     "name": "total_precip",
-    "value": "1355.6",
+    "value": "13496",
     "unit": "mm",
     "category": "Climate",
-    "source": "NOAA NCEI",
-    "source_url": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&dataTypes=TMAX,TMIN,PRCP&stations=USW00012838&startDate=2025-01-01&endDate=2025-12-31&format=json&units=metric",
-    "vintage": "2025",
-    "fetched_at": "2026-09-07T17:52:02.839192",
-    "description": "Total precipitation"
+    "source": "NOAA NCEI Daily Summaries",
+    "sourceUrl": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&dataTypes=TMAX,TMIN,PRCP,AWND&stations=USW00012838&startDate=2025-09-09&endDate=2026-09-09&format=json",
+    "vintage": "2025-09-09 to 2026-09-09",
+    "description": "total_precip from NOAA NCEI Daily Summaries"
   }
 ]
