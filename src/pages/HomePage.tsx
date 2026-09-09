@@ -62,7 +62,7 @@ export function HomePage() {
             <h1 className="text-4xl md:text-5xl font-bold mt-4 mb-6 font-display leading-tight">
               Open Intelligence for Volusia County
             </h1>
-            <p className="text-xl text-gray-200 mb-8 leading-relaxed">
+            <p className="text-xl text-gray-100 mb-8 leading-relaxed">
               Free, open-source data and analytics for business owners, residents, tourists, and Leaders.
               Real numbers. Real sources. No paywalls.
             </p>
@@ -84,7 +84,7 @@ export function HomePage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {loading ? (
             <>
-              {[1,2,3,4].map(i => <div key={i} className="stat-card animate-pulse bg-gray-200 h-24" />)}
+              {[1,2,3,4].map(i => <div key={i} className="stat-card animate-pulse bg-gray-100 h-24" />)}
             </>
           ) : (
             <>
@@ -135,7 +135,7 @@ export function HomePage() {
                   lineWidth={3}
                 />
               ) : (
-                <div className="h-48 flex items-center justify-center text-sm text-gray-400">No trend data available</div>
+                <div className="h-48 flex items-center justify-center text-sm text-gray-500">No trend data available</div>
               )}
             </Card>
             <Card>
@@ -146,7 +146,7 @@ export function HomePage() {
                   margin={{ top: 10, right: 30, bottom: 40, left: 60 }}
                 />
               ) : (
-                <div className="h-48 flex items-center justify-center text-sm text-gray-400">No trend data available</div>
+                <div className="h-48 flex items-center justify-center text-sm text-gray-500">No trend data available</div>
               )}
             </Card>
           </div>
@@ -259,7 +259,7 @@ export function HomePage() {
       </section>
 
       {/* Data Sources */}
-      <section className="bg-gray-50 py-16">
+      <section className="bg-gray-100 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionTitle title="Data Sources" />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
@@ -286,21 +286,21 @@ export function HomePage() {
 
       {/* Human README */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="bg-white rounded-xl border border-gray-200 p-8">
+        <div className="bg-white rounded-xl border border-gray-300 p-8">
           <h2 className="text-3xl font-bold text-volusia-navy mb-4 font-display">📖 Human README</h2>
           <p className="text-volusia-slate leading-relaxed mb-6">
             Welcome to Project Volusia. This portal provides open, free data for everyone.
             Browse indicators, explore maps, and discover Volusia County's economic landscape.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-            <div className="p-4 bg-gray-50 rounded-lg">
+            <div className="p-4 bg-gray-100 rounded-lg">
               <h3 className="font-bold text-volusia-navy mb-2">Getting Started</h3>
               <p className="text-sm text-volusia-slate">1. Browse <a href="/data" className="text-volusia-teal underline">Data Explorer</a> for indicators</p>
               <p className="text-sm text-volusia-slate">2. Explore <a href="/maps" className="text-volusia-teal underline">Interactive Maps</a> for geography</p>
               <p className="text-sm text-volusia-slate">3. Check <a href="/business" className="text-volusia-teal underline">Business</a> for economic data</p>
               <p className="text-sm text-volusia-slate">4. Visit <a href="/tourists" className="text-volusia-teal underline">Tourists</a> for visitor insights</p>
             </div>
-            <div className="p-4 bg-gray-50 rounded-lg">
+            <div className="p-4 bg-gray-100 rounded-lg">
               <h3 className="font-bold text-volusia-navy mb-2">Features</h3>
               <p className="text-sm text-volusia-slate">✅ 26+ Live Indicators</p>
               <p className="text-sm text-volusia-slate">✅ 18 Map Layers with GeoJSON</p>
@@ -327,7 +327,7 @@ export function HomePage() {
             All endpoints return JSON. All indicators are normalized with consistent naming.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="p-4 bg-gray-800 rounded-lg">
+            <div className="p-4 bg-volusia-navy rounded-lg">
               <h3 className="font-bold text-volusia-gold mb-2">API Endpoints</h3>
               <code className="text-xs text-gray-300 block mb-1">GET /api/indicators — All indicators</code>
               <code className="text-xs text-gray-300 block mb-1">GET /api/indicators?category=Economic</code>
@@ -336,10 +336,10 @@ export function HomePage() {
               <code className="text-xs text-gray-300 block mb-1">GET /api/map-layers — GeoJSON layers</code>
               <code className="text-xs text-gray-300 block mb-1">GET /api/indicators.csv — Download CSV</code>
             </div>
-            <div className="p-4 bg-gray-800 rounded-lg">
+            <div className="p-4 bg-volusia-navy rounded-lg">
             </div>
           </div>
-          <div className="mt-6 p-4 bg-gray-800 rounded-lg">
+          <div className="mt-6 p-4 bg-volusia-navy rounded-lg">
             <h3 className="font-bold text-volusia-gold mb-2">Data Schema</h3>
             <code className="text-xs text-gray-300 block">indicators: [&#123;name, value, unit, category, source, source_url, vintage, description&#125;]</code>
             <code className="text-xs text-gray-300 block">map_layers: [&#123;id, name, category, description, source, format, url, geometry&#125;]</code>
@@ -353,7 +353,7 @@ export function HomePage() {
     
 
     {/* Metadata Footer */}
-    <footer className="bg-gray-50 py-8 mt-12">
+    <footer className="bg-gray-100 py-8 mt-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h3 className="text-lg font-bold text-volusia-navy mb-4">Data Sources & Metadata</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
@@ -362,7 +362,7 @@ export function HomePage() {
             {(economic?.indicators || []).slice(0, 3).map((i: any) => (
               <div key={i.name} className="text-volusia-slate mb-1">
                 <span className="font-medium">{i.name}:</span> {i.value} {i.unit}
-                <br/><span className="text-xs text-gray-400">Source: {i.source} | Vintage: {i.vintage} | Fetched: {new Date(i.fetched_at).toLocaleString()}</span>
+                <br/><span className="text-xs text-gray-500">Source: {i.source} | Vintage: {i.vintage} | Fetched: {new Date(i.fetched_at).toLocaleString()}</span>
               </div>
             ))}
           </div>
@@ -371,7 +371,7 @@ export function HomePage() {
             {(economic?.indicators || []).slice(3, 6).map((i: any) => (
               <div key={i.name} className="text-volusia-slate mb-1">
                 <span className="font-medium">{i.name}:</span> {i.value} {i.unit}
-                <br/><span className="text-xs text-gray-400">Source: {i.source} | Vintage: {i.vintage}</span>
+                <br/><span className="text-xs text-gray-500">Source: {i.source} | Vintage: {i.vintage}</span>
               </div>
             ))}
           </div>
@@ -380,12 +380,12 @@ export function HomePage() {
             {(economic?.indicators || []).slice(6, 9).map((i: any) => (
               <div key={i.name} className="text-volusia-slate mb-1">
                 <span className="font-medium">{i.name}:</span> {i.value} {i.unit}
-                <br/><span className="text-xs text-gray-400">Source: {i.source} | Vintage: {i.vintage}</span>
+                <br/><span className="text-xs text-gray-500">Source: {i.source} | Vintage: {i.vintage}</span>
               </div>
             ))}
           </div>
         </div>
-        <div className="mt-6 pt-4 border-t border-gray-200 text-xs text-gray-400">
+        <div className="mt-6 pt-4 border-t border-gray-300 text-xs text-gray-500">
           <p>Project Volusia Data Portal — All data sourced from public APIs (Census ACS, BLS QCEW, NOAA NCEI, C2ER). Last updated: {new Date().toLocaleString()}</p>
         </div>
       </div>

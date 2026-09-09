@@ -165,7 +165,7 @@ export function ResidentsPage() {
       </div>
 
     {/* Metadata Footer */}
-    <footer className="bg-gray-50 py-8 mt-12">
+    <footer className="bg-gray-100 py-8 mt-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h3 className="text-lg font-bold text-volusia-navy mb-4">Data Sources & Metadata</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
@@ -174,7 +174,7 @@ export function ResidentsPage() {
             {(economic?.indicators || []).slice(0, 3).map((i: any) => (
               <div key={i.name} className="text-volusia-slate mb-1">
                 <span className="font-medium">{i.name}:</span> {i.value} {i.unit}
-                <br/><span className="text-xs text-gray-400">Source: {i.source} | Vintage: {i.vintage} | Fetched: {new Date(i.fetched_at).toLocaleString()}</span>
+                <br/><span className="text-xs text-gray-500">Source: {i.source} | Vintage: {i.vintage} | Fetched: {new Date(i.fetched_at).toLocaleString()}</span>
               </div>
             ))}
           </div>
@@ -183,7 +183,7 @@ export function ResidentsPage() {
             {(economic?.indicators || []).slice(3, 6).map((i: any) => (
               <div key={i.name} className="text-volusia-slate mb-1">
                 <span className="font-medium">{i.name}:</span> {i.value} {i.unit}
-                <br/><span className="text-xs text-gray-400">Source: {i.source} | Vintage: {i.vintage}</span>
+                <br/><span className="text-xs text-gray-500">Source: {i.source} | Vintage: {i.vintage}</span>
               </div>
             ))}
           </div>
@@ -192,12 +192,12 @@ export function ResidentsPage() {
             {(economic?.indicators || []).slice(6, 9).map((i: any) => (
               <div key={i.name} className="text-volusia-slate mb-1">
                 <span className="font-medium">{i.name}:</span> {i.value} {i.unit}
-                <br/><span className="text-xs text-gray-400">Source: {i.source} | Vintage: {i.vintage}</span>
+                <br/><span className="text-xs text-gray-500">Source: {i.source} | Vintage: {i.vintage}</span>
               </div>
             ))}
           </div>
         </div>
-        <div className="mt-6 pt-4 border-t border-gray-200 text-xs text-gray-400">
+        <div className="mt-6 pt-4 border-t border-gray-300 text-xs text-gray-500">
           <p>Project Volusia Data Portal — All data sourced from public APIs (Census ACS, BLS QCEW, NOAA NCEI, C2ER). Last updated: {new Date().toLocaleString()}</p>
         </div>
       </div>
