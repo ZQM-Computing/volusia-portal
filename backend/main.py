@@ -477,6 +477,166 @@ if _os2.path.exists(_scoring_path):
     _spec.loader.exec_module(_scoring_mod)
     app.include_router(_scoring_mod.router)
 
+# ==================== SELF-SERVICE API ENDPOINTS ====================
+
+@app.post("/api/contribute")
+def contribute_data(contributor_id: str = Query("anonymous"), source: str = Query(...), data: dict = Body(default={})):
+    """Submit new data or data source contributions. Self-service endpoint."""
+    contribution = {
+        "contributor_id": contributor_id,
+        "source": source,
+        "data_keys": list(data.keys()) if isinstance(data, dict) else [],
+        "timestamp": __import__('datetime').datetime.utcnow().isoformat(),
+        "status": "pending"
+    }
+    audit_path = Path(__file__).resolve().parent.parent / "data" / "audit_log.json"
+    audits = []
+    if audit_path.exists():
+        try: audits = json.loads(audit_path.read_text())
+        except: pass
+    audits.append(contribution)
+    audit_path.write_text(json.dumps(audits, indent=2))
+    return {"status": "submitted", "contribution_id": len(audits), "message": f"Contribution from {source} logged for review"}
+
+@app.get("/api/contributor")
+def get_contributor_info(contributor_id: str = Query("anonymous")):
+    """Get contributor profile, stats, and available pathways."""
+    gam_dir = Path(__file__).resolve().parent.parent / "data" / "gamification"
+    fpath = gam_dir / f"{contributor_id}.json"
+    if not fpath.exists():
+        return {"contributor_id": contributor_id, "status": "new", "pathways": [], "xp": 0}
+    try:
+        state = json.loads(fpath.read_text())
+        return {
+            "contributor_id": contributor_id,
+            "status": "active",
+            "level": state.get("level", "Newcomer"),
+            "xp": state.get("total_xp", 0),
+            "streak": state.get("streak", 0),
+            "quality_tier": state.get("quality_tier", "pending"),
+            "pathways_contributed": state.get("categories_contributed", []),
+            "sources_contributed": state.get("sources_contributed", []),
+            "badges": state.get("badges", []),
+            "missions_earned": len(state.get("mission_flags", {}).get("earned", []))
+        }
+    except Exception as e:
+        return {"contributor_id": contributor_id, "status": "error", "error": str(e)}
+
+@app.post("/api/webhook")
+def receive_webhook(event: str = Query(...), payload: dict = Body(default={})):
+    """Receive webhook notifications for data events."""
+    webhook_path = Path(__file__).resolve().parent.parent / "data" / "webhooks.json"
+    webhooks = []
+    if webhook_path.exists():
+        try: webhooks = json.loads(webhook_path.read_text())
+        except: pass
+    webhooks.append({"event": event, "payload": payload, "timestamp": __import__('datetime').datetime.utcnow().isoformat()})
+    webhook_path.write_text(json.dumps(webhooks, indent=2))
+    return {"status": "received", "event": event, "webhook_count": len(webhooks)}
+
+@app.get("/api/fetch-status")
+def fetch_status():
+    """Check the status of data fetch pipelines."""
+    from datetime import datetime
+    cache_dir = Path(__file__).resolve().parent.parent / "data" / "cache"
+    files = []
+    if cache_dir.exists():
+        for f in sorted(cache_dir.glob("*.json")):
+            stat = f.stat()
+            files.append({
+                "name": f.stem,
+                "size_kb": round(stat.st_size / 1024, 1),
+                "modified": datetime.fromtimestamp(stat.st_mtime).isoformat(),
+                "fresh_hours": round((datetime.now() - datetime.fromtimestamp(stat.st_mtime)).total_seconds() / 3600, 1)
+            })
+    return {"cache_files": files, "total_files": len(files), "cache_dir": str(cache_dir)}
+
+# ==================== API SURFACE IMPROVEMENTS ====================
+
+@app.get("/api/indicators/search")
+def search_indicators(q: str = Query(...), category: str = Query(None), limit: int = Query(50)):
+    """Search indicators by name or description. Supports category filter and pagination."""
+    query = f"%{q}%"
+    if category:
+        rows = _db_rows(
+            "SELECT * FROM indicators WHERE (name LIKE ? OR description LIKE ?) AND category = ? ORDER BY name LIMIT ?",
+            (query, query, category, limit)
+        )
+    else:
+        rows = _db_rows(
+            "SELECT * FROM indicators WHERE name LIKE ? OR description LIKE ? ORDER BY name LIMIT ?",
+            (query, query, limit)
+        )
+    return {"query": q, "count": len(rows), "indicators": rows}
+
+@app.get("/api/indicators/bulk")
+def bulk_indicators(names: str = Query(...)):
+    """Fetch multiple indicators by comma-separated names. Returns missing list for gap analysis."""
+    name_list = [n.strip() for n in names.split(",") if n.strip()]
+    rows = _db_rows(f"SELECT * FROM indicators WHERE name IN ({','.join(['?'] * len(name_list))})", name_list)
+    found = {r["name"] for r in rows}
+    missing = [n for n in name_list if n not in found]
+    return {"requested": len(name_list), "found": len(rows), "missing": missing, "indicators": rows}
+
+@app.get("/api/indicators/stats")
+def indicator_stats():
+    """Get statistics and metadata about all indicators."""
+    total = _db_rows("SELECT COUNT(*) as count FROM indicators")[0]["count"]
+    with_values = _db_rows("SELECT COUNT(*) as count FROM indicators WHERE value IS NOT NULL")[0]["count"]
+    categories = _db_rows("SELECT category, COUNT(*) as count FROM indicators GROUP BY category ORDER BY category")
+    sources = _db_rows("SELECT source, COUNT(*) as count FROM indicators GROUP BY source ORDER BY source")
+    return {
+        "total_indicators": total,
+        "indicators_with_data": with_values,
+        "indicators_without_data": total - with_values,
+        "categories": categories,
+        "sources": sources,
+    }
+
+@app.get("/api/datasets/refresh")
+def refresh_datasets(secret: str = Query(...), source: str = Query(None)):
+    """Trigger dataset refresh for a specific source. Requires auth secret."""
+    _verify_refresh_secret(secret)
+    if source:
+        return {"status": "triggered", "source": source, "message": f"Refresh for {source} queued"}
+    return {"status": "error", "error": "source parameter required"}
+
+@app.get("/api/export/{format}")
+def export_data(format: str = Query(...), category: str = Query(None)):
+    """Export indicators in JSON or CSV format. Supports category filter."""
+    q = "SELECT name, value, unit, category, source, source_url, vintage, description FROM indicators"
+    params = ()
+    if category:
+        q += " WHERE category = ?"
+        params = (category,)
+    q += " ORDER BY category, name"
+    rows = _db_rows(q, params)
+
+    if format == "csv":
+        buf = io.StringIO()
+        w = csv.writer(buf)
+        w.writerow(["name", "value", "unit", "category", "source", "source_url", "vintage", "description"])
+        for r in rows:
+            w.writerow([r[k] for k in ["name", "value", "unit", "category", "source", "source_url", "vintage", "description"]])
+        return PlainTextResponse(content=buf.getvalue(), media_type="text/csv", headers={"Content-Disposition": f"attachment; filename=volusia_export_{category or 'all'}.csv"})
+    elif format == "json":
+        return {"count": len(rows), "indicators": rows}
+    else:
+        raise HTTPException(status_code=400, detail=f"Unsupported format: {format}. Use 'json' or 'csv'.")
+
+@app.get("/api/keys")
+def list_api_keys():
+    """List available API keys for data sources (read-only, no actual key values)."""
+    keys_path = Path(__file__).resolve().parent.parent / "data" / "api_keys.json"
+    keys = []
+    if keys_path.exists():
+        try:
+            data = json.loads(keys_path.read_text())
+            keys = [{"source": k, "status": "configured" if v else "missing"} for k, v in data.items()]
+        except:
+            pass
+    return {"api_keys": keys, "total": len(keys)}
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)

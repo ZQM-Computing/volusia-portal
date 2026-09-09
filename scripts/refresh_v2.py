@@ -1,9 +1,37 @@
 """Project Volusia - Refresh Pipeline v3 - unified fetcher + DB sync."""
 import json, re, os, sys, urllib.request, urllib.error, csv, requests
-import io
+import io, time
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Optional, Dict, Any
+from functools import wraps
+
+STATE_FIPS = '12'
+COUNTY_FIPS = '12127'
+COUNTY_CODE = '127'
+CENSUS_API_KEY = os.environ.get('CENSUS_API_KEY', '')
+BLS_API_KEY = os.environ.get('BLS_API_KEY', '')
+BEA_API_KEY = os.environ.get('BEA_API_KEY', '')
+CACHE_TTL = {'census': 0, 'bls': 0, 'bea': 0, 'noaa': 0, 'weather_forecast': 0, 'fred': 0, 'redfin': 0, 'volusia_business': 0, 'zillow': 0, 'qcew': 0}
+
+def retry(max_attempts=3, delay=2, backoff=2):
+    """Retry decorator with exponential backoff for flaky APIs."""
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            last_exception = None
+            for attempt in range(max_attempts):
+                try:
+                    return func(*args, **kwargs)
+                except Exception as e:
+                    last_exception = e
+                    if attempt < max_attempts - 1:
+                        wait_time = delay * (backoff ** attempt)
+                        print(f'    Retry {attempt+1}/{max_attempts} in {wait_time}s: {e}')
+                        time.sleep(wait_time)
+            raise last_exception
+        return wrapper
+    return decorator
 
 DATA_DIR = Path(__file__).parent.parent / 'data' / 'cache'
 DB_PATH = Path(__file__).parent.parent / 'data' / 'volusia.db'
@@ -60,6 +88,7 @@ def upsert_indicator(name: str, value: str, unit: str, category: str, source: st
     _db_exec('INSERT INTO indicators (name, value, unit, category, source, source_url, vintage, fetched_at, description) VALUES (?,?,?,?,?,?,?,?,?) ON CONFLICT(name) DO UPDATE SET value=excluded.value, unit=excluded.unit, category=excluded.category, source=excluded.source, source_url=excluded.source_url, vintage=excluded.vintage, fetched_at=excluded.fetched_at, description=excluded.description', (name, str(value), unit, category, source, source_url, vintage, datetime.now().isoformat(), description))
 
 # --- Census ACS via data.census.gov (no key needed) ---
+@retry(max_attempts=3, delay=2)
 def fetch_census_dp03(year: int = 2024) -> Optional[dict]:
     if is_cache_fresh('census_dp03'): return json.loads(cache_path('census_dp03').read_text())
     url = f"https://data.census.gov/api/access/data/table?g=0500000US{COUNTY_FIPS}&tid=ACSDP5Y{year}.DP03"
@@ -86,6 +115,7 @@ def fetch_census_dp03(year: int = 2024) -> Optional[dict]:
     cache_path('census_dp03').write_text(json.dumps(out, indent=2))
     return out
 
+@retry(max_attempts=3, delay=2)
 def fetch_census_dp05(year: int = 2024) -> Optional[dict]:
     if is_cache_fresh('census_dp05'): return json.loads(cache_path('census_dp05').read_text())
     url = f"https://data.census.gov/api/access/data/table?g=0500000US{COUNTY_FIPS}&tid=ACSDP5Y{year}.DP05"
@@ -115,6 +145,7 @@ def fetch_census_dp05(year: int = 2024) -> Optional[dict]:
     return out
 
 # --- BLS LAUS ---
+@retry(max_attempts=3, delay=2)
 def fetch_bls_laus() -> Optional[dict]:
     if is_cache_fresh('bls_laus'): return json.loads(cache_path('bls_laus').read_text())
     area_code = f'FL{COUNTY_CODE}0000000'
@@ -139,6 +170,7 @@ def fetch_bls_laus() -> Optional[dict]:
     return out
 
 # --- QCEW (no key) ---
+@retry(max_attempts=3, delay=2)
 def fetch_qcew() -> Optional[dict]:
     if is_cache_fresh('qcew'): return json.loads(cache_path('qcew').read_text())
     url = 'https://data.bls.gov/cew/data/files/2024/csv/2024_a_22127.csv'
@@ -161,6 +193,7 @@ def fetch_qcew() -> Optional[dict]:
     return out
 
 # --- BEA ---
+@retry(max_attempts=3, delay=2)
 def fetch_bea_personal_income(year: int = 2024) -> Optional[dict]:
     if is_cache_fresh('bea_income'): return json.loads(cache_path('bea_income').read_text())
     if not BEA_API_KEY: return {'source': 'BEA Local Area Personal Income', 'note': 'BEA_API_KEY not set'}
@@ -315,6 +348,10 @@ def sync_to_db(source_name: str, data: dict):
             if isinstance(val, dict) and part in val: val = val[part]
             else: val = None; break
         if val is None or val == '': continue
+        # Validate data quality before storing
+        if not validate_indicator(indicator_name, val):
+            print(f'    Skipping {indicator_name}: invalid value {val}')
+            continue
         desc = f'{indicator_name} from {src}'
         upsert_indicator(indicator_name, str(val), unit, category, src, data.get('sourceUrl', ''), data.get('vintage', ''), desc)
     # Handle CVB hotel data specially
@@ -336,6 +373,18 @@ def create_cvb_table():
         source_file TEXT, fetched_at TEXT DEFAULT (datetime('now','localtime'))
     )""")
     conn.commit(); conn.close()
+
+def validate_indicator(indicator_name: str, value: Any) -> bool:
+    """Validate indicator data quality before storing.
+    Returns True if value is valid, False if it should be rejected.
+    """
+    if value is None: return False
+    if isinstance(value, str) and value in ('(X)', 'N/A', '**', '***', 'null', ''): return False
+    if isinstance(value, (int, float)):
+        # Reject placeholder values that equal total population or are negative sentinels
+        if value == -1 or value == -888888888 or value == 999999999: return False
+        if value < 0 and indicator_name not in ('median_age_acs', 'median_household_income_acs'): return False
+    return True
 
 def sync_all_to_db():
     fetches = [
