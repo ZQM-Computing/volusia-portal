@@ -320,6 +320,47 @@ def diagnostics():
 
 # ==================== NEWS ENDPOINT ====================
 
+# ==================== DATA QUALITY ENDPOINTS ====================
+@app.get("/data-quality")
+def get_data_quality():
+    """Return data freshness and source diversity metrics."""
+    quality_path = Path(__file__).resolve().parent.parent / "data" / "cache" / "data_quality.json"
+    if quality_path.exists():
+        try:
+            return json.loads(quality_path.read_text())
+        except Exception:
+            pass
+    
+    # Generate fresh if cache missing
+    from scripts.enhance_data_sources import get_data_freshness, check_source_diversity
+    freshness = get_data_freshness(DB_PATH)
+    diversity = check_source_diversity(DB_PATH)
+    return {
+        "freshness": {
+            "total": freshness["total_indicators"],
+            "fresh": freshness["fresh_count"],
+            "stale": freshness["stale_count"],
+            "stale_list": [{"name": i["name"], "vintage": i.get("vintage", "")} for i in freshness["stale_indicators"]]
+        },
+        "diversity": diversity,
+        "categories": freshness["by_category"]
+    }
+
+
+@app.get("/sources")
+def get_sources():
+    """Return all distinct data sources with indicator counts."""
+    rows = _db_rows("""
+        SELECT source, COUNT(*) as indicator_count, 
+               MIN(vintage) as oldest_vintage, 
+               MAX(vintage) as newest_vintage
+        FROM indicators 
+        WHERE source IS NOT NULL AND source != ''
+        GROUP BY source 
+        ORDER BY indicator_count DESC
+    """)
+    return {"source_count": len(rows), "sources": rows}
+
 
 @app.post("/refresh")
 def trigger_refresh(secret: str = Query(..., description="HMAC-validated secret for refresh authorization")):
