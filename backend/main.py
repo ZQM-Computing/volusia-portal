@@ -480,11 +480,20 @@ if _os2.path.exists(_scoring_path):
 # ==================== SELF-SERVICE API ENDPOINTS ====================
 
 @app.post("/api/contribute")
-def contribute_data(contributor_id: str = Query("anonymous"), source: str = Query(...), data: dict = Body(default={})):
-    """Submit new data or data source contributions. Self-service endpoint."""
+def contribute_data(contributor_id: str = Query("anonymous"), source: str = Query(...), submission_type: str = Query("knowledge"), tags: str = Query(""), verified: bool = Query(False), data: dict = Body(default={})):
+    """Submit new data or data source contributions. Self-service endpoint.
+    
+    submission_type: knowledge, findings, resource, data, indicator
+    tags: comma-separated tags
+    verified: whether the contribution has been verified
+    """
+    tag_list = [t.strip() for t in tags.split(",") if t.strip()] if tags else []
     contribution = {
         "contributor_id": contributor_id,
         "source": source,
+        "submission_type": submission_type,
+        "tags": tag_list,
+        "verified": verified,
         "data_keys": list(data.keys()) if isinstance(data, dict) else [],
         "timestamp": __import__('datetime').datetime.utcnow().isoformat(),
         "status": "pending"
@@ -496,7 +505,28 @@ def contribute_data(contributor_id: str = Query("anonymous"), source: str = Quer
         except: pass
     audits.append(contribution)
     audit_path.write_text(json.dumps(audits, indent=2))
-    return {"status": "submitted", "contribution_id": len(audits), "message": f"Contribution from {source} logged for review"}
+    
+    # Update contributor stats
+    contrib_path = Path(__file__).resolve().parent.parent / "data" / "gamification" / f"{contributor_id}.json"
+    if contrib_path.exists():
+        try:
+            state = json.loads(contrib_path.read_text())
+            state.setdefault("sources_contributed", []).append(source)
+            state.setdefault("submission_type_counts", {})
+            state["submission_type_counts"][submission_type] = state["submission_type_counts"].get(submission_type, 0) + 1
+            state["last_contribution_date"] = __import__('datetime').datetime.utcnow().isoformat()
+            if tag_list:
+                state.setdefault("tags", [])
+                for tag in tag_list:
+                    if tag not in state["tags"]:
+                        state["tags"].append(tag)
+            if verified:
+                state["verifications"] = state.get("verifications", 0) + 1
+            contrib_path.write_text(json.dumps(state, indent=2))
+        except Exception:
+            pass
+    
+    return {"status": "submitted", "contribution_id": len(audits), "message": f"Contribution from {source} logged for review", "submission_type": submission_type}
 
 @app.get("/api/contributor")
 def get_contributor_info(contributor_id: str = Query("anonymous")):
@@ -504,7 +534,7 @@ def get_contributor_info(contributor_id: str = Query("anonymous")):
     gam_dir = Path(__file__).resolve().parent.parent / "data" / "gamification"
     fpath = gam_dir / f"{contributor_id}.json"
     if not fpath.exists():
-        return {"contributor_id": contributor_id, "status": "new", "pathways": [], "xp": 0}
+        return {"contributor_id": contributor_id, "status": "new", "pathways": [], "xp": 0, "submission_stats": {"knowledge": 0, "findings": 0, "resource": 0, "data": 0, "indicator": 0}}
     try:
         state = json.loads(fpath.read_text())
         return {
@@ -517,7 +547,8 @@ def get_contributor_info(contributor_id: str = Query("anonymous")):
             "pathways_contributed": state.get("categories_contributed", []),
             "sources_contributed": state.get("sources_contributed", []),
             "badges": state.get("badges", []),
-            "missions_earned": len(state.get("mission_flags", {}).get("earned", []))
+            "missions_earned": len(state.get("mission_flags", {}).get("earned", [])),
+            "submission_stats": state.get("mission_flags", {}).get("submission_type_counts", {"knowledge": 0, "findings": 0, "resource": 0, "data": 0, "indicator": 0})
         }
     except Exception as e:
         return {"contributor_id": contributor_id, "status": "error", "error": str(e)}

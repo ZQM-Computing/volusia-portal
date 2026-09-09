@@ -18,12 +18,18 @@ MISSION_CATALOG = [
     # Tier 2 — Consistency (100–250 XP)
     {"id":"streak_7","name":"Streak 7","desc":"7-day contribution streak","xp":100},
     {"id":"streak_30","name":"Streak 30","desc":"30-day contribution streak","xp":250},
-    {"id":"community_voice","name":"Community Voice","desc":"10+ total contributions","xp":150},
-    # Tier 3 — Quality (200–500 XP)
-    {"id":"verified","name":"Verified Contributor","desc":"Reach Verified quality tier","xp":200},
-    {"id":"data_steward","name":"Data Steward","desc":"5+ accepted submissions","xp":300},
-    {"id":"data_architect","name":"Data Architect","desc":"Add a new data source to the pipeline","xp":400},
-    {"id":"sector_pioneer","name":"Sector Pioneer","desc":"Submit in all 4 constituencies","xp":400},
+        {"id":"community_voice","name":"Community Voice","desc":"10+ total contributions","xp":150},
+        # Tier 3 — Quality (200–500 XP)
+        {"id":"verified","name":"Verified Contributor","desc":"Reach Verified quality tier","xp":200},
+        {"id":"data_steward","name":"Data Steward","desc":"5+ accepted submissions","xp":300},
+        {"id":"data_architect","name":"Data Architect","desc":"Add a new data source to the pipeline","xp":400},
+        {"id":"sector_pioneer","name":"Sector Pioneer","desc":"Submit in all 4 constituencies","xp":400},
+    # Tier 3.5 — Knowledge & Findings
+    {"id":"knowledge_seeker","name":"Knowledge Seeker","desc":"Submit 5+ knowledge contributions","xp":250},
+    {"id":"finding_master","name":"Finding Master","desc":"Submit 10+ findings","xp":350},
+    {"id":"resource_curator","name":"Resource Curator","desc":"Submit 5+ resources/tools","xp":300},
+    {"id":"data_contributor","name":"Data Contributor","desc":"Submit 10+ data points","xp":300},
+    {"id":"cross_validator","name":"Cross-Validator","desc":"Verify 5+ contributions from others","xp":400},
     # Tier 4 — Impact (500–2000 XP)
     {"id":"analyst","name":"Analyst","desc":"Reach Analyst level (500 XP)","xp":0},
     {"id":"researcher","name":"Researcher","desc":"Submit 3+ stakeholder interviews","xp":500},
@@ -87,7 +93,11 @@ class QualityTier(str, Enum):
 class ContributeRequest(BaseModel):
     contributor_id: str
     pathway: str = Field(..., pattern=r"^[A-Na-n]$|^agent-item$")
+    submission_type: str = Field(default="knowledge", description="Type: knowledge, findings, resource, data, indicator")
     submission: dict = Field(default_factory=dict)
+    source: str = Field(..., description="Source URL or identifier")
+    verified: bool = Field(default=False, description="Whether contribution is verified")
+    tags: list = Field(default_factory=list, description="Tags for categorization")
 _gam_state: dict = {}
 _contributions: list = []
 def _now_iso(): return datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -173,6 +183,28 @@ def contribute(req: ContributeRequest):
     missions_awarded=[]; flags=state.setdefault("mission_flags",{}); total_subs=flags.get("total_submissions",0)+1; flags["total_submissions"]=total_subs
     pathways=set(flags.get("pathways",[])); pathways.add(req.pathway); flags["pathways"]=list(pathways)
     pc=flags.setdefault("pathway_counts",{}); pc[req.pathway]=pc.get(req.pathway,0)+1; flags["pathway_counts"]=pc
+    
+    # Track submission type
+    sub_type = req.submission_type
+    type_counts = flags.setdefault("submission_type_counts",{})
+    type_counts[sub_type] = type_counts.get(sub_type,0)+1
+    flags["submission_type_counts"]=type_counts
+    
+    # Track sources contributed
+    if req.source and req.source not in state.get("sources_contributed",[]):
+        state.setdefault("sources_contributed",[]).append(req.source)
+    
+    # Track tags
+    if req.tags:
+        all_tags = set(state.get("tags",[]))
+        all_tags.update(req.tags)
+        state["tags"] = list(all_tags)
+    
+    # Track verified contributions
+    if req.verified:
+        state["verifications"]=state.get("verifications",0)+1
+        if "verified_contributions" not in flags: flags["verified_contributions"]=[]
+        flags["verified_contributions"].append({"source":req.source,"type":sub_type,"timestamp":_now_iso()})
     for m in MISSION_CATALOG:
         mid=m["id"]
         if mid in flags.get("earned",[]): continue
