@@ -1,12 +1,22 @@
-__pycache__/
-*.pyc
-*.pyo
-.hermes-tmp.*
-nul
-logs/
-temp/
-dogfood-output/
-dist/
-node_modules/
-.DS_Store
-Thumbs.db
+# Logs
+backend.log
+backend/*.log
+
+# Cache
+backend/data/cache/
+
+# Scripts (optional — keep or remove)
+.probe.ps1
+add-endpoints.py
+backend/start-server.bat
+fix-volusia-web.ps1
+
+# Debug notes
+debug-finding.md
+diagnosis-data-302.md
+ux-audit-findings.md
+ux-audit-plan.md
+
+# DB
+volusia.db
+data/volusia.db
