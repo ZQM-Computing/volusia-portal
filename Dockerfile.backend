@@ -4,5 +4,8 @@ COPY backend/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 COPY backend/ .
 COPY data/ /app/data/
-EXPOSE 8000
+
+# No EXPOSE directive — backend is internal-only
+# Reached through nginx (frontend container) via Docker network
+
 CMD ["python", "main.py"]
