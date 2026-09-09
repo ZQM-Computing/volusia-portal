@@ -11,10 +11,10 @@
 ### Confirmed Subdomains (httpx probe)
 | Subdomain | Status | Title | Technology |
 |-----------|--------|-------|------------|
-| zqmlabs.com | 200 | Project Volusia — Open Intelligence Portal | Cloudflare, HTTP/3 |
-| docs.zqmlabs.com | 200 | Project Volusia — Open Intelligence Portal | Cloudflare, HTTP/3 |
-| software.zqmlabs.com | 200 | Project Volusia — Open Intelligence Portal | Cloudflare, HTTP/3 |
-| api.zqmlabs.com | 200 | Project Volusia — Open Intelligence Portal | Cloudflare, HTTP/3 |
+| zqmlabs.com | 200 | Project Volusia — Open Intelligence Portal | Cloudflare, Browser Insights, HSTS, HTTP/3 |
+| docs.zqmlabs.com | 200 | Project Volusia — Open Intelligence Portal | Cloudflare, Browser Insights, HSTS, HTTP/3 |
+| software.zqmlabs.com | 200 | Project Volusia — Open Intelligence Portal | Cloudflare, Browser Insights, HSTS, HTTP/3 |
+| api.zqmlabs.com | 200 | Project Volusia — Open Intelligence Portal | Cloudflare, Browser Insights, HSTS, HTTP/3 |
 
 ### Not Found / No Response
 - admin.zqmlabs.com, app.zqmlabs.com, portal.zqmlabs.com, test.zqmlabs.com, staging.zqmlabs.com, dev.zqmlabs.com, mail.zqmlabs.com, blog.zqmlabs.com, shop.zqmlabs.com, support.zqmlabs.com, community.zqmlabs.com, cdn.zqmlabs.com, static.zqmlabs.com, assets.zqmlabs.com, media.zqmlabs.com, files.zqmlabs.com, uploads.zqmlabs.com — no response
@@ -81,6 +81,19 @@ strict-transport-security, x-content-type-options, x-frame-options, referrer-pol
 
 ### Missing (6)
 content-security-policy (HTTP header), permissions-policy, x-permitted-cross-domain-policies, cross-origin-embedder-policy, cross-origin-opener-policy, cross-origin-resource-policy
+
+---
+
+---
+
+## Nuclei Scan Results
+- **Cloudflare DNS WAF** confirmed via dns-waf-detect template
+- **10756 templates** scanned against zqmlabs.com
+- **Cloudflare WAF blocks** most probes (WAF detected on port 80/443)
+- **Scan rate**: ~8 RPS at -rate-limit 5
+- **18930 total requests** at full rate, 64 completed in first 20 seconds
+- **Key finding**: Cloudflare WAF is the primary defensive layer
+- **Scan method**: nuclei -u https://zqmlabs.com -silent -no-color -rate-limit 5
 
 ---
 
