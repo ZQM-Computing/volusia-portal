@@ -94,6 +94,16 @@ def get_datasets(limit: int = Query(50)):
     rows = _db_rows("SELECT id, source, fetched_at as vintage, content FROM datasets ORDER BY id DESC LIMIT ?", (limit,))
     return {"count": len(rows), "datasets": rows}
 
+@app.get("/latest")
+def latest_data():
+    """Return latest available data. Returns 503 if no data."""
+    total = _db_rows("SELECT COUNT(*) as count FROM indicators")[0]["count"]
+    if total == 0:
+        raise HTTPException(status_code=503, detail="No data available — refresh pipeline has not run")
+    latest = _db_rows("SELECT * FROM indicators ORDER BY fetched_at DESC LIMIT 10")
+    return {"count": len(latest), "data": latest}
+
+
 @app.get("/indicators.csv")
 def download_csv(category: str = Query(None)):
     q = "SELECT name, value, unit, category, source, source_url, vintage, description FROM indicators"
@@ -682,6 +692,16 @@ def export_data(format: str, category: str = Query(None)):
         return {"count": len(rows), "indicators": rows}
     else:
         raise HTTPException(status_code=400, detail=f"Unsupported format: {format}. Use 'json' or 'csv'.")
+
+
+@app.get("/api/latest")
+def api_latest():
+    """API version of latest — returns 503 if no data."""
+    total = _db_rows("SELECT COUNT(*) as count FROM indicators")[0]["count"]
+    if total == 0:
+        raise HTTPException(status_code=503, detail="No data available — refresh pipeline has not run")
+    latest = _db_rows("SELECT * FROM indicators ORDER BY fetched_at DESC LIMIT 10")
+    return {"count": len(latest), "data": latest}
 
 @app.get("/api/keys")
 def list_api_keys():
