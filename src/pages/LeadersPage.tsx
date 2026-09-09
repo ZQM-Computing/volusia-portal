@@ -54,7 +54,7 @@ export function LeadersPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                 {loading ? (
                     <>
-                        {[1,2,3,4].map(i => <div key={i} className="stat-card animate-pulse bg-gray-200 h-24" />)}
+                        {[1,2,3,4].map(i => <div key={i} className="stat-card animate-pulse bg-gray-100 h-24" />)}
                     </>
                 ) : (
                     <>
