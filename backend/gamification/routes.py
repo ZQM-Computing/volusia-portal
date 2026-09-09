@@ -470,3 +470,37 @@ def get_all_contributions(limit: int = Query(50)):
 def visit_page(user_id: str):
     """Track a page visit for gamification."""
     return {"status": "visited", "user_id": user_id}
+
+@router.get("/visits/analytics")
+def visit_analytics():
+    """Get visitor analytics — page views, unique visitors, popular pages."""
+    visit_log = PROJECT_ROOT / "data" / "visits.json"
+    if not visit_log.exists():
+        return {"total_visits": 0, "unique_visitors": 0, "popular_pages": []}
+    try:
+        visits = json.loads(visit_log.read_text())
+    except Exception:
+        return {"total_visits": 0, "unique_visitors": 0, "popular_pages": []}
+
+    total = len(visits)
+    unique = len(set(v.get("user_id", "") for v in visits))
+
+    # Page counts
+    page_counts = {}
+    for v in visits:
+        p = v.get("page", "unknown")
+        page_counts[p] = page_counts.get(p, 0) + 1
+    popular = sorted(page_counts.items(), key=lambda x: x[1], reverse=True)[:10]
+
+    # Daily counts
+    daily = {}
+    for v in visits:
+        d = v.get("date", "unknown")
+        daily[d] = daily.get(d, 0) + 1
+
+    return {
+        "total_visits": total,
+        "unique_visitors": unique,
+        "popular_pages": [{"page": p, "count": c} for p, c in popular],
+        "daily_visits": daily
+    }
