@@ -165,6 +165,41 @@ def get_datasets_json():
     rows = _db_rows("SELECT id, source, fetched_at as vintage, content FROM datasets ORDER BY id DESC LIMIT 200")
     return {"count": len(rows), "datasets": rows}
 
+@app.get("/data/housing.json")
+def get_housing_json():
+    rows = _db_rows("SELECT * FROM indicators WHERE category = 'Housing' ORDER BY name LIMIT 200")
+    return {"category": "Housing", "count": len(rows), "indicators": rows}
+
+@app.get("/data/education.json")
+def get_education_json():
+    rows = _db_rows("SELECT * FROM indicators WHERE category = 'Education' ORDER BY name LIMIT 200")
+    return {"category": "Education", "count": len(rows), "indicators": rows}
+
+@app.get("/data/environment.json")
+def get_environment_json():
+    rows = _db_rows("SELECT * FROM indicators WHERE category = 'Environment' ORDER BY name LIMIT 200")
+    return {"category": "Environment", "count": len(rows), "indicators": rows}
+
+@app.get("/data/public-safety.json")
+def get_public_safety_json():
+    rows = _db_rows("SELECT * FROM indicators WHERE category = 'Public Safety' ORDER BY name LIMIT 200")
+    return {"category": "Public Safety", "count": len(rows), "indicators": rows}
+
+@app.get("/data/transportation.json")
+def get_transportation_json():
+    rows = _db_rows("SELECT * FROM indicators WHERE category = 'Transportation' ORDER BY name LIMIT 200")
+    return {"category": "Transportation", "count": len(rows), "indicators": rows}
+
+@app.get("/data/government-finance.json")
+def get_government_finance_json():
+    rows = _db_rows("SELECT * FROM indicators WHERE category = 'Government Finance' ORDER BY name LIMIT 200")
+    return {"category": "Government Finance", "count": len(rows), "indicators": rows}
+
+@app.get("/data/health.json")
+def get_health_json():
+    rows = _db_rows("SELECT * FROM indicators WHERE category = 'Health' ORDER BY name LIMIT 200")
+    return {"category": "Health", "count": len(rows), "indicators": rows}
+
 @app.get("/data/map-layers.json")
 def get_map_layers_json():
     rows = _db_rows("SELECT id, name, category, description, source, format, url, geometry FROM map_layers ORDER BY category, name")

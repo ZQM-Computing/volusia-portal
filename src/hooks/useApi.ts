@@ -1,19 +1,22 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 
 const API_BASE = ''
 
-export function useApiData<T>(endpoint: string) {
+function useApiData<T>(endpoint: string) {
   const [data, setData] = useState<T | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  useEffect(() => {
+  const fetchData = useCallback(() => {
+    setLoading(true)
+    setError(null)
     fetch(`${API_BASE}${endpoint}`)
       .then((res) => { if (!res.ok) throw new Error(`HTTP ${res.status}`); return res.json() })
       .then(setData)
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false))
   }, [endpoint])
-  return { data, loading, error }
+  useEffect(() => { fetchData() }, [fetchData])
+  return { data, loading, error, refetch: fetchData }
 }
 
 export function useAllIndicators() { return useApiData<any>('/data/indicators.json') }
@@ -38,12 +41,12 @@ export function useGamification(userId: string = 'anonymous') {
   const [data, setData] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [pulse, setPulse] = useState<any[]>([])
-  const visitPage = () => {
+  const visitPage = useCallback(() => {
     fetch(`/api/gamification/visit/${encodeURIComponent(userId)}`, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({page: typeof window !== 'undefined' ? window.location.pathname : '/'}) })
       .then((res) => res.json())
       .then(setData)
       .catch(() => {})
-  }
+  }, [userId])
   useEffect(() => {
     fetch('/api/pulse.json')
       .then((res) => res.json())
@@ -75,15 +78,20 @@ export function useGamificationStats(userId: string) {
   return { stats, totalUsers, avgXp, avgLevel, loading }
 }
 
-export function useLeaderboard() { return useApiData<any>('/gamification/leaderboard') }
+export function useLeaderboard() {
+  const { data, loading, error, refetch } = useApiData<any>('/gamification/leaderboard')
+  const leaderboardData = data?.leaderboard ?? data ?? []
+  const leaderboardCount = data?.count ?? (Array.isArray(leaderboardData) ? leaderboardData.length : 0)
+  return { data: leaderboardData, loading, error, refetch, count: leaderboardCount }
+}
+
 export function useDiagnostics() {
-  const [diagnostics, setDiagnostics] = useState<any>(null)
-  const [loading, setLoading] = useState(true)
-  useEffect(() => {
-    fetch('/api/diagnostics')
-      .then((res) => res.json())
-      .then((d) => { setDiagnostics(d); setLoading(false) })
-      .catch(() => setLoading(false))
-  }, [])
-  return { diagnostics, loading }
+  const { data, loading, error, refetch } = useApiData<any>('/api/diagnostics')
+  return { diagnostics: data, loading, error, refetch }
+}
+
+// Helper: find indicator by name
+export function getIndicator(items: any[] | null, name: string) {
+  if (!items) return null
+  return items.find((i: any) => i.name === name) ?? null
 }
