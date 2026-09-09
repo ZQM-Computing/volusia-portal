@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { ErrorBoundary } from '../utils'
 import { useDebounce } from '../utils/useDebounce'
 import { useDatasets, useIndicator, useMapLayers, useDownloadCSV, useIndicatorList } from '../hooks/useApi'
@@ -30,13 +30,17 @@ export function DataExplorerPage() {
   })
 
   // Build chart data from live indicators
-  const unemploymentData = indicators?.data?.indicators
-    ?.filter((i: any) => i.name?.includes('unemployment_rate'))
-    .map((i: any) => ({ name: i.name, value: Number(i.value) })) ?? []
+  const unemploymentData = useMemo(() =>
+    indicators?.data?.indicators
+      ?.filter((i: any) => i.name?.includes('unemployment_rate'))
+      .map((i: any) => ({ name: i.name, value: Number(i.value) })) ?? []
+  , [indicators])
 
-  const incomeData = indicators?.data?.indicators
-    ?.filter((i: any) => i.name?.includes('median_household_income') || i.name?.includes('per_capita_income') || i.name?.includes('personal_income'))
-    .map((i: any) => ({ name: i.name, value: Number(i.value) })) ?? []
+  const incomeData = useMemo(() =>
+    indicators?.data?.indicators
+      ?.filter((i: any) => i.name?.includes('median_household_income') || i.name?.includes('per_capita_income') || i.name?.includes('personal_income'))
+      .map((i: any) => ({ name: i.name, value: Number(i.value) })) ?? []
+  , [indicators])
 
   const barData = unemploymentData.length > 0
     ? [{ id: 'unemployment', data: unemploymentData.map((d: any) => ({ x: d.name, y: d.value })) }]
@@ -51,7 +55,7 @@ export function DataExplorerPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <SectionTitle title="Data Explorer" subtitle="Search, filter, and download open datasets for Volusia County" />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          {[1, 2].map(i => <div key={i} className="bg-gray-200 rounded-lg h-64 animate-pulse" />)}
+          {[1, 2].map(i => <div key={i} className="bg-gray-100 rounded-lg h-64 animate-pulse" />)}
         </div>
       </div>
     )

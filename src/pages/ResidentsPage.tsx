@@ -118,7 +118,7 @@ export function ResidentsPage() {
                   <span className="text-volusia-slate">{item.category}</span>
                   <span className="font-medium text-volusia-navy">{item.index}</span>
                 </div>
-                <div className="w-full bg-gray-300 rounded-full h-2.5">
+                <div className="w-full bg-gray-200 rounded-full h-2.5">
                   <div
                     className={`h-2.5 rounded-full ${item.index > 100 ? 'bg-volusia-coral' : 'bg-volusia-teal'}`}
                     style={{ width: `${Math.min((item.index / 120) * 100, 100)}%` }}

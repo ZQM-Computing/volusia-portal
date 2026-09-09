@@ -1,0 +1,264 @@
+[
+  {
+    "contributor_id": "testuser",
+    "source": "test-probe",
+    "data_keys": [
+      "test_key",
+      "probe"
+    ],
+    "timestamp": "2026-09-08T23:06:56.659211",
+    "status": "pending"
+  },
+  {
+    "contributor_id": "anonymous",
+    "source": "test",
+    "data_keys": [
+      "key"
+    ],
+    "timestamp": "2026-09-09T00:50:06.219815",
+    "status": "pending"
+  },
+  {
+    "contributor_id": "test_user",
+    "source": "https://example.com/knowledge",
+    "data_keys": [
+      "title",
+      "summary"
+    ],
+    "timestamp": "2026-09-09T01:24:52.513690",
+    "status": "pending"
+  },
+  {
+    "contributor_id": "test_user",
+    "source": "https://example.com/finding",
+    "data_keys": [
+      "title",
+      "description"
+    ],
+    "timestamp": "2026-09-09T01:24:58.058081",
+    "status": "pending"
+  },
+  {
+    "contributor_id": "test_user",
+    "source": "https://example.com/tool",
+    "data_keys": [
+      "title",
+      "url"
+    ],
+    "timestamp": "2026-09-09T01:25:03.031320",
+    "status": "pending"
+  },
+  {
+    "contributor_id": "test_user",
+    "source": "https://example.com/data",
+    "data_keys": [
+      "title",
+      "rows"
+    ],
+    "timestamp": "2026-09-09T01:25:08.268667",
+    "status": "pending"
+  },
+  {
+    "contributor_id": "debug_user",
+    "source": "https://example.com/knowledge",
+    "data_keys": [
+      "title",
+      "summary"
+    ],
+    "timestamp": "2026-09-09T01:27:16.234573",
+    "status": "pending"
+  },
+  {
+    "contributor_id": "debug_user",
+    "source": "https://example.com/finding",
+    "data_keys": [
+      "title",
+      "description"
+    ],
+    "timestamp": "2026-09-09T01:27:20.833453",
+    "status": "pending"
+  },
+  {
+    "contributor_id": "debug_user",
+    "source": "https://example.com/tool",
+    "data_keys": [
+      "title",
+      "url"
+    ],
+    "timestamp": "2026-09-09T01:27:21.128807",
+    "status": "pending"
+  },
+  {
+    "contributor_id": "debug_user",
+    "source": "https://example.com/data",
+    "data_keys": [
+      "title",
+      "rows"
+    ],
+    "timestamp": "2026-09-09T01:27:21.423587",
+    "status": "pending"
+  },
+  {
+    "contributor_id": "debug_user",
+    "source": "https://example.com/indicator",
+    "data_keys": [
+      "title",
+      "indicator_id"
+    ],
+    "timestamp": "2026-09-09T01:27:21.704431",
+    "status": "pending"
+  },
+  {
+    "contributor_id": "test",
+    "source": "test",
+    "data_keys": [
+      "title"
+    ],
+    "timestamp": "2026-09-09T01:27:35.656480",
+    "status": "pending"
+  },
+  {
+    "contributor_id": "test_user2",
+    "source": "https://example.com/knowledge",
+    "data_keys": [
+      "title",
+      "summary"
+    ],
+    "timestamp": "2026-09-09T01:28:36.511579",
+    "status": "pending"
+  },
+  {
+    "contributor_id": "test_user2",
+    "source": "https://example.com/finding",
+    "data_keys": [
+      "title"
+    ],
+    "timestamp": "2026-09-09T01:28:36.780715",
+    "status": "pending"
+  },
+  {
+    "contributor_id": "test_user2",
+    "source": "https://example.com/tool",
+    "data_keys": [
+      "title"
+    ],
+    "timestamp": "2026-09-09T01:28:37.062828",
+    "status": "pending"
+  },
+  {
+    "contributor_id": "test_user2",
+    "source": "https://example.com/data",
+    "data_keys": [
+      "title"
+    ],
+    "timestamp": "2026-09-09T01:28:37.374703",
+    "status": "pending"
+  },
+  {
+    "contributor_id": "test_user2",
+    "source": "https://example.com/indicator",
+    "data_keys": [
+      "title"
+    ],
+    "timestamp": "2026-09-09T01:28:37.655683",
+    "status": "pending"
+  },
+  {
+    "contributor_id": "test",
+    "source": "test",
+    "submission_type": "knowledge",
+    "tags": [
+      "test"
+    ],
+    "verified": true,
+    "data_keys": [
+      "title"
+    ],
+    "timestamp": "2026-09-09T01:48:51.502255",
+    "status": "pending"
+  },
+  {
+    "contributor_id": "test",
+    "source": "test",
+    "submission_type": "knowledge",
+    "tags": [
+      "economics"
+    ],
+    "verified": true,
+    "data_keys": [
+      "title"
+    ],
+    "timestamp": "2026-09-09T01:48:58.308676",
+    "status": "pending"
+  },
+  {
+    "contributor_id": "test",
+    "source": "test",
+    "submission_type": "findings",
+    "tags": [
+      "research"
+    ],
+    "verified": false,
+    "data_keys": [
+      "title"
+    ],
+    "timestamp": "2026-09-09T01:48:58.603207",
+    "status": "pending"
+  },
+  {
+    "contributor_id": "test",
+    "source": "test",
+    "submission_type": "resource",
+    "tags": [
+      "tool"
+    ],
+    "verified": false,
+    "data_keys": [
+      "title"
+    ],
+    "timestamp": "2026-09-09T01:48:58.916514",
+    "status": "pending"
+  },
+  {
+    "contributor_id": "test",
+    "source": "test",
+    "submission_type": "data",
+    "tags": [
+      "dataset"
+    ],
+    "verified": false,
+    "data_keys": [
+      "title"
+    ],
+    "timestamp": "2026-09-09T01:48:59.195497",
+    "status": "pending"
+  },
+  {
+    "contributor_id": "test",
+    "source": "test",
+    "submission_type": "indicator",
+    "tags": [
+      "indicator"
+    ],
+    "verified": false,
+    "data_keys": [
+      "title"
+    ],
+    "timestamp": "2026-09-09T01:48:59.480300",
+    "status": "pending"
+  },
+  {
+    "contributor_id": "test",
+    "source": "test",
+    "submission_type": "knowledge",
+    "tags": [
+      "test"
+    ],
+    "verified": true,
+    "data_keys": [
+      "title"
+    ],
+    "timestamp": "2026-09-09T01:50:04.219768",
+    "status": "pending"
+  }
+]

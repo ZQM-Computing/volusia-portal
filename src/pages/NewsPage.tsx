@@ -25,7 +25,7 @@ export function NewsPage() {
                 <h3 className="text-lg font-bold text-volusia-navy">{article.title}</h3>
                 <p className="text-volusia-slate mt-1">{article.summary}</p>
               </div>
-              <Badge variant="info">{article.category}</Badge>
+              <Badge variant="success">{article.category}</Badge>
             </div>
             <p className="text-xs text-gray-400 mt-3">{article.date}</p>
           </Card>

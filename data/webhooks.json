@@ -1,0 +1,26 @@
+[
+  {
+    "event": "test-probe",
+    "payload": {
+      "test": "payload"
+    },
+    "timestamp": "2026-09-08T23:06:56.729697"
+  },
+  {
+    "event": "test_event",
+    "payload": {
+      "data": "test"
+    },
+    "timestamp": "2026-09-09T00:50:08.332589"
+  },
+  {
+    "event": "fix_hotel_occupancy",
+    "payload": {
+      "action": "fix",
+      "indicator": "hotel_occupancy_pct",
+      "old_value": "None",
+      "new_value": null
+    },
+    "timestamp": "2026-09-09T01:14:12.294109"
+  }
+]

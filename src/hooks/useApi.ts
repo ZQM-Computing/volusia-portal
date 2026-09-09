@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-const API_BASE = '/data'
+const API_BASE = ''
 
 // Generic hook for any API endpoint
 export function useApiData<T>(endpoint: string) {
