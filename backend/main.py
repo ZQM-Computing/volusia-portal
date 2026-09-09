@@ -106,6 +106,14 @@ def latest_data():
 
 @app.get("/indicators.csv")
 def download_csv(category: str = Query(None)):
+    return _build_indicators_csv(category)
+
+@app.get("/data/indicators.csv")
+def download_csv_data(category: str = Query(None)):
+    """Alias for /indicators.csv under the /data prefix used by the public frontend."""
+    return _build_indicators_csv(category)
+
+def _build_indicators_csv(category: str):
     q = "SELECT name, value, unit, category, source, source_url, vintage, description FROM indicators"
     params = ()
     if category: q += " WHERE category = ?"; params = (category,)
@@ -116,7 +124,8 @@ def download_csv(category: str = Query(None)):
     w = csv.writer(buf)
     w.writerow(["name", "value", "unit", "category", "source", "source_url", "vintage", "description"])
     for r in rows: w.writerow([r[k] for k in ["name","value","unit","category","source","source_url","vintage","description"]])
-    return PlainTextResponse(content=buf.getvalue(), media_type="text/csv", headers={"Content-Disposition": f"attachment; filename=volusia_indicators_{category or 'all'}.csv"})
+    filename = f"volusia_indicators_{category or 'all'}.csv"
+    return PlainTextResponse(content=buf.getvalue(), media_type="text/csv", headers={"Content-Disposition": f"attachment; filename={filename}"})
 
 @app.get("/map-layers")
 def get_map_layers():
@@ -130,6 +139,46 @@ def get_indicators_json():
     """Serve indicators as JSON for frontend hooks."""
     rows = _db_rows("SELECT * FROM indicators ORDER BY category, name LIMIT 500")
     return {"count": len(rows), "indicators": rows}
+
+@app.get("/data/economic.json")
+def get_economic_json():
+    rows = _db_rows("SELECT * FROM indicators WHERE category = 'Economic' ORDER BY name LIMIT 200")
+    return {"category": "Economic", "count": len(rows), "indicators": rows}
+
+@app.get("/data/demographics.json")
+def get_demographics_json():
+    rows = _db_rows("SELECT * FROM indicators WHERE category = 'Demographics' ORDER BY name LIMIT 200")
+    return {"category": "Demographics", "count": len(rows), "indicators": rows}
+
+@app.get("/data/climate.json")
+def get_climate_json():
+    rows = _db_rows("SELECT * FROM indicators WHERE category = 'Climate' ORDER BY name LIMIT 200")
+    return {"category": "Climate", "count": len(rows), "indicators": rows}
+
+@app.get("/data/tourism.json")
+def get_tourism_json():
+    rows = _db_rows("SELECT * FROM indicators WHERE category = 'Tourism' ORDER BY name LIMIT 200")
+    return {"category": "Tourism", "count": len(rows), "indicators": rows}
+
+@app.get("/data/datasets.json")
+def get_datasets_json():
+    rows = _db_rows("SELECT id, source, fetched_at as vintage, content FROM datasets ORDER BY id DESC LIMIT 200")
+    return {"count": len(rows), "datasets": rows}
+
+@app.get("/data/map-layers.json")
+def get_map_layers_json():
+    rows = _db_rows("SELECT id, name, category, description, source, format, url, geometry FROM map_layers ORDER BY category, name")
+    return {"count": len(rows), "layers": rows}
+
+@app.get("/data/stakeholders.json")
+def get_stakeholders_json():
+    rows = _db_rows("SELECT category, COUNT(*) as count FROM indicators GROUP BY category ORDER BY count DESC")
+    return {"categories": rows}
+
+@app.get("/tourism.json")
+def tourism_json_alias():
+    """Alias for /data/tourism.json so bare /tourism.json works too."""
+    return get_tourism_json()
 
 @app.get("/news.json")
 def get_news():

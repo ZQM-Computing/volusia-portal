@@ -20,9 +20,8 @@ export function LeadersPage() {
     const personalIncome = getIndicator(economic?.indicators, 'personal_income_total')
     const populationBEA = getIndicator(economic?.indicators, 'population_bea')
 
-    // Build chart data from live indicators — real QCEW data
     const employmentValue = employment ? Number(employment.value) : 494400
-  const investmentData = employment
+    const investmentData = employment
           ? []
           : []
 
@@ -39,7 +38,6 @@ export function LeadersPage() {
     if (avgWage) moversIndicators.push(avgWage)
     if (unemploymentBls) moversIndicators.push(unemploymentBls)
 
-    // Extract leaderboard data correctly: useLeaderboard returns { leaderboard: [...], count: N }
     const leaderboardData = leaderboard?.leaderboard ?? leaderboard ?? []
     const leaderboardCount = leaderboard?.count ?? (Array.isArray(leaderboardData) ? leaderboardData.length : 0)
 
@@ -68,13 +66,13 @@ export function LeadersPage() {
                             value={populationBEA ? Number(populationBEA.value).toLocaleString() : '—'}
                             label="Population (BEA)"
                             change={unemploymentBls ? Number(unemploymentBls.value) : undefined}
-                                                        changeLabel={unemploymentBls ? `Unemployment ${unemploymentBls.value}%` : undefined}
-                                                    />
-                                                    <StatCard
-                                                        value={personalIncome ? Number(personalIncome.value).toLocaleString() : '—'}
-                                                        label="Personal Income (BEA)"
-                                                        change={establishments ? Number(establishments.value) : undefined}
-                                                        changeLabel={establishments ? `Establishments` : undefined}
+                            changeLabel={unemploymentBls ? `Unemployment ${unemploymentBls.value}%` : undefined}
+                        />
+                        <StatCard
+                            value={personalIncome ? Number(personalIncome.value).toLocaleString() : '—'}
+                            label="Personal Income (BEA)"
+                            change={establishments ? Number(establishments.value) : undefined}
+                            changeLabel={establishments ? `Establishments` : undefined}
                         />
                         <StatCard
                             value={leaderboardCount}
@@ -164,8 +162,6 @@ export function LeadersPage() {
                 </Card>
             )}
 
-
-    
             {/* Data Room CTA */}
             <div className="bg-volusia-navy text-white rounded-xl p-8 text-center">
                 <h3 className="text-2xl font-bold mb-3">Investor Data Room</h3>
@@ -176,50 +172,46 @@ export function LeadersPage() {
                 <button className="btn-primary bg-volusia-gold text-volusia-navy hover:bg-yellow-400">
                     Request Data Room Access
                 </button>
-
-    
-
-    
-
-    {/* Metadata Footer */}
-    <footer className="bg-gray-100 py-8 mt-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h3 className="text-lg font-bold text-volusia-navy mb-4">Data Sources & Metadata</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
-          <div>
-            <h4 className="font-semibold text-volusia-navy mb-2">Economic Indicators</h4>
-            {(economic?.indicators || []).slice(0, 3).map((i: any) => (
-              <div key={i.name} className="text-volusia-slate mb-1">
-                <span className="font-medium">{i.name}:</span> {i.value} {i.unit}
-                <br/><span className="text-xs text-gray-500">Source: {i.source} | Vintage: {i.vintage} | Fetched: {new Date(i.fetched_at).toLocaleString()}</span>
-              </div>
-            ))}
-          </div>
-          <div>
-            <h4 className="font-semibold text-volusia-navy mb-2">Demographics</h4>
-            {(economic?.indicators || []).slice(3, 6).map((i: any) => (
-              <div key={i.name} className="text-volusia-slate mb-1">
-                <span className="font-medium">{i.name}:</span> {i.value} {i.unit}
-                <br/><span className="text-xs text-gray-500">Source: {i.source} | Vintage: {i.vintage}</span>
-              </div>
-            ))}
-          </div>
-          <div>
-            <h4 className="font-semibold text-volusia-navy mb-2">Climate</h4>
-            {(economic?.indicators || []).slice(6, 9).map((i: any) => (
-              <div key={i.name} className="text-volusia-slate mb-1">
-                <span className="font-medium">{i.name}:</span> {i.value} {i.unit}
-                <br/><span className="text-xs text-gray-500">Source: {i.source} | Vintage: {i.vintage}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="mt-6 pt-4 border-t border-gray-300 text-xs text-gray-500">
-          <p>Project Volusia Data Portal — All data sourced from public APIs (Census ACS, BLS QCEW, NOAA NCEI, C2ER). Last updated: {new Date().toLocaleString()}</p>
-        </div>
-      </div>
-    </footer>
             </div>
+
+            {/* Metadata Footer */}
+            <footer className="bg-gray-100 py-8 mt-12">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h3 className="text-lg font-bold text-volusia-navy mb-4">Data Sources & Metadata</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
+                  <div>
+                    <h4 className="font-semibold text-volusia-navy mb-2">Economic Indicators</h4>
+                    {(economic?.indicators || []).slice(0, 3).map((i: any) => (
+                      <div key={i.name} className="text-volusia-slate mb-1">
+                        <span className="font-medium">{i.name}:</span> {i.value} {i.unit}
+                        <br/><span className="text-xs text-gray-500">Source: {i.source} | Vintage: {i.vintage} | Fetched: {new Date(i.fetched_at).toLocaleString()}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-volusia-navy mb-2">Demographics</h4>
+                    {(economic?.indicators || []).slice(3, 6).map((i: any) => (
+                      <div key={i.name} className="text-volusia-slate mb-1">
+                        <span className="font-medium">{i.name}:</span> {i.value} {i.unit}
+                        <br/><span className="text-xs text-gray-500">Source: {i.source} | Vintage: {i.vintage}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-volusia-navy mb-2">Climate</h4>
+                    {(economic?.indicators || []).slice(6, 9).map((i: any) => (
+                      <div key={i.name} className="text-volusia-slate mb-1">
+                        <span className="font-medium">{i.name}:</span> {i.value} {i.unit}
+                        <br/><span className="text-xs text-gray-500">Source: {i.source} | Vintage: {i.vintage}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="mt-6 pt-4 border-t border-gray-300 text-xs text-gray-500">
+                  <p>Project Volusia Data Portal — All data sourced from public APIs (Census ACS, BLS QCEW, NOAA NCEI, C2ER). Last updated: {new Date().toLocaleString()}</p>
+                </div>
+              </div>
+            </footer>
         </div>
     )
 }

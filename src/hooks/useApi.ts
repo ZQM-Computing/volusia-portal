@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 
 const API_BASE = ''
 
-// Generic hook for static JSON data
 export function useApiData<T>(endpoint: string) {
   const [data, setData] = useState<T | null>(null)
   const [loading, setLoading] = useState(true)
@@ -17,70 +16,52 @@ export function useApiData<T>(endpoint: string) {
   return { data, loading, error }
 }
 
-// Category-specific hooks (static JSON files from /data/)
-export function useAllIndicators() { return useApiData<any>('/indicators.json') }
-export function useEconomicIndicators() { return useApiData<any>('/economic.json') }
-export function useDemographicIndicators() { return useApiData<any>('/demographics.json') }
-export function useClimateIndicators() { return useApiData<any>('/climate.json') }
-export function useDatasets() { return useApiData<any>('/datasets.json') }
-export function useMapLayers() { return useApiData<any>('/map-layers.json') }
-export function useNews() { return useApiData<any>('/news.json') }
-export function useHealth() { return useApiData<any>('/health.json') }
-export function useStakeholderGroups() { return useApiData<any>('/stakeholders.json') }
-export function useDownloadCSV(category?: string) {
-  const url = category ? `/api/indicators.csv?category=${category}` : '/api/indicators.csv'
-  return () => window.open(url, '_blank')
-}
+export function useAllIndicators() { return useApiData<any>('/data/indicators.json') }
+export function useEconomicIndicators() { return useApiData<any>('/data/economic.json') }
+export function useDemographicIndicators() { return useApiData<any>('/data/demographics.json') }
+export function useClimateIndicators() { return useApiData<any>('/data/climate.json') }
+export function useTourismIndicators() { return useApiData<any>('/data/tourism.json') }
+export function useDatasets() { return useApiData<any>('/data/datasets.json') }
+export function useMapLayers() { return useApiData<any>('/data/map-layers.json') }
+export function useNews() { return useApiData<any>('/data/news.json') }
+export function useHealth() { return useApiData<any>('/data/health.json') }
+export function useStakeholderGroups() { return useApiData<any>('/data/stakeholders.json') }
+export function useIndicatorsByCategory(category: string) { return useApiData<any>(`/data/${encodeURIComponent(category.toLowerCase())}.json`) }
 export function useIndicator(name: string) { return useApiData<any>(`/indicators/${encodeURIComponent(name)}`) }
-export function useIndicatorList() { return useApiData<any>('/indicators.json') }
-
-// Gamification hooks (dynamic API via /api/)
-interface GamificationState {
-  data: any
-  loading: boolean
-  visitPage: () => void
-  pulse: any[]
+export function useIndicatorList() { return useApiData<any>('/data/indicators.json') }
+export function useDownloadCSV(category?: string) {
+  const url = category ? `/api/indicators.csv?category=${encodeURIComponent(category)}` : '/api/indicators.csv'
+  return () => { if (typeof window !== 'undefined') window.open(url, '_blank') }
 }
 
-export function useGamification(userId: string = 'anonymous'): GamificationState {
+export function useGamification(userId: string = 'anonymous') {
   const [data, setData] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [pulse, setPulse] = useState<any[]>([])
-
   const visitPage = () => {
-    fetch(`/api/gamification/visit/${userId}`, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({page: window.location.pathname}) })
+    fetch(`/api/gamification/visit/${encodeURIComponent(userId)}`, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({page: typeof window !== 'undefined' ? window.location.pathname : '/'}) })
       .then((res) => res.json())
       .then(setData)
       .catch(() => {})
   }
-
   useEffect(() => {
     fetch('/api/pulse.json')
       .then((res) => res.json())
       .then(setPulse)
       .catch(() => {})
       .finally(() => setLoading(false))
-  }, [])
-
+  }, [userId])
   return { data, loading, visitPage, pulse }
 }
 
-interface GamificationStatsState {
-  stats: any
-  totalUsers: number
-  avgXp: number
-  avgLevel: number
-  loading: boolean
-}
-
-export function useGamificationStats(userId: string): GamificationStatsState {
+export function useGamificationStats(userId: string) {
   const [stats, setStats] = useState<any>(null)
   const [totalUsers, setTotalUsers] = useState(0)
   const [avgXp, setAvgXp] = useState(0)
   const [avgLevel, setAvgLevel] = useState(0)
   const [loading, setLoading] = useState(true)
   useEffect(() => {
-    fetch(`/api/gamification/stats/${userId}`)
+    fetch(`/api/gamification/stats/${encodeURIComponent(userId)}`)
       .then((res) => res.json())
       .then((d) => {
         setStats(d)
@@ -95,7 +76,6 @@ export function useGamificationStats(userId: string): GamificationStatsState {
 }
 
 export function useLeaderboard() { return useApiData<any>('/gamification/leaderboard') }
-
 export function useDiagnostics() {
   const [diagnostics, setDiagnostics] = useState<any>(null)
   const [loading, setLoading] = useState(true)
