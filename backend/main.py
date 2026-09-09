@@ -67,11 +67,19 @@ def root(): return {"service": "Project Volusia API", "version": "3.0.0"}
 def health():
     db_exists = DB_PATH.exists()
     indicator_count = 0
+    categories = {}
+    empty_categories = []
+    ALL_CATEGORIES = ["Climate","Demographics","Economic","Tourism","Education","Environment","Government","Health","Housing","Safety","Transportation"]
     if db_exists:
         conn = sqlite3.connect(str(DB_PATH))
-        try: indicator_count = conn.execute("SELECT COUNT(*) FROM indicators").fetchone()[0]
+        try:
+            indicator_count = conn.execute("SELECT COUNT(*) FROM indicators").fetchone()[0]
+            cats = conn.execute("SELECT category, COUNT(*) as cnt FROM indicators GROUP BY category").fetchall()
+            categories = {row[0]: row[1] for row in cats}
+            empty_categories = [c for c in ALL_CATEGORIES if c not in categories]
         finally: conn.close()
-    return {"status": "healthy" if db_exists and indicator_count > 0 else "degraded", "db_exists": db_exists, "indicator_count": indicator_count}
+    status = "healthy" if db_exists and indicator_count > 0 and len(empty_categories) == 0 else ("degraded" if db_exists and indicator_count > 0 else "unhealthy")
+    return {"status": status, "db_exists": db_exists, "indicator_count": indicator_count, "categories": categories, "empty_categories": empty_categories}
 
 @app.get("/indicators")
 def get_indicators(category: str = Query(None), limit: int = Query(200)):

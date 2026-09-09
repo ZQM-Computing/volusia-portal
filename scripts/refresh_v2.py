@@ -296,10 +296,10 @@ def fetch_fred(series_id: str) -> Optional[dict]:
 # --- DB Sync ---
 MAPPING = {
     'US Census ACS 5-Year DP03': [
-        ('median_household_income_acs', 'medianHouseholdIncome', 'dollars', 'Economic'),
+        ('median_household_income_acs', 'medianHouseholdIncome', 'USD', 'Economic'),
         ('unemployment_rate_acs', 'unemploymentRate', 'percent', 'Economic'),
         ('poverty_rate_acs', 'povertyRate', 'percent', 'Economic'),
-        ('per_capita_income_acs', 'perCapitaIncome', 'dollars', 'Economic'),
+        ('per_capita_income_acs', 'perCapitaIncome', 'USD', 'Economic'),
     ],
     'US Census ACS 5-Year DP05': [
         ('total_population_acs', 'totalPopulation', 'persons', 'Demographics'),

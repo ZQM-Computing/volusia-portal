@@ -44,7 +44,7 @@
     {
       "name": "median_household_income_acs",
       "value": "70044",
-      "unit": "dollars",
+      "unit": "USD",
       "category": "Economic",
       "source": "US Census ACS 5-Year DP03",
       "vintage": "2024"
@@ -60,7 +60,7 @@
     {
       "name": "per_capita_income_acs",
       "value": "59259",
-      "unit": "dollars",
+      "unit": "USD",
       "category": "Economic",
       "source": "US Census ACS 5-Year DP03",
       "vintage": "2024"
