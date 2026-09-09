@@ -141,6 +141,11 @@ def fetch_census_dp05(year: int = 2024) -> Optional[dict]:
            'pctOver65': gf('DP05_0024PE'), 'pctWhiteAlone': gf('DP05_0082PE'), 'pctBlackAlone': gf('DP05_0080PE'),
            'pctAsianAlone': gf('DP05_0035PE'), 'pctHispanicLatino': gf('DP05_0114PE'), 'pctVeteran': gf('DP05_0095PE'),
            'pctForeignBorn': gf('DP05_0111PE'), 'pctBachelorsOrHigher': gf('DP05_0067PE')}
+    # Validate percent fields: if value > 100, it's a raw count; compute actual percentage
+    for pct_key in ['pctWhiteAlone', 'pctBlackAlone', 'pctAsianAlone', 'pctOver65', 'pctUnder5', 'pctUnder18', 'pctBachelorsOrHigher']:
+        val = out.get(pct_key)
+        if val is not None and val > 100 and total_pop and total_pop > 0:
+            out[pct_key] = round(val / total_pop * 100, 1)
     cache_path('census_dp05').write_text(json.dumps(out, indent=2))
     return out
 
