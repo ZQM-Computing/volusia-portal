@@ -1,13 +1,15 @@
 import { useState } from 'react'
-import { useEconomicIndicators, useDemographicIndicators, useClimateIndicators } from '../hooks/useApi'
+import { useEconomicIndicators, useDemographicIndicators, useClimateIndicators, useTourismIndicators } from '../hooks/useApi'
 import { Card, SectionTitle, Badge, DataSource, StatCard } from '../components/UI'
 import { ResponsiveLine } from '@nivo/line'
 
 export function TouristsPage() {
-  const { data: economic, loading } = useEconomicIndicators()
+  const { data: economic, loading: econLoading } = useEconomicIndicators()
   const { data: demographics } = useDemographicIndicators()
   const climate = useClimateIndicators()
   const climateIndicators = climate.data?.indicators ?? climate.data ?? null
+  const tourism = useTourismIndicators()
+  const tourismIndicators = tourism.data?.indicators ?? tourism.data ?? null
 
   const getIndicator = (items: any[] | null, name: string) => {
     if (!items) return null
@@ -16,9 +18,9 @@ export function TouristsPage() {
 
   const employment = getIndicator(economic?.indicators, 'employment_qcew')
   const avgWage = getIndicator(economic?.indicators, 'avg_weekly_wage_qcew')
-  const hotelOccupancy = getIndicator(economic?.indicators, 'hotel_occupancy_pct')
-  const avgDailyRate = getIndicator(economic?.indicators, 'avg_daily_rate')
-  const revpar = getIndicator(economic?.indicators, 'revpar')
+  const hotelOccupancy = getIndicator(tourismIndicators, 'hotel_occupancy_pct') || getIndicator(economic?.indicators, 'hotel_occupancy_pct')
+  const avgDailyRate = getIndicator(tourismIndicators, 'avg_daily_rate') || getIndicator(economic?.indicators, 'avg_daily_rate')
+  const revpar = getIndicator(tourismIndicators, 'revpar') || getIndicator(economic?.indicators, 'revpar')
   const popDensity = getIndicator(demographics?.indicators, 'total_population_acs')
 
   const annualVisitors = 12.4
@@ -32,7 +34,7 @@ export function TouristsPage() {
   ]
 
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-  const occupancyValue = getIndicator(economic?.indicators, 'hotel_occupancy_pct')
+  const occupancyValue = hotelOccupancy || getIndicator(economic?.indicators, 'hotel_occupancy_pct')
   const occupancyVal = occupancyValue ? Number(occupancyValue.value) : 51.5
   const monthlyVisitors = months.map((month, i) => ({
     month,

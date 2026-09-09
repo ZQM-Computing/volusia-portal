@@ -10,6 +10,7 @@ import { LeadersPage } from './pages/LeadersPage'
 import { GamificationPage } from './pages/GamificationPage'
 import { NewsPage } from './pages/NewsPage'
 import { NotFoundPage } from './pages/NotFoundPage'
+import { CategoryPage } from './pages/CategoryPage'
 
 export default function App() {
   return (
@@ -26,6 +27,12 @@ export default function App() {
           <Route path="/leaders" element={<LeadersPage />} />
           <Route path="/gamification" element={<GamificationPage />} />
           <Route path="/news" element={<NewsPage />} />
+          <Route path="/housing" element={<CategoryPage category="housing" />} />
+          <Route path="/education" element={<CategoryPage category="education" />} />
+          <Route path="/environment" element={<CategoryPage category="environment" />} />
+          <Route path="/public-safety" element={<CategoryPage category="public safety" />} />
+          <Route path="/transportation" element={<CategoryPage category="transportation" />} />
+          <Route path="/government-finance" element={<CategoryPage category="government finance" />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
