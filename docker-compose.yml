@@ -21,8 +21,10 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile.backend
-    ports:
-      - "8000:8000"
+    # Port 8000 intentionally NOT exposed — backend is internal-only,
+    # reached through nginx (frontend container) via Docker network.
+    # Cloudflare proxies to port 8080 (frontend/nginx).
+    # Exposing 8000 to the internet causes 502 errors and security risk.
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
       interval: 30s

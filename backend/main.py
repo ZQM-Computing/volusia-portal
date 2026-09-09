@@ -304,6 +304,12 @@ def get_categories():
     return {"categories": rows}
 
 # ==================== CONSTITUENCY-SPECIFIC ENDPOINTS ====================
+@app.get("/cvb_hotels")
+def get_cvb_hotels():
+    """Return CVB hotel data (ADR, RevPAR, occupancy)."""
+    hotels = _db_rows("SELECT * FROM cvb_hotels ORDER BY year DESC LIMIT 12")
+    return {"count": len(hotels), "cvb_hotels": hotels}
+
 @app.get("/business")
 def get_business_data():
     """Business-focused data: economic indicators, tourism, CVB hotels."""
