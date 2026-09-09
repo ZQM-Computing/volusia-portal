@@ -88,6 +88,13 @@ MISSION_CATALOG = [
         {"id":"legend","name":"Legend","desc":"Reach 50,000 total XP","xp":0},
         {"id":"founder","name":"Founder","desc":"Founding contributor since launch","xp":0},
     ]
+class SubmissionType(str, Enum):
+    KNOWLEDGE = "knowledge"
+    FINDINGS = "findings"
+    RESOURCE = "resource"
+    DATA = "data"
+    INDICATOR = "indicator"
+
 class QualityTier(str, Enum):
     VERIFIED="verified"; REVIEWED="reviewed"; PENDING="pending"; FLAGGED="flagged"
 class ContributeRequest(BaseModel):
