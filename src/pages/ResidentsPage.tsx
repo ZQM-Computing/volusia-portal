@@ -134,9 +134,9 @@ export function ResidentsPage() {
             <h4 className="font-semibold text-volusia-navy">Volusia County Government</h4>
             <p className="text-sm text-volusia-slate">Services, permits, and community resources.</p>
           </a>
-          <a href="https://www.volusia.org/public-safety" target="_blank" rel="noopener noreferrer" className="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+          <a href="https://www.volusia.org" target="_blank" rel="noopener noreferrer" className="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
             <h4 className="font-semibold text-volusia-navy">Public Safety</h4>
-            <p className="text-sm text-volusia-slate">Emergency services and safety data.</p>
+            <p className="text-sm text-volusia-slate">Emergency services and safety data — Volusia County Sheriff, Fire Rescue.</p>
           </a>
         </div>
       </Card>

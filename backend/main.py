@@ -799,13 +799,69 @@ def api_visit(user_id: str):
 
 @app.get("/api/gamification/stats/{user_id}")
 def api_stats(user_id: str):
-    """Get gamification stats for a user."""
-    return {"user_id": user_id, "level": 1, "xp": 0, "visits": 0}
+    """Get gamification stats for a user — real data from gamification DB."""
+    import sqlite3 as _sqlite3
+    gam_db = Path(__file__).resolve().parent.parent / "data" / "gamification.db"
+    if not gam_db.exists():
+        return {"user_id": user_id, "level": 1, "xp": 0, "visits": 0}
+    try:
+        conn = _sqlite3.connect(str(gam_db))
+        row = conn.execute("SELECT level, xp, visits FROM gamification WHERE user_id = ?", (user_id,)).fetchone()
+        conn.close()
+        if row:
+            return {"user_id": user_id, "level": row[0], "xp": row[1], "visits": row[2]}
+        return {"user_id": user_id, "level": 1, "xp": 0, "visits": 0}
+    except Exception:
+        return {"user_id": user_id, "level": 1, "xp": 0, "visits": 0}
 
 @app.get("/api/gamification/missions/{user_id}")
 def api_missions(user_id: str):
-    """Get active missions for a user."""
-    return {"user_id": user_id, "missions": []}
+    """Get active missions for a user — real data from contributor file."""
+    import json as _json
+    gam_dir = Path(__file__).resolve().parent.parent / "data" / "gamification"
+    fpath = gam_dir / f"{user_id}.json"
+    all_missions = [
+        {"id":"first_spark","name":"First Spark","xp":50},
+        {"id":"streak_7","name":"Streak 7","xp":100},
+        {"id":"streak_30","name":"Streak 30","xp":250},
+        {"id":"verified","name":"Verified Contributor","xp":200},
+        {"id":"data_steward","name":"Data Steward","xp":300},
+        {"id":"sector_pioneer","name":"Sector Pioneer","xp":400},
+        {"id":"community_voice","name":"Community Voice","xp":150},
+        {"id":"analyst","name":"Analyst","xp":0},
+        {"id":"architect","name":"Architect","xp":0},
+        {"id":"data_architect","name":"Data Architect","xp":400},
+        {"id":"researcher","name":"Researcher","xp":500},
+        {"id":"governor","name":"Governor","xp":350},
+        {"id":"community_builder","name":"Community Builder","xp":600},
+        {"id":"source_master","name":"Source Master","xp":450},
+        {"id":"quality_guardian","name":"Quality Guardian","xp":300},
+        {"id":"mentor","name":"Mentor","xp":250},
+        {"id":"explorer_visit","name":"Explorer Visit","xp":30},
+        {"id":"legacy_builder","name":"Legacy Builder","xp":1000},
+        {"id":"business_expert","name":"Business Expert","xp":350},
+        {"id":"community_champion","name":"Community Champion","xp":350},
+        {"id":"visitor_insights","name":"Visitor Insights","xp":350},
+        {"id":"industry_leader","name":"Industry Leader","xp":400},
+        {"id":"multi_constituency","name":"Multi-Constituency","xp":500},
+        {"id":"code_committer","name":"Code Commiter","xp":300},
+        {"id":"infrastructure_builder","name":"Infrastructure Builder","xp":400},
+        {"id":"ci_cd_contributor","name":"CI/CD Contributor","xp":450},
+        {"id":"test_contributor","name":"Test Contributor","xp":350},
+        {"id":"doc_contributor","name":"Documentation Contributor","xp":250},
+        {"id":"review_contributor","name":"Review Contributor","xp":300},
+        {"id":"visionary","name":"Visionary","xp":0},
+    ]
+    if not fpath.exists():
+        return {"user_id": user_id, "missions": all_missions, "missions_earned": 0, "total_missions": len(all_missions)}
+    try:
+        state = _json.loads(fpath.read_text())
+        earned = state.get("mission_flags", {}).get("earned", [])
+        for m in all_missions:
+            m["status"] = "earned" if m["id"] in earned else "available"
+        return {"user_id": user_id, "missions": all_missions, "missions_earned": len(earned), "total_missions": len(all_missions)}
+    except Exception:
+        return {"user_id": user_id, "missions": all_missions, "missions_earned": 0, "total_missions": len(all_missions)}
 
 @app.get("/api/gamification/pulse")
 def api_gamification_pulse():
@@ -816,6 +872,25 @@ def api_gamification_pulse():
 def api_gamification_state(contributor_id: str):
     """Get gamification state for a contributor."""
     return {"contributor_id": contributor_id, "state": {}}
+
+@app.get("/gamification")
+def gamification_root():
+    """Gamification hub — returns available endpoints and summary."""
+    return {
+        "service": "Project Volusia Gamification",
+        "endpoints": {
+            "/gamification/missions/{contributor_id}": "Get mission status for a contributor",
+            "/gamification/badges/{contributor_id}": "Get badges and reputation",
+            "/api/gamification/stats/{user_id}": "Get gamification stats (API)",
+            "/api/gamification/missions/{user_id}": "Get missions (API)",
+            "/api/gamification/pulse": "Get pulse data",
+            "/api/gamification/state/{contributor_id}": "Get contributor state",
+            "/api/contribute": "Submit data contribution",
+            "/api/contributor": "Get contributor profile",
+        },
+        "total_missions": 30,
+        "tiers": ["Explorer", "Contributor", "Steward", "Architect"],
+    }
 
 @app.get("/api/keys")
 def list_api_keys():
