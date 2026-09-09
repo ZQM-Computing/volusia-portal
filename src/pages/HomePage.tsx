@@ -107,7 +107,7 @@ export function HomePage() {
                 changeLabel={avgWage ? `Avg wkly $${avgWage.value}` : undefined}
               />
               <StatCard
-                value={personalIncome ? `$${fmtNum(personalIncome.value)}` : '—'}
+                value={personalIncome ? `$${fmtNum(Number(personalIncome.value) / 1000)}B` : '—'}
                 label="Personal Income"
                 change={temp && !isNaN(Number(temp.value)) ? Number(temp.value) : undefined}
                 changeLabel={temp ? `Avg max temp ${temp.value}°C` : undefined}
