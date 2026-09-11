@@ -19,6 +19,12 @@ function useApiData<T>(endpoint: string) {
   return { data, loading, error, refetch: fetchData }
 }
 
+// Category → cache file name mapping (cache files use kebab-case,
+// but category names use spaces — map so routes resolve)
+function categoryToCacheFile(category: string): string {
+  return category.toLowerCase().replace(/\s+/g, '-')
+}
+
 export function useAllIndicators() { return useApiData<any>('/data/indicators.json') }
 export function useEconomicIndicators() { return useApiData<any>('/data/economic.json') }
 export function useDemographicIndicators() { return useApiData<any>('/data/demographics.json') }
@@ -29,7 +35,10 @@ export function useMapLayers() { return useApiData<any>('/data/map-layers.json')
 export function useNews() { return useApiData<any>('/data/news.json') }
 export function useHealth() { return useApiData<any>('/data/health.json') }
 export function useStakeholderGroups() { return useApiData<any>('/data/stakeholders.json') }
-export function useIndicatorsByCategory(category: string) { return useApiData<any>(`/data/${encodeURIComponent(category.toLowerCase())}.json`) }
+export function useIndicatorsByCategory(category: string) {
+  const key = categoryToCacheFile(category)
+  return useApiData<any>(`/data/${encodeURIComponent(key)}.json`)
+}
 export function useIndicator(name: string) { return useApiData<any>(`/indicators/${encodeURIComponent(name)}`) }
 export function useIndicatorList() { return useApiData<any>('/data/indicators.json') }
 export function useDownloadCSV(category?: string) {

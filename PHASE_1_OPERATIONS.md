@@ -84,7 +84,7 @@ charter can be tested against reality.
 | R02 | Stakeholders unreachable for interviews | MEDIUM | MEDIUM | Use proxies (CVB, chambers); document unreachability | Research Lead | OPEN |
 | R03 | Data sources restructure again mid-Q4 | HIGH | MEDIUM | Build scrapers defensively; cache raw data immediately | Technical Lead | OPEN |
 | R04 | Scope creep from "interesting" data sources | HIGH | MEDIUM | Strict Q4 plan adherence; new sources go to backlog | Executive Sponsor | OPEN |
-| R05 | Single-person bandwidth constraint (ZQM Labs = 1 person) | HIGH | HIGH | Agent swarm for monitoring; defer non-critical work | Executive Sponsor | OPEN |
+| R05 | Single-person bandwidth constraint (ZQM Computing = 1 person) | HIGH | HIGH | Agent swarm for monitoring; defer non-critical work | Executive Sponsor | OPEN |
 | R06 | Portal security vulnerability when made public | LOW | HIGH | Security review before external release; no PII in portal | Technical Lead | OPEN |
 | R07 | Stakeholder input contradicts charter assumptions | MEDIUM | LOW | Document contradictions; feed into Q1 review | Research Lead | OPEN |
 | R08 | Open-source publication triggers legal review | LOW | MEDIUM | Use permissive licenses; document provenance before release | Executive Sponsor | OPEN |

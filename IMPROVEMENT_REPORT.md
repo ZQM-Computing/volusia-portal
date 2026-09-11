@@ -8,7 +8,7 @@
 
 Project Volusia is a full-stack data portal for Volusia County, FL: FastAPI backend (Python 3.11) + React/Vite/Tailwind/TypeScript frontend, deployed via Docker. This run audited the entire codebase, identified 30 issues across backend routes, frontend hooks, Docker config, CI, and data pipeline, fixed all of them, and verified end-to-end.
 
-**Result:** 17/17 backend endpoints return 200, 123 indicators in 14 categories, 6 CVB hotel records, 7/7 backend tests pass, frontend builds cleanly with zero TypeScript errors, CI workflow expanded to 4 jobs.
+**Result:** 17/17 backend endpoints return 200, 48 indicators in 11 categories, 6 CVB hotel records, 7/7 backend tests pass, frontend builds cleanly with zero TypeScript errors, CI workflow expanded to 4 jobs.
 
 ---
 
@@ -84,21 +84,18 @@ The gamification module was already in good shape from the prior session's fixes
 - Writes JSON cache files for all frontend hooks: indicators.json, economic.json, demographics.json, climate.json, health.json, equity.json, housing.json, population.json, business.json, news.json, stakeholders.json, datasets.json, map-layers.json, cvb-hotels.json
 - Runs refresh_cron.py if present
 
-### Categories seeded (123 indicators total)
-- Economic: 20 (income, employment, wages, poverty, unemployment)
-- Demographics: 16 (population, age, households, density, foreign-born)
-- Health: 15 (life expectancy, obesity, diabetes, uninsured, PCPs)
-- Equity: 13 (Gini index, racial disparities in income/poverty/homeownership/unemployment)
-- Population: 10 (age breakdown, growth rate, migration, dependency ratio, urban/rural)
-- Business: 11 (establishments, employment, payroll, small business share, formation rate, industry mix)
-- Tourism: 7 (visitor volume, ADR, RevPAR, occupancy, room nights)
-- Climate: 6 (temp, precipitation, sunny days, hardiness zone)
-- Housing: 7 (median value, rent, units, vacancy, ownership rate)
-- Education: 9 (graduation rate, bachelor's, teacher salary, pupil ratio)
-- Government: 6 (tax revenue, spending, debt per capita)
-- Public Safety: (from prior seed data)
-- Environment: (from prior seed data)
-- Transportation: (from prior seed data)
+### Categories seeded
+- Economic: 13
+- Demographics: 8
+- Housing: 4
+- Transportation: 3
+- Tourism: 3
+- Safety: 3
+- Health: 3
+- Environment: 3
+- Education: 3
+- Climate: 3
+- Government: 2
 
 ### Verification
 ```
@@ -107,7 +104,7 @@ $ python scripts/refresh_v2.py
 [refresh_v2] Seeded 48 indicators across 11 categories
 [refresh_v2] Completed at 2026-09-09T19:25:30.767116+00:00
 ```
-Exit code 0. DB now has 130 indicators (was 46 before).
+Exit code 0. DB now has 48 indicators across 11 categories.
 
 ---
 
@@ -305,12 +302,12 @@ Additional issues found after the governance sweep:
 5. **`.pytest_cache/` not gitignored** — test artifacts shouldn't be tracked.
 6. **`nginx/.hermes-tmp.PbeDsH` tracked** — temp file from nginx config edit. 1 file removed from tracking.
 7. **`CONTRIBUTING.md` security email wrong** — `security@zqm-computing.io` should be `zqmcomputing@gmail.com`.
-8. **`CONTRIBUTING.md` development section claims `npm test`** — no such script. Backend tests use `pytest`.
+9. **`CONTRIBUTING.md` development section references `npm test`** — already fixed: CONTRIBUTING.md now says `pytest tests/`.
 9. **`CONNECTION.md` references stale backend info** — `192.168.1.226:8789`, `volusia-portal-backend` repo, and `transfer.zqmlabs.com` no longer exist. All replaced by this monorepo.
-10. **`Dockerfile` copies entire `data/` folder** — `COPY --from=build /app/data /usr/share/nginx/html/data` includes every `.db` file in the nginx image. Should be `COPY --from=build /app/data/*.json` to ship only static assets.
+10. **`Dockerfile` copies entire `data/` folder** — already fixed: Dockerfile now uses `COPY --from=build /app/data/*.json` to ship only static assets, not DB files.
 11. **`API_KEYS.md` advises wrong Docker command** — says `docker compose down && docker compose up -d` but should be `docker compose stop && docker compose start` to preserve container state.
-12. **`README.md` stale indicator counts** — says "26+ indicators across 4 categories" but DB now has 123 indicators in 14 categories. Also says "See CONNECTION.md for deployment" but CONNECTION.md was stale.
-13. **README.md deployment section is empty stub** — `# Deployment` header with no content, just a pointer to a stale CONNECTION.md.
+12. **`README.md` stale indicator counts** — says "26+ indicators across 4 categories" but DB has 48 indicators in 11 categories.
+13. **README.md deployment section is empty stub** — `# Deployment` header with no content, just a pointer to CONNECTION.md.
 
 ---
 

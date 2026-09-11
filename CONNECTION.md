@@ -86,7 +86,7 @@
                               ▼
 ┌─────────────────────────────────────────────────────────────────┐
 │              SQLite Database (data/volusia.db)                   │
-│              123 indicators, 14 categories, 6 CVB hotel records       │
+│              48 indicators, 11 categories, 6 CVB hotel records       │
 └─────────────────────────────────────────────────────────────────┘
                               │
                               ├─────────────────────────────────────┐

@@ -12,13 +12,13 @@
 2. `/api/gamification/stats/{user_id}` — now queries gamification DB instead of hardcoded values
 3. `/api/gamification/missions/{user_id}` — returns full mission list with status from contributor file
 4. Broken external link `volusia.org/public-safety` → `volusia.org` (was 404)
-5. Footer dead links `zqm-labs.github.io/ZQM-Labs/` and `zqm-computing.github.io/ZQM-Computing/` → `github.com/ZQM-Computing`
+5. Footer dead links fixed — `github.com/ZQM-Computing`
 6. Pre-existing TS errors fixed (Skeleton, EmptyState, ErrorState components added)
 7. Stale uvicorn restart fixed 404s on /data/public-safety and /data/government-finance
 
 ## Data Coverage
-- Populated: Economic (13), Demographics (8), Climate (3), Tourism (3), Housing (3), Education (4), Environment (2), Public Safety (2), Transportation (3), Government Finance (2), Health (5) = 48 total
-- Empty (need data): Government Finance = 1 category
+20|- Populated: Economic (13), Demographics (8), Climate (3), Tourism (3), Housing (3), Education (4), Environment (2), Public Safety (3), Transportation (3), Government Finance (2), Health (3) = 48 total
+21|- Empty (need data): none — all 11 categories populated
 
 ## Known Issues
 - 7 empty categories need data population

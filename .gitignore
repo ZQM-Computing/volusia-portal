@@ -4,6 +4,9 @@ backend/*.log
 
 # Cache
 backend/data/cache/
+backend/data/gamification/
+backend/data/*.db
+backend/data/*.sqlite*
 
 # Scripts (optional — keep or remove)
 .probe.ps1
@@ -20,6 +23,7 @@ ux-audit-plan.md
 # DB
 volusia.db
 data/volusia.db
+backend/data/volusia.db
 
 # Build output
 dist/
