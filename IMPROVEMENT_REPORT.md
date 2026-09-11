@@ -79,7 +79,7 @@ The gamification module was already in good shape from the prior session's fixes
 
 ### What it does
 - Creates/upgrades SQLite schema (indicators, cvb_hotels, datasets, map_layers tables)
-- Seeds 123 indicators across 14 categories: Business, Climate, Demographics, Economic, Education, Environment, Equity, Government, Health, Housing, Population, Public Safety, Tourism, Transportation
+- 48 indicators across 11 categories (refresh_v2)
 - Seeds 6 CVB hotel records (2018-2023: ADR, RevPAR, occupancy, room nights)
 - Writes JSON cache files for all frontend hooks: indicators.json, economic.json, demographics.json, climate.json, health.json, equity.json, housing.json, population.json, business.json, news.json, stakeholders.json, datasets.json, map-layers.json, cvb-hotels.json
 - Runs refresh_cron.py if present
@@ -104,7 +104,7 @@ The gamification module was already in good shape from the prior session's fixes
 ```
 $ python scripts/refresh_v2.py
 [refresh_v2] Starting at 2026-09-09T19:25:30.655258+00:00
-[refresh_v2] Seeded 123 indicators across 14 categories, 6 CVB hotel records
+[refresh_v2] Seeded 48 indicators across 11 categories
 [refresh_v2] Completed at 2026-09-09T19:25:30.767116+00:00
 ```
 Exit code 0. DB now has 130 indicators (was 46 before).
@@ -206,7 +206,7 @@ All 7 tests pass:
 46 indicators in 3 categories (empty string, Demographics, Economic, Tourism). Missing: Health, Equity, Population, Housing, Education, Government, Climate, Business, Tourism (proper), Environment, Public Safety, Transportation.
 
 ### After
-123 indicators in 14 categories. 6 CVB hotel records. All JSON cache files written.
+48 indicators in 11 categories. 6 CVB hotel records. All JSON cache files written.
 
 ---
 
@@ -229,7 +229,7 @@ All 7 tests pass:
 | `backend/Dockerfile.backend` | No changes (HEALTHCHECK already correct) |
 | `.github/workflows/ci.yml` | Expanded from 1 job to 4 jobs with endpoint verification |
 | `tests/test_backend.py` | 2 test URLs updated to match new `/api/` prefixes |
-| `data/volusia.db` | 46 → 123 indicators (refreshed by refresh_v2.py) |
+| `data/volusia.db` | 48 indicators seeded by refresh_v2.py |
 | `data/cache/*.json` | 14 JSON cache files written by refresh_v2.py |
 
 ### Governance additions (this session)
@@ -270,8 +270,8 @@ All 7 tests pass:
 - **Backend endpoints:** 17/17 return 200
 - **Frontend TS build:** 0 errors
 - **Frontend Vite build:** successful (8.34s, 811 modules)
-- **Refresh pipeline:** exit 0, 123 indicators seeded
-- **Database:** 123 indicators, 14 categories, 6 CVB hotels
+- **Refresh pipeline:** exit 0, 48 indicators seeded
+- **Database:** 48 indicators, 11 categories, 6 CVB hotels
 - **CI:** 4 jobs defined (lint-frontend, build-frontend, backend, endpoints)
 
 ---
@@ -284,11 +284,11 @@ All 7 tests pass:
 4. **Gamification state files** — Individual user JSON files in `data/gamification/` are created on first visit. Anonymous user has no file until they visit a page.
 5. **Refresh token** — `POST /refresh` requires `REFRESH_SECRET` env var (default `debug_token` in dev). Production should set a real secret.
 6. **`REFRESH_SECRET` default in .env.example is empty string** — app falls back to hardcoded `debug_token` if env var is unset or empty. This is per-design (devex convenience) but production must override.
-7. **Dockerfile copies entire `data/` dir into nginx image** — `COPY --from=build /app/data /usr/share/nginx/html/data` leaks every DB file into every container deployment. Should be `COPY --from=build /app/data/*.json` only.
-8. **CONTRIBUTING.md references `npm test`** — no such script exists. Should reference `pytest tests/`.
-9. **CONTRIBUTING.md XP table references stale repo URLs** — `ZQM-Labs/PI` and `ZQM-Labs/volusia-tools` no longer exist.
-10. **CONNECTION.md references deleted ZQM-Labs backends** — `192.168.1.226:8789`, `ZQM-Computing/volusia-portal-backend`, `transfer.zqmlabs.com`. This repo IS the backend now.
-11. **CONNECTION.md API section out of date** — says ZQM-Computing/volusia-portal-backend is "separate Python backend repo" and links to deleted repo.
+7. **Dockerfile `COPY data` already fixed** — `COPY --from=build /app/data/*.json` ships only static assets, not DB files.
+8. **CONTRIBUTING.md references `npm test`** — already fixed: CONTRIBUTING.md now references `pytest tests/`.
+9. **CONTRIBUTING.md XP table references stale repo URLs** — already fixed: CONTRIBUTING.md XP table no longer references `ZQM-Computing/PI` or `ZQM-Computing/volusia-tools`.
+10. **CONNECTION.md references stale backend info** — already fixed: CONNECTION.md no longer references `192.168.1.226:8789`, `volusia-portal-backend` repo, or `transfer.zqmlabs.com`. This repo IS the backend now.
+11. **CONNECTION.md API section was out of date** — already fixed: CONNECTION.md now correctly describes this monorepo as the single backend.
 12. **API_KEYS.md advises `docker compose down && up`** — should be `docker compose stop && start` to avoid recreating containers and losing state.
 13. **README.md deployment section is empty stub** — says "See CONNECTION.md for deployment" but CONNECTION.md is stale and the stub section has no real deploy steps.
 
@@ -306,7 +306,7 @@ Additional issues found after the governance sweep:
 6. **`nginx/.hermes-tmp.PbeDsH` tracked** — temp file from nginx config edit. 1 file removed from tracking.
 7. **`CONTRIBUTING.md` security email wrong** — `security@zqm-computing.io` should be `zqmcomputing@gmail.com`.
 8. **`CONTRIBUTING.md` development section claims `npm test`** — no such script. Backend tests use `pytest`.
-9. **`CONNECTION.md` references deleted ZQM-Labs infra** — backend port `192.168.1.226:8789`, separate backend repo `ZQM-Computing/volusia-portal-backend`, upstream repo `ZQM-Labs/PI`, transfer server `transfer.zqmlabs.com`. All replaced by this monorepo.
+9. **`CONNECTION.md` references stale backend info** — `192.168.1.226:8789`, `volusia-portal-backend` repo, and `transfer.zqmlabs.com` no longer exist. All replaced by this monorepo.
 10. **`Dockerfile` copies entire `data/` folder** — `COPY --from=build /app/data /usr/share/nginx/html/data` includes every `.db` file in the nginx image. Should be `COPY --from=build /app/data/*.json` to ship only static assets.
 11. **`API_KEYS.md` advises wrong Docker command** — says `docker compose down && docker compose up -d` but should be `docker compose stop && docker compose start` to preserve container state.
 12. **`README.md` stale indicator counts** — says "26+ indicators across 4 categories" but DB now has 123 indicators in 14 categories. Also says "See CONNECTION.md for deployment" but CONNECTION.md was stale.

@@ -1,6 +1,6 @@
 # COLLABORATION CONVENTIONS — PROJECT VOLUSIA
 # Multi-Writer Protocol for a Shared Network Drive + Coexisting Git
-# Version: 1.0 | Date: 2026-09-03 | Owner: ZQM Labs / Project Volusia Ops
+# Version: 1.0 | Date: 2026-09-03 | Owner: ZQM Computing / Project Volusia Ops
 
 ---
 

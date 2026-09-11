@@ -1,7 +1,7 @@
 PUBLIC DATA SOURCE RECON — VOLUSIA COUNTY, FL
 ==============================================
 Project Volusia — Open Data Inventory
-ZQM Labs / Project Volusia
+# ZQM Computing / Project Volusia
 
 Version: 1.0
 Date: 2026-09-02

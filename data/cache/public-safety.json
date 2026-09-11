@@ -1,0 +1,41 @@
+{
+  "count": 3,
+  "indicators": [
+    {
+      "id": 335,
+      "name": "property_crime_rate",
+      "value": null,
+      "unit": "per 100k",
+      "category": "Safety",
+      "source": "FBI UCR",
+      "source_url": "https://ucr.fbi.gov",
+      "vintage": "2024",
+      "fetched_at": null,
+      "description": "Property crime rate per 100,000 population"
+    },
+    {
+      "id": 336,
+      "name": "traffic_fatality_rate",
+      "value": null,
+      "unit": "per 100m_vmt",
+      "category": "Safety",
+      "source": "NHTSA",
+      "source_url": "https://www.nhtsa.gov",
+      "vintage": "2024",
+      "fetched_at": null,
+      "description": "Traffic fatality rate per 100 million vehicle miles traveled"
+    },
+    {
+      "id": 334,
+      "name": "violent_crime_rate",
+      "value": null,
+      "unit": "per 100k",
+      "category": "Safety",
+      "source": "FBI UCR",
+      "source_url": "https://ucr.fbi.gov",
+      "vintage": "2024",
+      "fetched_at": null,
+      "description": "Violent crime rate per 100,000 population"
+    }
+  ]
+}

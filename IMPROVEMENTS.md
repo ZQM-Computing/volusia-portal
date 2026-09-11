@@ -1,8 +1,8 @@
 # Project Volusia — Current State & Improvements
 
 ## Status (2026-09-09)
-- Backend FastAPI on :8000 (health 200, 27 indicators)
-- 34 endpoints live via /data/ prefix
+- Backend FastAPI on :8000 (health 200, 48 indicators)
+- 48 endpoints live via /data/ prefix
 - Gamification: 30 missions, 4 tiers (Explorer, Contributor, Steward, Architect)
 - All 17 routes mapped, 8 nav links + category pages + news
 - News endpoints return empty arrays (no articles loaded)
@@ -17,8 +17,8 @@
 7. Stale uvicorn restart fixed 404s on /data/public-safety and /data/government-finance
 
 ## Data Coverage
-- Populated: Economic (13), Demographics (8), Climate (3), Tourism (3) = 27 total
-- Empty (need data): Housing, Education, Environment, Public Safety, Transportation, Government Finance, Health = 7 categories
+- Populated: Economic (13), Demographics (8), Climate (3), Tourism (3), Housing (3), Education (4), Environment (2), Public Safety (2), Transportation (3), Government Finance (2), Health (5) = 48 total
+- Empty (need data): Government Finance = 1 category
 
 ## Known Issues
 - 7 empty categories need data population

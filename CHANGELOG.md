@@ -46,7 +46,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Full gamification system: XP, levels, badges, leaderboards, missions
-- 130 economic indicators across 14 categories
+- 48 economic indicators across 11 categories
 - CVB hotel directory, stakeholder listings
 - Interactive map with 18 layers
 - Docker Compose + Dockerfile.backend with HEALTHCHECK

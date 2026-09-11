@@ -176,7 +176,7 @@ python scripts/refresh_v2.py
 
 This:
 1. Creates/upgrades the SQLite schema
-2. Seeds 130 indicators across 14 categories
+2. Seeds 48 indicators across 11 categories
 3. Seeds 6 CVB hotel records
 4. Writes 14 JSON cache files for frontend hooks
 
@@ -216,8 +216,7 @@ See `.env.example` for the template.
 | Service | URL | Description |
 |---------|-----|-------------|
 | Frontend | https://volusia.zqmlabs.com | Static React portal (GitHub Pages) |
-| Backend API | https://volusia.zqmlabs.com/api | JSON API (nginx proxy) |
-| Backend Portal | http://localhost:8000 | Direct (development only) |
+- **Backend API** | https://volusia.zqmlabs.com/api | JSON API (nginx proxy) |
 | GitHub Repo | https://github.com/ZQM-Computing/volusia-portal | This repo |
 
 ---

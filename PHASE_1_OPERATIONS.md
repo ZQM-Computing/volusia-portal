@@ -25,26 +25,26 @@ charter can be tested against reality.
 
 | SOURCE | CLAIMED ACCESS | ACTUAL STATUS | VERIFIED DATE | VERIFIED BY |
 |--------|---------------|---------------|---------------|-------------|
-| Census ACS 5-Year (DP03/DP05) | API, no key | REQUIRES KEY (302 redirect) | 2026-09-03 | ZQM Labs |
-| Census PEP | Not mentioned in charters | WORKS (no key) | 2026-09-03 | ZQM Labs |
-| BLS LAUS | API, no key | REQUIRES KEY (403) | 2026-09-03 | ZQM Labs |
-| BLS QCEW | CSV download | WORKS (no key) | 2026-09-03 | ZQM Labs |
-| BEA Regional (CAINC1) | API, no key | REQUIRES KEY | 2026-09-03 | ZQM Labs |
-| NOAA NCEI | Not in charters | WORKS (no key) | 2026-09-03 | ZQM Labs |
-| Zillow ZHVI/ZORI | Direct download | PATH CHANGED (404) | 2026-09-03 | ZQM Labs |
-| Realtor.com | County-level data | NATIONAL ONLY | 2026-09-03 | ZQM Labs |
-| Volusia Property Appraiser | Public parcel data | TIMEOUT (blocks bots) | 2026-09-03 | ZQM Labs |
-| FDOT Traffic | Direct download | 404 (site restructured) | 2026-09-03 | ZQM Labs |
-| VOTRAN Ridership | PDF reports | 404 | 2026-09-03 | ZQM Labs |
-| FCC Broadband Map | API access | 403 (browser only) | 2026-09-03 | ZQM Labs |
-| STR Hotel Data | Summary reports public | GATED (paid sub) | 2026-09-03 | ZQM Labs |
-| FEMA Flood Maps | API search | 404 (endpoint changed) | 2026-09-03 | ZQM Labs |
-| CDC PLACES | API | 404 | 2026-09-03 | ZQM Labs |
-| FL DOH CHARTS | Direct access | 302 redirect | 2026-09-03 | ZQM Labs |
-| County Health Rankings | API | 404 | 2026-09-03 | ZQM Labs |
-| FL School Report Cards | Direct download | 403 | 2026-09-03 | ZQM Labs |
-| Volusia County ACFR | PDF on site | 200 (found in nav) | 2026-09-03 | ZQM Labs |
-| USGS Water Data | Direct API | 301 redirect | 2026-09-03 | ZQM Labs |
+|| Census ACS 5-Year (DP03/DP05) | API, no key | REQUIRES KEY (302 redirect) | 2026-09-03 | ZQM Computing |
+|| Census PEP | Not mentioned in charters | WORKS (no key) | 2026-09-03 | ZQM Computing |
+|| BLS LAUS | API, no key | REQUIRES KEY (403) | 2026-09-03 | ZQM Computing |
+|| BLS QCEW | CSV download | WORKS (no key) | 2026-09-03 | ZQM Computing |
+|| BEA Regional (CAINC1) | API, no key | REQUIRES KEY | 2026-09-03 | ZQM Computing |
+|| NOAA NCEI | Not in charters | WORKS (no key) | 2026-09-03 | ZQM Computing |
+|| Zillow ZHVI/ZORI | Direct download | PATH CHANGED (404) | 2026-09-03 | ZQM Computing |
+|| Realtor.com | County-level data | NATIONAL ONLY | 2026-09-03 | ZQM Computing |
+|| Volusia Property Appraiser | Public parcel data | TIMEOUT (blocks bots) | 2026-09-03 | ZQM Computing |
+|| FDOT Traffic | Direct download | 404 (site restructured) | 2026-09-03 | ZQM Computing |
+|| VOTRAN Ridership | PDF reports | 404 | 2026-09-03 | ZQM Computing |
+|| FCC Broadband Map | API access | 403 (browser only) | 2026-09-03 | ZQM Computing |
+|| STR Hotel Data | Summary reports public | GATED (paid sub) | 2026-09-03 | ZQM Computing |
+|| FEMA Flood Maps | API search | 404 (endpoint changed) | 2026-09-03 | ZQM Computing |
+|| CDC PLACES | API | 404 | 2026-09-03 | ZQM Computing |
+|| FL DOH CHARTS | Direct access | 302 redirect | 2026-09-03 | ZQM Computing |
+|| County Health Rankings | API | 404 | 2026-09-03 | ZQM Computing |
+|| FL School Report Cards | Direct download | 403 | 2026-09-03 | ZQM Computing |
+|| Volusia County ACFR | PDF on site | 200 (found in nav) | 2026-09-03 | ZQM Computing |
+|| USGS Water Data | Direct API | 301 redirect | 2026-09-03 | ZQM Computing |
 
 **Summary:** Of 20 sources tested, 3 work as claimed (15%), 4 need free API keys (20%),
 4 are blocked/restructured (20%), 9 are missing/gated/inaccessible (45%).
@@ -468,9 +468,9 @@ Response:
 
 | DATE | DOCUMENT | CHANGE | AUTHOR | APPROVED BY |
 |------|----------|--------|--------|-------------|
-| 2026-09-03 | PHASE_1_OPERATIONS.md (this file) | Created | ZQM Labs | Alex Zelenski |
-| 2026-09-03 | DATA_ASSET_AUDIT_VOLUSIA.md | Added "Verified vs. Claimed" summary | ZQM Labs | Alex Zelenski |
-| 2026-09-03 | BUILD_REPORT.md | Added "Known Issues Registry" | ZQM Labs | Alex Zelenski |
+|| 2026-09-03 | PHASE_1_OPERATIONS.md (this file) | Created | ZQM Computing | Alex Zelenski |
+|| 2026-09-03 | DATA_ASSET_AUDIT_VOLUSIA.md | Added "Verified vs. Claimed" summary | ZQM Computing | Alex Zelenski |
+|| 2026-09-03 | BUILD_REPORT.md | Added "Known Issues Registry" | ZQM Computing | Alex Zelenski |
 
 ---
 

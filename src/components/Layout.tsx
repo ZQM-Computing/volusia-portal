@@ -156,7 +156,7 @@ export function Footer() {
             <h3 className="text-xl font-bold mb-2 text-volusia-gold">Project Volusia</h3>
             <p className="text-gray-300 text-sm leading-relaxed max-w-md">
               Open-source intelligence and data-driven decision-making for Volusia County, Florida.
-              Built by ZQM Labs. Serving business owners, residents, tourists, and industry movers.
+              Built by ZQM Computing. Serving business owners, residents, tourists, and industry movers.
             </p>
           </div>
           <div>
@@ -178,7 +178,7 @@ export function Footer() {
           </div>
         </div>
         <div className="border-t border-gray-700 mt-8 pt-8 text-center text-sm text-gray-400">
-          &copy; 2026 ZQM Labs / ZQM Computing. Released under MIT License. Source available on GitHub.
+          &copy; 2026 ZQM Computing. Released under MIT License. Source available on GitHub.
         </div>
       </div>
     </footer>

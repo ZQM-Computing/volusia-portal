@@ -236,7 +236,6 @@
       "unit": "employees",
       "category": "Economic",
       "source": "BLS QCEW",
-<<<<<<< HEAD
       "vintage": "2024"
     },
     {
@@ -254,30 +253,6 @@
       "category": "Economic",
       "source": "US Census ACS 5-Year DP03",
       "vintage": "2024"
-||||||| parent of f297c8b (Improve: fix stale ZQM-Labs refs, route mismatches, test discovery, CI checklist; verify 123 indicators/6 CVB hotels)
-      "vintage": "2024"
-    },
-    {
-      "name": "establishments_qcew",
-      "value": "16756",
-      "unit": "establishments",
-      "category": "Economic",
-      "source": "BLS QCEW",
-      "vintage": "2024"
-    },
-    {
-      "name": "median_household_income_acs",
-      "value": "70044",
-      "unit": "dollars",
-      "category": "Economic",
-      "source": "US Census ACS 5-Year DP03",
-      "vintage": "2024"
-=======
-      "source_url": "https://data.bls.gov/cew/data/files/2024/csv/2024_annual_singlefile.zip",
-      "vintage": "2024",
-      "fetched_at": "2026-09-03T12:29:23.955411+00:00",
-      "description": "BLS QCEW annual avg employment"
->>>>>>> f297c8b (Improve: fix stale ZQM-Labs refs, route mismatches, test discovery, CI checklist; verify 123 indicators/6 CVB hotels)
     },
     {
       "id": 10,

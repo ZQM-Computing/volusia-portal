@@ -1,6 +1,6 @@
 # DATA ASSET AUDIT — VOLUSIA COUNTY, FL (FIPS 12127)
 # Project Volusia — Phase 1 Foundation Deliverable
-# Date: 2026-09-03 | Auditor: ZQM Labs
+# Date: 2026-09-03 | Auditor: ZQM Computing
 
 ---
 
@@ -413,5 +413,5 @@ MANUAL/SCRAPING REQUIRED:   16+ sources
 6. Load first 5 indicators into baseline portal
 7. Then move to stakeholder interviews (parallel work)
 
-Document owner: ZQM Labs / Project Volusia
+Document owner: ZQM Computing / Project Volusia
 Next review: 2026-12-02

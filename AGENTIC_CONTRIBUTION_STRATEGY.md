@@ -9,8 +9,8 @@
 # Project Volusia knowledge system — the governance, pathways,
 # lifecycle, incentives, and guardrails that make the system durable.
 #
-# Context: Project Volusia is a ZQM Labs initiative (Q4 2026–2027).
-# ZQM Labs is a one-person operation (Alex Zelenski, zqmco) armed with a
+# Context: Project Volusia is a ZQM Computing initiative (Q4 2026–2027).
+# ZQM Computing is a one-person operation (Alex Zelenski, zqmco) armed with a
 # swarm of AI agents and high-powered tools, software, and computing
 # technologies. The goal is to make the products of those tools widely
 # available to Volusia County — not as a black-box AI output, but as

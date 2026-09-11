@@ -267,7 +267,7 @@ relational dimension of the existing strategic framework.
 
 - **STRATEGIC_FOCUS_Q4_2026_2027.md:** This declaration covers the
   family and connection mission within the same single-focus
-  period. ZQM Labs' resources serve both commerce and connection.
+  period. ZQM Computing's resources serve both commerce and connection.
 
 - **PRIORITY_TRADEOFFS.md:** The existing tradeoffs stand. This
   charter adds one more: connection indicators alongside economic

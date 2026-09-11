@@ -1,0 +1,29 @@
+{
+  "count": 2,
+  "indicators": [
+    {
+      "id": 326,
+      "name": "government_employment_pct",
+      "value": null,
+      "unit": "percent",
+      "category": "Government",
+      "source": "US Census ACS 5-Year DP03",
+      "source_url": "https://data.census.gov",
+      "vintage": "ACS 2023",
+      "fetched_at": null,
+      "description": "Government employment percentage"
+    },
+    {
+      "id": 325,
+      "name": "government_spending_per_capita",
+      "value": null,
+      "unit": "USD",
+      "category": "Government",
+      "source": "US Census ACS 5-Year DP03",
+      "source_url": "https://data.census.gov",
+      "vintage": "ACS 2023",
+      "fetched_at": null,
+      "description": "Government spending per capita"
+    }
+  ]
+}
