@@ -4,9 +4,29 @@
 
 ---
 
+## 🌐 Domains Served
+
+| Domain | Repo | Branch | Purpose |
+|--------|------|--------|---------|
+| **zqmlabs.com** | `ZQM-Computing/zqmlabs-website` | `master` | Primary portal — services, data, gamification |
+| **www.zqmlabs.com** | `ZQM-Computing/zqmlabs-website` | `master` | Same as zqmlabs.com (canonical) |
+| **data.zqmlabs.com** | `ZQM-Computing/zqmlabs-website` | `master` | Same repo — static data pages |
+| **docs.zqmlabs.com** | `ZQM-Computing/zqmlabs-website` | `master` | Same repo — documentation |
+| **volusia.zqmlabs.com** | `ZQM-Labs/volusia-zqmlabs` | `main` | Backend data pipeline (separate repo) |
+| **api.zqmlabs.com** | `ZQM-Labs/volusia-zqmlabs` | `main` | Backend API (separate repo) |
+
+**Domain-to-repo naming rule**: Each repo name contains its primary domain.
+`zqmlabs-website` serves `zqmlabs.com`. `volusia-zqmlabs` serves
+`volusia.zqmlabs.com`.
+
+---
+
 ## Overview
 
-`zqmlabs-website` is the **React + Vite + TypeScript** frontend that serves [zqmlabs.com](https://zqmlabs.com). It is the public-facing web application for ZQM Computing — advertising our services and connecting to other ZQM offerings including Project Volusia, quantum simulation, and more.
+`zqmlabs-website` is the **React + Vite + TypeScript** frontend that serves
+[zqmlabs.com](https://zqmlabs.com). It is the public-facing web application
+for ZQM Computing — advertising our services and connecting to other ZQM
+offerings including Project Volusia, quantum simulation, and more.
 
 ### Architecture
 
@@ -22,23 +42,43 @@
 │         └─────┬─────┴────┬─────┘                        │
 │               │          │                               │
 │               ▼          ▼                               │
-│    zqmlabs-website     volusia-zqmlabs                          │
-│    (React)        (FastAPI)                            │
+│    zqmlabs-website     volusia-zqmlabs                     │
+│    (React: src/)    (FastAPI: backend/)                   │
+│    repo: ZQM-Computing/  repo: ZQM-Labs/                 │
+│           zqmlabs-website         volusia-zqmlabs         │
 └─────────────────────────────────────────────────────────┘
+```
+
+### Domain → Repo → Branch Mapping
+
+```
+zqmlabs.com ──▶ ZQM-Computing/zqmlabs-website ──▶ master branch
+                              │
+                              ├── React SPA (src/) → static HTML
+                              ├── FastAPI backend (backend/) → :8000
+                              ├── Gamification (gamification/) → /missions
+                              └── Data pages (data/) → /data/{category}
+
+volusia.zqmlabs.com ──▶ ZQM-Labs/volusia-zqmlabs ──▶ main branch
+                                    │
+                                    └── FastAPI backend → :8000
+                                            ├── 50+ indicators
+                                            ├── 474 records in volusia.db
+                                            └── Gamification engine
 ```
 
 ---
 
 ## Quick Links
 
-| Resource | URL |
-|----------|-----|
-| **Live Portal** | https://zqmlabs.com |
-| **Backend API** | https://zqmlabs.com/api |
-| **Backend Repo** | https://github.com/ZQM-Labs/volusia-zqmlabs |
-| **Live Data** | https://zqmlabs.com/data |
-| **Gamification** | https://zqmlabs.com/missions |
-| **Connection Guide** | [DEPLOY.md](DEPLOY.md) |
+| Resource | URL | Repo |
+|----------|-----|------|
+| **Live Portal** | https://zqmlabs.com | `ZQM-Computing/zqmlabs-website` |
+| **Backend API** | https://api.zqmlabs.com | `ZQM-Labs/volusia-zqmlabs` |
+| **Backend Repo** | https://github.com/ZQM-Labs/volusia-zqmlabs | `volusia-zqmlabs` |
+| **Live Data** | https://zqmlabs.com/data | `ZQM-Computing/zqmlabs-website` |
+| **Gamification** | https://zqmlabs.com/missions | `ZQM-Computing/zqmlabs-website` |
+| **Connection Guide** | [DEPLOY.md](DEPLOY.md) | — |
 
 ---
 
@@ -56,90 +96,46 @@
 
 ```
 zqmlabs-website/
-├── src/
-│   ├── components/     # React components
-│   ├── hooks/          # Custom React hooks
-│   ├── pages/          # Page components (Hero, Data, Missions, etc.)
-│   ├── types/          # TypeScript type definitions
-│   ├── utils/          # Utility functions
-│   ├── App.tsx         # Main App component
-│   └── main.tsx        # Entry point
-├── index.html          # HTML entry point
-├── package.json        # React + Vite + TypeScript dependencies
-├── vite.config.ts      # Vite build configuration
-├── tailwind.config.js  # Tailwind CSS configuration
-├── tsconfig.json       # TypeScript configuration
-├── Dockerfile          # Frontend Docker container
-└── docker-compose.yml  # Docker Compose orchestration
+├── src/                    # React components and pages
+├── backend/                # FastAPI backend (serves :8000)
+├── data/                   # Static data pages (served by nginx)
+├── public/                 # Static assets
+├── nginx/                  # nginx configuration
+├── scripts/                # Deployment and utility scripts
+├── docs/                   # Documentation
+├── tests/                  # Test suite
+├── package.json            # React dependencies
+├── vite.config.ts          # Vite build config
+├── Dockerfile              # Multi-stage Docker build
+├── docker-compose.yml      # Docker Compose orchestration
+├── deploy.py               # Automated deployment pipeline
+└── README.md               # This file
 ```
 
 ---
 
 ## Development
 
-### Prerequisites
-
-- Node.js 18+
-- npm
-
-### Frontend Setup
-
+### Local Setup
 ```bash
 # Install dependencies
 npm install
 
-# Development server
+# Start React dev server
 npm run dev
 
-# Build for production
-npm run build
-
-# Preview production build
-npm run preview
+# Start backend
+cd backend && uvicorn main:app --host 0.0.0.0 --port 8000
 ```
 
-### Deployment
-
-The `deploy.py` script automates the full pipeline:
-1. Backend data refresh
-2. Static page generation
-3. React frontend build
-4. Nginx sync and restart
-5. Endpoint verification (21 endpoints)
-
+### Deploy
 ```bash
-# Full deploy
 python scripts/deploy.py
-
-# Skip static generation (React-only)
-python scripts/deploy.py --skip-generate
-
-# Skip restart
-python scripts/deploy.py --skip-restart
 ```
-
----
-
-## API Integration
-
-The frontend proxies API requests to the backend via nginx:
-
-| Frontend Path | Backend Endpoint | Description |
-|---------------|-----------------|-------------|
-| `/data/indicators.json` | `GET /indicators` | All indicators |
-| `/data/latest.json` | `GET /latest` | Latest data |
-| `/data/{category}/` | `GET /data/{category}` | Category data |
-
----
-
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
-
-ZQM-Computing is focused on building the ZQM company portal and connecting ZQM services. Project Volusia is one flagship initiative.
 
 ---
 
 ## License
 
-MIT License — see [LICENSE](LICENSE).
+MIT — see [LICENSE](LICENSE)
+
