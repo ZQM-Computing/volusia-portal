@@ -33,3 +33,22 @@ __pycache__/
 
 # Windows reserved filenames
 nullogs/
+
+# Additions from ZQM cleanup (not in upstream):
+*.tmp
+*.bak
+.pytest_cache/
+.venv/
+venv/
+.env
+.env.*
+data/api_keys.json
+*.pem
+*.key
+*.p12
+*.pfx
+data/backups/
+nginx/.hermes-tmp.*
+data/gamification/
+
+.hermes/

@@ -1,69 +1,281 @@
 {
-  "count": 8,
+  "count": 23,
   "indicators": [
     {
-      "name": "median_age_acs",
-      "value": "46.5",
+      "id": 356,
+      "name": "Average Household Size",
+      "value": "2.31",
+      "unit": "persons",
+      "category": "Demographics",
+      "source": "US Census ACS 5-Year DP05",
+      "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.182216+00:00",
+      "description": "Average household size"
+    },
+    {
+      "id": 358,
+      "name": "Foreign-Born Population",
+      "value": "6.0",
+      "unit": "%",
+      "category": "Demographics",
+      "source": "US Census ACS 5-Year DP05",
+      "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.184216+00:00",
+      "description": "Percentage of population that is foreign-born"
+    },
+    {
+      "id": 354,
+      "name": "Median Age",
+      "value": "44.9",
       "unit": "years",
       "category": "Demographics",
       "source": "US Census ACS 5-Year DP05",
-      "vintage": "2024"
+      "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.180034+00:00",
+      "description": "Median age of the population"
     },
     {
+      "id": 357,
+      "name": "Owner-Occupied Housing Rate",
+      "value": "68.2",
+      "unit": "%",
+      "category": "Demographics",
+      "source": "US Census ACS 5-Year DP05",
+      "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.183216+00:00",
+      "description": "Percentage of occupied housing units that are owner-occupied"
+    },
+    {
+      "id": 353,
+      "name": "Population Density",
+      "value": "487.3",
+      "unit": "per sq mi",
+      "category": "Demographics",
+      "source": "US Census ACS 5-Year DP05",
+      "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.177034+00:00",
+      "description": "Population per square mile of land area"
+    },
+    {
+      "id": 355,
+      "name": "Total Households",
+      "value": "234848",
+      "unit": "households",
+      "category": "Demographics",
+      "source": "US Census ACS 5-Year DP05",
+      "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.181216+00:00",
+      "description": "Total households"
+    },
+    {
+      "id": 352,
+      "name": "Total Population",
+      "value": "559570",
+      "unit": "persons",
+      "category": "Demographics",
+      "source": "Census PEP",
+      "source_url": "https://www.census.gov/programs-surveys/popest.html",
+      "vintage": "2024",
+      "fetched_at": "2026-09-09T23:37:38.176042+00:00",
+      "description": "Total county population estimate"
+    },
+    {
+      "id": 47,
       "name": "pct_bachelors_or_higher_acs",
-      "value": 40.0,
+      "value": "40.0",
       "unit": "percent",
       "category": "Demographics",
       "source": "US Census ACS 5-Year DP05",
-      "vintage": "2024"
+      "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2024.DP05",
+      "vintage": "2024",
+      "fetched_at": "2026-09-07T23:00:54.350840",
+      "description": "pct_bachelors_or_higher_acs from US Census ACS 5-Year DP05"
     },
     {
+      "id": 45,
       "name": "pct_over_65_acs",
       "value": "25.4",
       "unit": "percent",
       "category": "Demographics",
       "source": "US Census ACS 5-Year DP05",
-      "vintage": "2024"
+      "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2024.DP05",
+      "vintage": "2024",
+      "fetched_at": "2026-09-07T23:00:54.317906",
+      "description": "pct_over_65_acs from US Census ACS 5-Year DP05"
     },
     {
+      "id": 46,
       "name": "pct_white_alone_acs",
-      "value": 68.6,
+      "value": "0.579",
       "unit": "percent",
       "category": "Demographics",
       "source": "US Census ACS 5-Year DP05",
-      "vintage": "2024"
+      "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2024.DP05",
+      "vintage": "2024",
+      "fetched_at": "2026-09-07T23:00:54.333919",
+      "description": "pct_white_alone_acs from US Census ACS 5-Year DP05"
     },
     {
-      "name": "total_population_acs",
-      "value": "579622",
-      "unit": "persons",
-      "category": "Demographics",
-      "source": "US Census ACS 5-Year DP05",
-      "vintage": "2024"
-    },
-    {
+      "id": 3,
       "name": "total_population_pep_2022",
       "value": "580529",
       "unit": "persons",
       "category": "Demographics",
       "source": "Census PEP",
-      "vintage": "2022"
+      "source_url": "https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/counties/totals/co-est2025-alldata.csv",
+      "vintage": "2022",
+      "fetched_at": "2026-09-03T12:29:02.649682+00:00",
+      "description": "Census PEP county population estimate, July 1 2022"
     },
     {
+      "id": 2,
       "name": "total_population_pep_2023",
       "value": "591936",
       "unit": "persons",
       "category": "Demographics",
       "source": "Census PEP",
-      "vintage": "2023"
+      "source_url": "https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/counties/totals/co-est2025-alldata.csv",
+      "vintage": "2023",
+      "fetched_at": "2026-09-03T12:29:02.580876+00:00",
+      "description": "Census PEP county population estimate, July 1 2023"
     },
     {
+      "id": 1,
       "name": "total_population_pep_2024",
       "value": "601107",
       "unit": "persons",
       "category": "Demographics",
       "source": "Census PEP",
-      "vintage": "2024"
+      "source_url": "https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/counties/totals/co-est2025-alldata.csv",
+      "vintage": "2024",
+      "fetched_at": "2026-09-03T12:29:02.538579+00:00",
+      "description": "Census PEP county population estimate, July 1 2024"
+    },
+    {
+      "id": 402,
+      "name": "Dependency Ratio",
+      "value": "62.8",
+      "unit": "ratio",
+      "category": "Population",
+      "source": "US Census ACS 5-Year DP05",
+      "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.246556+00:00",
+      "description": "Dependency ratio (population under 18 + 65+ divided by population 18-64, times 100)"
+    },
+    {
+      "id": 372,
+      "name": "Median Age (Volusia County)",
+      "value": "45.2",
+      "unit": "years",
+      "category": "Population",
+      "source": "US Census ACS 5-Year DP05",
+      "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.241417+00:00",
+      "description": "Median age of Volusia County residents"
+    },
+    {
+      "id": 401,
+      "name": "Natural Increase Rate",
+      "value": "0.4",
+      "unit": "%",
+      "category": "Population",
+      "source": "Census PEP",
+      "source_url": "https://www.census.gov/programs-surveys/popest.html",
+      "vintage": "2024",
+      "fetched_at": "2026-09-09T23:37:38.244437+00:00",
+      "description": "Natural increase rate (births minus deaths, percent change)"
+    },
+    {
+      "id": 400,
+      "name": "Net Migration Rate",
+      "value": "0.7",
+      "unit": "%",
+      "category": "Population",
+      "source": "Census PEP",
+      "source_url": "https://www.census.gov/programs-surveys/popest.html",
+      "vintage": "2024",
+      "fetched_at": "2026-09-09T23:37:38.243417+00:00",
+      "description": "Net migration rate (percent change)"
+    },
+    {
+      "id": 397,
+      "name": "Population 18-64",
+      "value": "51.5",
+      "unit": "%",
+      "category": "Population",
+      "source": "US Census ACS 5-Year DP05",
+      "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.240420+00:00",
+      "description": "Percentage of population aged 18-64"
+    },
+    {
+      "id": 403,
+      "name": "Population Density (Volusia County)",
+      "value": "487.3",
+      "unit": "per sq mi",
+      "category": "Population",
+      "source": "US Census ACS 5-Year DP05",
+      "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.247434+00:00",
+      "description": "Population per square mile of land area"
+    },
+    {
+      "id": 399,
+      "name": "Population Growth Rate (Annual)",
+      "value": "1.1",
+      "unit": "%",
+      "category": "Population",
+      "source": "Census PEP",
+      "source_url": "https://www.census.gov/programs-surveys/popest.html",
+      "vintage": "2024",
+      "fetched_at": "2026-09-09T23:37:38.242419+00:00",
+      "description": "Annual population growth rate (percent change)"
+    },
+    {
+      "id": 396,
+      "name": "Population Under 5",
+      "value": "5.3",
+      "unit": "%",
+      "category": "Population",
+      "source": "US Census ACS 5-Year DP05",
+      "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.239409+00:00",
+      "description": "Percentage of population under 5 years"
+    },
+    {
+      "id": 405,
+      "name": "Rural Population",
+      "value": "69.8",
+      "unit": "%",
+      "category": "Population",
+      "source": "US Census ACS 5-Year DP05",
+      "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.249822+00:00",
+      "description": "Percentage of population living in rural areas"
+    },
+    {
+      "id": 404,
+      "name": "Urban Population",
+      "value": "30.2",
+      "unit": "%",
+      "category": "Population",
+      "source": "US Census ACS 5-Year DP05",
+      "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.248434+00:00",
+      "description": "Percentage of population living in urban areas"
     }
   ]
 }

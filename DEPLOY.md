@@ -27,8 +27,8 @@
 
 ```bash
 # Clone repository
-git clone https://github.com/ZQM-Labs/project-volusia.git
-cd project-volusia
+git clone https://github.com/ZQM-Computing/volusia-portal.git
+cd volusia-portal
 
 # Create virtual environment
 python -m venv venv
@@ -63,14 +63,14 @@ python -m volusia_data.portal_app
 # Download NSSM from https://nssm.cc/
 # Install portal as service
 nssm install ProjectVolusiaPortal "C:\Python311\python.exe" "-m volusia_data.portal_app"
-nssm set ProjectVolusiaPortal AppDirectory "C:\Users\zqmco\project-volusia\Tools"
+nssm set ProjectVolusiaPortal AppDirectory "C:\Users\zqmco\volusia-portal\Tools"
 nssm set ProjectVolusiaPortal DisplayName "Project Volusia Portal"
 nssm set ProjectVolusiaPortal Description "Open intelligence for Volusia County"
 nssm start ProjectVolusiaPortal
 
 # Install contribution API as service
 nssm install ProjectVolusiaAPI "C:\Python311\python.exe" "-m volusia_data.contribution_api"
-nssm set ProjectVolusiaAPI AppDirectory "C:\Users\zqmco\project-volusia\Tools"
+nssm set ProjectVolusiaAPI AppDirectory "C:\Users\zqmco\volusia-portal\Tools"
 nssm start ProjectVolusiaAPI
 ```
 
@@ -78,7 +78,7 @@ nssm start ProjectVolusiaAPI
 
 ```powershell
 # Create scheduled task for portal
-$action = New-ScheduledTaskAction -Execute "python.exe" -Argument "-m volusia_data.portal_app" -WorkingDirectory "C:\Users\zqmco\project-volusia\Tools"
+$action = New-ScheduledTaskAction -Execute "python.exe" -Argument "-m volusia_data.portal_app" -WorkingDirectory "C:\Users\zqmco\volusia-portal\Tools"
 $trigger = New-ScheduledTaskTrigger -AtStartup
 $settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries
 Register-ScheduledTask -TaskName "ProjectVolusiaPortal" -Action $action -Trigger $trigger -Settings $settings -RunLevel Highest
@@ -110,8 +110,8 @@ sc start ProjectVolusiaPortal
 
 ```powershell
 cd C:\inetpub
-git clone https://github.com/ZQM-Labs/project-volusia.git
-cd project-volusia
+git clone https://github.com/ZQM-Computing/volusia-portal.git
+cd volusia-portal
 pip install -r requirements.txt
 ```
 
@@ -127,7 +127,7 @@ Install-WindowsFeature Web-Server, Web-CGI
 <configuration>
   <system.webServer>
     <handlers>
-      <add name="PythonHandler" path="*" verb="*" modules="CgiModule" scriptProcessor="C:\Python311\python.exe|C:\inetpub\project-volusia\Tools\volusia_data\portal_app.py" resourceType="Unspecified" />
+      <add name="PythonHandler" path="*" verb="*" modules="CgiModule" scriptProcessor="C:\Python311\python.exe|C:\inetpub\volusia-portal\Tools\volusia_data\portal_app.py" resourceType="Unspecified" />
     </handlers>
   </system.webServer>
 </configuration>
@@ -148,8 +148,8 @@ New-NetFirewallRule -DisplayName "Project Volusia Portal" -Direction Inbound -Pr
 
 ```powershell
 # Start as background jobs
-Start-Job -ScriptBlock { cd C:\inetpub\project-volusia\Tools; python -m volusia_data.portal_app }
-Start-Job -ScriptBlock { cd C:\inetpub\project-volusia\Tools; python -m volusia_data.contribution_api }
+Start-Job -ScriptBlock { cd C:\inetpub\volusia-portal\Tools; python -m volusia_data.portal_app }
+Start-Job -ScriptBlock { cd C:\inetpub\volusia-portal\Tools; python -m volusia_data.contribution_api }
 ```
 
 ### Linux (Ubuntu/Debian)
@@ -165,8 +165,8 @@ sudo apt install python3.11 python3.11-venv python3-pip nginx
 
 ```bash
 cd /opt
-sudo git clone https://github.com/ZQM-Labs/project-volusia.git
-cd project-volusia
+sudo git clone https://github.com/ZQM-Computing/volusia-portal.git
+cd volusia-portal
 python3.11 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
@@ -185,9 +185,9 @@ After=network.target
 Type=simple
 User=www-data
 Group=www-data
-WorkingDirectory=/opt/project-volusia/Tools
-Environment=PATH=/opt/project-volusia/venv/bin
-ExecStart=/opt/project-volusia/venv/bin/python -m volusia_data.portal_app
+WorkingDirectory=/opt/volusia-portal/Tools
+Environment=PATH=/opt/volusia-portal/venv/bin
+ExecStart=/opt/volusia-portal/venv/bin/python -m volusia_data.portal_app
 Restart=always
 RestartSec=10
 
@@ -197,14 +197,14 @@ EOF
 
 # Enable and start
 sudo systemctl daemon-reload
-sudo systemctl enable project-volusia
-sudo systemctl start project-volusia
+sudo systemctl enable volusia-portal
+sudo systemctl start volusia-portal
 ```
 
 #### 4. Configure Nginx Reverse Proxy
 
 ```bash
-sudo tee /etc/nginx/sites-available/project-volusia > /dev/null <<EOF
+sudo tee /etc/nginx/sites-available/volusia-portal > /dev/null <<EOF
 server {
     listen 80;
     server_name volusia.zqmlabs.com;
@@ -223,7 +223,7 @@ server {
 }
 EOF
 
-sudo ln -s /etc/nginx/sites-available/project-volusia /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/volusia-portal /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl restart nginx
 ```
@@ -248,8 +248,8 @@ aws ec2 run-instances \
 # Connect and setup
 ssh -i my-key.pem ec2-user@<public-ip>
 sudo yum install python3.11 git
-git clone https://github.com/ZQM-Labs/project-volusia.git
-cd project-volusia
+git clone https://github.com/ZQM-Computing/volusia-portal.git
+cd volusia-portal
 pip3.11 install -r requirements.txt
 python3.11 -m volusia_data.portal_app
 ```
@@ -258,7 +258,7 @@ python3.11 -m volusia_data.portal_app
 
 ```json
 {
-  "family": "project-volusia",
+  "family": "volusia-portal",
   "containerDefinitions": [
     {
       "name": "portal",
@@ -283,16 +283,16 @@ az group create --name ProjectVolusia --location eastus
 
 # Create App Service
 az webapp create \
-  --name project-volusia \
+  --name volusia-portal \
   --resource-group ProjectVolusia \
   --plan myAppServicePlan \
   --runtime "PYTHON:3.11"
-
-# Deploy
-az webapp deployment source config \
-  --name project-volusia \
+ 
+ # Deploy
+ az webapp deployment source config \
+   --name volusia-portal \
   --resource-group ProjectVolusia \
-  --repo-url https://github.com/ZQM-Labs/project-volusia.git \
+  --repo-url https://github.com/ZQM-Computing/volusia-portal.git \
   --branch main
 ```
 
@@ -300,14 +300,14 @@ az webapp deployment source config \
 
 ```bash
 # Create instance
-gcloud compute instances create project-volusia \
+gcloud compute instances create volusia-portal \
   --machine-type e2-micro \
   --image-family ubuntu-2204-lts \
   --image-project ubuntu-os-cloud \
   --tags http-server
 
 # Deploy
-gcloud compute ssh project-volusia --command "git clone https://github.com/ZQM-Labs/project-volusia.git && cd project-volusia && pip install -r requirements.txt"
+gcloud compute ssh volusia-portal --command "git clone https://github.com/ZQM-Computing/volusia-portal.git && cd volusia-portal && pip install -r requirements.txt"
 ```
 
 ---

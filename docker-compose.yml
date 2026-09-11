@@ -26,15 +26,21 @@ services:
     # Cloudflare proxies to port 8080 (frontend/nginx).
     # Exposing 8000 to the internet causes 502 errors and security risk.
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
       interval: 30s
       timeout: 15s
-      retries: 5
+      retries: 3
       start_period: 60s
     volumes:
-      - ./data:/app/data
+      - type: bind
+        source: ./logs
+        target: /app/logs
+      - type: bind
+        source: ./data
+        target: /app/data
     environment:
       - PYTHONPATH=/app
+      - REFRESH_V2_PATH=/app/scripts/refresh_v2.py
 
   # Optional: SearXNG for self-hosted search
   searxng:

@@ -7,7 +7,18 @@ on:
     branches: [master]
 
 jobs:
-  build:
+  lint-frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm ci
+      - run: npx tsc --noEmit
+      - run: npm run lint
+
+  build-frontend:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -16,4 +27,91 @@ jobs:
           node-version: '20'
       - run: npm ci
       - run: npm run build
-      - run: npx tsc --noEmit
+
+  backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Backend — install + lint + test
+        run: |
+          cd backend
+          python -m pip install -r requirements.txt
+          python -m ruff check . --select E,F,W,I,N,UP,B,C4,SIM
+          python -m pytest tests/ -v --tb=short
+
+  endpoints:
+    runs-on: ubuntu-latest
+    needs: [backend]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify all API endpoints respond
+        run: |
+          cd backend
+          python -m pip install -r requirements.txt
+          python - <<'PY'
+          import sys
+          sys.path.insert(0, ".")
+          from main import app
+          from fastapi.testclient import TestClient
+          client = TestClient(app)
+          endpoints = [
+              ("/", 200),
+              ("/health", 200),
+              ("/api/indicators", 200),
+              ("/indicators/median_household_income_acs", 200),
+              ("/datasets", 200),
+              ("/map-layers", 200),
+              ("/api/cvb_hotels", 200),
+              ("/api/business", 200),
+              ("/api/residents", 200),
+              ("/api/tourists", 200),
+              ("/api/leaders", 200),
+              ("/api/news.json", 200),
+              ("/api/pulse.json", 200),
+              ("/api/diagnostics", 200),
+              ("/api/health.json", 200),
+              ("/api/stakeholders.json", 200),
+              ("/api/refresh", 200),
+              ("/api/indicators.csv", 200),
+              ("/api/gamification/state/anonymous", 200),
+              ("/api/gamification/leaderboard", 200),
+              ("/api/gamification/missions/anonymous", 200),
+              ("/api/gamification/badges/anonymous", 200),
+              ("/api/contributor", 200),
+              ("/api/fetch-status", 200),
+              ("/api/indicators/search?q=income", 200),
+              ("/api/indicators/stats", 200),
+              ("/api/export/csv", 200),
+          ]
+          failed = []
+          for path, expected in endpoints:
+              r = client.get(path)
+              if r.status_code != expected:
+                  failed.append(f"{path}: got {r.status_code}, expected {expected}")
+          if failed:
+              print("FAILURES:")
+              for f in failed:
+                  print(f"  {f}")
+              sys.exit(1)
+          print(f"All {len(endpoints)} endpoints OK")
+          PY
+
+  secrets-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Detect secrets in committed files
+        run: |
+          git log --all --format=%H | while read commit; do
+            git diff-tree --no-commit-id --name-only -r "$commit" | while read file; do
+              if git show "$commit:$file" 2>/dev/null | grep -E '(?i)(api[_-]?key|secret|credential|password|token|PRIVATE KEY|BEGIN RSA)' | grep -v '^Binary'; then
+                echo "POTENTIAL SECRET in $file at commit $commit"
+              fi
+            done
+          done || true

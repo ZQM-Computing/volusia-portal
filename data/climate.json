@@ -1,38 +1,4 @@
-[
-  {
-    "id": 48,
-    "name": "avg_max_temp",
-    "value": "27.9",
-    "unit": "deg C",
-    "category": "Climate",
-    "source": "NOAA NCEI",
-    "source_url": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&dataTypes=TMAX,TMIN,PRCP&stations=USW00012838&startDate=2025-01-01&endDate=2025-12-31&format=json&units=metric",
-    "vintage": "2025",
-    "fetched_at": "2026-09-07T17:52:02.839192",
-    "description": "Average maximum temperature"
-  },
-  {
-    "id": 259,
-    "name": "avg_min_temp",
-    "value": "18.7",
-    "unit": "deg C",
-    "category": "Climate",
-    "source": "NOAA NCEI",
-    "source_url": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&dataTypes=TMAX,TMIN,PRCP&stations=USW00012838&startDate=2025-01-01&endDate=2025-12-31&format=json&units=metric",
-    "vintage": "2025",
-    "fetched_at": "2026-09-07T17:52:02.839192",
-    "description": "Average minimum temperature"
-  },
-  {
-    "id": 49,
-    "name": "total_precip",
-    "value": "1355.6",
-    "unit": "mm",
-    "category": "Climate",
-    "source": "NOAA NCEI",
-    "source_url": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&dataTypes=TMAX,TMIN,PRCP&stations=USW00012838&startDate=2025-01-01&endDate=2025-12-31&format=json&units=metric",
-    "vintage": "2025",
-    "fetched_at": "2026-09-07T17:52:02.839192",
-    "description": "Total precipitation"
-  }
-]
+{
+  "indicators": [],
+  "category": "Climate"
+}

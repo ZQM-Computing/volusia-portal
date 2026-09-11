@@ -79,7 +79,7 @@ export function GamificationPage() {
           <div className="stat-label">Day Streak</div>
         </div>
         <div className="stat-card">
-          <div className="stat-value">{leaderboard?.length || 0}</div>
+          <div className="stat-value">{leaderboard?.leaderboard?.length ?? 0}</div>
           <div className="stat-label">Leaderboard Entries</div>
         </div>
       </div>
@@ -106,7 +106,7 @@ export function GamificationPage() {
 
       <SectionTitle title="Leaderboard" subtitle="Top explorers by XP" />
       <Card>
-        {leaderboard && leaderboard.length > 0 ? (
+        {leaderboard?.leaderboard && leaderboard.leaderboard.length > 0 ? (
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-gray-200">
@@ -117,7 +117,7 @@ export function GamificationPage() {
               </tr>
             </thead>
             <tbody>
-              {leaderboard.map((entry: any, i: number) => (
+              {leaderboard?.leaderboard?.map((entry: any, i: number) => (
                 <tr key={entry.user_id} className="border-b border-gray-100 hover:bg-gray-50">
                   <td className="py-3 px-4 font-bold text-volusia-teal">{i + 1}</td>
                   <td className="py-3 px-4">{entry.user_id}</td>

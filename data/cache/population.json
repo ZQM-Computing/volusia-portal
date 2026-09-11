@@ -1,0 +1,125 @@
+{
+  "count": 10,
+  "indicators": [
+    {
+      "id": 402,
+      "name": "Dependency Ratio",
+      "value": "62.8",
+      "unit": "ratio",
+      "category": "Population",
+      "source": "US Census ACS 5-Year DP05",
+      "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.246556+00:00",
+      "description": "Dependency ratio (population under 18 + 65+ divided by population 18-64, times 100)"
+    },
+    {
+      "id": 372,
+      "name": "Median Age (Volusia County)",
+      "value": "45.2",
+      "unit": "years",
+      "category": "Population",
+      "source": "US Census ACS 5-Year DP05",
+      "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.241417+00:00",
+      "description": "Median age of Volusia County residents"
+    },
+    {
+      "id": 401,
+      "name": "Natural Increase Rate",
+      "value": "0.4",
+      "unit": "%",
+      "category": "Population",
+      "source": "Census PEP",
+      "source_url": "https://www.census.gov/programs-surveys/popest.html",
+      "vintage": "2024",
+      "fetched_at": "2026-09-09T23:37:38.244437+00:00",
+      "description": "Natural increase rate (births minus deaths, percent change)"
+    },
+    {
+      "id": 400,
+      "name": "Net Migration Rate",
+      "value": "0.7",
+      "unit": "%",
+      "category": "Population",
+      "source": "Census PEP",
+      "source_url": "https://www.census.gov/programs-surveys/popest.html",
+      "vintage": "2024",
+      "fetched_at": "2026-09-09T23:37:38.243417+00:00",
+      "description": "Net migration rate (percent change)"
+    },
+    {
+      "id": 397,
+      "name": "Population 18-64",
+      "value": "51.5",
+      "unit": "%",
+      "category": "Population",
+      "source": "US Census ACS 5-Year DP05",
+      "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.240420+00:00",
+      "description": "Percentage of population aged 18-64"
+    },
+    {
+      "id": 403,
+      "name": "Population Density (Volusia County)",
+      "value": "487.3",
+      "unit": "per sq mi",
+      "category": "Population",
+      "source": "US Census ACS 5-Year DP05",
+      "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.247434+00:00",
+      "description": "Population per square mile of land area"
+    },
+    {
+      "id": 399,
+      "name": "Population Growth Rate (Annual)",
+      "value": "1.1",
+      "unit": "%",
+      "category": "Population",
+      "source": "Census PEP",
+      "source_url": "https://www.census.gov/programs-surveys/popest.html",
+      "vintage": "2024",
+      "fetched_at": "2026-09-09T23:37:38.242419+00:00",
+      "description": "Annual population growth rate (percent change)"
+    },
+    {
+      "id": 396,
+      "name": "Population Under 5",
+      "value": "5.3",
+      "unit": "%",
+      "category": "Population",
+      "source": "US Census ACS 5-Year DP05",
+      "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.239409+00:00",
+      "description": "Percentage of population under 5 years"
+    },
+    {
+      "id": 405,
+      "name": "Rural Population",
+      "value": "69.8",
+      "unit": "%",
+      "category": "Population",
+      "source": "US Census ACS 5-Year DP05",
+      "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.249822+00:00",
+      "description": "Percentage of population living in rural areas"
+    },
+    {
+      "id": 404,
+      "name": "Urban Population",
+      "value": "30.2",
+      "unit": "%",
+      "category": "Population",
+      "source": "US Census ACS 5-Year DP05",
+      "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.248434+00:00",
+      "description": "Percentage of population living in urban areas"
+    }
+  ]
+}

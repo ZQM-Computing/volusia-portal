@@ -1,0 +1,77 @@
+{
+  "pulse": [
+    {
+      "indicator_id": "adult_obesity_pct",
+      "name": "Adult Obesity Pct",
+      "direction": "stable",
+      "delta_pct": 0,
+      "current_value": 28.5,
+      "category": "",
+      "vintage": "2023"
+    },
+    {
+      "indicator_id": "avg_max_temp",
+      "name": "Avg Max Temp",
+      "direction": "stable",
+      "delta_pct": 0,
+      "current_value": 29.4,
+      "category": "",
+      "vintage": "2024"
+    },
+    {
+      "indicator_id": "avg_min_temp",
+      "name": "Avg Min Temp",
+      "direction": "stable",
+      "delta_pct": 0,
+      "current_value": 18.2,
+      "category": "",
+      "vintage": "2024"
+    },
+    {
+      "indicator_id": "avg_weekly_wage_qcew",
+      "name": "Avg Weekly Wage Qcew",
+      "direction": "up",
+      "delta_pct": 3.0,
+      "current_value": 872.0,
+      "category": "",
+      "vintage": "2024-Q3"
+    },
+    {
+      "indicator_id": "bed_tax_revenue_millions",
+      "name": "Bed Tax Revenue Millions",
+      "direction": "stable",
+      "delta_pct": 0,
+      "current_value": 14.2,
+      "category": "",
+      "vintage": "2024"
+    },
+    {
+      "indicator_id": "days_with_precip",
+      "name": "Days With Precip",
+      "direction": "up",
+      "delta_pct": 12.0,
+      "current_value": 108.0,
+      "category": "",
+      "vintage": "2024"
+    },
+    {
+      "indicator_id": "diabetes_pct",
+      "name": "Diabetes Pct",
+      "direction": "stable",
+      "delta_pct": 0,
+      "current_value": 12.1,
+      "category": "",
+      "vintage": "2023"
+    },
+    {
+      "indicator_id": "establishments_qcew",
+      "name": "Establishments Qcew",
+      "direction": "up",
+      "delta_pct": 0.0,
+      "current_value": 12450.0,
+      "category": "",
+      "vintage": "2024-Q3"
+    }
+  ],
+  "generated_at": "2026-09-09T19:03:11.615227+00:00"
+}

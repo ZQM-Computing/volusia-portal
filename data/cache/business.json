@@ -1,4 +1,137 @@
 {
-  "count": 0,
-  "indicators": []
+  "count": 11,
+  "indicators": [
+    {
+      "id": 411,
+      "name": "Business Formation Rate",
+      "value": "2.87",
+      "unit": "%",
+      "category": "Business",
+      "source": "Census Business Formation Statistics",
+      "source_url": "https://www.census.gov/programs-surveys/bfs.html",
+      "vintage": "2024-01",
+      "fetched_at": "2026-09-09T23:37:38.256001+00:00",
+      "description": "New business applications per 10,000 adults"
+    },
+    {
+      "id": 412,
+      "name": "Industry Mix \u2014 Accommodation and Food Services",
+      "value": "32.5",
+      "unit": "%",
+      "category": "Business",
+      "source": "Census County Business Patterns",
+      "source_url": "https://www.census.gov/programs-surveys/cbp.html",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.257030+00:00",
+      "description": "Percentage of total employment in Accommodation and Food Services sector"
+    },
+    {
+      "id": 415,
+      "name": "Industry Mix \u2014 Construction",
+      "value": "8.7",
+      "unit": "%",
+      "category": "Business",
+      "source": "Census County Business Patterns",
+      "source_url": "https://www.census.gov/programs-surveys/cbp.html",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.260111+00:00",
+      "description": "Percentage of total employment in Construction sector"
+    },
+    {
+      "id": 414,
+      "name": "Industry Mix \u2014 Health Care and Social Assistance",
+      "value": "14.1",
+      "unit": "%",
+      "category": "Business",
+      "source": "Census County Business Patterns",
+      "source_url": "https://www.census.gov/programs-surveys/cbp.html",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.259087+00:00",
+      "description": "Percentage of total employment in Health Care and Social Assistance sector"
+    },
+    {
+      "id": 416,
+      "name": "Industry Mix \u2014 Professional and Technical Services",
+      "value": "7.4",
+      "unit": "%",
+      "category": "Business",
+      "source": "Census County Business Patterns",
+      "source_url": "https://www.census.gov/programs-surveys/cbp.html",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.261138+00:00",
+      "description": "Percentage of total employment in Professional and Technical Services sector"
+    },
+    {
+      "id": 413,
+      "name": "Industry Mix \u2014 Retail Trade",
+      "value": "18.3",
+      "unit": "%",
+      "category": "Business",
+      "source": "Census County Business Patterns",
+      "source_url": "https://www.census.gov/programs-surveys/cbp.html",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.258060+00:00",
+      "description": "Percentage of total employment in Retail Trade sector"
+    },
+    {
+      "id": 410,
+      "name": "New Business Applications",
+      "value": "3240",
+      "unit": "applications",
+      "category": "Business",
+      "source": "Census Business Formation Statistics",
+      "source_url": "https://www.census.gov/programs-surveys/bfs.html",
+      "vintage": "2024-01",
+      "fetched_at": "2026-09-09T23:37:38.254469+00:00",
+      "description": "New business applications (seasonally adjusted)"
+    },
+    {
+      "id": 409,
+      "name": "Small Business Employment Share",
+      "value": "47.2",
+      "unit": "%",
+      "category": "Business",
+      "source": "Census County Business Patterns",
+      "source_url": "https://www.census.gov/programs-surveys/cbp.html",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.253441+00:00",
+      "description": "Percentage of employment at businesses with fewer than 500 employees"
+    },
+    {
+      "id": 408,
+      "name": "Total Annual Payroll (Business)",
+      "value": "8920000000",
+      "unit": "USD",
+      "category": "Business",
+      "source": "Census County Business Patterns",
+      "source_url": "https://www.census.gov/programs-surveys/cbp.html",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.252311+00:00",
+      "description": "Total annual payroll across all establishments"
+    },
+    {
+      "id": 407,
+      "name": "Total Employment (Business)",
+      "value": "187650",
+      "unit": "employees",
+      "category": "Business",
+      "source": "Census County Business Patterns",
+      "source_url": "https://www.census.gov/programs-surveys/cbp.html",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.251704+00:00",
+      "description": "Total employment across all establishments"
+    },
+    {
+      "id": 406,
+      "name": "Total Establishments",
+      "value": "14258",
+      "unit": "establishments",
+      "category": "Business",
+      "source": "Census County Business Patterns",
+      "source_url": "https://www.census.gov/programs-surveys/cbp.html",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.249822+00:00",
+      "description": "Total number of business establishments"
+    }
+  ]
 }

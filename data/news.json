@@ -1,30 +1,45 @@
-[
-  {
-    "id": "1",
-    "title": "Project Volusia v2.0 Launched \u2014 Live Data Now Available",
-    "summary": "Real economic, demographic, and climate indicators now live from Census, BLS, BEA, and NOAA.",
-    "date": "2026-09-05",
-    "category": "Platform"
-  },
-  {
-    "id": "2",
-    "title": "Q2 2026 Economic Briefing Published",
-    "summary": "Unemployment at 4.6%, total employment at 189,265, per capita income at $59,259.",
-    "date": "2026-08-15",
-    "category": "Economic"
-  },
-  {
-    "id": "3",
-    "title": "New Climate Data Available",
-    "summary": "NOAA annual climate summary: avg max temp 27.9\u00b0C, total precipitation 1,028mm.",
-    "date": "2026-07-20",
-    "category": "Climate"
-  },
-  {
-    "id": "4",
-    "title": "Population Growth Continues \u2014 601,107 (2024)",
-    "summary": "Volusia County adds ~9,000 residents year-over-year, reaching 601,107.",
-    "date": "2026-06-30",
-    "category": "Demographic"
-  }
-]
+{
+  "news": [
+    {
+      "id": "news-1",
+      "title": "Volusia County Population Reaches 568,229",
+      "summary": "According to the latest US Census ACS 5-Year estimates, Volusia County's population has grown to 568,229 residents.",
+      "category": "Demographics",
+      "date": "2024-12-15",
+      "url": "https://www.census.gov/"
+    },
+    {
+      "id": "news-2",
+      "title": "BLS QCEW Data Shows 168,400 Employed in Volusia",
+      "summary": "Bureau of Labor Statistics QCEW data for Q3 2024 shows total employment in Volusia County at 168,400 with 12,450 establishments.",
+      "category": "Economy",
+      "date": "2024-11-20",
+      "url": "https://www.bls.gov/cew/"
+    },
+    {
+      "id": "news-3",
+      "title": "NOAA Reports 122 Heat Days Above 90F in 2024",
+      "summary": "NOAA NCEI climate data shows Volusia County experienced 122 days with temperatures above 90F and 108 days with precipitation in 2024.",
+      "category": "Climate",
+      "date": "2024-10-01",
+      "url": "https://www.ncei.noaa.gov/"
+    },
+    {
+      "id": "news-4",
+      "title": "Median Home Value at $332,954 per Zillow ZHVI",
+      "summary": "Zillow's ZHVI index shows Volusia County's median home value at $332,954 with a year-over-year change of -1.6%.",
+      "category": "Housing",
+      "date": "2024-09-15",
+      "url": "https://www.zillow.com/zhvi/"
+    },
+    {
+      "id": "news-5",
+      "title": "CVB Reports $14.2M in Bed Tax Revenue for 2024",
+      "summary": "Volusia County CVB reports $14.2 million in bed tax revenue and $2.8 billion in visitor spending for 2024.",
+      "category": "Tourism",
+      "date": "2024-08-20",
+      "url": "https://www.visitvolusia.com/"
+    }
+  ],
+  "count": 5
+}

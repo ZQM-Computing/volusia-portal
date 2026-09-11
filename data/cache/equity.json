@@ -1,0 +1,161 @@
+{
+  "count": 13,
+  "indicators": [
+    {
+      "id": 386,
+      "name": "Below Poverty \u2014 Black or African American",
+      "value": "22.5",
+      "unit": "%",
+      "category": "Equity",
+      "source": "US Census ACS 5-Year DP03",
+      "source_url": "https://data.census.gov/table/ACSST5Y2022.DP03",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.215745+00:00",
+      "description": "Poverty rate for Black or African American population"
+    },
+    {
+      "id": 387,
+      "name": "Below Poverty \u2014 Hispanic or Latino",
+      "value": "18.1",
+      "unit": "%",
+      "category": "Equity",
+      "source": "US Census ACS 5-Year DP03",
+      "source_url": "https://data.census.gov/table/ACSST5Y2022.DP03",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.216778+00:00",
+      "description": "Poverty rate for Hispanic or Latino population"
+    },
+    {
+      "id": 388,
+      "name": "Below Poverty \u2014 White Alone",
+      "value": "10.8",
+      "unit": "%",
+      "category": "Equity",
+      "source": "US Census ACS 5-Year DP03",
+      "source_url": "https://data.census.gov/table/ACSST5Y2022.DP03",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.217813+00:00",
+      "description": "Poverty rate for White alone population"
+    },
+    {
+      "id": 384,
+      "name": "Black or African American Population",
+      "value": "12.1",
+      "unit": "%",
+      "category": "Equity",
+      "source": "US Census ACS 5-Year DP05",
+      "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.213690+00:00",
+      "description": "Percentage of population identifying as Black or African American alone"
+    },
+    {
+      "id": 383,
+      "name": "Gini Index of Income Inequality",
+      "value": "0.472",
+      "unit": "index",
+      "category": "Equity",
+      "source": "US Census ACS 5-Year DP03",
+      "source_url": "https://data.census.gov/table/ACSST5Y2022.DP03",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.212789+00:00",
+      "description": "Gini index of income inequality (0 = perfect equality, 1 = perfect inequality)"
+    },
+    {
+      "id": 385,
+      "name": "Hispanic or Latino Population",
+      "value": "10.8",
+      "unit": "%",
+      "category": "Equity",
+      "source": "US Census ACS 5-Year DP05",
+      "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.214706+00:00",
+      "description": "Percentage of population identifying as Hispanic or Latino"
+    },
+    {
+      "id": 389,
+      "name": "Homeownership \u2014 Black or African American",
+      "value": "52.3",
+      "unit": "%",
+      "category": "Equity",
+      "source": "US Census ACS 5-Year DP04",
+      "source_url": "https://data.census.gov/table/ACSST5Y2022.DP04",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.218848+00:00",
+      "description": "Homeownership rate for Black or African American householders"
+    },
+    {
+      "id": 390,
+      "name": "Homeownership \u2014 Hispanic or Latino",
+      "value": "58.7",
+      "unit": "%",
+      "category": "Equity",
+      "source": "US Census ACS 5-Year DP04",
+      "source_url": "https://data.census.gov/table/ACSST5Y2022.DP04",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.219872+00:00",
+      "description": "Homeownership rate for Hispanic or Latino householders"
+    },
+    {
+      "id": 393,
+      "name": "Median Income \u2014 Black or African American",
+      "value": "41200",
+      "unit": "USD",
+      "category": "Equity",
+      "source": "US Census ACS 5-Year DP03",
+      "source_url": "https://data.census.gov/table/ACSST5Y2022.DP03",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.234376+00:00",
+      "description": "Median household income for Black or African American households"
+    },
+    {
+      "id": 394,
+      "name": "Median Income \u2014 Hispanic or Latino",
+      "value": "48500",
+      "unit": "USD",
+      "category": "Equity",
+      "source": "US Census ACS 5-Year DP03",
+      "source_url": "https://data.census.gov/table/ACSST5Y2022.DP03",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.237019+00:00",
+      "description": "Median household income for Hispanic or Latino households"
+    },
+    {
+      "id": 395,
+      "name": "Median Income \u2014 White Alone",
+      "value": "65100",
+      "unit": "USD",
+      "category": "Equity",
+      "source": "US Census ACS 5-Year DP03",
+      "source_url": "https://data.census.gov/table/ACSST5Y2022.DP03",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.237895+00:00",
+      "description": "Median household income for White alone households"
+    },
+    {
+      "id": 391,
+      "name": "Unemployment \u2014 Black or African American",
+      "value": "5.9",
+      "unit": "%",
+      "category": "Equity",
+      "source": "BLS LAUS",
+      "source_url": "https://www.bls.gov/lau/",
+      "vintage": "2024-01",
+      "fetched_at": "2026-09-09T23:37:38.220902+00:00",
+      "description": "Unemployment rate for Black or African American labor force"
+    },
+    {
+      "id": 392,
+      "name": "Unemployment \u2014 Hispanic or Latino",
+      "value": "4.2",
+      "unit": "%",
+      "category": "Equity",
+      "source": "BLS LAUS",
+      "source_url": "https://www.bls.gov/lau/",
+      "vintage": "2024-01",
+      "fetched_at": "2026-09-09T23:37:38.221923+00:00",
+      "description": "Unemployment rate for Hispanic or Latino labor force"
+    }
+  ]
+}

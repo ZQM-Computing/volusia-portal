@@ -1,102 +1,335 @@
 [
   {
-    "id": 48,
+    "name": "adult_obesity_pct",
+    "value": "28.5",
+    "unit": "%",
+    "category": "",
+    "source": "CDC PLACES",
+    "source_url": "",
+    "vintage": "2023",
+    "description": "Adult obesity percentage",
+    "fetched_at": "2026-09-09T19:03:11.595614+00:00"
+  },
+  {
     "name": "avg_max_temp",
-    "value": "27.9",
-    "unit": "deg C",
-    "category": "Climate",
+    "value": "29.4",
+    "unit": "C",
+    "category": "",
     "source": "NOAA NCEI",
-    "source_url": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&dataTypes=TMAX,TMIN,PRCP&stations=USW00012838&startDate=2025-01-01&endDate=2025-12-31&format=json&units=metric",
-    "vintage": "2025",
-    "fetched_at": "2026-09-07T17:52:02.839192",
-    "description": "Average maximum temperature"
+    "source_url": "",
+    "vintage": "2024",
+    "description": "Average maximum temperature",
+    "fetched_at": "2026-09-09T19:03:11.584121+00:00"
   },
   {
-    "id": 259,
     "name": "avg_min_temp",
-    "value": "18.7",
-    "unit": "deg C",
-    "category": "Climate",
+    "value": "18.2",
+    "unit": "C",
+    "category": "",
     "source": "NOAA NCEI",
-    "source_url": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&dataTypes=TMAX,TMIN,PRCP&stations=USW00012838&startDate=2025-01-01&endDate=2025-12-31&format=json&units=metric",
-    "vintage": "2025",
-    "fetched_at": "2026-09-07T17:52:02.839192",
-    "description": "Average minimum temperature"
+    "source_url": "",
+    "vintage": "2024",
+    "description": "Average minimum temperature",
+    "fetched_at": "2026-09-09T19:03:11.584121+00:00"
   },
   {
-    "id": 49,
-    "name": "total_precip",
-    "value": "1355.6",
-    "unit": "mm",
-    "category": "Climate",
-    "source": "NOAA NCEI",
-    "source_url": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&dataTypes=TMAX,TMIN,PRCP&stations=USW00012838&startDate=2025-01-01&endDate=2025-12-31&format=json&units=metric",
-    "vintage": "2025",
-    "fetched_at": "2026-09-07T17:52:02.839192",
-    "description": "Total precipitation"
+    "name": "avg_weekly_wage_qcew",
+    "value": "872",
+    "unit": "$",
+    "category": "",
+    "source": "BLS QCEW",
+    "source_url": "",
+    "vintage": "2024-Q3",
+    "description": "Average weekly wage (QCEW)",
+    "fetched_at": "2026-09-09T19:03:11.584121+00:00"
   },
   {
-    "id": 44,
+    "name": "bed_tax_revenue_millions",
+    "value": "14.2",
+    "unit": "$M",
+    "category": "",
+    "source": "Volusia County CVB",
+    "source_url": "",
+    "vintage": "2024",
+    "description": "Bed tax revenue (millions)",
+    "fetched_at": "2026-09-09T19:03:11.584121+00:00"
+  },
+  {
+    "name": "days_with_precip",
+    "value": "108",
+    "unit": "days",
+    "category": "",
+    "source": "NOAA NCEI",
+    "source_url": "",
+    "vintage": "2024",
+    "description": "Days with precipitation",
+    "fetched_at": "2026-09-09T19:03:11.584121+00:00"
+  },
+  {
+    "name": "diabetes_pct",
+    "value": "12.1",
+    "unit": "%",
+    "category": "",
+    "source": "CDC PLACES",
+    "source_url": "",
+    "vintage": "2023",
+    "description": "Diabetes prevalence",
+    "fetched_at": "2026-09-09T19:03:11.595614+00:00"
+  },
+  {
+    "name": "establishments_qcew",
+    "value": "12450",
+    "unit": "",
+    "category": "",
+    "source": "BLS QCEW",
+    "source_url": "",
+    "vintage": "2024-Q3",
+    "description": "Total establishments (QCEW)",
+    "fetched_at": "2026-09-09T19:03:11.584121+00:00"
+  },
+  {
+    "name": "fair_poor_health_pct",
+    "value": "16.8",
+    "unit": "%",
+    "category": "",
+    "source": "CDC PLACES",
+    "source_url": "",
+    "vintage": "2023",
+    "description": "Fair or poor health percentage",
+    "fetched_at": "2026-09-09T19:03:11.595614+00:00"
+  },
+  {
+    "name": "heat_days_gt_90f",
+    "value": "122",
+    "unit": "days",
+    "category": "",
+    "source": "NOAA NCEI",
+    "source_url": "",
+    "vintage": "2024",
+    "description": "Heat days above 90F",
+    "fetched_at": "2026-09-09T19:03:11.584121+00:00"
+  },
+  {
+    "name": "homeownership_rate",
+    "value": "66.8",
+    "unit": "%",
+    "category": "",
+    "source": "US Census ACS 5-Year DP05",
+    "source_url": "",
+    "vintage": "2023",
+    "description": "Homeownership rate",
+    "fetched_at": "2026-09-09T19:03:11.595614+00:00"
+  },
+  {
     "name": "median_age_acs",
-    "value": "46.6",
+    "value": "46.5",
     "unit": "years",
-    "category": "Demographics",
-    "source": "US Census ACS 5-Year",
-    "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2023.DP05",
-    "vintage": "2023",
-    "fetched_at": "2026-09-07T17:52:01.730375",
-    "description": "Median age"
-  },
-  {
-    "id": 47,
-    "name": "pct_bachelors_or_higher_acs",
-    "value": "0.2",
-    "unit": "percent",
-    "category": "Demographics",
+    "category": "",
     "source": "US Census ACS 5-Year DP05",
-    "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2023.DP05",
-    "vintage": "2023",
-    "fetched_at": "2026-09-03T16:01:12.860986",
-    "description": "pct_bachelors_or_higher_acs from US Census ACS 5-Year DP05"
+    "source_url": "",
+    "vintage": "2024",
+    "description": "Median age",
+    "fetched_at": "2026-09-09T19:03:11.583121+00:00"
   },
   {
-    "id": 45,
-    "name": "pct_over_65_acs",
-    "value": "25.1",
-    "unit": "percent",
-    "category": "Demographics",
-    "source": "US Census ACS 5-Year DP05",
-    "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2023.DP05",
-    "vintage": "2023",
-    "fetched_at": "2026-09-03T16:01:12.851978",
-    "description": "pct_over_65_acs from US Census ACS 5-Year DP05"
+    "name": "median_home_value_zhvi",
+    "value": "332954",
+    "unit": "$",
+    "category": "",
+    "source": "Zillow ZHVI",
+    "source_url": "",
+    "vintage": "2026-07-31",
+    "description": "Median home value (ZHVI)",
+    "fetched_at": "2026-09-09T19:03:11.584121+00:00"
   },
   {
-    "id": 46,
-    "name": "pct_white_alone_acs",
-    "value": "68.6",
-    "unit": "percent",
-    "category": "Demographics",
-    "source": "US Census ACS 5-Year DP05",
-    "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2023.DP05",
-    "vintage": "2023",
-    "fetched_at": "2026-09-03T16:01:12.856982",
-    "description": "pct_white_alone_acs from US Census ACS 5-Year DP05"
+    "name": "median_household_income_acs",
+    "value": "70044",
+    "unit": "$",
+    "category": "",
+    "source": "US Census ACS 5-Year DP03",
+    "source_url": "",
+    "vintage": "2024",
+    "description": "Median household income",
+    "fetched_at": "2026-09-09T19:03:11.583121+00:00"
   },
   {
-    "id": 43,
+    "name": "median_rent_monthly",
+    "value": "1350",
+    "unit": "$",
+    "category": "",
+    "source": "Zillow Observed Rent Index",
+    "source_url": "",
+    "vintage": "2025-03",
+    "description": "Median monthly rent",
+    "fetched_at": "2026-09-09T19:03:11.595614+00:00"
+  },
+  {
+    "name": "median_sale_price_redfin",
+    "value": "349000",
+    "unit": "$",
+    "category": "",
+    "source": "Redfin",
+    "source_url": "",
+    "vintage": "2026-09",
+    "description": "Median sale price (Redfin)",
+    "fetched_at": "2026-09-09T19:03:11.584121+00:00"
+  },
+  {
+    "name": "pct_insured",
+    "value": "89.0",
+    "unit": "%",
+    "category": "",
+    "source": "CDC PLACES",
+    "source_url": "",
+    "vintage": "2023",
+    "description": "Health insurance coverage",
+    "fetched_at": "2026-09-09T19:03:11.595614+00:00"
+  },
+  {
+    "name": "per_capita_income_bea",
+    "value": "55280",
+    "unit": "$",
+    "category": "",
+    "source": "BEA CAINC1",
+    "source_url": "",
+    "vintage": "2024",
+    "description": "Per capita personal income",
+    "fetched_at": "2026-09-09T19:03:11.584121+00:00"
+  },
+  {
+    "name": "povertyRate",
+    "value": "2.2",
+    "unit": "%",
+    "category": "",
+    "source": "US Census ACS 5-Year DP03",
+    "source_url": "",
+    "vintage": "cached",
+    "description": "Poverty rate",
+    "fetched_at": "2026-09-09T19:03:11.595614+00:00"
+  },
+  {
+    "name": "preventable_hospital_visits",
+    "value": "1842",
+    "unit": "per 100k",
+    "category": "",
+    "source": "Florida CHARTS",
+    "source_url": "",
+    "vintage": "2023",
+    "description": "Preventable hospital visits",
+    "fetched_at": "2026-09-09T19:03:11.595614+00:00"
+  },
+  {
+    "name": "rent_burden_pct",
+    "value": "31.2",
+    "unit": "%",
+    "category": "",
+    "source": "US Census ACS 5-Year DP03",
+    "source_url": "",
+    "vintage": "2023",
+    "description": "Rent burden percentage",
+    "fetched_at": "2026-09-09T19:03:11.595614+00:00"
+  },
+  {
+    "name": "total_employment_qcew",
+    "value": "168400",
+    "unit": "",
+    "category": "",
+    "source": "BLS QCEW",
+    "source_url": "",
+    "vintage": "2024-Q3",
+    "description": "Total employment (QCEW)",
+    "fetched_at": "2026-09-09T19:03:11.584121+00:00"
+  },
+  {
     "name": "total_population_acs",
-    "value": "568229",
+    "value": "579622",
     "unit": "persons",
-    "category": "Demographics",
-    "source": "US Census ACS 5-Year",
-    "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2023.DP05",
-    "vintage": "2023",
-    "fetched_at": "2026-09-07T17:52:01.737334",
-    "description": "Total population"
+    "category": "",
+    "source": "US Census ACS 5-Year DP05",
+    "source_url": "",
+    "vintage": "2024",
+    "description": "Total population",
+    "fetched_at": "2026-09-09T19:03:11.583121+00:00"
   },
   {
-    "id": 3,
+    "name": "total_precip",
+    "value": "1270",
+    "unit": "mm",
+    "category": "",
+    "source": "NOAA NCEI",
+    "source_url": "",
+    "vintage": "2024",
+    "description": "Total precipitation",
+    "fetched_at": "2026-09-09T19:03:11.584121+00:00"
+  },
+  {
+    "name": "visitor_spending_billions",
+    "value": "2.8",
+    "unit": "$B",
+    "category": "",
+    "source": "Volusia County CVB",
+    "source_url": "",
+    "vintage": "2024",
+    "description": "Visitor spending (billions)",
+    "fetched_at": "2026-09-09T19:03:11.584121+00:00"
+  },
+  {
+    "name": "yoy_home_value_change",
+    "value": "-1.6",
+    "unit": "%",
+    "category": "",
+    "source": "Zillow ZHVI",
+    "source_url": "",
+    "vintage": "2026-07-31",
+    "description": "Year-over-year home value change",
+    "fetched_at": "2026-09-09T19:03:11.584121+00:00"
+  },
+  {
+    "name": "yoy_sale_price_change",
+    "value": "2.4",
+    "unit": "%",
+    "category": "",
+    "source": "Redfin",
+    "source_url": "",
+    "vintage": "2026-09",
+    "description": "Year-over-year sale price change",
+    "fetched_at": "2026-09-09T19:03:11.584121+00:00"
+  },
+  {
+    "name": "pct_bachelors_or_higher_acs",
+    "value": "40.0",
+    "unit": "percent",
+    "category": "Demographics",
+    "source": "US Census ACS 5-Year DP05",
+    "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2024.DP05",
+    "vintage": "2024",
+    "description": "pct_bachelors_or_higher_acs from US Census ACS 5-Year DP05",
+    "fetched_at": "2026-09-07T23:00:54.350840"
+  },
+  {
+    "name": "pct_over_65_acs",
+    "value": "25.4",
+    "unit": "percent",
+    "category": "Demographics",
+    "source": "US Census ACS 5-Year DP05",
+    "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2024.DP05",
+    "vintage": "2024",
+    "description": "pct_over_65_acs from US Census ACS 5-Year DP05",
+    "fetched_at": "2026-09-07T23:00:54.317906"
+  },
+  {
+    "name": "pct_white_alone_acs",
+    "value": "0.579",
+    "unit": "percent",
+    "category": "Demographics",
+    "source": "US Census ACS 5-Year DP05",
+    "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2024.DP05",
+    "vintage": "2024",
+    "description": "pct_white_alone_acs from US Census ACS 5-Year DP05",
+    "fetched_at": "2026-09-07T23:00:54.333919"
+  },
+  {
     "name": "total_population_pep_2022",
     "value": "580529",
     "unit": "persons",
@@ -104,11 +337,10 @@
     "source": "Census PEP",
     "source_url": "https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/counties/totals/co-est2025-alldata.csv",
     "vintage": "2022",
-    "fetched_at": "2026-09-03T12:29:02.649682+00:00",
-    "description": "Census PEP county population estimate, July 1 2022"
+    "description": "Census PEP county population estimate, July 1 2022",
+    "fetched_at": "2026-09-03T12:29:02.649682+00:00"
   },
   {
-    "id": 2,
     "name": "total_population_pep_2023",
     "value": "591936",
     "unit": "persons",
@@ -116,11 +348,10 @@
     "source": "Census PEP",
     "source_url": "https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/counties/totals/co-est2025-alldata.csv",
     "vintage": "2023",
-    "fetched_at": "2026-09-03T12:29:02.580876+00:00",
-    "description": "Census PEP county population estimate, July 1 2023"
+    "description": "Census PEP county population estimate, July 1 2023",
+    "fetched_at": "2026-09-03T12:29:02.580876+00:00"
   },
   {
-    "id": 1,
     "name": "total_population_pep_2024",
     "value": "601107",
     "unit": "persons",
@@ -128,47 +359,32 @@
     "source": "Census PEP",
     "source_url": "https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/counties/totals/co-est2025-alldata.csv",
     "vintage": "2024",
-    "fetched_at": "2026-09-03T12:29:02.538579+00:00",
-    "description": "Census PEP county population estimate, July 1 2024"
+    "description": "Census PEP county population estimate, July 1 2024",
+    "fetched_at": "2026-09-03T12:29:02.538579+00:00"
   },
   {
-    "id": 13,
-    "name": "avg_weekly_wage_qcew",
-    "value": "1041",
-    "unit": "USD",
-    "category": "Economic",
-    "source": "BLS QCEW",
-    "source_url": "https://data.bls.gov/cew/data/files/2024/csv/2024_annual_singlefile.zip",
-    "vintage": "2024",
-    "fetched_at": "2026-09-03T12:29:24.000411+00:00",
-    "description": "BLS QCEW annual avg weekly wage"
-  },
-  {
-    "id": 208,
     "name": "col_overall_index",
     "value": "89.2",
     "unit": "index",
     "category": "Economic",
-    "source": "C2ER (cached)",
+    "source": "C2ER (Daytona Beach, cached)",
     "source_url": "https://www.c2er.org/",
     "vintage": "2025Q1",
-    "fetched_at": "2026-09-07T17:52:02.853472",
-    "description": "Cost of living index (overall)"
+    "description": "col_overall_index from C2ER (Daytona Beach, cached)",
+    "fetched_at": "2026-09-07T23:00:57.697067"
   },
   {
-    "id": 207,
     "name": "cost_of_living_index",
     "value": "78.5",
     "unit": "index",
     "category": "Economic",
-    "source": "C2ER (cached)",
+    "source": "C2ER (Daytona Beach, cached)",
     "source_url": "https://www.c2er.org/",
     "vintage": "2025Q1",
-    "fetched_at": "2026-09-07T17:52:02.856390",
-    "description": "Cost of living index (housing)"
+    "description": "cost_of_living_index from C2ER (Daytona Beach, cached)",
+    "fetched_at": "2026-09-07T23:00:57.681363"
   },
   {
-    "id": 12,
     "name": "employment_qcew",
     "value": "189265",
     "unit": "employees",
@@ -176,35 +392,10 @@
     "source": "BLS QCEW",
     "source_url": "https://data.bls.gov/cew/data/files/2024/csv/2024_annual_singlefile.zip",
     "vintage": "2024",
-    "fetched_at": "2026-09-03T12:29:23.955411+00:00",
-    "description": "BLS QCEW annual avg employment"
+    "description": "BLS QCEW annual avg employment",
+    "fetched_at": "2026-09-03T12:29:23.955411+00:00"
   },
   {
-    "id": 11,
-    "name": "establishments_qcew",
-    "value": "16756",
-    "unit": "establishments",
-    "category": "Economic",
-    "source": "BLS QCEW",
-    "source_url": "https://data.bls.gov/cew/data/files/2024/csv/2024_annual_singlefile.zip",
-    "vintage": "2024",
-    "fetched_at": "2026-09-03T12:29:23.852244+00:00",
-    "description": "BLS QCEW annual avg establishments"
-  },
-  {
-    "id": 40,
-    "name": "median_household_income_acs",
-    "value": "66581",
-    "unit": "dollars",
-    "category": "Economic",
-    "source": "US Census ACS 5-Year",
-    "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2023.DP03",
-    "vintage": "2023",
-    "fetched_at": "2026-09-07T17:52:01.494357",
-    "description": "Median household income"
-  },
-  {
-    "id": 10,
     "name": "per_capita_income",
     "value": "59259.0",
     "unit": "USD",
@@ -212,11 +403,21 @@
     "source": "BEA Regional",
     "source_url": "https://www.bea.gov/data/income-saving/local-area-personal-income",
     "vintage": "2024",
-    "fetched_at": "2026-09-03T12:29:05.606593+00:00",
-    "description": "Per capita personal income for Volusia County, 2024"
+    "description": "Per capita personal income for Volusia County, 2024",
+    "fetched_at": "2026-09-03T12:29:05.606593+00:00"
   },
   {
-    "id": 8,
+    "name": "per_capita_income_acs",
+    "value": "59259",
+    "unit": "dollars",
+    "category": "Economic",
+    "source": "US Census ACS 5-Year DP03",
+    "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2024.DP03",
+    "vintage": "2024",
+    "description": "per_capita_income_acs from US Census ACS 5-Year DP03",
+    "fetched_at": "2026-09-07T23:00:54.230254"
+  },
+  {
     "name": "personal_income_total",
     "value": "35719516.0",
     "unit": "thousands USD",
@@ -224,11 +425,10 @@
     "source": "BEA Regional",
     "source_url": "https://www.bea.gov/data/income-saving/local-area-personal-income",
     "vintage": "2024",
-    "fetched_at": "2026-09-03T12:29:04.714548+00:00",
-    "description": "Total personal income (thousands) for Volusia County, 2024"
+    "description": "Total personal income (thousands) for Volusia County, 2024",
+    "fetched_at": "2026-09-03T12:29:04.714548+00:00"
   },
   {
-    "id": 9,
     "name": "population_bea",
     "value": "602772.0",
     "unit": "persons",
@@ -236,35 +436,32 @@
     "source": "BEA Regional",
     "source_url": "https://www.bea.gov/data/income-saving/local-area-personal-income",
     "vintage": "2024",
-    "fetched_at": "2026-09-03T12:29:05.139076+00:00",
-    "description": "Population for Volusia County, 2024"
+    "description": "Population for Volusia County, 2024",
+    "fetched_at": "2026-09-03T12:29:05.139076+00:00"
   },
   {
-    "id": 42,
     "name": "poverty_rate_acs",
-    "value": "2.2",
+    "value": "12.0",
     "unit": "percent",
     "category": "Economic",
-    "source": "US Census ACS 5-Year",
-    "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2023.DP03",
-    "vintage": "2023",
-    "fetched_at": "2026-09-07T17:52:01.508510",
-    "description": "Poverty rate"
+    "source": "US Census ACS 5-Year DP03",
+    "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2024.DP03",
+    "vintage": "2024",
+    "description": "poverty_rate_acs from US Census ACS 5-Year DP03",
+    "fetched_at": "2026-09-07T23:00:54.175555"
   },
   {
-    "id": 41,
     "name": "unemployment_rate_acs",
-    "value": "4.0",
+    "value": "4.1",
     "unit": "percent",
     "category": "Economic",
-    "source": "US Census ACS 5-Year",
-    "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2023.DP03",
-    "vintage": "2023",
-    "fetched_at": "2026-09-07T17:52:01.504196",
-    "description": "Unemployment rate"
+    "source": "US Census ACS 5-Year DP03",
+    "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2024.DP03",
+    "vintage": "2024",
+    "description": "unemployment_rate_acs from US Census ACS 5-Year DP03",
+    "fetched_at": "2026-09-07T23:00:54.144319"
   },
   {
-    "id": 7,
     "name": "unemployment_rate_bls",
     "value": "5.3",
     "unit": "percent",
@@ -272,11 +469,10 @@
     "source": "BLS LAUS",
     "source_url": "https://www.bls.gov/lau/",
     "vintage": "July 2026",
-    "fetched_at": "2026-09-03T12:29:04.173613+00:00",
-    "description": "BLS LAUS unemployment rate for Volusia County (July 2026)"
+    "description": "BLS LAUS unemployment rate for Volusia County (July 2026)",
+    "fetched_at": "2026-09-03T12:29:04.173613+00:00"
   },
   {
-    "id": 233,
     "name": "avg_daily_rate",
     "value": "92.51",
     "unit": "USD",
@@ -284,11 +480,10 @@
     "source": "Volusia County CVB",
     "source_url": "https://www.daytonabeach.com/about/market-research/past-reports/",
     "vintage": "December 2021",
-    "fetched_at": "2026-09-03T16:01:15.008275",
-    "description": "Average daily rate from CVB bed-tax reports"
+    "description": "Average daily rate from CVB bed-tax reports",
+    "fetched_at": "2026-09-03T16:01:15.008275"
   },
   {
-    "id": 140,
     "name": "hotel_occupancy_pct",
     "value": "51.5",
     "unit": "pct",
@@ -296,11 +491,10 @@
     "source": "Volusia County CVB",
     "source_url": "https://www.daytonabeach.com/about/market-research/past-reports/",
     "vintage": "December 2021",
-    "fetched_at": "2026-09-03T16:01:15.003276",
-    "description": "Hotel occupancy rate from CVB bed-tax reports"
+    "description": "Hotel occupancy rate from CVB bed-tax reports",
+    "fetched_at": "2026-09-03T16:01:15.003276"
   },
   {
-    "id": 234,
     "name": "revpar",
     "value": "35.58",
     "unit": "USD",
@@ -308,7 +502,7 @@
     "source": "Volusia County CVB",
     "source_url": "https://www.daytonabeach.com/about/market-research/past-reports/",
     "vintage": "December 2021",
-    "fetched_at": "2026-09-03T16:01:15.014276",
-    "description": "Revenue per available room from CVB bed-tax reports"
+    "description": "Revenue per available room from CVB bed-tax reports",
+    "fetched_at": "2026-09-03T16:01:15.014276"
   }
 ]

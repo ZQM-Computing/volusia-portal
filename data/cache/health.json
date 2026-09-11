@@ -1,4 +1,125 @@
 {
-  "count": 0,
-  "indicators": []
+  "count": 10,
+  "indicators": [
+    {
+      "id": 380,
+      "name": "Access to Exercise Opportunities",
+      "value": "72.5",
+      "unit": "%",
+      "category": "Health",
+      "source": "County Health Rankings",
+      "source_url": "https://www.countyhealthrankings.org/",
+      "vintage": "2023",
+      "fetched_at": "2026-09-09T23:37:38.209640+00:00",
+      "description": "Percentage of population with access to exercise opportunities"
+    },
+    {
+      "id": 378,
+      "name": "Diabetes Prevalence",
+      "value": "11.9",
+      "unit": "%",
+      "category": "Health",
+      "source": "CDC BRFSS",
+      "source_url": "https://www.cdc.gov/brfss/",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.207598+00:00",
+      "description": "Adult diabetes prevalence"
+    },
+    {
+      "id": 379,
+      "name": "Fair/Poor Health Status",
+      "value": "17.2",
+      "unit": "%",
+      "category": "Health",
+      "source": "CDC BRFSS",
+      "source_url": "https://www.cdc.gov/brfss/",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.208624+00:00",
+      "description": "Adults reporting fair or poor health status"
+    },
+    {
+      "id": 375,
+      "name": "Life Expectancy at Birth",
+      "value": "78.5",
+      "unit": "years",
+      "category": "Health",
+      "source": "CDC WONDER",
+      "source_url": "https://wonder.cdc.gov/",
+      "vintage": "2021",
+      "fetched_at": "2026-09-09T23:37:38.204502+00:00",
+      "description": "Average life expectancy at birth"
+    },
+    {
+      "id": 376,
+      "name": "Obesity Rate (Adult)",
+      "value": "29.8",
+      "unit": "%",
+      "category": "Health",
+      "source": "CDC BRFSS",
+      "source_url": "https://www.cdc.gov/brfss/",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.205526+00:00",
+      "description": "Adult obesity prevalence (BMI >= 30)"
+    },
+    {
+      "id": 377,
+      "name": "Physical Inactivity Rate",
+      "value": "26.1",
+      "unit": "%",
+      "category": "Health",
+      "source": "CDC BRFSS",
+      "source_url": "https://www.cdc.gov/brfss/",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.206552+00:00",
+      "description": "Adult physical inactivity prevalence"
+    },
+    {
+      "id": 373,
+      "name": "Population 65 and Over",
+      "value": "28.4",
+      "unit": "%",
+      "category": "Health",
+      "source": "US Census ACS 5-Year DP05",
+      "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.202438+00:00",
+      "description": "Percentage of population aged 65 and over"
+    },
+    {
+      "id": 374,
+      "name": "Population Under 18",
+      "value": "20.1",
+      "unit": "%",
+      "category": "Health",
+      "source": "US Census ACS 5-Year DP05",
+      "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.203462+00:00",
+      "description": "Percentage of population under 18 years"
+    },
+    {
+      "id": 381,
+      "name": "Primary Care Physician Rate",
+      "value": "58.2",
+      "unit": "per 100k",
+      "category": "Health",
+      "source": "HRSA Area Health Resources File",
+      "source_url": "https://data.hrsa.gov/",
+      "vintage": "2023",
+      "fetched_at": "2026-09-09T23:37:38.210667+00:00",
+      "description": "Primary care physicians per 100,000 population"
+    },
+    {
+      "id": 382,
+      "name": "Uninsured Rate",
+      "value": "13.0",
+      "unit": "%",
+      "category": "Health",
+      "source": "US Census ACS 5-Year DP05",
+      "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.211182+00:00",
+      "description": "Percentage of population without health insurance coverage"
+    }
+  ]
 }

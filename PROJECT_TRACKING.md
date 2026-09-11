@@ -199,7 +199,7 @@ npm run build # zero TS errors required
 
 ### Code Quality
 - npx tsc --noEmit must pass with zero errors
-- npm test must pass (7/7)
+- python -m pytest tests/ must pass (7/7)
 - PRs must pass CI (npx tsc --noEmit + npm run build)
 
 ### Issue Labels

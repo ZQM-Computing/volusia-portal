@@ -1,36 +1,242 @@
 {
-  "count": 13,
+  "count": 27,
   "indicators": [
     {
-      "name": "avg_weekly_wage_qcew",
-      "value": "1041",
-      "unit": "USD",
-      "category": "Economic",
-      "source": "BLS QCEW",
-      "vintage": "2024"
+      "id": 411,
+      "name": "Business Formation Rate",
+      "value": "2.87",
+      "unit": "%",
+      "category": "Business",
+      "source": "Census Business Formation Statistics",
+      "source_url": "https://www.census.gov/programs-surveys/bfs.html",
+      "vintage": "2024-01",
+      "fetched_at": "2026-09-09T23:37:38.256001+00:00",
+      "description": "New business applications per 10,000 adults"
     },
     {
+      "id": 412,
+      "name": "Industry Mix \u2014 Accommodation and Food Services",
+      "value": "32.5",
+      "unit": "%",
+      "category": "Business",
+      "source": "Census County Business Patterns",
+      "source_url": "https://www.census.gov/programs-surveys/cbp.html",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.257030+00:00",
+      "description": "Percentage of total employment in Accommodation and Food Services sector"
+    },
+    {
+      "id": 415,
+      "name": "Industry Mix \u2014 Construction",
+      "value": "8.7",
+      "unit": "%",
+      "category": "Business",
+      "source": "Census County Business Patterns",
+      "source_url": "https://www.census.gov/programs-surveys/cbp.html",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.260111+00:00",
+      "description": "Percentage of total employment in Construction sector"
+    },
+    {
+      "id": 414,
+      "name": "Industry Mix \u2014 Health Care and Social Assistance",
+      "value": "14.1",
+      "unit": "%",
+      "category": "Business",
+      "source": "Census County Business Patterns",
+      "source_url": "https://www.census.gov/programs-surveys/cbp.html",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.259087+00:00",
+      "description": "Percentage of total employment in Health Care and Social Assistance sector"
+    },
+    {
+      "id": 416,
+      "name": "Industry Mix \u2014 Professional and Technical Services",
+      "value": "7.4",
+      "unit": "%",
+      "category": "Business",
+      "source": "Census County Business Patterns",
+      "source_url": "https://www.census.gov/programs-surveys/cbp.html",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.261138+00:00",
+      "description": "Percentage of total employment in Professional and Technical Services sector"
+    },
+    {
+      "id": 413,
+      "name": "Industry Mix \u2014 Retail Trade",
+      "value": "18.3",
+      "unit": "%",
+      "category": "Business",
+      "source": "Census County Business Patterns",
+      "source_url": "https://www.census.gov/programs-surveys/cbp.html",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.258060+00:00",
+      "description": "Percentage of total employment in Retail Trade sector"
+    },
+    {
+      "id": 410,
+      "name": "New Business Applications",
+      "value": "3240",
+      "unit": "applications",
+      "category": "Business",
+      "source": "Census Business Formation Statistics",
+      "source_url": "https://www.census.gov/programs-surveys/bfs.html",
+      "vintage": "2024-01",
+      "fetched_at": "2026-09-09T23:37:38.254469+00:00",
+      "description": "New business applications (seasonally adjusted)"
+    },
+    {
+      "id": 409,
+      "name": "Small Business Employment Share",
+      "value": "47.2",
+      "unit": "%",
+      "category": "Business",
+      "source": "Census County Business Patterns",
+      "source_url": "https://www.census.gov/programs-surveys/cbp.html",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.253441+00:00",
+      "description": "Percentage of employment at businesses with fewer than 500 employees"
+    },
+    {
+      "id": 408,
+      "name": "Total Annual Payroll (Business)",
+      "value": "8920000000",
+      "unit": "USD",
+      "category": "Business",
+      "source": "Census County Business Patterns",
+      "source_url": "https://www.census.gov/programs-surveys/cbp.html",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.252311+00:00",
+      "description": "Total annual payroll across all establishments"
+    },
+    {
+      "id": 407,
+      "name": "Total Employment (Business)",
+      "value": "187650",
+      "unit": "employees",
+      "category": "Business",
+      "source": "Census County Business Patterns",
+      "source_url": "https://www.census.gov/programs-surveys/cbp.html",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.251704+00:00",
+      "description": "Total employment across all establishments"
+    },
+    {
+      "id": 406,
+      "name": "Total Establishments",
+      "value": "14258",
+      "unit": "establishments",
+      "category": "Business",
+      "source": "Census County Business Patterns",
+      "source_url": "https://www.census.gov/programs-surveys/cbp.html",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.249822+00:00",
+      "description": "Total number of business establishments"
+    },
+    {
+      "id": 351,
+      "name": "Beginning of Year Population",
+      "value": "559570",
+      "unit": "persons",
+      "category": "Economic",
+      "source": "Census PEP",
+      "source_url": "https://www.census.gov/programs-surveys/popest.html",
+      "vintage": "2024",
+      "fetched_at": "2026-09-09T23:37:38.175042+00:00",
+      "description": "County population estimate at July 1"
+    },
+    {
+      "id": 346,
+      "name": "Median Household Income",
+      "value": "62146",
+      "unit": "USD",
+      "category": "Economic",
+      "source": "US Census ACS 5-Year DP03",
+      "source_url": "https://data.census.gov/table/ACSST5Y2022.DP03",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.166241+00:00",
+      "description": "Median household income in the past 12 months (inflation-adjusted to 2022 dollars)"
+    },
+    {
+      "id": 347,
+      "name": "Per Capita Income",
+      "value": "35035",
+      "unit": "USD",
+      "category": "Economic",
+      "source": "US Census ACS 5-Year DP03",
+      "source_url": "https://data.census.gov/table/ACSST5Y2022.DP03",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.170230+00:00",
+      "description": "Per capita income in the past 12 months"
+    },
+    {
+      "id": 348,
+      "name": "Poverty Rate",
+      "value": "13.2",
+      "unit": "%",
+      "category": "Economic",
+      "source": "US Census ACS 5-Year DP03",
+      "source_url": "https://data.census.gov/table/ACSST5Y2022.DP03",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.171230+00:00",
+      "description": "Percentage of persons below poverty level"
+    },
+    {
+      "id": 350,
+      "name": "Total Nonfarm Employment",
+      "value": "198500",
+      "unit": "jobs",
+      "category": "Economic",
+      "source": "BLS CES",
+      "source_url": "https://www.bls.gov/ces/",
+      "vintage": "2024-01",
+      "fetched_at": "2026-09-09T23:37:38.174033+00:00",
+      "description": "Total nonfarm payroll employment"
+    },
+    {
+      "id": 349,
+      "name": "Unemployment Rate",
+      "value": "3.4",
+      "unit": "%",
+      "category": "Economic",
+      "source": "BLS LAUS",
+      "source_url": "https://www.bls.gov/lau/",
+      "vintage": "2024-01",
+      "fetched_at": "2026-09-09T23:37:38.173030+00:00",
+      "description": "Civilian labor force unemployment rate, seasonally adjusted"
+    },
+    {
+      "id": 208,
       "name": "col_overall_index",
       "value": "89.2",
       "unit": "index",
       "category": "Economic",
       "source": "C2ER (Daytona Beach, cached)",
-      "vintage": "2025Q1"
+      "source_url": "https://www.c2er.org/",
+      "vintage": "2025Q1",
+      "fetched_at": "2026-09-07T23:00:57.697067",
+      "description": "col_overall_index from C2ER (Daytona Beach, cached)"
     },
     {
+      "id": 207,
       "name": "cost_of_living_index",
       "value": "78.5",
       "unit": "index",
       "category": "Economic",
       "source": "C2ER (Daytona Beach, cached)",
-      "vintage": "2025Q1"
+      "source_url": "https://www.c2er.org/",
+      "vintage": "2025Q1",
+      "fetched_at": "2026-09-07T23:00:57.681363",
+      "description": "cost_of_living_index from C2ER (Daytona Beach, cached)"
     },
     {
+      "id": 12,
       "name": "employment_qcew",
       "value": "189265",
       "unit": "employees",
       "category": "Economic",
       "source": "BLS QCEW",
+<<<<<<< HEAD
       "vintage": "2024"
     },
     {
@@ -48,62 +254,114 @@
       "category": "Economic",
       "source": "US Census ACS 5-Year DP03",
       "vintage": "2024"
+||||||| parent of f297c8b (Improve: fix stale ZQM-Labs refs, route mismatches, test discovery, CI checklist; verify 123 indicators/6 CVB hotels)
+      "vintage": "2024"
     },
     {
+      "name": "establishments_qcew",
+      "value": "16756",
+      "unit": "establishments",
+      "category": "Economic",
+      "source": "BLS QCEW",
+      "vintage": "2024"
+    },
+    {
+      "name": "median_household_income_acs",
+      "value": "70044",
+      "unit": "dollars",
+      "category": "Economic",
+      "source": "US Census ACS 5-Year DP03",
+      "vintage": "2024"
+=======
+      "source_url": "https://data.bls.gov/cew/data/files/2024/csv/2024_annual_singlefile.zip",
+      "vintage": "2024",
+      "fetched_at": "2026-09-03T12:29:23.955411+00:00",
+      "description": "BLS QCEW annual avg employment"
+>>>>>>> f297c8b (Improve: fix stale ZQM-Labs refs, route mismatches, test discovery, CI checklist; verify 123 indicators/6 CVB hotels)
+    },
+    {
+      "id": 10,
       "name": "per_capita_income",
       "value": "59259.0",
       "unit": "USD",
       "category": "Economic",
       "source": "BEA Regional",
-      "vintage": "2024"
+      "source_url": "https://www.bea.gov/data/income-saving/local-area-personal-income",
+      "vintage": "2024",
+      "fetched_at": "2026-09-03T12:29:05.606593+00:00",
+      "description": "Per capita personal income for Volusia County, 2024"
     },
     {
+      "id": 296,
       "name": "per_capita_income_acs",
       "value": "59259",
       "unit": "USD",
       "category": "Economic",
       "source": "US Census ACS 5-Year DP03",
-      "vintage": "2024"
+      "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2024.DP03",
+      "vintage": "2024",
+      "fetched_at": "2026-09-07T23:00:54.230254",
+      "description": "per_capita_income_acs from US Census ACS 5-Year DP03"
     },
     {
+      "id": 8,
       "name": "personal_income_total",
       "value": "35719516.0",
       "unit": "thousands USD",
       "category": "Economic",
       "source": "BEA Regional",
-      "vintage": "2024"
+      "source_url": "https://www.bea.gov/data/income-saving/local-area-personal-income",
+      "vintage": "2024",
+      "fetched_at": "2026-09-03T12:29:04.714548+00:00",
+      "description": "Total personal income (thousands) for Volusia County, 2024"
     },
     {
+      "id": 9,
       "name": "population_bea",
       "value": "602772.0",
       "unit": "persons",
       "category": "Economic",
       "source": "BEA Regional",
-      "vintage": "2024"
+      "source_url": "https://www.bea.gov/data/income-saving/local-area-personal-income",
+      "vintage": "2024",
+      "fetched_at": "2026-09-03T12:29:05.139076+00:00",
+      "description": "Population for Volusia County, 2024"
     },
     {
+      "id": 42,
       "name": "poverty_rate_acs",
       "value": "12.0",
       "unit": "percent",
       "category": "Economic",
       "source": "US Census ACS 5-Year DP03",
-      "vintage": "2024"
+      "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2024.DP03",
+      "vintage": "2024",
+      "fetched_at": "2026-09-07T23:00:54.175555",
+      "description": "poverty_rate_acs from US Census ACS 5-Year DP03"
     },
     {
+      "id": 41,
       "name": "unemployment_rate_acs",
       "value": "4.1",
       "unit": "percent",
       "category": "Economic",
       "source": "US Census ACS 5-Year DP03",
-      "vintage": "2024"
+      "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2024.DP03",
+      "vintage": "2024",
+      "fetched_at": "2026-09-07T23:00:54.144319",
+      "description": "unemployment_rate_acs from US Census ACS 5-Year DP03"
     },
     {
+      "id": 7,
       "name": "unemployment_rate_bls",
       "value": "5.3",
       "unit": "percent",
       "category": "Economic",
       "source": "BLS LAUS",
-      "vintage": "July 2026"
+      "source_url": "https://www.bls.gov/lau/",
+      "vintage": "July 2026",
+      "fetched_at": "2026-09-03T12:29:04.173613+00:00",
+      "description": "BLS LAUS unemployment rate for Volusia County (July 2026)"
     }
   ]
 }

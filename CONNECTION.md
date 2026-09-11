@@ -1,6 +1,6 @@
 # Project Volusia — Repository Connection Guide
 
-> How ZQM-Labs/project-volusia and ZQM-Computing/volusia-portal work together.
+> How the ZQM-Computing/volusia-portal repository works — frontend and backend in one repo.
 
 ---
 
@@ -8,75 +8,64 @@
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                        ZQM-Node-4                                │
-│                    (192.168.1.219)                               │
+│                    ZQM-Computing/volusia-portal                   │
 │                                                                 │
 │  ┌──────────────────────────────────────────────────────────┐  │
-│  │  ZQM-Labs/project-volusia (Backend)                       │  │
-│  │  ┌────────────────────────────────────────────────────┐  │  │
-│  │  │  FastAPI Portal (:8789)                             │  │  │
-│  │  │  - HTML dashboard                                   │  │  │
-│  │  │  - JSON API endpoints                               │  │  │
-│  │  │  - SQLite database                                  │  │  │
-│  │  └────────────────────────────────────────────────────┘  │  │
-│  │  ┌────────────────────────────────────────────────────┐  │  │
-│  │  │  FastAPI API (:8790)                                │  │  │
-│  │  │  - /api/indicators                                  │  │  │
-│  │  │  - /api/health                                      │  │  │
-│  │  │  - /api/datasets                                    │  │  │
-│  │  └────────────────────────────────────────────────────┘  │  │
+│  │  Frontend (React/Vite/TypeScript)                         │  │
+│  │  - Static JSON data files in data/*.json                  │  │
+│  │  - Built to dist/ via `npm run build`                     │  │
+│  │  - Deployed to GitHub Pages → volusia.zqmlabs.com         │  │
 │  └──────────────────────────────────────────────────────────┘  │
 │                              │                                  │
 │                              ▼                                  │
 │  ┌──────────────────────────────────────────────────────────┐  │
-│  │  Cloudflared Tunnel                                      │  │
-│  │  - volusia.zqmlabs.com → localhost:80                    │  │
+│  │  Backend (FastAPI/Python 3.11)                            │  │
+│  │  - Runs on port 8000 (internal, not exposed to internet)  │  │
+│  │  - HTML dashboard: /                                      │  │
+│  │  - JSON API: /api/*                                       │  │
+│  │  - SQLite database: data/volusia.db                       │  │
 │  └──────────────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                     GitHub Pages                                 │
-│                                                                 │
+│                              │                                  │
+│                              ▼                                  │
 │  ┌──────────────────────────────────────────────────────────┐  │
-│  │  ZQM-Computing/volusia-portal (Frontend)                  │  │
-│  │  - React/TypeScript portal                                │  │
-│  │  - Static JSON data files                                 │  │
-│  │  - Deployed to gh-pages branch                            │  │
-│  │  - URL: https://volusia.zqmlabs.com                       │  │
+│  │  nginx (port 80, exposed)                                 │  │
+│  │  - Serves frontend static files                           │  │
+│  │  - Proxies /api/* to backend port 8000                    │  │
+│  │  - 13 security headers (HSTS, CSP, Permissions-Policy)    │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                              │                                  │
+│                              ▼                                  │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │  Cloudflared Tunnel (optional)                            │  │
+│  │  - volusia.zqmlabs.com → localhost:80                     │  │
+│  │  - Exposes the portal to the internet                     │  │
 │  └──────────────────────────────────────────────────────────┘  │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## Repository Roles
+## Repository Structure
 
-### ZQM-Labs/project-volusia (Backend + Data)
-- **Purpose**: Data pipeline, backend API, data storage
-- **Language**: Python (FastAPI, SQLite)
-- **Location**: `\ZQM-GARDEN-03\web\14_Projects\Active\Project-Volusia\`
-- **Key Components**:
-  - `Tools/volusia_data/portal_app.py` — FastAPI portal (port 8789)
-  - `Tools/volusia_data/refresh_v2.py` — Data refresh pipeline
-  - `Tools/volusia_data/volusia.db` — SQLite database
-  - `Data/` — Data files and cache
-- **Deployment**: Runs on ZQM-Node-4 (192.168.1.219)
-- **Ports**:
-  - 8789: HTML portal
-  - 8790: JSON API
-
-### ZQM-Computing/volusia-portal (Frontend)
-- **Purpose**: Public-facing web portal
-- **Language**: TypeScript (React, Vite, Tailwind)
-- **Repository**: https://github.com/ZQM-Computing/volusia-portal
-- **Key Components**:
-  - `src/` — React frontend source
-  - `data/` — Static JSON data exports
-  - `backend/` — FastAPI backend (alternative deployment)
-  - `dist/` — Built frontend (deployed to GitHub Pages)
+### Frontend
+- **Language**: TypeScript (React, Vite, Tailwind, Nivo, Leaflet)
+- **Source**: `src/` — React components, hooks, pages
+- **Build**: `npm run build` → `dist/`
+- **Data**: `data/*.json` — static JSON data files served by nginx
 - **Deployment**: GitHub Pages → https://volusia.zqmlabs.com
-- **CI/CD**: GitHub Actions (`.github/workflows/deploy.yml`)
+
+### Backend
+- **Language**: Python 3.11 (FastAPI, SQLite)
+- **Source**: `backend/` — FastAPI app, routes, gamification
+- **Port**: 8000 (internal only, fronted by nginx)
+- **Database**: `data/volusia.db` — SQLite, gitignored
+- **Data pipeline**: `scripts/refresh_v2.py` — fetches, validates, seeds
+- **API**: `/api/indicators`, `/api/health`, `/api/datasets`, etc.
+
+### Infrastructure
+- **Docker**: `docker-compose.yml` + `Dockerfile` (frontend) + `backend/Dockerfile.backend`
+- **nginx**: `nginx/nginx.conf` — reverse proxy + static files + security headers
+- **CI/CD**: `.github/workflows/ci.yml` — 5-job pipeline
 
 ---
 
@@ -90,76 +79,118 @@
                               │
                               ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│              ZQM-Labs/project-volusia                            │
-│              Tools/volusia_data/refresh_v2.py                    │
-│              (Fetches, validates, stores in SQLite)              │
+│              scripts/refresh_v2.py                               │
+│              (Fetches, validates, seeds SQLite + JSON cache)    │
 └─────────────────────────────────────────────────────────────────┘
                               │
                               ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│              SQLite Database (volusia.db)                         │
-│              26+ indicators, 18 map layers, 154 CVB records     │
+│              SQLite Database (data/volusia.db)                   │
+│              123 indicators, 14 categories, 6 CVB hotel records       │
 └─────────────────────────────────────────────────────────────────┘
                               │
                               ├─────────────────────────────────────┐
                               ▼                                     ▼
 ┌─────────────────────────────────────┐ ┌─────────────────────────────────────┐
-│  Backend API (:8790)                 │ │  JSON Export (data/*.json)          │
-│  /api/indicators                     │ │  - indicators.json                 │
-│  /api/health                         │ │  - economic.json                   │
-│  /api/datasets                       │ │  - demographics.json               │
-│                                      │ │  - climate.json                    │
-│                                      │ │  - tourism.json                    │
-│                                      │ │  - map-layers.json                 │
+│  Backend API (port 8000)            │ │  JSON Export (data/*.json)         │
+│  /api/indicators                    │ │  - indicators.json                 │
+│  /api/health                        │ │  - economic.json                   │
+│  /api/datasets                      │ │  - demographics.json               │
+│  /api/diagnostics                   │ │  - climate.json                    │
+│  /api/cvb_hotels                    │ │  - cvb-hotels.json                 │
+│                                     │ │  - map-layers.json                 │
 └─────────────────────────────────────┘ └─────────────────────────────────────┘
                               │                                     │
                               ▼                                     ▼
 ┌─────────────────────────────────────┐ ┌─────────────────────────────────────┐
-│  Cloudflared Tunnel                  │ │  GitHub Pages                       │
-│  volusia.zqmlabs.com → :80           │ │  volusia.zqmlabs.com                │
-│  (Backend API access)                │ │  (Static frontend + JSON data)      │
+│  nginx (port 80)                    │ │  GitHub Pages                       │
+│  - Serves frontend static files     │ │  - Built frontend (dist/)          │
+│  - Proxies /api/* to :8000          │ │  - Static JSON data files           │
+│  - volusia.zqmlabs.com              │ │  - volusia.zqmlabs.com              │
 └─────────────────────────────────────┘ └─────────────────────────────────────┘
 ```
 
 ---
 
-## Connection Points
+## Local Development
 
-### 1. Data Synchronization
-The frontend (`ZQM-Computing/volusia-portal`) uses static JSON files exported from the backend (`ZQM-Labs/project-volusia`).
+### Prerequisites
+- Docker and Docker Compose
+- Node.js 20+
+- Python 3.11+
+- Git
 
-**Export Process**:
+### Start the full stack
 ```bash
-# In ZQM-Labs/project-volusia
-cd Tools/volusia_data
-python -c "
-import sqlite3, json
-conn = sqlite3.connect('volusia.db')
-conn.row_factory = sqlite3.Row
-cur = conn.execute('SELECT * FROM indicators ORDER BY category, name')
-indicators = [dict(r) for r in cur.fetchall()]
-with open('../../data/indicators.json', 'w') as f:
-    json.dump(indicators, f, indent=2)
-"
+cd volusia-portal
+docker compose up -d
 ```
 
-**Import Process**:
-The frontend's `vite.config.ts` copies `data/*.json` to `dist/data/` during build.
+### Verify
+```bash
+# Backend health
+curl http://localhost:8000/health
 
-### 2. API Connection
-The frontend can connect to the backend API for live data:
+# Frontend (served by nginx)
+curl http://localhost:8080
 
-```typescript
-// In ZQM-Computing/volusia-portal
-const API_BASE = '/data';  // For static JSON files (GitHub Pages)
-// OR
-const API_BASE = 'https://volusia.zqmlabs.com/api';  // For live backend API
+# APIs (proxied through nginx)
+curl http://localhost:8080/api/indicators | head
 ```
 
-### 3. Deployment Connection
-- **GitHub Actions** in `ZQM-Computing/volusia-portal` builds and deploys to `gh-pages` branch
-- **CNAME** file points `volusia.zqmlabs.com` to GitHub Pages
-- **Cloudflared** on ZQM-Node-4 routes traffic to the appropriate service
+### Frontend-only development
+```bash
+cd volusia-portal
+npm install
+npm run dev        # Vite dev server on :5173
+```
+
+### Backend-only development
+```bash
+cd volusia-portal/backend
+pip install -r requirements.txt
+uvicorn main:app --reload --port 8000
+```
+
+### TypeScript compilation check
+```bash
+npx tsc --noEmit
+```
+
+### Run tests
+```bash
+pytest tests/ -v        # Backend: 7 tests
+npx tsc --noEmit        # Frontend: type check
+npm run build           # Frontend: build verification
+```
+
+---
+
+## Data Refresh
+
+```bash
+# Refresh the database and regenerate JSON cache files
+cd volusia-portal
+python scripts/refresh_v2.py
+```
+
+This:
+1. Creates/upgrades the SQLite schema
+2. Seeds 130 indicators across 14 categories
+3. Seeds 6 CVB hotel records
+4. Writes 14 JSON cache files for frontend hooks
+
+---
+
+## Deployment
+
+```bash
+git checkout gh-pages  # or main, depending on your setup
+npm run build
+# Deploy dist/ to GitHub Pages
+```
+
+Or use the automated GitHub Actions workflow: push to `master` and the CI/CD pipeline builds and deploys.
 
 ---
 
@@ -168,11 +199,15 @@ const API_BASE = 'https://volusia.zqmlabs.com/api';  // For live backend API
 | Variable | Purpose | Location |
 |----------|---------|----------|
 | `VOLUSIA_DB_PATH` | Path to SQLite database | Backend |
-| `VOLUSIA_PORT` | Portal port (default: 8789) | Backend |
+| `VOLUSIA_PORT` | Portal port (default: 8000) | Backend |
 | `VOLUSIA_HOST` | Portal host (default: 0.0.0.0) | Backend |
 | `CENSUS_API_KEY` | Census API key (optional) | Backend |
 | `BLS_API_KEY` | BLS API key (optional) | Backend |
 | `BEA_API_KEY` | BEA API key (optional) | Backend |
+| `NOAA_API_KEY` | NOAA API key (optional) | Backend |
+| `C2ER_API_KEY` | C2ER API key (optional) | Backend |
+
+See `.env.example` for the template.
 
 ---
 
@@ -180,58 +215,46 @@ const API_BASE = 'https://volusia.zqmlabs.com/api';  // For live backend API
 
 | Service | URL | Description |
 |---------|-----|-------------|
-| Frontend (GitHub Pages) | https://volusia.zqmlabs.com | Static React portal |
-| Backend API (Cloudflared) | https://volusia.zqmlabs.com/api | Live data API |
-| Backend Portal (Direct) | http://192.168.1.226:8789 | Local network portal |
-| GitHub Repo (Frontend) | https://github.com/ZQM-Computing/volusia-portal | Frontend source |
-| GitHub Repo (Backend) | https://github.com/ZQM-Labs/project-volusia | Backend source |
+| Frontend | https://volusia.zqmlabs.com | Static React portal (GitHub Pages) |
+| Backend API | https://volusia.zqmlabs.com/api | JSON API (nginx proxy) |
+| Backend Portal | http://localhost:8000 | Direct (development only) |
+| GitHub Repo | https://github.com/ZQM-Computing/volusia-portal | This repo |
 
 ---
 
-## Maintenance Tasks
+## Debug endpoints
 
-### Data Refresh
-```bash
-# On ZQM-Node-4
-cd \ZQM-GARDEN-03\web\14_Projects\Active\Project-Volusia\Tools\volusia_data
-python refresh_v2.py
-```
-
-### Frontend Deployment
-```bash
-# Automatic via GitHub Actions on push to master
-# Or manual:
-cd ZQM-Computing/volusia-portal
-npm run build
-# Deploy dist/ to gh-pages branch
-```
-
-### Cloudflared Tunnel
-```bash
-# On ZQM-Node-4
-cloudflared tunnel --config C:\Users\zqmco\.cloudflared\config.yml run
-```
+| Endpoint | What it returns |
+|----------|-----------------|
+| `/api/diagnostics` | Full system check: DB counts, file inventory, npm/python versions |
+| `/api/health` | Health check + indicator count |
+| `/api/indicators.csv` | Download all indicators as CSV |
 
 ---
 
 ## Troubleshooting
 
 ### Frontend shows no data
-1. Check if `data/*.json` files exist in `ZQM-Computing/volusia-portal`
-2. Run data export from `ZQM-Labs/project-volusia`
+1. Check if `data/*.json` files exist in the repo
+2. Run `python scripts/refresh_v2.py` to regenerate
 3. Rebuild and redeploy frontend
 
 ### Backend API not responding
-1. Check if FastAPI is running on ZQM-Node-4: `netstat -ano | findstr :8790`
-2. Check cloudflared tunnel status
-3. Verify DNS: `nslookup volusia.zqmlabs.com`
+1. Check if FastAPI is running: `curl http://localhost:8000/health`
+2. Check Docker: `docker compose ps`
+3. Check logs: `docker compose logs backend`
 
 ### Data not updating
-1. Run `refresh_v2.py` manually
+1. Run `python scripts/refresh_v2.py` manually
 2. Check `audit_log` table in SQLite
 3. Verify API keys are set (if required)
 
+### TypeScript errors
+1. Run `npx tsc --noEmit` to see errors
+2. Fix type issues in `src/` files
+3. Check `src/hooks/useApi.ts` for API URL issues
+
 ---
 
-**Last Updated**: 2026-09-07
-**Maintainer**: ZQM Labs / ZQM Computing
+**Last Updated**: 2026-09-09
+**Maintainer**: ZQM Computing

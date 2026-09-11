@@ -16,8 +16,8 @@ Project Volusia's data pipeline is fully operational with a public GitHub presen
 
 || Field | Value |
 |-------|-------|
-| Repo | `ZQM-Labs/project-volusia` |
-| URL | https://github.com/ZQM-Labs/project-volusia |
+| Repo | `ZQM-Computing/volusia-portal` |
+| URL | https://github.com/ZQM-Computing/volusia-portal |
 | Visibility | Public |
 | Default branch | `main` (upstream tracking set) |
 | Topics | volusia-county, open-data, economic-indicators, data-portal, civic-tech, public-data, workforce-data, zqm-labs |
@@ -183,5 +183,5 @@ All indicators verified against source websites:
 
 ---
 
-**Document owner:** ZQM Labs / Project Volusia  
+**Document owner:** ZQM Computing / Volusia Portal  
 **Next review:** 2026-12-02  

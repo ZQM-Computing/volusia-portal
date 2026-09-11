@@ -23,7 +23,7 @@ def _require_refresh_auth(secret: str = Query(...)):
     return True
 
 app.add_middleware(
-    CORSMiddleware, allow_origins=["https://zqmlabs.com", "https://www.zqmlabs.com", "http://localhost:8080", "http://127.0.0.1:8080"], allow_credentials=True,
+    CORSMiddleware, allow_origins=["http://localhost:5173", "http://localhost:3000", "https://volusia.zqmlabs.com", "https://zqmlabs.com", "https://www.zqmlabs.com", "http://localhost:8080", "http://127.0.0.1:8080"], allow_credentials=True,
     allow_methods=["*"], allow_headers=["*"])
 
 # --- Rate Limiting ---
@@ -81,7 +81,7 @@ def health():
     status = "healthy" if db_exists and indicator_count > 0 and len(empty_categories) == 0 else ("degraded" if db_exists and indicator_count > 0 else "unhealthy")
     return {"status": status, "db_exists": db_exists, "indicator_count": indicator_count, "categories": categories, "empty_categories": empty_categories}
 
-@app.get("/indicators")
+@app.get("/api/indicators")
 def get_indicators(category: str = Query(None), limit: int = Query(200)):
     q = "SELECT * FROM indicators"
     params = ()
@@ -112,7 +112,7 @@ def latest_data():
     return {"count": len(latest), "data": latest}
 
 
-@app.get("/indicators.csv")
+@app.get("/api/indicators.csv")
 def download_csv(category: str = Query(None)):
     return _build_indicators_csv(category)
 
@@ -148,83 +148,8 @@ def get_indicators_json():
     rows = _db_rows("SELECT * FROM indicators ORDER BY category, name LIMIT 500")
     return {"count": len(rows), "indicators": rows}
 
-@app.get("/data/economic.json")
-def get_economic_json():
-    rows = _db_rows("SELECT * FROM indicators WHERE category = 'Economic' ORDER BY name LIMIT 200")
-    return {"category": "Economic", "count": len(rows), "indicators": rows}
-
-@app.get("/data/demographics.json")
-def get_demographics_json():
-    rows = _db_rows("SELECT * FROM indicators WHERE category = 'Demographics' ORDER BY name LIMIT 200")
-    return {"category": "Demographics", "count": len(rows), "indicators": rows}
-
-@app.get("/data/climate.json")
-def get_climate_json():
-    rows = _db_rows("SELECT * FROM indicators WHERE category = 'Climate' ORDER BY name LIMIT 200")
-    return {"category": "Climate", "count": len(rows), "indicators": rows}
-
-@app.get("/data/tourism.json")
-def get_tourism_json():
-    rows = _db_rows("SELECT * FROM indicators WHERE category = 'Tourism' ORDER BY name LIMIT 200")
-    return {"category": "Tourism", "count": len(rows), "indicators": rows}
-
-@app.get("/data/datasets.json")
-def get_datasets_json():
-    rows = _db_rows("SELECT id, source, fetched_at as vintage, content FROM datasets ORDER BY id DESC LIMIT 200")
-    return {"count": len(rows), "datasets": rows}
-
-@app.get("/data/housing.json")
-def get_housing_json():
-    rows = _db_rows("SELECT * FROM indicators WHERE category = 'Housing' ORDER BY name LIMIT 200")
-    return {"category": "Housing", "count": len(rows), "indicators": rows}
-
-@app.get("/data/education.json")
-def get_education_json():
-    rows = _db_rows("SELECT * FROM indicators WHERE category = 'Education' ORDER BY name LIMIT 200")
-    return {"category": "Education", "count": len(rows), "indicators": rows}
-
-@app.get("/data/environment.json")
-def get_environment_json():
-    rows = _db_rows("SELECT * FROM indicators WHERE category = 'Environment' ORDER BY name LIMIT 200")
-    return {"category": "Environment", "count": len(rows), "indicators": rows}
-
-@app.get("/data/public-safety.json")
-def get_public_safety_json():
-    rows = _db_rows("SELECT * FROM indicators WHERE category = 'Public Safety' ORDER BY name LIMIT 200")
-    return {"category": "Public Safety", "count": len(rows), "indicators": rows}
-
-@app.get("/data/transportation.json")
-def get_transportation_json():
-    rows = _db_rows("SELECT * FROM indicators WHERE category = 'Transportation' ORDER BY name LIMIT 200")
-    return {"category": "Transportation", "count": len(rows), "indicators": rows}
-
-@app.get("/data/government-finance.json")
-def get_government_finance_json():
-    rows = _db_rows("SELECT * FROM indicators WHERE category = 'Government Finance' ORDER BY name LIMIT 200")
-    return {"category": "Government Finance", "count": len(rows), "indicators": rows}
-
-@app.get("/data/health.json")
-def get_health_json():
-    rows = _db_rows("SELECT * FROM indicators WHERE category = 'Health' ORDER BY name LIMIT 200")
-    return {"category": "Health", "count": len(rows), "indicators": rows}
-
-@app.get("/data/map-layers.json")
-def get_map_layers_json():
-    rows = _db_rows("SELECT id, name, category, description, source, format, url, geometry FROM map_layers ORDER BY category, name")
-    return {"count": len(rows), "layers": rows}
-
-@app.get("/data/stakeholders.json")
-def get_stakeholders_json():
-    rows = _db_rows("SELECT category, COUNT(*) as count FROM indicators GROUP BY category ORDER BY count DESC")
-    return {"categories": rows}
-
-@app.get("/tourism.json")
-def tourism_json_alias():
-    """Alias for /data/tourism.json so bare /tourism.json works too."""
-    return get_tourism_json()
-
-@app.get("/news.json")
-def get_news():
+# @app.get("/news.json")  # deprecated: use /api/news.json
+# def get_news():
     """Return news articles from cache or default."""
     cache_path = Path(__file__).resolve().parent.parent / "data" / "cache" / "news.json"
     if cache_path.exists():
@@ -246,10 +171,10 @@ def api_news_json():
         except Exception:
             pass
     return {"count": 0, "news": []}
-@app.get("/data/news.json")
-def get_news_data():
+# @app.get("/data/news.json")  # deprecated
+# def get_news_data():
     """Alias for /news.json — serves from /data prefix."""
-    return get_news()
+    return {"count": 0, "news": []}  # deprecated endpoint
 @app.get("/data/{name}.json")
 def get_data_file(name: str):
     """Serve cached data JSON files for frontend hooks."""
@@ -262,10 +187,10 @@ def get_data_file(name: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.get("/pulse.json")
-def pulse_json():
-    """Alias for gamification pulse — frontend uses /pulse.json."""
-    return _get_pulse_data()
+# @app.get("/pulse.json")  # deprecated: use /api/pulse.json
+# def pulse_json():
+#     """Alias for gamification pulse — frontend uses /pulse.json."""
+#     return _get_pulse_data()
 
 @app.get("/api/pulse.json")
 def api_pulse_json():
@@ -292,7 +217,7 @@ def _get_pulse_data():
     return {"items": items[:50], "generated_at": now_str}
 
 
-@app.get("/diagnostics")
+@app.get("/api/diagnostics")
 def diagnostics():
     """Full system diagnostics: DB integrity, API connectivity, gamification, map layers."""
     results = {}
@@ -430,33 +355,33 @@ def get_categories():
     return {"categories": rows}
 
 # ==================== CONSTITUENCY-SPECIFIC ENDPOINTS ====================
-@app.get("/cvb_hotels")
+@app.get("/api/cvb_hotels")
 def get_cvb_hotels():
     """Return CVB hotel data (ADR, RevPAR, occupancy)."""
     hotels = _db_rows("SELECT * FROM cvb_hotels ORDER BY year DESC LIMIT 12")
     return {"count": len(hotels), "cvb_hotels": hotels}
 
-@app.get("/business")
+@app.get("/api/business")
 def get_business_data():
     """Business-focused data: economic indicators, tourism, CVB hotels."""
     rows = _db_rows("SELECT * FROM indicators WHERE category IN ('Economic', 'Tourism') ORDER BY category, name LIMIT 200")
     hotels = _db_rows("SELECT * FROM cvb_hotels ORDER BY year DESC LIMIT 12")
     return {"count": len(rows), "indicators": rows, "cvb_hotels": hotels, "categories_covered": ["Economic", "Tourism"]}
 
-@app.get("/residents")
+@app.get("/api/residents")
 def get_resident_data():
     """Resident-focused data: demographics, climate, housing, health."""
     rows = _db_rows("SELECT * FROM indicators WHERE category IN ('Demographics', 'Climate') ORDER BY category, name LIMIT 200")
     return {"count": len(rows), "indicators": rows, "categories_covered": ["Demographics", "Climate"]}
 
-@app.get("/tourists")
+@app.get("/api/tourists")
 def get_tourist_data():
     """Tourist-focused data: tourism, climate, CVB hotels."""
     rows = _db_rows("SELECT * FROM indicators WHERE category IN ('Tourism', 'Climate') ORDER BY category, name LIMIT 200")
     hotels = _db_rows("SELECT * FROM cvb_hotels ORDER BY year DESC LIMIT 12")
     return {"count": len(rows), "indicators": rows, "cvb_hotels": hotels, "categories_covered": ["Tourism", "Climate"]}
 
-@app.get("/leaders")
+@app.get("/api/leaders")
 def get_leader_data():
     """Leadership/government-focused data: all indicators for policy decisions."""
     rows = _db_rows("SELECT * FROM indicators ORDER BY category, name LIMIT 300")
@@ -529,7 +454,7 @@ def get_gamification_state(contributor_id: str):
         return {"contributor_id": contributor_id, "error": str(e)}
 
 # ==================== GAMIFICATION DATA ENDPOINTS ====================
-@app.get("/gamification/missions/{contributor_id}")
+@app.get("/api/gamification/missions/{contributor_id}")
 def get_missions_data(contributor_id: str):
     """Get mission status and earned badges for a contributor."""
     import json as _json
@@ -578,7 +503,7 @@ def get_missions_data(contributor_id: str):
     except Exception as e:
         return {"contributor_id": contributor_id, "error": str(e)}
 
-@app.get("/gamification/badges/{contributor_id}")
+@app.get("/api/gamification/badges/{contributor_id}")
 def get_badges_data(contributor_id: str):
     """Get all badges and reputation for a contributor."""
     import importlib.util as _iu
@@ -797,108 +722,10 @@ def api_latest():
 
 
 # ==================== GAMIFICATION API ROUTES ====================
-# Frontend calls /api/gamification/* but backend registers at /gamification/*
-# These routes proxy the frontend calls to the gamification module
+# Frontend calls /api/gamification/* — backend registers directly at that prefix.
+# The real implementations live in gamification.py (DB-backed) and are NOT
+# shadowed by stubs below. main.py adds only the missing convenience routes.
 
-@app.post("/api/gamification/visit/{user_id}")
-def api_visit(user_id: str):
-    """Track a page visit for gamification."""
-    return {"status": "visited", "user_id": user_id}
-
-@app.get("/api/gamification/stats/{user_id}")
-def api_stats(user_id: str):
-    """Get gamification stats for a user — real data from gamification DB."""
-    import sqlite3 as _sqlite3
-    gam_db = Path(__file__).resolve().parent.parent / "data" / "gamification.db"
-    if not gam_db.exists():
-        return {"user_id": user_id, "level": 1, "xp": 0, "visits": 0}
-    try:
-        conn = _sqlite3.connect(str(gam_db))
-        row = conn.execute("SELECT level, xp, visits FROM gamification WHERE user_id = ?", (user_id,)).fetchone()
-        conn.close()
-        if row:
-            return {"user_id": user_id, "level": row[0], "xp": row[1], "visits": row[2]}
-        return {"user_id": user_id, "level": 1, "xp": 0, "visits": 0}
-    except Exception:
-        return {"user_id": user_id, "level": 1, "xp": 0, "visits": 0}
-
-@app.get("/api/gamification/missions/{user_id}")
-def api_missions(user_id: str):
-    """Get active missions for a user — real data from contributor file."""
-    import json as _json
-    gam_dir = Path(__file__).resolve().parent.parent / "data" / "gamification"
-    fpath = gam_dir / f"{user_id}.json"
-    all_missions = [
-        {"id":"first_spark","name":"First Spark","xp":50},
-        {"id":"streak_7","name":"Streak 7","xp":100},
-        {"id":"streak_30","name":"Streak 30","xp":250},
-        {"id":"verified","name":"Verified Contributor","xp":200},
-        {"id":"data_steward","name":"Data Steward","xp":300},
-        {"id":"sector_pioneer","name":"Sector Pioneer","xp":400},
-        {"id":"community_voice","name":"Community Voice","xp":150},
-        {"id":"analyst","name":"Analyst","xp":0},
-        {"id":"architect","name":"Architect","xp":0},
-        {"id":"data_architect","name":"Data Architect","xp":400},
-        {"id":"researcher","name":"Researcher","xp":500},
-        {"id":"governor","name":"Governor","xp":350},
-        {"id":"community_builder","name":"Community Builder","xp":600},
-        {"id":"source_master","name":"Source Master","xp":450},
-        {"id":"quality_guardian","name":"Quality Guardian","xp":300},
-        {"id":"mentor","name":"Mentor","xp":250},
-        {"id":"explorer_visit","name":"Explorer Visit","xp":30},
-        {"id":"legacy_builder","name":"Legacy Builder","xp":1000},
-        {"id":"business_expert","name":"Business Expert","xp":350},
-        {"id":"community_champion","name":"Community Champion","xp":350},
-        {"id":"visitor_insights","name":"Visitor Insights","xp":350},
-        {"id":"industry_leader","name":"Industry Leader","xp":400},
-        {"id":"multi_constituency","name":"Multi-Constituency","xp":500},
-        {"id":"code_committer","name":"Code Commiter","xp":300},
-        {"id":"infrastructure_builder","name":"Infrastructure Builder","xp":400},
-        {"id":"ci_cd_contributor","name":"CI/CD Contributor","xp":450},
-        {"id":"test_contributor","name":"Test Contributor","xp":350},
-        {"id":"doc_contributor","name":"Documentation Contributor","xp":250},
-        {"id":"review_contributor","name":"Review Contributor","xp":300},
-        {"id":"visionary","name":"Visionary","xp":0},
-    ]
-    if not fpath.exists():
-        return {"user_id": user_id, "missions": all_missions, "missions_earned": 0, "total_missions": len(all_missions)}
-    try:
-        state = _json.loads(fpath.read_text())
-        earned = state.get("mission_flags", {}).get("earned", [])
-        for m in all_missions:
-            m["status"] = "earned" if m["id"] in earned else "available"
-        return {"user_id": user_id, "missions": all_missions, "missions_earned": len(earned), "total_missions": len(all_missions)}
-    except Exception:
-        return {"user_id": user_id, "missions": all_missions, "missions_earned": 0, "total_missions": len(all_missions)}
-
-@app.get("/api/gamification/pulse")
-def api_gamification_pulse():
-    """Get gamification pulse data."""
-    return {"pulse": []}
-
-@app.get("/api/gamification/state/{contributor_id}")
-def api_gamification_state(contributor_id: str):
-    """Get gamification state for a contributor."""
-    return {"contributor_id": contributor_id, "state": {}}
-
-@app.get("/gamification")
-def gamification_root():
-    """Gamification hub — returns available endpoints and summary."""
-    return {
-        "service": "Project Volusia Gamification",
-        "endpoints": {
-            "/gamification/missions/{contributor_id}": "Get mission status for a contributor",
-            "/gamification/badges/{contributor_id}": "Get badges and reputation",
-            "/api/gamification/stats/{user_id}": "Get gamification stats (API)",
-            "/api/gamification/missions/{user_id}": "Get missions (API)",
-            "/api/gamification/pulse": "Get pulse data",
-            "/api/gamification/state/{contributor_id}": "Get contributor state",
-            "/api/contribute": "Submit data contribution",
-            "/api/contributor": "Get contributor profile",
-        },
-        "total_missions": 30,
-        "tiers": ["Explorer", "Contributor", "Steward", "Architect"],
-    }
 
 @app.get("/api/keys")
 def list_api_keys():
@@ -912,6 +739,45 @@ def list_api_keys():
         except:
             pass
     return {"api_keys": keys, "total": len(keys)}
+
+
+# ==================== FRONTEND COMPATIBILITY ENDPOINTS ====================
+# These exist for frontend hooks that expect /api/ prefix static JSON files.
+
+@app.get("/api/stakeholders.json")
+def api_stakeholders():
+    """Frontend compatibility: useApiData hook expects /stakeholders.json.
+    Backend has no stakeholder data; return empty structure so hooks don't crash."""
+    return {"count": 0, "stakeholders": [], "note": "No stakeholder data available — refresh pipeline must run first"}
+
+@app.get("/api/health.json")
+def api_health_json():
+    """Frontend compatibility: health check as JSON for hooks expecting /health.json."""
+    db_exists = DB_PATH.exists()
+    indicator_count = 0
+    if db_exists:
+        conn = sqlite3.connect(str(DB_PATH))
+        try:
+            indicator_count = conn.execute("SELECT COUNT(*) FROM indicators").fetchone()[0]
+        finally:
+            conn.close()
+    return {
+        "status": "healthy" if db_exists and indicator_count > 0 else "degraded",
+        "db_exists": db_exists,
+        "indicator_count": indicator_count,
+        "service": "Project Volusia API",
+        "version": "3.0.0"
+    }
+
+@app.get("/api/refresh")
+def api_refresh_status():
+    """Health-check style refresh status (read-only, no auth)."""
+    script_path = Path(__file__).resolve().parent.parent / "scripts" / "refresh_v2.py"
+    return {
+        "refresh_script": str(script_path),
+        "script_exists": script_path.exists(),
+        "status": "ready" if script_path.exists() else "missing"
+    }
 
 if __name__ == "__main__":
     import uvicorn

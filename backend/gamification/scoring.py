@@ -6,7 +6,7 @@ from enum import Enum
 from fastapi import APIRouter, Query
 from pydantic import BaseModel, Field
 
-router = APIRouter(prefix="/gamification", tags=["gamification"])
+router = APIRouter(prefix="/api/gamification", tags=["gamification"])
 PROJECT_ROOT = Path(__file__).parent.parent.parent
 GAMIFICATION_DIR = PROJECT_ROOT / "data" / "gamification"
 GAMIFICATION_DIR.mkdir(parents=True, exist_ok=True)

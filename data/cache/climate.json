@@ -1,29 +1,53 @@
 {
-  "count": 3,
+  "count": 4,
   "indicators": [
     {
-      "name": "avg_max_temp",
-      "value": "27.9",
-      "unit": "deg C",
-      "category": "Climate",
-      "source": "NOAA NCEI Daily Summaries",
-      "vintage": "2025-09-07 to 2026-09-07"
-    },
-    {
-      "name": "avg_min_temp",
-      "value": "18.7",
-      "unit": "deg C",
+      "id": 368,
+      "name": "Annual Average Temperature",
+      "value": "73.0",
+      "unit": "F",
       "category": "Climate",
       "source": "NOAA NCEI",
-      "vintage": "2025"
+      "source_url": "https://www.ncei.noaa.gov/",
+      "vintage": "2023",
+      "fetched_at": "2026-09-09T23:37:38.197317+00:00",
+      "description": "Annual average temperature"
     },
     {
-      "name": "total_precip",
-      "value": "13448",
-      "unit": "mm",
+      "id": 369,
+      "name": "Annual Precipitation",
+      "value": "52.8",
+      "unit": "inches",
       "category": "Climate",
-      "source": "NOAA NCEI Daily Summaries",
-      "vintage": "2025-09-07 to 2026-09-07"
+      "source": "NOAA NCEI",
+      "source_url": "https://www.ncei.noaa.gov/",
+      "vintage": "2023",
+      "fetched_at": "2026-09-09T23:37:38.198329+00:00",
+      "description": "Annual total precipitation"
+    },
+    {
+      "id": 370,
+      "name": "Annual Sunny Days",
+      "value": "230",
+      "unit": "days",
+      "category": "Climate",
+      "source": "NOAA NCEI",
+      "source_url": "https://www.ncei.noaa.gov/",
+      "vintage": "2023",
+      "fetched_at": "2026-09-09T23:37:38.199355+00:00",
+      "description": "Annual days with mostly sunny conditions"
+    },
+    {
+      "id": 371,
+      "name": "Hardiness Zone",
+      "value": "9b",
+      "unit": "zone",
+      "category": "Climate",
+      "source": "USDA Plant Hardiness Zone Map",
+      "source_url": "https://planthardiness.ars.usda.gov/",
+      "vintage": "2023",
+      "fetched_at": "2026-09-09T23:37:38.200379+00:00",
+      "description": "USDA Plant Hardiness Zone"
     }
   ]
 }

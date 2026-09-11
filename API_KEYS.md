@@ -25,5 +25,5 @@ export BEA_API_KEY=your_key
 
 Then restart the backend container:
 ```bash
-docker compose down && docker compose up -d
+docker compose stop && docker compose start
 ```

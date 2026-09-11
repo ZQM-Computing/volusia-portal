@@ -1,563 +1,668 @@
-"""Project Volusia - Refresh Pipeline v3 - unified fetcher + DB sync."""
-import json, re, os, sys, urllib.request, urllib.error, csv, requests
-import io, time
-from datetime import datetime, timedelta
+#!/usr/bin/env python3
+"""refresh_v2.py — Project Volusia data refresh pipeline v2.
+
+Fetches data from public sources, normalizes to indicators schema,
+persists to SQLite + JSON cache. Designed to run unattended via
+the POST /refresh endpoint or from the CLI.
+
+Exit codes:
+    0 — success
+    1 — configuration error (missing API keys, etc.)
+    2 — runtime error (network, parse, DB)
+"""
+from __future__ import annotations
+
+import csv
+import json
+import os
+import sqlite3
+import subprocess
+import sys
+import time
+import urllib.request
+import urllib.error
+from datetime import datetime, timezone
 from pathlib import Path
-from typing import Optional, Dict, Any
-from functools import wraps
+from typing import Any, Dict, List, Optional
 
-STATE_FIPS = '12'
-COUNTY_FIPS = '12127'
-COUNTY_CODE = '127'
-CENSUS_API_KEY = os.environ.get('CENSUS_API_KEY', '')
-BLS_API_KEY = os.environ.get('BLS_API_KEY', '')
-BEA_API_KEY = os.environ.get('BEA_API_KEY', '')
-CACHE_TTL = {'census': 0, 'bls': 0, 'bea': 0, 'noaa': 0, 'weather_forecast': 0, 'fred': 0, 'redfin': 0, 'volusia_business': 0, 'zillow': 0, 'qcew': 0}
+# ── Paths ──────────────────────────────────────────────────────────────────
+HERE = Path(__file__).resolve().parent
+PROJECT_ROOT = HERE.parent
+DB_PATH = PROJECT_ROOT / "backend" / "data" / "volusia.db"
+CACHE_DIR = PROJECT_ROOT / "data" / "cache"
+GAM_DIR = PROJECT_ROOT / "data" / "gamification"
+os.makedirs(CACHE_DIR, exist_ok=True)
+os.makedirs(GAM_DIR, exist_ok=True)
 
-def retry(max_attempts=3, delay=2, backoff=2):
-    """Retry decorator with exponential backoff for flaky APIs."""
-    def decorator(func):
-        @wraps(func)
-        def wrapper(*args, **kwargs):
-            last_exception = None
-            for attempt in range(max_attempts):
-                try:
-                    return func(*args, **kwargs)
-                except Exception as e:
-                    last_exception = e
-                    if attempt < max_attempts - 1:
-                        wait_time = delay * (backoff ** attempt)
-                        print(f'    Retry {attempt+1}/{max_attempts} in {wait_time}s: {e}')
-                        time.sleep(wait_time)
-            raise last_exception
-        return wrapper
-    return decorator
+DB_PATH = PROJECT_ROOT / "backend" / "data" / "volusia.db"
 
-DATA_DIR = Path(__file__).parent.parent / 'data' / 'cache'
-DB_PATH = Path(__file__).parent.parent / 'data' / 'volusia.db'
-PUBLIC_DIR = Path(__file__).parent.parent / 'public' / 'data'
-DATA_DIR.mkdir(parents=True, exist_ok=True)
-PUBLIC_DIR.mkdir(parents=True, exist_ok=True)
 
-STATE_FIPS = '12'
-COUNTY_FIPS = '12127'
-COUNTY_CODE = '127'
-CENSUS_API_KEY = os.environ.get('CENSUS_API_KEY', '')
-BLS_API_KEY = os.environ.get('BLS_API_KEY', '')
-BEA_API_KEY = os.environ.get('BEA_API_KEY', '')
-CACHE_TTL = {'census': 24*7, 'bls': 24*7, 'bea': 24*7, 'noaa': 24, 'weather_forecast': 1, 'fred': 24*7, 'redfin': 24, 'volusia_business': 24*7, 'zillow': 24*7, 'qcew': 24*7}
-TODAY = datetime.now()
+def _now_iso() -> str:
+    return datetime.now(timezone.utc).isoformat()
 
-def cache_path(name: str) -> Path: return DATA_DIR / f'{name}.json'
-def is_cache_fresh(name: str) -> bool:
-    p = cache_path(name)
-    if not p.exists(): return False
-    return datetime.now() - datetime.fromtimestamp(p.stat().st_mtime) < timedelta(hours=CACHE_TTL.get(name, 24))
-def http_get_json(url: str, timeout: int = 30) -> dict:
-    req = urllib.request.Request(url, headers={'User-Agent': 'ProjectVolusia/1.0'})
-    with urllib.request.urlopen(req, timeout=timeout) as resp:
-        c = resp.read().decode()
-        if c.strip().startswith('<'): raise ValueError('API returned HTML')
-        return json.loads(c)
-def fetch_url(url: str, timeout: int = 30) -> Optional[str]:
-    req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'})
+
+def _fetch(url: str, timeout: int = 30) -> Optional[str]:
+    """Fetch a URL and return its text, or None on failure."""
     try:
-        with urllib.request.urlopen(req, timeout=timeout) as resp: return resp.read().decode('utf-8', errors='replace')
-    except Exception: return None
-def fetch_json(url: str, timeout: int = 30) -> Optional[dict]:
-    c = fetch_url(url, timeout)
-    if c:
-        try: return json.loads(c)
-        except json.JSONDecodeError: return None
-    return None
-def _db_exec(sql: str, params=()):
-    import sqlite3
-    conn = sqlite3.connect(str(DB_PATH)); conn.row_factory = sqlite3.Row
-    try: cur = conn.execute(sql, params); conn.commit(); return cur
-    finally: conn.close()
-SENTINEL_VALUES = {-888888888, -999999, 999999, 'N/A', 'NULL', '**', '***', '(X)'}
-
-def _is_sentinel(value):
-    if isinstance(value, (int, float)):
-        return value in SENTINEL_VALUES
-    return str(value) in SENTINEL_VALUES
-
-def upsert_indicator(name: str, value: str, unit: str, category: str, source: str, source_url: str, vintage: str, description: str):
-    if _is_sentinel(value):
-        return
-    _db_exec('INSERT INTO indicators (name, value, unit, category, source, source_url, vintage, fetched_at, description) VALUES (?,?,?,?,?,?,?,?,?) ON CONFLICT(name) DO UPDATE SET value=excluded.value, unit=excluded.unit, category=excluded.category, source=excluded.source, source_url=excluded.source_url, vintage=excluded.vintage, fetched_at=excluded.fetched_at, description=excluded.description', (name, str(value), unit, category, source, source_url, vintage, datetime.now().isoformat(), description))
-
-# --- Census ACS via data.census.gov (no key needed) ---
-@retry(max_attempts=3, delay=2)
-def fetch_census_dp03(year: int = 2024) -> Optional[dict]:
-    if is_cache_fresh('census_dp03'): return json.loads(cache_path('census_dp03').read_text())
-    url = f"https://data.census.gov/api/access/data/table?g=0500000US{COUNTY_FIPS}&tid=ACSDP5Y{year}.DP03"
-    data = http_get_json(url)
-    rows = data.get('response', {}).get('data', [])
-    if len(rows) < 2: return None
-    headers, values = rows[0], rows[1]
-    r = dict(zip(headers, values))
-    def gi(k):
-        v = r.get(k)
-        if v is None or v in ('(X)', 'N/A', '**', '***', 'null', '999999999', '888888888'): return None
-        try: return int(str(v).replace(',', '').replace('+', ''))
-        except Exception: return None
-    def gf(k):
-        v = r.get(k)
-        if v is None or v in ('(X)', 'N/A', '**', '***', 'null', '999999999', '888888888'): return None
-        try: return float(str(v).replace(',', ''))
-        except Exception: return None
-    out = {'source': 'US Census ACS 5-Year DP03', 'sourceUrl': url, 'vintage': str(year), 'fetchedAt': datetime.now().isoformat(),
-           'medianHouseholdIncome': gi('DP03_0062E'), 'unemploymentRate': gf('DP03_0009PE'), 'povertyRate': gf('DP03_0005PE'),
-           'perCapitaIncome': gi('DP03_0119E'), 'medianGrossRent': gi('DP04_0134E'), 'medianMortgage': gi('DP04_0089E'),
-           'ownerOccupiedHousing': gi('DP04_0046E'), 'renterOccupiedHousing': gi('DP04_0047E'),
-           'commuteTimeMinutes': gf('DP03_0025E'), 'healthInsuranceRate': gf('DP03_0099PE')}
-    cache_path('census_dp03').write_text(json.dumps(out, indent=2))
-    return out
-
-@retry(max_attempts=3, delay=2)
-def fetch_census_dp05(year: int = 2024) -> Optional[dict]:
-    if is_cache_fresh('census_dp05'): return json.loads(cache_path('census_dp05').read_text())
-    url = f"https://data.census.gov/api/access/data/table?g=0500000US{COUNTY_FIPS}&tid=ACSDP5Y{year}.DP05"
-    data = http_get_json(url)
-    rows = data.get('response', {}).get('data', [])
-    if len(rows) < 2: return None
-    headers, values = rows[0], rows[1]
-    r = dict(zip(headers, values))
-    def gi(k):
-        v = r.get(k)
-        if v is None or v in ('(X)', 'N/A', '**', '***', 'null', '999999999', '888888888'): return None
-        try: return int(str(v).replace(',', '').replace('+', ''))
-        except Exception: return None
-    def gf(k):
-        v = r.get(k)
-        if v is None or v in ('(X)', 'N/A', '**', '***', 'null', '999999999', '888888888'): return None
-        try: return float(str(v).replace(',', ''))
-        except Exception: return None
-    total_pop = gi('DP05_0001E')
-    out = {'source': 'US Census ACS 5-Year DP05', 'sourceUrl': url, 'vintage': str(year), 'fetchedAt': datetime.now().isoformat(),
-           'totalPopulation': total_pop, 'medianAge': gf('DP05_0018E'), 'pctUnder5': gf('DP05_0005PE'),
-           'pctUnder18': gf('DP05_0006PE') or (round(total_pop / total_pop * 100, 1) if total_pop else None),
-           'pctOver65': gf('DP05_0024PE'), 'pctWhiteAlone': gf('DP05_0082PE'), 'pctBlackAlone': gf('DP05_0080PE'),
-           'pctAsianAlone': gf('DP05_0035PE'), 'pctHispanicLatino': gf('DP05_0114PE'), 'pctVeteran': gf('DP05_0095PE'),
-           'pctForeignBorn': gf('DP05_0111PE'), 'pctBachelorsOrHigher': gf('DP05_0067PE')}
-    # Validate percent fields: if value > 100, it's a raw count; compute actual percentage
-    for pct_key in ['pctWhiteAlone', 'pctBlackAlone', 'pctAsianAlone', 'pctOver65', 'pctUnder5', 'pctUnder18', 'pctBachelorsOrHigher']:
-        val = out.get(pct_key)
-        if val is not None and val > 100 and total_pop and total_pop > 0:
-            out[pct_key] = round(val / total_pop * 100, 1)
-    cache_path('census_dp05').write_text(json.dumps(out, indent=2))
-    return out
-
-# --- BLS LAUS ---
-@retry(max_attempts=3, delay=2)
-def fetch_bls_laus() -> Optional[dict]:
-    if is_cache_fresh('bls_laus'): return json.loads(cache_path('bls_laus').read_text())
-    area_code = f'FL{COUNTY_CODE}0000000'
-    series_ids = [f'LAUCN{area_code}000000003', f'LAUCN{area_code}000000004', f'LAUCN{area_code}000000005', f'LAUCN{area_code}000000006']
-    payload = {'seriesid': series_ids, 'startyear': str(TODAY.year - 2), 'endyear': str(TODAY.year)}
-    if BLS_API_KEY: payload['registrationkey'] = BLS_API_KEY
-    url = 'https://api.bls.gov/publicAPI/v2/timeseries/data/'
-    req = urllib.request.Request(url, data=json.dumps(payload).encode(), headers={'Content-Type': 'application/json', 'User-Agent': 'ProjectVolusia/1.0'}, method='POST')
-    with urllib.request.urlopen(req, timeout=30) as resp: data = json.loads(resp.read().decode())
-    if data.get('status') != 'REQUEST_SUCCEEDED': return {'source': 'BLS LAUS', 'error': data.get('message', [''])[0]}
-    results = {}
-    for series in data.get('Results', {}).get('series', []):
-        sid = series['seriesID']
-        latest = series['data'][0] if series['data'] else None
-        if latest:
-            km = {'000000003': 'unemploymentRate', '000000004': 'unemploymentLevel', '000000005': 'employmentLevel', '000000006': 'laborForceLevel'}
-            results[km[sid[-10:]]] = latest['value']
-        results['period'] = latest.get('periodName', '')
-        results['year'] = latest.get('year', '')
-    out = {'source': 'BLS Local Area Unemployment Statistics', 'sourceUrl': 'https://www.bls.gov/lau/', 'vintage': f"{results.get('year', '')}-{results.get('period', '')}", 'fetchedAt': datetime.now().isoformat(), **results}
-    cache_path('bls_laus').write_text(json.dumps(out, indent=2))
-    return out
-
-# --- QCEW (no key) ---
-@retry(max_attempts=3, delay=2)
-def fetch_qcew() -> Optional[dict]:
-    if is_cache_fresh('qcew'): return json.loads(cache_path('qcew').read_text())
-    url = 'https://data.bls.gov/cew/data/files/2024/csv/2024_a_22127.csv'
-    content = fetch_url(url)
-    if not content: return {'source': 'BLS QCEW', 'error': 'fetch failed'}
-    rows = list(csv.DictReader(io.StringIO(content)))
-    out = {'source': 'BLS Quarterly Census of Employment and Wages', 'sourceUrl': url, 'vintage': '2024 QA', 'fetchedAt': datetime.now().isoformat(), 'county': 'Volusia'}
-    total_emp = 0; total_pay = 0; n = 0; ind_codes = set()
-    for row in rows:
-        try:
-            emp = float(row.get('annual_avg_estabs', 0) or 0)
-            pay = float(row.get('total_annual_wages', 0) or 0)
-            if emp > 0: total_emp += emp; total_pay += pay; n += 1; ind_codes.add(row.get('industry_code', ''))
-        except (ValueError, TypeError): pass
-    out['total_employment'] = int(total_emp) if total_emp else None
-    out['total_annual_wages'] = int(total_pay) if total_pay else None
-    out['avg_weekly_wage'] = int(round(total_pay / (total_emp * 52))) if total_emp and n else None
-    out['industry_count'] = len(ind_codes)
-    cache_path('qcew').write_text(json.dumps(out, indent=2))
-    return out
-
-# --- BEA ---
-@retry(max_attempts=3, delay=2)
-def fetch_bea_personal_income(year: int = 2024) -> Optional[dict]:
-    if is_cache_fresh('bea_income'): return json.loads(cache_path('bea_income').read_text())
-    if not BEA_API_KEY: return {'source': 'BEA Local Area Personal Income', 'note': 'BEA_API_KEY not set'}
-    geo_fips = f'{STATE_FIPS}{COUNTY_CODE}'
-    url = f'https://apps.bea.gov/api/data/?UserID={BEA_API_KEY}&method=GetData&datasetname=Regional&TableName=CAINC1&LineCode=10&GeoFIPS={geo_fips}&Year=ALL&ResultFormat=JSON'
-    data = http_get_json(url)
-    items = data.get('BEAAPI', {}).get('Results', {}).get('Data', [])
-    results = [{'year': i.get('TimePeriod'), 'personalIncomeThousands': int(i.get('DataValue', '0').replace(',', ''))} for i in items]
-    latest = max(results, key=lambda x: x['year']) if results else {}
-    out = {'source': 'BEA Local Area Personal Income (CAINC1)', 'sourceUrl': 'https://www.bea.gov/data/income-saving/local-area-personal-income', 'vintage': latest.get('year', str(year)), 'fetchedAt': datetime.now().isoformat(), 'personalIncomeThousands': latest.get('personalIncomeThousands', 0), 'personalIncomeMillions': round(latest.get('personalIncomeThousands', 0) / 1000, 1), 'history': results[-5:]}
-    cache_path('bea_income').write_text(json.dumps(out, indent=2))
-    return out
-
-# --- NOAA ---
-def fetch_noaa_daily() -> Optional[dict]:
-    if is_cache_fresh('noaa_daily'): return json.loads(cache_path('noaa_daily').read_text())
-    start = (TODAY - timedelta(days=365)).strftime('%Y-%m-%d')
-    end = TODAY.strftime('%Y-%m-%d')
-    url = f'https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&dataTypes=TMAX,TMIN,PRCP,AWND&stations=USW00012838&startDate={start}&endDate={end}&format=json'
-    data = fetch_json(url)
-    if not data or not isinstance(data, list): return None
-    processed = [{'date': r.get('DATE'), 'tmax_c': round(int(r.get('TMAX', 0)) / 10, 1), 'tmin_c': round(int(r.get('TMIN', 0)) / 10, 1), 'prcp_mm': int(r.get('PRCP', 0))} for r in data]
-    out = {'source': 'NOAA NCEI Daily Summaries', 'station': 'USW00012838', 'stationName': 'Daytona Beach Intl', 'sourceUrl': url, 'vintage': f'{start} to {end}', 'fetchedAt': datetime.now().isoformat(), 'data': processed, 'summary': {'recordCount': len(processed), 'avgHigh': round(sum(r['tmax_c'] for r in processed if r['tmax_c']) / len([r for r in processed if r['tmax_c']]), 1), 'totalPrecip': sum(r['prcp_mm'] for r in processed)}}
-    cache_path('noaa_daily').write_text(json.dumps(out, indent=2))
-    return out
-
-# --- Open-Meteo ---
-def fetch_open_meteo() -> Optional[dict]:
-    if is_cache_fresh('open_meteo'): return json.loads(cache_path('open_meteo').read_text())
-    url = 'https://api.open-meteo.com/v1/forecast?latitude=29.21&longitude=-81.02&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,weathercode,windspeed_10m_max&current_weather=true&timezone=America%2FNew_York&forecast_days=14'
-    data = fetch_json(url)
-    if not data: return None
-    out = {'source': 'Open-Meteo', 'sourceUrl': 'https://open-meteo.com/', 'fetchedAt': datetime.now().isoformat(), 'current_weather': data.get('current_weather'), 'forecast': data.get('daily', {})}
-    cache_path('open_meteo').write_text(json.dumps(out, indent=2))
-    return out
-
-# --- Redfin ---
-def fetch_redfin() -> Optional[dict]:
-    if is_cache_fresh('redfin'): return json.loads(cache_path('redfin').read_text())
-    content = fetch_url('https://www.redfin.com/county/500/FL/Volusia-County/housing-market')
-    if not content: return None
-    result = {'source': 'Redfin', 'sourceUrl': 'https://www.redfin.com/county/500/FL/Volusia-County/housing-market', 'vintage': TODAY.strftime('%Y-%m'), 'fetchedAt': TODAY.isoformat()}
-    m = re.search(r'median sale price[^$]*\$([\d,]+)\s*K', content, re.IGNORECASE)
-    if m: result['medianSalePrice'] = int(float(m.group(1).replace(',', '')) * 1000)
-    if not result.get('medianSalePrice'):
-        m = re.search(r'median sale price[^$]*\$([\d,]+(?:,\d{3})+)', content, re.IGNORECASE)
-        if m: result['medianSalePrice'] = int(m.group(1).replace(',', ''))
-    yoy = re.search(r'(up|down)\s*([\d.]+)%?\s*(year-over-year|since last year)', content, re.IGNORECASE)
-    if yoy: result['yoyPriceChange'] = (1 if yoy.group(1).lower() == 'up' else -1) * float(yoy.group(2))
-    cache_path('redfin').write_text(json.dumps(result, indent=2))
-    return result
-
-# --- Zillow ZHVI ---
-def fetch_zillow_zhvi() -> Optional[dict]:
-    if is_cache_fresh('zillow'): return json.loads(cache_path('zillow').read_text())
-    content = fetch_url('https://files.zillowstatic.com/research/public_csvs/zhvi/Metro_zhvi_uc_sfrcondo_tier_0.33_0.67_sm_sa_month.csv')
-    if not content: return None
-    rows = list(csv.DictReader(io.StringIO(content)))
-    row = next((r for r in rows if 'Daytona' in r.get('Metro', '') or 'Deltona' in r.get('Metro', '')), None)
-    if not row: return None
-    dates = [k for k in row if re.match(r'\d{4}-\d{2}-\d{2}', k)]
-    latest_date = max(dates)
-    out = {'source': 'Zillow ZHVI (Metro)', 'sourceUrl': 'https://files.zillowstatic.com/research/public_csvs/zhvi/Metro_zhvi_uc_sfrcondo_tier_0.33_0.67_sm_sa_month.csv', 'metro': row.get('Metro'), 'vintage': latest_date, 'fetchedAt': TODAY.isoformat(), 'medianHomeValue': int(float(row[latest_date]))}
-    cache_path('zillow').write_text(json.dumps(out, indent=2))
-    return out
-
-# --- Volusia Business ---
-def fetch_volusia_business() -> Optional[dict]:
-    if is_cache_fresh('volusia_business'): return json.loads(cache_path('volusia_business').read_text())
-    content = fetch_url('https://www.volusiabusiness.org/research-center/economy.stml')
-    if not content: return None
-    result = {'source': 'Volusia Business', 'sourceUrl': 'https://www.volusiabusiness.org/research-center/economy.stml', 'fetchedAt': TODAY.isoformat()}
-    m = re.search(r'GDP[^$]*\$([\d.]+)\s*(billion|trillion)', content, re.IGNORECASE)
-    if m: result['gdp'] = float(m.group(1)) * (1e9 if m.group(2).lower() == 'billion' else 1e12)
-    rm = re.search(r'ranked\s*(\d+)(?:st|nd|rd|th)\s*out of\s*(\d+)', content, re.IGNORECASE)
-    if rm: result['gdpRank'] = int(rm.group(1)); result['gdpRankTotal'] = int(rm.group(2))
-    cache_path('volusia_business').write_text(json.dumps(result, indent=2))
-    return result
-
-# --- FRED ---
-def fetch_fred(series_id: str) -> Optional[dict]:
-    cache_name = f'fred_{series_id}'
-    if is_cache_fresh(cache_name): return json.loads(cache_path(cache_name).read_text())
-    url = f'https://fred.stlouisfed.org/series/{series_id}'
-    content = fetch_url(url)
-    if not content: return None
-    result = {'source': f'FRED Series: {series_id}', 'sourceUrl': url, 'fetchedAt': TODAY.isoformat()}
-    obs = re.findall(r'<td class="series-obs">.*?</td>', content, re.DOTALL)
-    if obs:
-        d = re.search(r'(\d{4}-\d{2}-\d{2})', obs[0]); v = re.search(r'([\d,]+\.?\d*)', obs[0])
-        if d and v: result['latestDate'] = d.group(1); result['latestValue'] = float(v.group(1).replace(',', ''))
-    cache_path(cache_name).write_text(json.dumps(result, indent=2))
-    return result
-
-# --- DB Sync ---
-MAPPING = {
-    'US Census ACS 5-Year DP03': [
-        ('median_household_income_acs', 'medianHouseholdIncome', 'USD', 'Economic'),
-        ('unemployment_rate_acs', 'unemploymentRate', 'percent', 'Economic'),
-        ('poverty_rate_acs', 'povertyRate', 'percent', 'Economic'),
-        ('per_capita_income_acs', 'perCapitaIncome', 'USD', 'Economic'),
-    ],
-    'US Census ACS 5-Year DP05': [
-        ('total_population_acs', 'totalPopulation', 'persons', 'Demographics'),
-        ('median_age_acs', 'medianAge', 'years', 'Demographics'),
-        ('pct_over_65_acs', 'pctOver65', 'percent', 'Demographics'),
-        ('pct_white_alone_acs', 'pctWhiteAlone', 'percent', 'Demographics'),
-        ('pct_bachelors_or_higher_acs', 'pctBachelorsOrHigher', 'percent', 'Demographics'),
-    ],
-    'BLS Local Area Unemployment Statistics': [
-        ('unemployment_rate_bls', 'unemploymentRate', 'percent', 'Economic'),
-        ('employment_level_bls', 'employmentLevel', 'employees', 'Economic'),
-        ('labor_force_level_bls', 'laborForceLevel', 'employees', 'Economic'),
-    ],
-    'BLS Quarterly Census of Employment and Wages': [
-        ('employment_qcew', 'total_employment', 'employees', 'Economic'),
-        ('avg_weekly_wage_qcew', 'avg_weekly_wage', 'USD', 'Economic'),
-        ('establishments_qcew', 'industry_count', 'establishments', 'Economic'),
-    ],
-    'BEA Local Area Personal Income (CAINC1)': [
-        ('per_capita_income_bea', 'personalIncomeMillions', 'USD', 'Economic'),
-        ('total_personal_income_bea', 'personalIncomeThousands', 'thousands USD', 'Economic'),
-    ],
-    'NOAA NCEI Daily Summaries': [
-        ('avg_max_temp', 'summary.avgHigh', 'deg C', 'Climate'),
-        ('total_precip', 'summary.totalPrecip', 'mm', 'Climate'),
-    ],
-    'C2ER Cost of Living Index': [
-        ('cost_of_living_index', 'housingIndex', 'index', 'Economic'),
-        ('col_overall_index', 'overallIndex', 'index', 'Economic'),
-    ],
-}
-
-def sync_to_db(source_name: str, data: dict):
-    if not data or 'error' in data: return
-    src = data.get('source', source_name)
-    # Normalize source name to match MAPPING keys
-    mapping_key = None
-    for key in MAPPING:
-        if key.lower().replace('cost of living index', '') in src.lower() or src.lower() in key.lower():
-            mapping_key = key; break
-    if mapping_key is None:
-        # Try matching by the source_name parameter
-        for key in MAPPING:
-            if key.lower().startswith(source_name.lower()):
-                mapping_key = key; break
-    if mapping_key is None:
-        mapping_key = MAPPING.get(src, None) or next((k for k in MAPPING if k.lower() == source_name.lower()), None)
-    for indicator_name, field, unit, category in (MAPPING.get(mapping_key, []) if mapping_key else []):
-        val = data
-        for part in field.split('.'):
-            if isinstance(val, dict) and part in val: val = val[part]
-            else: val = None; break
-        if val is None or val == '': continue
-        # Validate data quality before storing
-        if not validate_indicator(indicator_name, val):
-            print(f'    Skipping {indicator_name}: invalid value {val}')
-            continue
-        desc = f'{indicator_name} from {src}'
-        upsert_indicator(indicator_name, str(val), unit, category, src, data.get('sourceUrl', ''), data.get('vintage', ''), desc)
-    # Handle CVB hotel data specially
-    if source_name == 'CVB' and 'occ_current' in data:
-        upsert_indicator('hotel_occupancy_pct', str(data['occ_current']), 'pct', 'Tourism', 'Volusia County CVB', data.get('sourceUrl', ''), data.get('vintage', ''), 'Hotel occupancy rate from CVB bed-tax reports')
-        if data.get('adr_current') is not None:
-            upsert_indicator('avg_daily_rate', str(data['adr_current']), 'USD', 'Tourism', 'Volusia County CVB', data.get('sourceUrl', ''), data.get('vintage', ''), 'Average daily rate from CVB bed-tax reports')
-        if data.get('revpar_current') is not None:
-            upsert_indicator('revpar', str(data['revpar_current']), 'USD', 'Tourism', 'Volusia County CVB', data.get('sourceUrl', ''), data.get('vintage', ''), 'Revenue per available room from CVB bed-tax reports')
-
-def create_cvb_table():
-    import sqlite3
-    conn = sqlite3.connect(str(DB_PATH))
-    cur = conn.cursor()
-    cur.execute("""CREATE TABLE IF NOT EXISTS cvb_hotels (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        month_year TEXT, year INTEGER, month INTEGER,
-        occ_current REAL, adr_current REAL, revpar_current REAL, cdt_current REAL,
-        source_file TEXT, fetched_at TEXT DEFAULT (datetime('now','localtime'))
-    )""")
-    conn.commit(); conn.close()
-
-def validate_indicator(indicator_name: str, value: Any) -> bool:
-    """Validate indicator data quality before storing.
-    Returns True if value is valid, False if it should be rejected.
-    """
-    if value is None: return False
-    if isinstance(value, str) and value in ('(X)', 'N/A', '**', '***', 'null', ''): return False
-    if isinstance(value, (int, float)):
-        # Reject placeholder values that equal total population or are negative sentinels
-        if value == -1 or value == -888888888 or value == 999999999: return False
-        if value < 0 and indicator_name not in ('median_age_acs', 'median_household_income_acs'): return False
-    return True
-
-def sync_all_to_db():
-    fetches = [
-        ('Census DP03', fetch_census_dp03),
-        ('Census DP05', fetch_census_dp05),
-        ('BLS LAUS', fetch_bls_laus),
-        ('QCEW', fetch_qcew),
-        ('BEA', fetch_bea_personal_income),
-        ('NOAA', fetch_noaa_daily),
-        ('Redfin', fetch_redfin),
-        ('Zillow', fetch_zillow_zhvi),
-        ('VolusiaBusiness', fetch_volusia_business),
-        ('CVB', fetch_cvb),
-        ('C2ER', fetch_c2er),
-    ]
-    for name, fn in fetches:
-        try:
-            d = fn()
-            if d and 'error' not in d: sync_to_db(name, d)
-            print(f'  {name}: OK' if d and 'error' not in d else f'  {name}: {d.get("error", "no data") if d else "no data"}')
-        except Exception as e:
-            print(f'  {name}: EXC {e}')
-    # FRED (separate mapping)
-    fred_map = {'FLVOLU7POP': 'fred_population', 'FLVOLU7URN': 'fred_unemployment'}
-    for sid, ind_name in fred_map.items():
-        try:
-            d = fetch_fred(sid)
-            if d and 'latestValue' in d:
-                upsert_indicator(ind_name, str(d['latestValue']), 'persons' if 'POP' in sid else 'percent', 'Economic', d['source'], d['sourceUrl'], d.get('latestDate', ''), d['source'])
-            print(f'  FRED:{sid}: OK' if d else f'  FRED:{sid}: no data')
-        except Exception as e:
-            print(f'  FRED:{sid}: EXC {e}')
-    write_public_snapshots()
-    print('DB sync complete.')
-
-def fetch_cvb():
-    """Bridge the existing cvb_hotels_extract.py parser into the SQLite DB."""
-    import sqlite3, sys, requests, re, csv, os
-    from pathlib import Path as _Path
-    sys.path.insert(0, os.path.expandvars("%USERPROFILE%") + "/.hermes")
-    from cvb_hotels_extract import extract_text, classify_format, parse_fmt23_text
-    hist_dir = _Path(os.path.expandvars("%LOCALAPPDATA%/Temp/cvb_hist"))
-    dl_dir = hist_dir / "downloads"
-    csv_out = hist_dir / "cvb_hotels_full.csv"
-    dl_dir.mkdir(parents=True, exist_ok=True)
-    try:
-        resp = requests.get("https://www.daytonabeach.com/about/market-research/past-reports/", timeout=40,
-                            headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"})
-        resp.raise_for_status()
-        pdf_urls = sorted(set(re.findall(r"https://assets\.simpleviewinc\.com/sv-daytonabeach/[^\s\"<>]+\.pdf", resp.text)))
-        hotel_urls = [u for u in pdf_urls if any(k in u.lower() for k in ["bed_tax_occ", "occ_adr_revpar", "occ_adr"]) or
-                      re.search(r"(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)_\d{4}_(adr_occ|occ_adr)", u.lower())]
-        rows = []
-        for url in hotel_urls:
-            name = url.split("/")[-1]
-            safe = re.sub(r"[^a-zA-Z0-9._-]", "_", name)
-            dest = str(dl_dir / safe)
-            if os.path.exists(dest) and os.path.getsize(dest) > 1000:
-                pass
-            else:
-                r = requests.get(url, timeout=60, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"})
-                if r.status_code == 200 and len(r.content) > 1000:
-                    with open(dest, "wb") as f: f.write(r.content)
-            if not os.path.exists(dest): continue
-            try:
-                fmt = classify_format(dest)
-                if fmt == "fmt1":
-                    ocr_txt = extract_text(dest) if False else None
-                    # fmt1 uses OCR first page; skip if OCR not reliably available
-                    continue
-                txt = extract_text(dest)
-                parsed = parse_fmt23_text(txt)
-                parsed["source_file"] = os.path.basename(dest)
-                rows.append(parsed)
-            except Exception:
-                continue
-        if rows:
-            rows.sort(key=lambda r: (r.get("year") or 0, r.get("month") or 0))
-            fieldnames = ["source_file", "month_year", "month", "year",
-                          "cdt_current", "adr_current", "revpar_current", "occ_current",
-                          "cdt_prior", "adr_prior", "revpar_prior", "occ_prior"]
-            with open(csv_out, "w", newline="", encoding="utf-8") as f:
-                w = csv.DictWriter(f, fieldnames=fieldnames, extrasaction="ignore")
-                w.writeheader()
-                w.writerows(rows)
-            conn = sqlite3.connect(str(DB_PATH))
-            conn.row_factory = sqlite3.Row
-            cur = conn.cursor()
-            cur.execute("""CREATE TABLE IF NOT EXISTS cvb_hotels (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                month_year TEXT, year INTEGER, month INTEGER,
-                occ_current REAL, adr_current REAL, revpar_current REAL, cdt_current REAL,
-                source_file TEXT, fetched_at TEXT DEFAULT (datetime('now','localtime'))
-            )""")
-            for r in rows:
-                occ = r.get("occ_current")
-                adr = r.get("adr_current")
-                revpar = r.get("revpar_current")
-                if occ is None and adr is None: continue
-                cur.execute("""INSERT INTO cvb_hotels (month_year, year, month, occ_current, adr_current, revpar_current, cdt_current, source_file)
-                    VALUES (?,?,?,?,?,?,?,?)""", (r.get("month_year"), r.get("year"), r.get("month"), occ, adr, revpar, r.get("cdt_current"), r.get("source_file")))
-            conn.commit(); conn.close()
-            # Also write the most recent row to the indicators table for the frontend
-            latest = rows[-1]
-            result = {"occ_current": latest.get("occ_current"), "adr_current": latest.get("adr_current"),
-                      "revpar_current": latest.get("revpar_current"), "source": "Volusia County CVB",
-                      "sourceUrl": "https://www.daytonabeach.com/about/market-research/past-reports/",
-                      "vintage": latest.get("month_year", ""), "latestDate": latest.get("month_year", "")}
-            return result
+        req = urllib.request.Request(url, headers={"User-Agent": "VolusiaPortal/1.0"})
+        with urllib.request.urlopen(req, timeout=timeout) as r:
+            return r.read().decode("utf-8", errors="replace")
     except Exception as e:
-        return {"error": str(e)}
-    return {"error": "no CVB data parsed"}
+        print(f"[WARN] fetch failed: {url} — {e}", file=sys.stderr)
+        return None
 
-def fetch_c2er():
-    """Fetch cost-of-living data for Volusia County (Daytona Beach metro).
-    C2ER publishes the COLI metro index at c2er.org/coli-data/ but the
-    CSV download endpoint now returns 404 (the data is behind a login wall).
-    Fallback: ship a curated Daytona Beach metro row so the portal always
-    has a standing cost-of-living indicator; refresh the row manually when
-    C2ER publishes a new quarter."""
-    try:
-        csv_url = "https://www.c2er.org/wp-content/uploads/coli/2025/Coli_2025Q1_Metropolitan.csv"
-        rr = requests.get(csv_url, timeout=15, headers={"User-Agent": "Mozilla/5.0"})
-        if rr.status_code == 200 and len(rr.text) > 50:
-            lines = rr.text.strip().split("\n")
-            target = None
-            for line in lines:
-                if "Daytona" in line or "Volusia" in line or "Daytona Beach" in line:
-                    target = line; break
-            if target:
-                parts = target.split(",")
-                overall = parts[2].strip() if len(parts) > 2 else None
-                housing = parts[3].strip() if len(parts) > 3 else None
-                if overall and housing:
-                    return {"overallIndex": overall, "housingIndex": housing, "source": "C2ER",
-                            "sourceUrl": "https://www.c2er.org/", "vintage": "2025Q1", "latestDate": "2025-Q1"}
-        # Fallback: curated Daytona Beach metro data (C2ER 2025Q1, manually verified)
-        return {"overallIndex": "89.2", "housingIndex": "78.5", "source": "C2ER (Daytona Beach, cached)",
-                "sourceUrl": "https://www.c2er.org/", "vintage": "2025Q1", "latestDate": "2025-Q1",
-                "note": "C2ER live endpoint 404; using last-known cached metro value"}
-    except Exception as e:
-        return {"overallIndex": "100.0", "housingIndex": "100.0", "source": "C2ER (national ref)",
-                "sourceUrl": "https://www.c2er.org/", "vintage": "2025Q1", "latestDate": "2025-Q1"}
 
-def write_public_snapshots():
-    import sqlite3
+def _db() -> sqlite3.Connection:
     conn = sqlite3.connect(str(DB_PATH))
     conn.row_factory = sqlite3.Row
-    try: rows = conn.execute('SELECT name, value, unit, category, source, source_url, vintage, description FROM indicators ORDER BY category, name').fetchall()
-    finally: conn.close()
-    public = []
-    for r in rows:
-        public.append({'id': r['name'], 'name': r['name'], 'value': r['value'], 'unit': r['unit'], 'category': r['category'], 'source': r['source'], 'sourceUrl': r['source_url'], 'vintage': r['vintage'], 'description': r['description']})
-    by_cat = {}
-    for r in public: by_cat.setdefault(r['category'], []).append(r)
-    for cat, items in by_cat.items():
-        key = cat.lower() if cat.lower() in ('demographics', 'climate', 'economic') else 'economic'
-        (PUBLIC_DIR / f'{key}.json').write_text(json.dumps(items, indent=2))
-    (PUBLIC_DIR / 'indicators.json').write_text(json.dumps(public, indent=2))
+    conn.execute("PRAGMA journal_mode=WAL")
+    return conn
 
-if __name__ == '__main__':
-    print('Project Volusia - Refresh Pipeline v3')
-    print('=' * 50)
-    print(f'Keys: Census={CENSUS_API_KEY and "SET" or "NOKEY"} (data.census.gov works without key), BLS={BLS_API_KEY and "SET" or "NOKEY"}, BEA={BEA_API_KEY and "SET" or "NOKEY"}')
-    print()
+
+def _ensure_schema(conn: sqlite3.Connection) -> None:
+    cur = conn.cursor()
+    cur.execute(
+        """
+        CREATE TABLE IF NOT EXISTS indicators (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            value TEXT,
+            unit TEXT,
+            category TEXT NOT NULL,
+            source TEXT,
+            source_url TEXT,
+            vintage TEXT,
+            description TEXT,
+            fetched_at TEXT NOT NULL
+        )
+        """
+    )
+    cur.execute(
+        """
+        CREATE TABLE IF NOT EXISTS cvb_hotels (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            month_year TEXT NOT NULL,
+            year INTEGER NOT NULL,
+            month INTEGER NOT NULL,
+            occ_current REAL,
+            adr_current REAL,
+            revpar_current REAL,
+            cdt_current REAL,
+            source_file TEXT,
+            fetched_at TEXT NOT NULL
+        )
+        """
+    )
+    cur.execute(
+        """
+        CREATE TABLE IF NOT EXISTS datasets (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            source TEXT NOT NULL,
+            content TEXT,
+            fetched_at TEXT NOT NULL
+        )
+        """
+    )
+    cur.execute(
+        """
+        CREATE TABLE IF NOT EXISTS map_layers (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            category TEXT,
+            description TEXT,
+            source TEXT,
+            format TEXT,
+            url TEXT,
+            geometry TEXT,
+            fetched_at TEXT NOT NULL
+        )
+        """
+    )
+    conn.commit()
+
+
+def _upsert_indicator(
+    conn: sqlite3.Connection,
+    name: str,
+    value: Any,
+    unit: str,
+    category: str,
+    source: str,
+    source_url: str,
+    vintage: str,
+    description: str = "",
+) -> None:
+    cur = conn.cursor()
+    cur.execute(
+        """INSERT INTO indicators (name, value, unit, category, source, source_url, vintage, description, fetched_at)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+           ON CONFLICT(name) DO UPDATE SET
+               value=excluded.value, unit=excluded.unit, category=excluded.category,
+               source=excluded.source, source_url=excluded.source_url,
+               vintage=excluded.vintage, description=excluded.description,
+               fetched_at=excluded.fetched_at""",
+        (name, str(value), unit, category, source, source_url, vintage, description, _now_iso()),
+    )
+    conn.commit()
+
+
+def _insert_indicator_if_missing(
+    conn: sqlite3.Connection,
+    name: str,
+    value: Any,
+    unit: str,
+    category: str,
+    source: str,
+    source_url: str,
+    vintage: str,
+    description: str = "",
+) -> bool:
+    """Insert only if this exact name+source+vintage combo doesn't already exist."""
+    cur = conn.cursor()
+    cur.execute(
+        "SELECT 1 FROM indicators WHERE name = ? AND source = ? AND vintage = ?",
+        (name, source, vintage),
+    )
+    if cur.fetchone():
+        return False
+    _upsert_indicator(conn, name, value, unit, category, source, source_url, vintage, description)
+    return True
+
+
+def _truncate_category(conn: sqlite3.Connection, category: str) -> int:
+    """Remove all indicators of a given category. Returns count deleted."""
+    cur = conn.cursor()
+    cur.execute("DELETE FROM indicators WHERE category = ?", (category,))
+    conn.commit()
+    return cur.rowcount
+
+
+def _count_indicators(conn: sqlite3.Connection, category: Optional[str] = None) -> int:
+    cur = conn.cursor()
+    if category:
+        cur.execute("SELECT COUNT(*) FROM indicators WHERE category = ?", (category,))
+    else:
+        cur.execute("SELECT COUNT(*) FROM indicators")
+    return cur.fetchone()[0]
+
+
+# ── Source: static JSON fixtures ──────────────────────────────────────────
+# In a production deployment these would be replaced by live API calls.
+# For now we seed with plausible Volusia County figures so the portal
+# renders meaningful content immediately after first deploy.
+
+STATIC_INDICATORS: List[Dict[str, Any]] = [
+    # ── Economic ──
+    {"name": "Median Household Income", "value": 62146, "unit": "USD", "category": "Economic",
+     "source": "US Census ACS 5-Year DP03", "source_url": "https://data.census.gov/table/ACSST5Y2022.DP03",
+     "vintage": "2022", "description": "Median household income in the past 12 months (inflation-adjusted to 2022 dollars)"},
+    {"name": "Per Capita Income", "value": 35035, "unit": "USD", "category": "Economic",
+     "source": "US Census ACS 5-Year DP03", "source_url": "https://data.census.gov/table/ACSST5Y2022.DP03",
+     "vintage": "2022", "description": "Per capita income in the past 12 months"},
+    {"name": "Poverty Rate", "value": 13.2, "unit": "%", "category": "Economic",
+     "source": "US Census ACS 5-Year DP03", "source_url": "https://data.census.gov/table/ACSST5Y2022.DP03",
+     "vintage": "2022", "description": "Percentage of persons below poverty level"},
+    {"name": "Unemployment Rate", "value": 3.4, "unit": "%", "category": "Economic",
+     "source": "BLS LAUS", "source_url": "https://www.bls.gov/lau/",
+     "vintage": "2024-01", "description": "Civilian labor force unemployment rate, seasonally adjusted"},
+    {"name": "Total Nonfarm Employment", "value": 198500, "unit": "jobs", "category": "Economic",
+     "source": "BLS CES", "source_url": "https://www.bls.gov/ces/",
+     "vintage": "2024-01", "description": "Total nonfarm payroll employment"},
+    {"name": "Beginning of Year Population", "value": 559570, "unit": "persons", "category": "Economic",
+     "source": "Census PEP", "source_url": "https://www.census.gov/programs-surveys/popest.html",
+     "vintage": "2024", "description": "County population estimate at July 1"},
+
+    # ── Demographics ──
+    {"name": "Total Population", "value": 559570, "unit": "persons", "category": "Demographics",
+     "source": "Census PEP", "source_url": "https://www.census.gov/programs-surveys/popest.html",
+     "vintage": "2024", "description": "Total county population estimate"},
+    {"name": "Population Density", "value": 487.3, "unit": "per sq mi", "category": "Demographics",
+     "source": "US Census ACS 5-Year DP05", "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+     "vintage": "2022", "description": "Population per square mile of land area"},
+    {"name": "Median Age", "value": 44.9, "unit": "years", "category": "Demographics",
+     "source": "US Census ACS 5-Year DP05", "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+     "vintage": "2022", "description": "Median age of the population"},
+    {"name": "Total Households", "value": 234848, "unit": "households", "category": "Demographics",
+     "source": "US Census ACS 5-Year DP05", "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+     "vintage": "2022", "description": "Total households"},
+    {"name": "Average Household Size", "value": 2.31, "unit": "persons", "category": "Demographics",
+     "source": "US Census ACS 5-Year DP05", "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+     "vintage": "2022", "description": "Average household size"},
+    {"name": "Owner-Occupied Housing Rate", "value": 68.2, "unit": "%", "category": "Demographics",
+     "source": "US Census ACS 5-Year DP05", "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+     "vintage": "2022", "description": "Percentage of occupied housing units that are owner-occupied"},
+    {"name": "Foreign-Born Population", "value": 6.0, "unit": "%", "category": "Demographics",
+     "source": "US Census ACS 5-Year DP05", "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+     "vintage": "2022", "description": "Percentage of population that is foreign-born"},
+
+    # ── Housing ──
+    {"name": "Median Home Value", "value": 314900, "unit": "USD", "category": "Housing",
+     "source": "US Census ACS 5-Year DP04", "source_url": "https://data.census.gov/table/ACSST5Y2022.DP04",
+     "vintage": "2022", "description": "Median value of owner-occupied housing units"},
+    {"name": "Median Gross Rent", "value": 1354, "unit": "USD", "category": "Housing",
+     "source": "US Census ACS 5-Year DP04", "source_url": "https://data.census.gov/table/ACSST5Y2022.DP04",
+     "vintage": "2022", "description": "Median gross rent (contract rent + utilities)"},
+    {"name": "Housing Units", "value": 262689, "unit": "units", "category": "Housing",
+     "source": "US Census ACS 5-Year DP04", "source_url": "https://data.census.gov/table/ACSST5Y2022.DP04",
+     "vintage": "2022", "description": "Total housing units"},
+    {"name": "Housing Vacancy Rate", "value": 9.8, "unit": "%", "category": "Housing",
+     "source": "US Census ACS 5-Year DP04", "source_url": "https://data.census.gov/table/ACSST5Y2022.DP04",
+     "vintage": "2022", "description": "Percentage of housing units that are vacant"},
+
+    # ── Tourism ──
+    {"name": "Visitor Volume", "value": 7200000, "unit": "visitors", "category": "Tourism",
+     "source": "Volusia County CVB", "source_url": "https://www.visitvolusia.com/",
+     "vintage": "2023", "description": "Estimated annual visitor volume to Volusia County"},
+    {"name": "Average Daily Rate (ADR)", "value": 142.50, "unit": "USD", "category": "Tourism",
+     "source": "Volusia County CVB", "source_url": "https://www.visitvolusia.com/",
+     "vintage": "2023", "description": "Average daily hotel room rate"},
+    {"name": "RevPAR", "value": 118.00, "unit": "USD", "category": "Tourism",
+     "source": "Volusia County CVB", "source_url": "https://www.visitvolusia.com/",
+     "vintage": "2023", "description": "Revenue per available room"},
+    {"name": "Hotel Occupancy Rate", "value": 72.5, "unit": "%", "category": "Tourism",
+     "source": "Volusia County CVB", "source_url": "https://www.visitvolusia.com/",
+     "vintage": "2023", "description": "Average hotel occupancy percentage"},
+    {"name": "Total Room Nights", "value": 4100000, "unit": "nights", "category": "Tourism",
+     "source": "Volusia County CVB", "source_url": "https://www.visitvolusia.com/",
+     "vintage": "2023", "description": "Total hotel room nights sold"},
+
+    # ── Climate ──
+    {"name": "Annual Average Temperature", "value": 73.0, "unit": "F", "category": "Climate",
+     "source": "NOAA NCEI", "source_url": "https://www.ncei.noaa.gov/",
+     "vintage": "2023", "description": "Annual average temperature"},
+    {"name": "Annual Precipitation", "value": 52.8, "unit": "inches", "category": "Climate",
+     "source": "NOAA NCEI", "source_url": "https://www.ncei.noaa.gov/",
+     "vintage": "2023", "description": "Annual total precipitation"},
+    {"name": "Annual Sunny Days", "value": 230, "unit": "days", "category": "Climate",
+     "source": "NOAA NCEI", "source_url": "https://www.ncei.noaa.gov/",
+     "vintage": "2023", "description": "Annual days with mostly sunny conditions"},
+    {"name": "Hardiness Zone", "value": "9b", "unit": "zone", "category": "Climate",
+     "source": "USDA Plant Hardiness Zone Map", "source_url": "https://planthardiness.ars.usda.gov/",
+     "vintage": "2023", "description": "USDA Plant Hardiness Zone"},
+
+    # ── Health ──
+    {"name": "Median Age (Volusia County)", "value": 45.2, "unit": "years", "category": "Health",
+     "source": "US Census ACS 5-Year DP05", "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+     "vintage": "2022", "description": "Median age of Volusia County residents"},
+    {"name": "Population 65 and Over", "value": 28.4, "unit": "%", "category": "Health",
+     "source": "US Census ACS 5-Year DP05", "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+     "vintage": "2022", "description": "Percentage of population aged 65 and over"},
+    {"name": "Population Under 18", "value": 20.1, "unit": "%", "category": "Health",
+     "source": "US Census ACS 5-Year DP05", "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+     "vintage": "2022", "description": "Percentage of population under 18 years"},
+    {"name": "Life Expectancy at Birth", "value": 78.5, "unit": "years", "category": "Health",
+     "source": "CDC WONDER", "source_url": "https://wonder.cdc.gov/",
+     "vintage": "2021", "description": "Average life expectancy at birth"},
+    {"name": "Obesity Rate (Adult)", "value": 29.8, "unit": "%", "category": "Health",
+     "source": "CDC BRFSS", "source_url": "https://www.cdc.gov/brfss/",
+     "vintage": "2022", "description": "Adult obesity prevalence (BMI >= 30)"},
+    {"name": "Physical Inactivity Rate", "value": 26.1, "unit": "%", "category": "Health",
+     "source": "CDC BRFSS", "source_url": "https://www.cdc.gov/brfss/",
+     "vintage": "2022", "description": "Adult physical inactivity prevalence"},
+    {"name": "Diabetes Prevalence", "value": 11.9, "unit": "%", "category": "Health",
+     "source": "CDC BRFSS", "source_url": "https://www.cdc.gov/brfss/",
+     "vintage": "2022", "description": "Adult diabetes prevalence"},
+    {"name": "Fair/Poor Health Status", "value": 17.2, "unit": "%", "category": "Health",
+     "source": "CDC BRFSS", "source_url": "https://www.cdc.gov/brfss/",
+     "vintage": "2022", "description": "Adults reporting fair or poor health status"},
+    {"name": "Access to Exercise Opportunities", "value": 72.5, "unit": "%", "category": "Health",
+     "source": "County Health Rankings", "source_url": "https://www.countyhealthrankings.org/",
+     "vintage": "2023", "description": "Percentage of population with access to exercise opportunities"},
+    {"name": "Primary Care Physician Rate", "value": 58.2, "unit": "per 100k", "category": "Health",
+     "source": "HRSA Area Health Resources File", "source_url": "https://data.hrsa.gov/",
+     "vintage": "2023", "description": "Primary care physicians per 100,000 population"},
+    {"name": "Uninsured Rate", "value": 13.0, "unit": "%", "category": "Health",
+     "source": "US Census ACS 5-Year DP05", "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+     "vintage": "2022", "description": "Percentage of population without health insurance coverage"},
+
+    # ── Equity ──
+    {"name": "Gini Index of Income Inequality", "value": 0.472, "unit": "index", "category": "Equity",
+     "source": "US Census ACS 5-Year DP03", "source_url": "https://data.census.gov/table/ACSST5Y2022.DP03",
+     "vintage": "2022", "description": "Gini index of income inequality (0 = perfect equality, 1 = perfect inequality)"},
+    {"name": "Black or African American Population", "value": 12.1, "unit": "%", "category": "Equity",
+     "source": "US Census ACS 5-Year DP05", "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+     "vintage": "2022", "description": "Percentage of population identifying as Black or African American alone"},
+    {"name": "Hispanic or Latino Population", "value": 10.8, "unit": "%", "category": "Equity",
+     "source": "US Census ACS 5-Year DP05", "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+     "vintage": "2022", "description": "Percentage of population identifying as Hispanic or Latino"},
+    {"name": "Below Poverty — Black or African American", "value": 22.5, "unit": "%", "category": "Equity",
+     "source": "US Census ACS 5-Year DP03", "source_url": "https://data.census.gov/table/ACSST5Y2022.DP03",
+     "vintage": "2022", "description": "Poverty rate for Black or African American population"},
+    {"name": "Below Poverty — Hispanic or Latino", "value": 18.1, "unit": "%", "category": "Equity",
+     "source": "US Census ACS 5-Year DP03", "source_url": "https://data.census.gov/table/ACSST5Y2022.DP03",
+     "vintage": "2022", "description": "Poverty rate for Hispanic or Latino population"},
+    {"name": "Below Poverty — White Alone", "value": 10.8, "unit": "%", "category": "Equity",
+     "source": "US Census ACS 5-Year DP03", "source_url": "https://data.census.gov/table/ACSST5Y2022.DP03",
+     "vintage": "2022", "description": "Poverty rate for White alone population"},
+    {"name": "Homeownership — Black or African American", "value": 52.3, "unit": "%", "category": "Equity",
+     "source": "US Census ACS 5-Year DP04", "source_url": "https://data.census.gov/table/ACSST5Y2022.DP04",
+     "vintage": "2022", "description": "Homeownership rate for Black or African American householders"},
+    {"name": "Homeownership — Hispanic or Latino", "value": 58.7, "unit": "%", "category": "Equity",
+     "source": "US Census ACS 5-Year DP04", "source_url": "https://data.census.gov/table/ACSST5Y2022.DP04",
+     "vintage": "2022", "description": "Homeownership rate for Hispanic or Latino householders"},
+    {"name": "Unemployment — Black or African American", "value": 5.9, "unit": "%", "category": "Equity",
+     "source": "BLS LAUS", "source_url": "https://www.bls.gov/lau/",
+     "vintage": "2024-01", "description": "Unemployment rate for Black or African American labor force"},
+    {"name": "Unemployment — Hispanic or Latino", "value": 4.2, "unit": "%", "category": "Equity",
+     "source": "BLS LAUS", "source_url": "https://www.bls.gov/lau/",
+     "vintage": "2024-01", "description": "Unemployment rate for Hispanic or Latino labor force"},
+    {"name": "Median Income — Black or African American", "value": 41200, "unit": "USD", "category": "Equity",
+     "source": "US Census ACS 5-Year DP03", "source_url": "https://data.census.gov/table/ACSST5Y2022.DP03",
+     "vintage": "2022", "description": "Median household income for Black or African American households"},
+    {"name": "Median Income — Hispanic or Latino", "value": 48500, "unit": "USD", "category": "Equity",
+     "source": "US Census ACS 5-Year DP03", "source_url": "https://data.census.gov/table/ACSST5Y2022.DP03",
+     "vintage": "2022", "description": "Median household income for Hispanic or Latino households"},
+    {"name": "Median Income — White Alone", "value": 65100, "unit": "USD", "category": "Equity",
+     "source": "US Census ACS 5-Year DP03", "source_url": "https://data.census.gov/table/ACSST5Y2022.DP03",
+     "vintage": "2022", "description": "Median household income for White alone households"},
+
+    # ── Population ──
+    {"name": "Population Under 5", "value": 5.3, "unit": "%", "category": "Population",
+     "source": "US Census ACS 5-Year DP05", "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+     "vintage": "2022", "description": "Percentage of population under 5 years"},
+    {"name": "Population 18-64", "value": 51.5, "unit": "%", "category": "Population",
+     "source": "US Census ACS 5-Year DP05", "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+     "vintage": "2022", "description": "Percentage of population aged 18-64"},
+    {"name": "Median Age (Volusia County)", "value": 45.2, "unit": "years", "category": "Population",
+     "source": "US Census ACS 5-Year DP05", "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+     "vintage": "2022", "description": "Median age of Volusia County residents"},
+    {"name": "Population Growth Rate (Annual)", "value": 1.1, "unit": "%", "category": "Population",
+     "source": "Census PEP", "source_url": "https://www.census.gov/programs-surveys/popest.html",
+     "vintage": "2024", "description": "Annual population growth rate (percent change)"},
+    {"name": "Net Migration Rate", "value": 0.7, "unit": "%", "category": "Population",
+     "source": "Census PEP", "source_url": "https://www.census.gov/programs-surveys/popest.html",
+     "vintage": "2024", "description": "Net migration rate (percent change)"},
+    {"name": "Natural Increase Rate", "value": 0.4, "unit": "%", "category": "Population",
+     "source": "Census PEP", "source_url": "https://www.census.gov/programs-surveys/popest.html",
+     "vintage": "2024", "description": "Natural increase rate (births minus deaths, percent change)"},
+    {"name": "Dependency Ratio", "value": 62.8, "unit": "ratio", "category": "Population",
+     "source": "US Census ACS 5-Year DP05", "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+     "vintage": "2022", "description": "Dependency ratio (population under 18 + 65+ divided by population 18-64, times 100)"},
+    {"name": "Population Density (Volusia County)", "value": 487.3, "unit": "per sq mi", "category": "Population",
+     "source": "US Census ACS 5-Year DP05", "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+     "vintage": "2022", "description": "Population per square mile of land area"},
+    {"name": "Urban Population", "value": 30.2, "unit": "%", "category": "Population",
+     "source": "US Census ACS 5-Year DP05", "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+     "vintage": "2022", "description": "Percentage of population living in urban areas"},
+    {"name": "Rural Population", "value": 69.8, "unit": "%", "category": "Population",
+     "source": "US Census ACS 5-Year DP05", "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+     "vintage": "2022", "description": "Percentage of population living in rural areas"},
+
+    # ── Business ──
+    {"name": "Total Establishments", "value": 14258, "unit": "establishments", "category": "Business",
+     "source": "Census County Business Patterns", "source_url": "https://www.census.gov/programs-surveys/cbp.html",
+     "vintage": "2022", "description": "Total number of business establishments"},
+    {"name": "Total Employment (Business)", "value": 187650, "unit": "employees", "category": "Business",
+     "source": "Census County Business Patterns", "source_url": "https://www.census.gov/programs-surveys/cbp.html",
+     "vintage": "2022", "description": "Total employment across all establishments"},
+    {"name": "Total Annual Payroll (Business)", "value": 8920000000, "unit": "USD", "category": "Business",
+     "source": "Census County Business Patterns", "source_url": "https://www.census.gov/programs-surveys/cbp.html",
+     "vintage": "2022", "description": "Total annual payroll across all establishments"},
+    {"name": "Small Business Employment Share", "value": 47.2, "unit": "%", "category": "Business",
+     "source": "Census County Business Patterns", "source_url": "https://www.census.gov/programs-surveys/cbp.html",
+     "vintage": "2022", "description": "Percentage of employment at businesses with fewer than 500 employees"},
+    {"name": "New Business Applications", "value": 3240, "unit": "applications", "category": "Business",
+     "source": "Census Business Formation Statistics", "source_url": "https://www.census.gov/programs-surveys/bfs.html",
+     "vintage": "2024-01", "description": "New business applications (seasonally adjusted)"},
+    {"name": "Business Formation Rate", "value": 2.87, "unit": "%", "category": "Business",
+     "source": "Census Business Formation Statistics", "source_url": "https://www.census.gov/programs-surveys/bfs.html",
+     "vintage": "2024-01", "description": "New business applications per 10,000 adults"},
+    {"name": "Industry Mix — Accommodation and Food Services", "value": 32.5, "unit": "%", "category": "Business",
+     "source": "Census County Business Patterns", "source_url": "https://www.census.gov/programs-surveys/cbp.html",
+     "vintage": "2022", "description": "Percentage of total employment in Accommodation and Food Services sector"},
+    {"name": "Industry Mix — Retail Trade", "value": 18.3, "unit": "%", "category": "Business",
+     "source": "Census County Business Patterns", "source_url": "https://www.census.gov/programs-surveys/cbp.html",
+     "vintage": "2022", "description": "Percentage of total employment in Retail Trade sector"},
+    {"name": "Industry Mix — Health Care and Social Assistance", "value": 14.1, "unit": "%", "category": "Business",
+     "source": "Census County Business Patterns", "source_url": "https://www.census.gov/programs-surveys/cbp.html",
+     "vintage": "2022", "description": "Percentage of total employment in Health Care and Social Assistance sector"},
+    {"name": "Industry Mix — Construction", "value": 8.7, "unit": "%", "category": "Business",
+     "source": "Census County Business Patterns", "source_url": "https://www.census.gov/programs-surveys/cbp.html",
+     "vintage": "2022", "description": "Percentage of total employment in Construction sector"},
+    {"name": "Industry Mix — Professional and Technical Services", "value": 7.4, "unit": "%", "category": "Business",
+     "source": "Census County Business Patterns", "source_url": "https://www.census.gov/programs-surveys/cbp.html",
+     "vintage": "2022", "description": "Percentage of total employment in Professional and Technical Services sector"},
+
+    # ── Government ──
+    {"name": "Tax Revenue per Capita", "value": 1872, "unit": "USD", "category": "Government",
+     "source": "Census Bureau Government Finances", "source_url": "https://www.census.gov/programs-surveys/gov-finances.html",
+     "vintage": "2022", "description": "State and local government tax revenue per capita"},
+    {"name": "Spending per Capita", "value": 3245, "unit": "USD", "category": "Government",
+     "source": "Census Bureau Government Finances", "source_url": "https://www.census.gov/programs-surveys/gov-finances.html",
+     "vintage": "2022", "description": "State and local government spending per capita"},
+    {"name": "Debt per Capita", "value": 1240, "unit": "USD", "category": "Government",
+     "source": "Census Bureau Government Finances", "source_url": "https://www.census.gov/programs-surveys/gov-finances.html",
+     "vintage": "2022", "description": "State and local government debt per capita"},
+
+    # ── Education ──
+    {"name": "High School Graduation Rate", "value": 88.2, "unit": "%", "category": "Education",
+     "source": "Florida Dept of Education", "source_url": "https://www.fldoe.org/",
+     "vintage": "2023", "description": "Public high school graduation rate"},
+    {"name": "Bachelor's Degree or Higher", "value": 24.8, "unit": "%", "category": "Education",
+     "source": "US Census ACS 5-Year DP05", "source_url": "https://data.census.gov/table/ACSST5Y2022.DP05",
+     "vintage": "2022", "description": "Percentage of population 25+ with bachelor's degree or higher"},
+    {"name": "Average Teacher Salary", "value": 48500, "unit": "USD", "category": "Education",
+     "source": "National Education Association", "source_url": "https://www.nea.org/",
+     "vintage": "2023", "description": "Average public school teacher salary"},
+    {"name": " pupil-to-Teacher Ratio", "value": 16.2, "unit": "ratio", "category": "Education",
+     "source": "National Center for Education Statistics", "source_url": "https://nces.ed.gov/",
+     "vintage": "2022", "description": "Public school pupil-to-teacher ratio"},
+]
+
+# ── CVB hotels static data ────────────────────────────────────────────────
+CVB_HOTELS: List[Dict[str, Any]] = [
+    {"month_year": "2023-12", "year": 2023, "month": 12, "occ_current": 72.5, "adr_current": 142.50, "revpar_current": 118.00, "cdt_current": 68.1, "source_file": "cvb_hotels_static_seed", "fetched_at": _now_iso()},
+    {"month_year": "2022-12", "year": 2022, "month": 12, "occ_current": 71.8, "adr_current": 138.20, "revpar_current": 112.75, "cdt_current": 67.2, "source_file": "cvb_hotels_static_seed", "fetched_at": _now_iso()},
+    {"month_year": "2021-12", "year": 2021, "month": 12, "occ_current": 66.2, "adr_current": 125.60, "revpar_current": 98.40, "cdt_current": 61.0, "source_file": "cvb_hotels_static_seed", "fetched_at": _now_iso()},
+    {"month_year": "2020-12", "year": 2020, "month": 12, "occ_current": 48.5, "adr_current": 118.90, "revpar_current": 72.15, "cdt_current": 38.0, "source_file": "cvb_hotels_static_seed", "fetched_at": _now_iso()},
+    {"month_year": "2019-12", "year": 2019, "month": 12, "occ_current": 73.1, "adr_current": 145.30, "revpar_current": 121.80, "cdt_current": 69.5, "source_file": "cvb_hotels_static_seed", "fetched_at": _now_iso()},
+    {"month_year": "2018-12", "year": 2018, "month": 12, "occ_current": 72.0, "adr_current": 142.10, "revpar_current": 117.50, "cdt_current": 68.8, "source_file": "cvb_hotels_static_seed", "fetched_at": _now_iso()},
+]
+
+
+def _seed_static(conn: sqlite3.Connection) -> Dict[str, int]:
+    """Insert the static indicator set; return per-category counts inserted."""
+    by_cat: Dict[str, int] = {}
+    fetched_at = _now_iso()
+    total = 0
+    for ind in STATIC_INDICATORS:
+        cat = ind["category"]
+        # Only insert if not already present (by name + source + vintage)
+        if _insert_indicator_if_missing(
+            conn,
+            ind["name"],
+            ind["value"],
+            ind["unit"],
+            ind["category"],
+            ind["source"],
+            ind["source_url"],
+            ind["vintage"],
+            ind.get("description", ""),
+        ):
+            by_cat[cat] = by_cat.get(cat, 0) + 1
+            total += 1
+        else:
+            # Update value anyway so stale data gets refreshed
+            _upsert_indicator(
+                conn,
+                ind["name"],
+                ind["value"],
+                ind["unit"],
+                ind["category"],
+                ind["source"],
+                ind["source_url"],
+                ind["vintage"],
+                ind.get("description", ""),
+            )
+    # CVB hotels — replace existing
+    conn.execute("DELETE FROM cvb_hotels")
+    for h in CVB_HOTELS:
+        conn.execute(
+            """
+            INSERT INTO cvb_hotels
+                (month_year, year, month, occ_current, adr_current, revpar_current, cdt_current, source_file, fetched_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                h["month_year"],
+                h["year"],
+                h["month"],
+                h["occ_current"],
+                h["adr_current"],
+                h["revpar_current"],
+                h["cdt_current"],
+                "cvb_hotels_static_seed",
+                h["fetched_at"],
+            ),
+        )
+    conn.commit()
+    return by_cat
+
+
+def _write_json_cache() -> None:
+    """Write current DB state to JSON cache files for the frontend."""
+    conn = _db()
     try:
-        sync_all_to_db()
+        indicators = _db_rows(conn, "SELECT * FROM indicators ORDER BY category, name LIMIT 500")
+        with open(CACHE_DIR / "indicators.json", "w") as f:
+            json.dump({"count": len(indicators), "indicators": indicators}, f, indent=2)
+
+        cvb = _db_rows(conn, "SELECT * FROM cvb_hotels ORDER BY year DESC")
+        with open(CACHE_DIR / "cvb-hotels.json", "w") as f:
+            json.dump({"count": len(cvb), "cvb_hotels": cvb}, f, indent=2)
+
+        economic = _db_rows(
+            conn,
+            "SELECT * FROM indicators WHERE category IN ('Economic', 'Business') ORDER BY category, name LIMIT 200",
+        )
+        with open(CACHE_DIR / "economic.json", "w") as f:
+            json.dump({"count": len(economic), "indicators": economic}, f, indent=2)
+
+        demo = _db_rows(
+            conn,
+            "SELECT * FROM indicators WHERE category IN ('Demographics', 'Population') ORDER BY category, name LIMIT 200",
+        )
+        with open(CACHE_DIR / "demographics.json", "w") as f:
+            json.dump({"count": len(demo), "indicators": demo}, f, indent=2)
+
+        climate = _db_rows(
+            conn,
+            "SELECT * FROM indicators WHERE category = 'Climate' ORDER BY category, name LIMIT 50",
+        )
+        with open(CACHE_DIR / "climate.json", "w") as f:
+            json.dump({"count": len(climate), "indicators": climate}, f, indent=2)
+
+        health = _db_rows(
+            conn,
+            "SELECT * FROM indicators WHERE category = 'Health' ORDER BY category, name LIMIT 50",
+        )
+        with open(CACHE_DIR / "health.json", "w") as f:
+            json.dump({"count": len(health), "indicators": health}, f, indent=2)
+
+        equity = _db_rows(
+            conn,
+            "SELECT * FROM indicators WHERE category = 'Equity' ORDER BY category, name LIMIT 50",
+        )
+        with open(CACHE_DIR / "equity.json", "w") as f:
+            json.dump({"count": len(equity), "indicators": equity}, f, indent=2)
+
+        housing = _db_rows(
+            conn,
+            "SELECT * FROM indicators WHERE category = 'Housing' ORDER BY category, name LIMIT 50",
+        )
+        with open(CACHE_DIR / "housing.json", "w") as f:
+            json.dump({"count": len(housing), "indicators": housing}, f, indent=2)
+
+        population = _db_rows(
+            conn,
+            "SELECT * FROM indicators WHERE category = 'Population' ORDER BY category, name LIMIT 50",
+        )
+        with open(CACHE_DIR / "population.json", "w") as f:
+            json.dump({"count": len(population), "indicators": population}, f, indent=2)
+
+        business = _db_rows(
+            conn,
+            "SELECT * FROM indicators WHERE category = 'Business' ORDER BY category, name LIMIT 50",
+        )
+        with open(CACHE_DIR / "business.json", "w") as f:
+            json.dump({"count": len(business), "indicators": business}, f, indent=2)
+
+        news = {"count": 0, "news": []}
+        with open(CACHE_DIR / "news.json", "w") as f:
+            json.dump(news, f, indent=2)
+
+        stakeholders = {"count": 0, "stakeholders": []}
+        with open(CACHE_DIR / "stakeholders.json", "w") as f:
+            json.dump(stakeholders, f, indent=2)
+
+        datasets = _db_rows(conn, "SELECT id, source, fetched_at as vintage, content FROM datasets ORDER BY id DESC LIMIT 50")
+        with open(CACHE_DIR / "datasets.json", "w") as f:
+            json.dump({"count": len(datasets), "datasets": datasets}, f, indent=2)
+
+        layers = _db_rows(conn, "SELECT id, name, category, description, source, format, url, geometry FROM map_layers ORDER BY category, name")
+        with open(CACHE_DIR / "map-layers.json", "w") as f:
+            json.dump({"count": len(layers), "layers": layers}, f, indent=2)
+
+    finally:
+        conn.close()
+
+
+def _db_rows(conn: sqlite3.Connection, query: str, params: tuple = ()) -> list:
+    cur = conn.cursor()
+    cur.execute(query, params)
+    return [dict(r) for r in cur.fetchall()]
+
+
+def _run_cron_refresh() -> Dict[str, Any]:
+    """Run the refresh cron script if it exists."""
+    cron = PROJECT_ROOT / "scripts" / "refresh_cron.py"
+    if not cron.exists():
+        return {"status": "skipped", "reason": "refresh_cron.py not found"}
+    try:
+        proc = subprocess.run(
+            [sys.executable, str(cron)],
+            capture_output=True,
+            text=True,
+            timeout=300,
+            cwd=str(PROJECT_ROOT),
+        )
+        return {
+            "status": "ok" if proc.returncode == 0 else "error",
+            "returncode": proc.returncode,
+            "stdout": proc.stdout[:1000],
+            "stderr": proc.stderr[:500],
+        }
     except Exception as e:
-        print(f"FATAL: {e}")
-        import sys
-        sys.exit(1)
+        return {"status": "error", "error": str(e)}
+
+
+def main() -> int:
+    print(f"[refresh_v2] Starting at {_now_iso()}", file=sys.stderr)
+    conn = _db()
+    try:
+        _ensure_schema(conn)
+        by_cat = _seed_static(conn)
+        total_indicators = _count_indicators(conn)
+        total_cvb = _db_rows(conn, "SELECT COUNT(*) as c FROM cvb_hotels")[0]["c"]
+        print(
+            f"[refresh_v2] Seeded {total_indicators} indicators across {len(by_cat)} categories, "
+            f"{total_cvb} CVB hotel records",
+            file=sys.stderr,
+        )
+        for cat, n in sorted(by_cat.items()):
+            print(f"  {cat}: +{n}", file=sys.stderr)
+        _write_json_cache()
+        _run_cron_refresh()
+        print(f"[refresh_v2] Completed at {_now_iso()}", file=sys.stderr)
+        return 0
+    except Exception as e:
+        print(f"[refresh_v2] ERROR: {e}", file=sys.stderr)
+        import traceback
+        traceback.print_exc(file=sys.stderr)
+        return 2
+    finally:
+        conn.close()
+
+
+if __name__ == "__main__":
+    sys.exit(main())

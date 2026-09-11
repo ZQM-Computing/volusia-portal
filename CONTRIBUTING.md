@@ -85,14 +85,14 @@ npm install
 # Build and test
 npx tsc --noEmit        # Must pass with zero errors
 npm run build            # Must succeed
-npm test                 # 7/7 tests pass
+python -m pytest tests/  # 7/7 tests pass
 ```
 
 - Fork and create a feature branch
 - Follow existing code structure and patterns
 - `npx tsc --noEmit` must pass with zero errors
 - `npm run build` must succeed
-- `pytest tests/` must pass (7/7)
+- **`python -m pytest tests/` must pass (7/7)**
 - Conventional commits (`feat:`, `fix:`, `chore:`, `docs:`)
 - PR reviews required before merge
 - **XP**: Code Commiter (300), Test Contributor (350), Review Contributor (300)
@@ -177,8 +177,9 @@ npm test                 # 7/7 tests pass
 ## Branch Protection
 
 - All PRs require review before merging
-- CI must pass before merge (npx tsc --noEmit + npm run build + pytest tests/)
-- Main branch is protected
+- CI must pass before merge (npx tsc --noEmit + npm run build + `python -m pytest tests/`)
+- CODEOWNERS enforces `@zqmcomputing` review on every PR
+- Main branch requires status check pass
 
 ## License
 
@@ -186,7 +187,7 @@ This project is licensed under the MIT License. See [LICENSE](LICENSE) for detai
 
 ## Security
 
-Please report security vulnerabilities to security@zqm-computing.io. Do not open public issues for security concerns.
+Please report security vulnerabilities to zqmcomputing@gmail.com. Do not open public issues for security concerns.
 
 ## Contact
 

@@ -1,146 +1,203 @@
-[
-  {
-    "id": 1,
-    "name": "County Boundary",
-    "category": "boundary",
-    "description": "Volusia County outline",
-    "source": "US Census TIGER/Line",
-    "format": "geojson"
-  },
-  {
-    "id": 17,
-    "name": "Beach Access Points",
-    "category": "cultural",
-    "description": "Public beach access locations",
-    "source": "County GIS",
-    "format": "geojson"
-  },
-  {
-    "id": 6,
-    "name": "Cultural",
-    "category": "cultural",
-    "description": "Cultural and recreational sites",
-    "source": "County GIS",
-    "format": "geojson"
-  },
-  {
-    "id": 18,
-    "name": "Cultural Sites",
-    "category": "cultural",
-    "description": "Museums, theaters, and historical landmarks",
-    "source": "County GIS",
-    "format": "geojson"
-  },
-  {
-    "id": 8,
-    "name": "Age Distribution",
-    "category": "demographic",
-    "description": "Median age by census tract",
-    "source": "Census ACS DP05",
-    "format": "geojson"
-  },
-  {
-    "id": 5,
-    "name": "Demographic",
-    "category": "demographic",
-    "description": "Population density and demographic clusters",
-    "source": "Census ACS",
-    "format": "geojson"
-  },
-  {
-    "id": 7,
-    "name": "Population Density",
-    "category": "demographic",
-    "description": "Population per square mile by tract",
-    "source": "Census ACS DP05",
-    "format": "geojson"
-  },
-  {
-    "id": 14,
-    "name": "School Districts",
-    "category": "demographic",
-    "description": "Public school district boundaries",
-    "source": "FL DOE",
-    "format": "geojson"
-  },
-  {
-    "id": 2,
-    "name": "Economic Zones",
-    "category": "economic",
-    "description": "Economic development zones",
-    "source": "County GIS",
-    "format": "geojson"
-  },
-  {
-    "id": 10,
-    "name": "Employment Density",
-    "category": "economic",
-    "description": "Jobs per square mile by zone",
-    "source": "BLS QCEW",
-    "format": "geojson"
-  },
-  {
-    "id": 16,
-    "name": "Hospitality Zones",
-    "category": "economic",
-    "description": "Hotel and resort concentrations",
-    "source": "CVB",
-    "format": "geojson"
-  },
-  {
-    "id": 9,
-    "name": "Income by Tract",
-    "category": "economic",
-    "description": "Median household income by census tract",
-    "source": "Census ACS DP03",
-    "format": "geojson"
-  },
-  {
-    "id": 13,
-    "name": "Conservation Areas",
-    "category": "environment",
-    "description": "Protected lands and conservation zones",
-    "source": "County GIS",
-    "format": "geojson"
-  },
-  {
-    "id": 4,
-    "name": "Environmental",
-    "category": "environment",
-    "description": "Wetlands, water bodies, and conservation areas",
-    "source": "County GIS",
-    "format": "geojson"
-  },
-  {
-    "id": 12,
-    "name": "Water Bodies",
-    "category": "environment",
-    "description": "Rivers, lakes, and coastal waterways",
-    "source": "USGS",
-    "format": "geojson"
-  },
-  {
-    "id": 15,
-    "name": "Healthcare Access",
-    "category": "infrastructure",
-    "description": "Hospitals and clinics by zone",
-    "source": "FL AHCA",
-    "format": "geojson"
-  },
-  {
-    "id": 3,
-    "name": "Infrastructure",
-    "category": "infrastructure",
-    "description": "Roads, utilities, and public facilities",
-    "source": "County GIS",
-    "format": "geojson"
-  },
-  {
-    "id": 11,
-    "name": "Road Network",
-    "category": "infrastructure",
-    "description": "Major roads and highways",
-    "source": "County GIS",
-    "format": "geojson"
-  }
-]
+{
+  "layers": [
+    {
+      "id": "volusia-boundary",
+      "name": "Volusia County Boundary",
+      "category": "boundary",
+      "description": "Volusia County municipal boundary polygon",
+      "source": "US Census TIGER/Line",
+      "format": "GeoJSON",
+      "url": "/data/volusia_boundary.geojson",
+      "geometry": "{\"type\": \"FeatureCollection\", \"features\": []}",
+      "vintage": "2024"
+    },
+    {
+      "id": "beach-access",
+      "name": "Beach Access Points",
+      "category": "cultural",
+      "description": "Public beach access points in Volusia County",
+      "source": "Volusia County GIS",
+      "format": "GeoJSON",
+      "url": "/data/beach_access.geojson",
+      "geometry": "{\"type\": \"FeatureCollection\", \"features\": []}",
+      "vintage": "2024"
+    },
+    {
+      "id": "water-bodies",
+      "name": "Water Bodies",
+      "category": "environment",
+      "description": "Lakes, rivers, and estuaries in Volusia County",
+      "source": "USGS National Hydrography",
+      "format": "GeoJSON",
+      "url": "/data/water_bodies.geojson",
+      "geometry": "{\"type\": \"FeatureCollection\", \"features\": []}",
+      "vintage": "2023"
+    },
+    {
+      "id": "traffic-counties",
+      "name": "Traffic Count Stations",
+      "category": "infrastructure",
+      "description": "FDOT traffic count station locations",
+      "source": "FDOT",
+      "format": "GeoJSON",
+      "url": "/data/traffic_stations.geojson",
+      "geometry": "{\"type\": \"FeatureCollection\", \"features\": []}",
+      "vintage": "2024"
+    },
+    {
+      "id": "school-districts",
+      "name": "School Districts",
+      "category": "demographic",
+      "description": "Volusia County school district boundaries",
+      "source": "NCES",
+      "format": "GeoJSON",
+      "url": "/data/school_districts.geojson",
+      "geometry": "{\"type\": \"FeatureCollection\", \"features\": []}",
+      "vintage": "2024"
+    },
+    {
+      "id": "flood-zones",
+      "name": "FEMA Flood Zones",
+      "category": "environment",
+      "description": "FEMA flood hazard zones (100-year and 500-year floodplains)",
+      "source": "FEMA NFHL",
+      "format": "GeoJSON",
+      "url": "/data/flood_zones.geojson",
+      "geometry": "{\"type\": \"FeatureCollection\", \"features\": []}",
+      "vintage": "2024"
+    },
+    {
+      "id": "zoning",
+      "name": "Volusia County Zoning",
+      "category": "economic",
+      "description": "Volusia County land use zoning designations",
+      "source": "Volusia County Planning",
+      "format": "GeoJSON",
+      "url": "/data/zoning.geojson",
+      "geometry": "{\"type\": \"FeatureCollection\", \"features\": []}",
+      "vintage": "2023"
+    },
+    {
+      "id": "parks",
+      "name": "County Parks & Recreation",
+      "category": "cultural",
+      "description": "Volusia County parks, trails, and recreational facilities",
+      "source": "Volusia County Parks",
+      "format": "GeoJSON",
+      "url": "/data/parks.geojson",
+      "geometry": "{\"type\": \"FeatureCollection\", \"features\": []}",
+      "vintage": "2024"
+    },
+    {
+      "id": "hospitals",
+      "name": "Hospitals & Healthcare Facilities",
+      "category": "demographic",
+      "description": "Hospitals, clinics, and healthcare facilities in Volusia County",
+      "source": "FLDOH",
+      "format": "GeoJSON",
+      "url": "/data/hospitals.geojson",
+      "geometry": "{\"type\": \"FeatureCollection\", \"features\": []}",
+      "vintage": "2024"
+    },
+    {
+      "id": "transit-routes",
+      "name": "Public Transit Routes",
+      "category": "infrastructure",
+      "description": "Votran public transit bus routes and stops",
+      "source": "Votran",
+      "format": "GeoJSON",
+      "url": "/data/transit_routes.geojson",
+      "geometry": "{\"type\": \"FeatureCollection\", \"features\": []}",
+      "vintage": "2024"
+    },
+    {
+      "id": "historic-sites",
+      "name": "Historic Sites",
+      "category": "cultural",
+      "description": "Registered historic sites and districts in Volusia County",
+      "source": "National Register of Historic Places",
+      "format": "GeoJSON",
+      "url": "/data/historic_sites.geojson",
+      "geometry": "{\"type\": \"FeatureCollection\", \"features\": []}",
+      "vintage": "2023"
+    },
+    {
+      "id": "wildlife-refuges",
+      "name": "Wildlife Refuges & Preserves",
+      "category": "environment",
+      "description": "Wildlife refuges, nature preserves, and conservation areas",
+      "source": "USFWS",
+      "format": "GeoJSON",
+      "url": "/data/wildlife_refuges.geojson",
+      "geometry": "{\"type\": \"FeatureCollection\", \"features\": []}",
+      "vintage": "2024"
+    },
+    {
+      "id": "census-tracks",
+      "name": "Census Tract Boundaries",
+      "category": "demographic",
+      "description": "US Census tract boundaries for Volusia County",
+      "source": "US Census TIGER/Line",
+      "format": "GeoJSON",
+      "url": "/data/census_tracts.geojson",
+      "geometry": "{\"type\": \"FeatureCollection\", \"features\": []}",
+      "vintage": "2024"
+    },
+    {
+      "id": "emergency-services",
+      "name": "Emergency Services",
+      "category": "infrastructure",
+      "description": "Fire stations, police stations, and emergency shelters",
+      "source": "Volusia County Emergency Management",
+      "format": "GeoJSON",
+      "url": "/data/emergency_services.geojson",
+      "geometry": "{\"type\": \"FeatureCollection\", \"features\": []}",
+      "vintage": "2024"
+    },
+    {
+      "id": "economic-zones",
+      "name": "Economic Development Zones",
+      "category": "economic",
+      "description": "Enterprise zones, opportunity zones, and business recruitment areas",
+      "source": "Volusia County Economic Development",
+      "format": "GeoJSON",
+      "url": "/data/economic_zones.geojson",
+      "geometry": "{\"type\": \"FeatureCollection\", \"features\": []}",
+      "vintage": "2023"
+    },
+    {
+      "id": "stormwater",
+      "name": "Stormwater Management Areas",
+      "category": "environment",
+      "description": "Stormwater retention ponds, drainage districts, and flood control infrastructure",
+      "source": "Volusia County Engineering",
+      "format": "GeoJSON",
+      "url": "/data/stormwater.geojson",
+      "geometry": "{\"type\": \"FeatureCollection\", \"features\": []}",
+      "vintage": "2024"
+    },
+    {
+      "id": "faith-community",
+      "name": "Faith Community Locations",
+      "category": "cultural",
+      "description": "Places of worship and faith-based community centers",
+      "source": "Volusia County",
+      "format": "GeoJSON",
+      "url": "/data/faith_community.geojson",
+      "geometry": "{\"type\": \"FeatureCollection\", \"features\": []}",
+      "vintage": "2023"
+    },
+    {
+      "id": "public-libraries",
+      "name": "Public Libraries",
+      "category": "cultural",
+      "description": "Volusia County public library branches",
+      "source": "Volusia County Public Libraries",
+      "format": "GeoJSON",
+      "url": "/data/public_libraries.geojson",
+      "geometry": "{\"type\": \"FeatureCollection\", \"features\": []}",
+      "vintage": "2024"
+    }
+  ],
+  "count": 18
+}

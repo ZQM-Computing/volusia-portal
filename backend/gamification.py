@@ -202,25 +202,25 @@ def _get_history(conn: sqlite3.Connection, user_id: str, limit: int = 30) -> lis
 def get_gamification_routes(app: FastAPI):
     """Register all gamification endpoints on the given FastAPI app."""
 
-    @app.get("/gamification")
+    @app.get("/api/gamification")
     def gamification_root():
         """Return the gamification hub overview."""
         return {
             "service": "Project Volusia Gamification",
             "version": "1.0.0",
             "endpoints": {
-                "leaderboard": "/gamification/leaderboard",
-                "profile": "/gamification/profile/{user_id}",
-                "missions": "/gamification/missions",
-                "contribute": "/gamification/contribute (POST)",
-                "pulse": "/gamification/pulse",
-                "visit": "/gamification/visit/{user_id} (POST)",
-                "stats": "/gamification/stats/{user_id}"
+                "leaderboard": "/api/gamification/leaderboard",
+                "profile": "/api/gamification/profile/{user_id}",
+                "missions": "/api/gamification/missions",
+                "contribute": "/api/gamification/contribute (POST)",
+                "pulse": "/api/gamification/pulse",
+                "visit": "/api/gamification/visit/{user_id} (POST)",
+                "stats": "/api/gamification/stats/{user_id}"
             }
         }
 
 
-    @app.get("/gamification/profile/{user_id}")
+    @app.get("/api/gamification/profile/{user_id}")
     def profile(user_id: str):
         conn = sqlite3.connect(str(DB_PATH))
         conn.row_factory = sqlite3.Row
@@ -245,7 +245,7 @@ def get_gamification_routes(app: FastAPI):
             conn.close()
             raise
 
-    @app.post("/gamification/visit/{user_id}")
+    @app.post("/api/gamification/visit/{user_id}")
     def visit_page(user_id: str, payload: dict = None):
         """Record a page visit. Returns XP earned and new achievements."""
         conn = sqlite3.connect(str(DB_PATH))
@@ -285,7 +285,7 @@ def get_gamification_routes(app: FastAPI):
             conn.close()
             raise
 
-    @app.post("/gamification/xp/{user_id}")
+    @app.post("/api/gamification/xp/{user_id}")
     def add_xp(user_id: str, payload: dict = None):
         """Award XP for an action (indicator view, dataset download, etc.)."""
         conn = sqlite3.connect(str(DB_PATH))
@@ -311,7 +311,7 @@ def get_gamification_routes(app: FastAPI):
             conn.close()
             raise
 
-    @app.get("/gamification/achievements/{user_id}")
+    @app.get("/api/gamification/achievements/{user_id}")
     def achievements(user_id: str):
         conn = sqlite3.connect(str(DB_PATH))
         conn.row_factory = sqlite3.Row
@@ -334,7 +334,7 @@ def get_gamification_routes(app: FastAPI):
             conn.close()
             raise
 
-    @app.get("/gamification/leaderboard")
+    @app.get("/api/gamification/leaderboard")
     def leaderboard(limit: int = Query(20)):
         conn = sqlite3.connect(str(DB_PATH))
         conn.row_factory = sqlite3.Row
@@ -346,7 +346,7 @@ def get_gamification_routes(app: FastAPI):
             conn.close()
             raise
 
-    @app.get("/gamification/history/{user_id}")
+    @app.get("/api/gamification/history/{user_id}")
     def history(user_id: str, limit: int = Query(30)):
         conn = sqlite3.connect(str(DB_PATH))
         conn.row_factory = sqlite3.Row
@@ -358,7 +358,7 @@ def get_gamification_routes(app: FastAPI):
             conn.close()
             raise
 
-    @app.get("/gamification/stats/{user_id}")
+    @app.get("/api/gamification/stats/{user_id}")
     def stats(user_id: str):
         conn = sqlite3.connect(str(DB_PATH))
         conn.row_factory = sqlite3.Row

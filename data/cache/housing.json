@@ -1,4 +1,53 @@
 {
-  "count": 0,
-  "indicators": []
+  "count": 4,
+  "indicators": [
+    {
+      "id": 361,
+      "name": "Housing Units",
+      "value": "262689",
+      "unit": "units",
+      "category": "Housing",
+      "source": "US Census ACS 5-Year DP04",
+      "source_url": "https://data.census.gov/table/ACSST5Y2022.DP04",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.188216+00:00",
+      "description": "Total housing units"
+    },
+    {
+      "id": 362,
+      "name": "Housing Vacancy Rate",
+      "value": "9.8",
+      "unit": "%",
+      "category": "Housing",
+      "source": "US Census ACS 5-Year DP04",
+      "source_url": "https://data.census.gov/table/ACSST5Y2022.DP04",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.189217+00:00",
+      "description": "Percentage of housing units that are vacant"
+    },
+    {
+      "id": 360,
+      "name": "Median Gross Rent",
+      "value": "1354",
+      "unit": "USD",
+      "category": "Housing",
+      "source": "US Census ACS 5-Year DP04",
+      "source_url": "https://data.census.gov/table/ACSST5Y2022.DP04",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.187218+00:00",
+      "description": "Median gross rent (contract rent + utilities)"
+    },
+    {
+      "id": 359,
+      "name": "Median Home Value",
+      "value": "314900",
+      "unit": "USD",
+      "category": "Housing",
+      "source": "US Census ACS 5-Year DP04",
+      "source_url": "https://data.census.gov/table/ACSST5Y2022.DP04",
+      "vintage": "2022",
+      "fetched_at": "2026-09-09T23:37:38.185251+00:00",
+      "description": "Median value of owner-occupied housing units"
+    }
+  ]
 }

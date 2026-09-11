@@ -9,7 +9,7 @@
 | Resource | URL |
 |----------|-----|
 | **Live Portal** | https://volusia.zqmlabs.com |
-| **Backend Repo** | https://github.com/ZQM-Labs/project-volusia |
+|| **Backend Repo** | https://github.com/ZQM-Computing/volusia-portal |
 | **API Endpoint** | https://volusia.zqmlabs.com/api |
 | **Connection Guide** | [CONNECTION.md](CONNECTION.md) |
 
@@ -17,7 +17,7 @@
 
 ## Overview
 
-Project Volusia is a comprehensive open data portal for Volusia County, Florida. It aggregates 26+ indicators across 4 categories from authoritative sources including US Census Bureau, BLS, BEA, and NOAA.
+Project Volusia is a comprehensive open data portal for Volusia County, Florida. It aggregates 26+ indicators across 4 categories from authoritative sources including US Census Bureau, BLS, BEA, NOAA, CDC, and county open data portals.
 
 ### Key Features
 
@@ -73,7 +73,7 @@ npm run preview      # http://localhost:4173
 
 This frontend uses static JSON files exported from the backend.
 
-**Backend Repository**: https://github.com/ZQM-Labs/project-vlusia
+|| **Backend Repo** | https://github.com/ZQM-Computing/volusia-portal |
 
 ### Data Categories
 
@@ -124,10 +124,10 @@ python portal_app.py
 
 ## Connection to Backend
 
-See [CONNECTION.md](CONNECTION.md) for detailed documentation on how this frontend connects to the ZQM-Labs backend.
+See [CONNECTION.md](CONNECTION.md) for detailed documentation on how this frontend connects to the ZQM-Computing backend.
 
 ---
 
 ## License
 
-MIT © 2026 ZQM Labs / ZQM Computing
+MIT © 2026 ZQM Computing

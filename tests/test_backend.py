@@ -24,7 +24,7 @@ def test_app_indicators():
     from fastapi.testclient import TestClient
     from main import app
     client = TestClient(app)
-    response = client.get("/indicators")
+    response = client.get("/api/indicators")
     assert response.status_code == 200
     data = response.json()
     assert data["count"] > 0
@@ -61,7 +61,7 @@ def test_app_diagnostics():
     from fastapi.testclient import TestClient
     from main import app
     client = TestClient(app)
-    response = client.get("/diagnostics")
+    response = client.get("/api/diagnostics")
     assert response.status_code == 200
     data = response.json()
     assert data["overall"] == "healthy"

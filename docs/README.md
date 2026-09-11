@@ -9,7 +9,7 @@
 | Resource | URL |
 |----------|-----|
 | **Live Portal** | https://volusia.zqmlabs.com |
-| **Backend Repo** | https://github.com/ZQM-Labs/project-volusia |
+|| **Backend Repo** | https://github.com/ZQM-Computing/volusia-portal |
 | **API Endpoint** | https://volusia.zqmlabs.com/api |
 | **Connection Guide** | [CONNECTION.md](../CONNECTION.md) |
 
@@ -85,4 +85,4 @@ npm run build
 
 ## License
 
-MIT © 2026 ZQM Labs / ZQM Computing
+MIT © 2026 ZQM Computing

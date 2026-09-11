@@ -1,184 +1,65 @@
-[
-  {
-    "id": 259,
-    "name": "avg_min_temp",
-    "source": "NOAA NCEI",
-    "source_url": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&dataTypes=TMAX,TMIN,PRCP&stations=USW00012838&startDate=2025-01-01&endDate=2025-12-31&format=json&units=metric",
-    "vintage": "2025"
-  },
-  {
-    "id": 234,
-    "name": "revpar",
-    "source": "Volusia County CVB",
-    "source_url": "https://www.daytonabeach.com/about/market-research/past-reports/",
-    "vintage": "December 2021"
-  },
-  {
-    "id": 233,
-    "name": "avg_daily_rate",
-    "source": "Volusia County CVB",
-    "source_url": "https://www.daytonabeach.com/about/market-research/past-reports/",
-    "vintage": "December 2021"
-  },
-  {
-    "id": 208,
-    "name": "col_overall_index",
-    "source": "C2ER (cached)",
-    "source_url": "https://www.c2er.org/",
-    "vintage": "2025Q1"
-  },
-  {
-    "id": 207,
-    "name": "cost_of_living_index",
-    "source": "C2ER (cached)",
-    "source_url": "https://www.c2er.org/",
-    "vintage": "2025Q1"
-  },
-  {
-    "id": 140,
-    "name": "hotel_occupancy_pct",
-    "source": "Volusia County CVB",
-    "source_url": "https://www.daytonabeach.com/about/market-research/past-reports/",
-    "vintage": "December 2021"
-  },
-  {
-    "id": 49,
-    "name": "total_precip",
-    "source": "NOAA NCEI",
-    "source_url": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&dataTypes=TMAX,TMIN,PRCP&stations=USW00012838&startDate=2025-01-01&endDate=2025-12-31&format=json&units=metric",
-    "vintage": "2025"
-  },
-  {
-    "id": 48,
-    "name": "avg_max_temp",
-    "source": "NOAA NCEI",
-    "source_url": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&dataTypes=TMAX,TMIN,PRCP&stations=USW00012838&startDate=2025-01-01&endDate=2025-12-31&format=json&units=metric",
-    "vintage": "2025"
-  },
-  {
-    "id": 47,
-    "name": "pct_bachelors_or_higher_acs",
-    "source": "US Census ACS 5-Year DP05",
-    "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2023.DP05",
-    "vintage": "2023"
-  },
-  {
-    "id": 46,
-    "name": "pct_white_alone_acs",
-    "source": "US Census ACS 5-Year DP05",
-    "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2023.DP05",
-    "vintage": "2023"
-  },
-  {
-    "id": 45,
-    "name": "pct_over_65_acs",
-    "source": "US Census ACS 5-Year DP05",
-    "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2023.DP05",
-    "vintage": "2023"
-  },
-  {
-    "id": 44,
-    "name": "median_age_acs",
-    "source": "US Census ACS 5-Year",
-    "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2023.DP05",
-    "vintage": "2023"
-  },
-  {
-    "id": 43,
-    "name": "total_population_acs",
-    "source": "US Census ACS 5-Year",
-    "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2023.DP05",
-    "vintage": "2023"
-  },
-  {
-    "id": 42,
-    "name": "poverty_rate_acs",
-    "source": "US Census ACS 5-Year",
-    "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2023.DP03",
-    "vintage": "2023"
-  },
-  {
-    "id": 41,
-    "name": "unemployment_rate_acs",
-    "source": "US Census ACS 5-Year",
-    "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2023.DP03",
-    "vintage": "2023"
-  },
-  {
-    "id": 40,
-    "name": "median_household_income_acs",
-    "source": "US Census ACS 5-Year",
-    "source_url": "https://data.census.gov/api/access/data/table?g=0500000US12127&tid=ACSDP5Y2023.DP03",
-    "vintage": "2023"
-  },
-  {
-    "id": 13,
-    "name": "avg_weekly_wage_qcew",
-    "source": "BLS QCEW",
-    "source_url": "https://data.bls.gov/cew/data/files/2024/csv/2024_annual_singlefile.zip",
-    "vintage": "2024"
-  },
-  {
-    "id": 12,
-    "name": "employment_qcew",
-    "source": "BLS QCEW",
-    "source_url": "https://data.bls.gov/cew/data/files/2024/csv/2024_annual_singlefile.zip",
-    "vintage": "2024"
-  },
-  {
-    "id": 11,
-    "name": "establishments_qcew",
-    "source": "BLS QCEW",
-    "source_url": "https://data.bls.gov/cew/data/files/2024/csv/2024_annual_singlefile.zip",
-    "vintage": "2024"
-  },
-  {
-    "id": 10,
-    "name": "per_capita_income",
-    "source": "BEA Regional",
-    "source_url": "https://www.bea.gov/data/income-saving/local-area-personal-income",
-    "vintage": "2024"
-  },
-  {
-    "id": 9,
-    "name": "population_bea",
-    "source": "BEA Regional",
-    "source_url": "https://www.bea.gov/data/income-saving/local-area-personal-income",
-    "vintage": "2024"
-  },
-  {
-    "id": 8,
-    "name": "personal_income_total",
-    "source": "BEA Regional",
-    "source_url": "https://www.bea.gov/data/income-saving/local-area-personal-income",
-    "vintage": "2024"
-  },
-  {
-    "id": 7,
-    "name": "unemployment_rate_bls",
-    "source": "BLS LAUS",
-    "source_url": "https://www.bls.gov/lau/",
-    "vintage": "July 2026"
-  },
-  {
-    "id": 3,
-    "name": "total_population_pep_2022",
-    "source": "Census PEP",
-    "source_url": "https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/counties/totals/co-est2025-alldata.csv",
-    "vintage": "2022"
-  },
-  {
-    "id": 2,
-    "name": "total_population_pep_2023",
-    "source": "Census PEP",
-    "source_url": "https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/counties/totals/co-est2025-alldata.csv",
-    "vintage": "2023"
-  },
-  {
-    "id": 1,
-    "name": "total_population_pep_2024",
-    "source": "Census PEP",
-    "source_url": "https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/counties/totals/co-est2025-alldata.csv",
-    "vintage": "2024"
-  }
-]
+{
+  "datasets": [
+    {
+      "id": 10,
+      "source": "C2ER (Daytona Beach, cached)",
+      "content": "",
+      "fetched_at": "2026-09-06T05:55:21.184271"
+    },
+    {
+      "id": 9,
+      "source": "Volusia County CVB",
+      "content": "",
+      "fetched_at": "2026-09-06T05:55:21.184271"
+    },
+    {
+      "id": 8,
+      "source": "NOAA NCEI Daily Summaries",
+      "content": "",
+      "fetched_at": "2026-09-06T05:55:21.184271"
+    },
+    {
+      "id": 7,
+      "source": "US Census ACS 5-Year DP05",
+      "content": "",
+      "fetched_at": "2026-09-06T05:55:21.184271"
+    },
+    {
+      "id": 6,
+      "source": "US Census ACS 5-Year DP03",
+      "content": "",
+      "fetched_at": "2026-09-06T05:55:21.184271"
+    },
+    {
+      "id": 5,
+      "source": "BLS QCEW",
+      "content": "",
+      "fetched_at": "2026-09-06T05:55:21.184271"
+    },
+    {
+      "id": 4,
+      "source": "BEA Regional",
+      "content": "",
+      "fetched_at": "2026-09-06T05:55:21.184271"
+    },
+    {
+      "id": 3,
+      "source": "BLS LAUS",
+      "content": "",
+      "fetched_at": "2026-09-06T05:55:21.184271"
+    },
+    {
+      "id": 2,
+      "source": "NOAA NCEI",
+      "content": "",
+      "fetched_at": "2026-09-06T05:55:21.184271"
+    },
+    {
+      "id": 1,
+      "source": "Census PEP",
+      "content": "",
+      "fetched_at": "2026-09-06T05:55:21.183188"
+    }
+  ],
+  "count": 10
+}
