@@ -22,7 +22,7 @@
 │         └─────┬─────┴────┬─────┘                        │
 │               │          │                               │
 │               ▼          ▼                               │
-│    zqmlabs-website     zqm-volusia                          │
+│    zqmlabs-website     volusia-zqmlabs                          │
 │    (React)        (FastAPI)                            │
 └─────────────────────────────────────────────────────────┘
 ```
@@ -35,7 +35,7 @@
 |----------|-----|
 | **Live Portal** | https://zqmlabs.com |
 | **Backend API** | https://zqmlabs.com/api |
-| **Backend Repo** | https://github.com/ZQM-Labs/zqm-volusia |
+| **Backend Repo** | https://github.com/ZQM-Labs/volusia-zqmlabs |
 | **Live Data** | https://zqmlabs.com/data |
 | **Gamification** | https://zqmlabs.com/missions |
 | **Connection Guide** | [DEPLOY.md](DEPLOY.md) |
