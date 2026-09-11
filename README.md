@@ -6,7 +6,7 @@
 
 ## Overview
 
-`zqm-portal` is the **React + Vite + TypeScript** frontend that serves [zqmlabs.com](https://zqmlabs.com). It is the public-facing web application for ZQM Computing — advertising our services and connecting to other ZQM offerings including Project Volusia, quantum simulation, and more.
+`zqmlabs-website` is the **React + Vite + TypeScript** frontend that serves [zqmlabs.com](https://zqmlabs.com). It is the public-facing web application for ZQM Computing — advertising our services and connecting to other ZQM offerings including Project Volusia, quantum simulation, and more.
 
 ### Architecture
 
@@ -22,7 +22,7 @@
 │         └─────┬─────┴────┬─────┘                        │
 │               │          │                               │
 │               ▼          ▼                               │
-│    zqm-portal     zqm-volusia                          │
+│    zqmlabs-website     zqm-volusia                          │
 │    (React)        (FastAPI)                            │
 └─────────────────────────────────────────────────────────┘
 ```
@@ -55,7 +55,7 @@
 ## Directory Structure
 
 ```
-zqm-portal/
+zqmlabs-website/
 ├── src/
 │   ├── components/     # React components
 │   ├── hooks/          # Custom React hooks
