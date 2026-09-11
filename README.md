@@ -1,6 +1,31 @@
-# Project Volusia — Public Data Portal
+# ZQM Company Portal — zqmlabs.com
 
-> Open-source intelligence and data-driven decision-making for Volusia County, Florida.
+> Advertising ZQM Computing services, connecting to other offerings, and powering the Project Volusia public data portal.
+
+---
+
+## Overview
+
+`zqm-portal` is the **React + Vite + TypeScript** frontend that serves [zqmlabs.com](https://zqmlabs.com). It is the public-facing web application for ZQM Computing — advertising our services and connecting to other ZQM offerings including Project Volusia, quantum simulation, and more.
+
+### Architecture
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                    zqmlabs.com                           │
+│                   Cloudflare CDN                         │
+├─────────────────────────────────────────────────────────┤
+│              nginx (port 80)                              │
+│         ┌───────────┬──────────┐                        │
+│         │  Static    │  Proxy   │                        │
+│         │  React SPA │  :8000   │                        │
+│         └─────┬─────┴────┬─────┘                        │
+│               │          │                               │
+│               ▼          ▼                               │
+│    zqm-portal     zqm-volusia                          │
+│    (React)        (FastAPI)                            │
+└─────────────────────────────────────────────────────────┘
+```
 
 ---
 
@@ -8,126 +33,113 @@
 
 | Resource | URL |
 |----------|-----|
-| **Live Portal** | https://volusia.zqmlabs.com |
-|| **Backend Repo** | https://github.com/ZQM-Computing/volusia-portal |
-| **API Endpoint** | https://volusia.zqmlabs.com/api |
-| **Connection Guide** | [CONNECTION.md](CONNECTION.md) |
+| **Live Portal** | https://zqmlabs.com |
+| **Backend API** | https://zqmlabs.com/api |
+| **Backend Repo** | https://github.com/ZQM-Labs/zqm-volusia |
+| **Live Data** | https://zqmlabs.com/data |
+| **Gamification** | https://zqmlabs.com/missions |
+| **Connection Guide** | [DEPLOY.md](DEPLOY.md) |
 
 ---
 
-## Overview
+## Key Features
 
-Project Volusia is a comprehensive open data portal for Volusia County, Florida. It aggregates 26+ indicators across 4 categories from authoritative sources including US Census Bureau, BLS, BEA, NOAA, CDC, and county open data portals.
-
-### Key Features
-
-- **26+ Indicators** — Demographics, economy, climate, tourism
-- **18 Map Layers** — Interactive geographic data
-- **Real-Time Data** — Direct from government APIs
+- **50+ Live Indicators** — Economic, demographics, climate, tourism, infrastructure, safety, and more
+- **30 Gamification Missions** — 5 tiers, 14 pathways (A–S)
+- **Real-Time Data** — Direct from government APIs, refreshed on demand
+- **Layered Layout** — Scannable, multi-constituency design
 - **Open Source** — MIT License, community contributions welcome
 
 ---
 
-## Pages
+## Directory Structure
 
-- **Portal Home** (`/`) — Mission, featured indicators, stakeholder cards
-- **Data Explorer** (`/data`) — Searchable dataset catalog with Nivo charts
-- **Maps** (`/maps`) — Interactive Leaflet map with toggleable layers
-- **Business** (`/business`) — Market benchmarks, industry mix, tool access
-- **Residents** (`/residents`) — Income, demographics, cost-of-living
-- **Tourists** (`/tourists`) — Conditions, events, visitor volume
-- **Leaders** (`/leaders`) — Capital flows, permitting, workforce
+```
+zqm-portal/
+├── src/
+│   ├── components/     # React components
+│   ├── hooks/          # Custom React hooks
+│   ├── pages/          # Page components (Hero, Data, Missions, etc.)
+│   ├── types/          # TypeScript type definitions
+│   ├── utils/          # Utility functions
+│   ├── App.tsx         # Main App component
+│   └── main.tsx        # Entry point
+├── index.html          # HTML entry point
+├── package.json        # React + Vite + TypeScript dependencies
+├── vite.config.ts      # Vite build configuration
+├── tailwind.config.js  # Tailwind CSS configuration
+├── tsconfig.json       # TypeScript configuration
+├── Dockerfile          # Frontend Docker container
+└── docker-compose.yml  # Docker Compose orchestration
+```
 
 ---
 
-## Stack
+## Development
 
-| Layer | Tech | License |
-|-------|------|---------|
-| Framework | React 18 + Vite + TypeScript | MIT |
-| Charts | Nivo (D3-based) | MIT |
-| Maps | Leaflet + react-leaflet | BSD-2 |
-| Styling | Tailwind CSS | MIT |
-| Server | nginx (Docker) | BSD-2 |
+### Prerequisites
 
----
+- Node.js 18+
+- npm
 
-## Run locally
+### Frontend Setup
 
 ```bash
-cd volusia-portal
+# Install dependencies
 npm install
-npm run dev          # http://localhost:5173
-```
 
-## Build
+# Development server
+npm run dev
 
-```bash
-npm run build        # outputs to dist/
-npm run preview      # http://localhost:4173
-```
-
----
-
-## Data Sources
-
-This frontend uses static JSON files exported from the backend.
-
-|| **Backend Repo** | https://github.com/ZQM-Computing/volusia-portal |
-
-### Data Categories
-
-| Category | Count | Examples |
-|----------|-------|----------|
-| Economic | 13 | unemployment_rate_bls, median_household_income_acs, employment_qcew |
-| Demographics | 8 | total_population_pep_2024, median_age_acs, pct_over_65_acs |
-| Climate | 6 | avg_max_temp, avg_min_temp, total_precip |
-| Tourism | 3 | hotel_occupancy_pct, avg_daily_rate, revpar |
-
----
-
-## API
-
-The FastAPI backend serves live indicators from SQLite:
-
-| Endpoint | Description |
-|----------|-------------|
-| `/api/` | Root |
-| `/api/health` | Health check + indicator count |
-| `/api/indicators` | All indicators (filter: `?category=Economic`) |
-| `/api/indicators/{name}` | Single indicator |
-| `/api/indicators.csv` | Download all as CSV |
-| `/api/datasets` | Latest datasets |
-| `/api/refresh` | Trigger a pipeline refresh |
-
----
-
-## Deployment
-
-### Frontend (GitHub Pages)
-```bash
-# Automatic via GitHub Actions on push to master
-# Or manual:
+# Build for production
 npm run build
-# Deploy dist/ to gh-pages branch
+
+# Preview production build
+npm run preview
 ```
 
-### Backend (ZQM-Node-4)
+### Deployment
+
+The `deploy.py` script automates the full pipeline:
+1. Backend data refresh
+2. Static page generation
+3. React frontend build
+4. Nginx sync and restart
+5. Endpoint verification (21 endpoints)
+
 ```bash
-cd Tools/volusia_data
-python portal_app.py
-# Portal: http://localhost:8789
-# API: http://localhost:8790
+# Full deploy
+python scripts/deploy.py
+
+# Skip static generation (React-only)
+python scripts/deploy.py --skip-generate
+
+# Skip restart
+python scripts/deploy.py --skip-restart
 ```
 
 ---
 
-## Connection to Backend
+## API Integration
 
-See [CONNECTION.md](CONNECTION.md) for detailed documentation on how this frontend connects to the ZQM-Computing backend.
+The frontend proxies API requests to the backend via nginx:
+
+| Frontend Path | Backend Endpoint | Description |
+|---------------|-----------------|-------------|
+| `/data/indicators.json` | `GET /indicators` | All indicators |
+| `/data/latest.json` | `GET /latest` | Latest data |
+| `/data/{category}/` | `GET /data/{category}` | Category data |
+
+---
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+ZQM-Computing is focused on building the ZQM company portal and connecting ZQM services. Project Volusia is one flagship initiative.
 
 ---
 
 ## License
 
-MIT © 2026 ZQM Computing
+MIT License — see [LICENSE](LICENSE).
